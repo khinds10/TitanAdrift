@@ -10,6 +10,12 @@ import org.andengine.util.color.Color;
 
 import com.kevinhinds.taskblaster.ResourceManager;
 
+/**
+ * main menu scene for the game
+ * 
+ * @author khinds
+ * 
+ */
 public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener {
 
 	private MenuScene menu;
@@ -32,6 +38,9 @@ public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener
 		ResourceManager.getIntance().unloadMenuResources();
 	}
 
+	/**
+	 * create menu elements from local sprites to display
+	 */
 	private void createMenu() {
 		menu = new MenuScene(camera);
 		menu.setPosition(0, 0);

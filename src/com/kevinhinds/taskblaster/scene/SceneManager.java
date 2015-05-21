@@ -5,6 +5,11 @@ import org.andengine.ui.IGameInterface.OnCreateSceneCallback;
 
 import com.kevinhinds.taskblaster.ResourceManager;
 
+/**
+ * set scenes currently being displayed in the game via singleton
+ * 
+ * @author khinds
+ */
 public class SceneManager {
 
 	private BaseScene menuScene;
@@ -19,6 +24,11 @@ public class SceneManager {
 		SCENE_MENU, SCENE_GAME
 	}
 
+	/**
+	 * set the scene to menu
+	 * 
+	 * @param cb
+	 */
 	public void setMenuScene(OnCreateSceneCallback cb) {
 		ResourceManager.getIntance().loadMenuResources();
 		menuScene = new MainMenuScene();
@@ -27,6 +37,9 @@ public class SceneManager {
 		cb.onCreateSceneFinished(menuScene);
 	}
 
+	/**
+	 * set the scene to the game
+	 */
 	public void setGameScene() {
 		ResourceManager.getIntance().loadGameResources();
 		ResourceManager.getIntance().loadTileManager();
@@ -35,6 +48,11 @@ public class SceneManager {
 		currentScene.createScene();
 	}
 
+	/**
+	 * dispose current scene and apply the new one specified
+	 * 
+	 * @param scene
+	 */
 	public void setScene(BaseScene scene) {
 		if (currentScene != null) {
 			currentScene.disposeScene();
@@ -43,6 +61,11 @@ public class SceneManager {
 		currentScene = scene;
 	}
 
+	/**
+	 * dispose the current scene and apply the new one via enumerated SceneType
+	 * 
+	 * @param type
+	 */
 	public void setScene(SceneType type) {
 		switch (type) {
 		case SCENE_MENU:
@@ -55,10 +78,20 @@ public class SceneManager {
 		}
 	}
 
+	/**
+	 * get scene manager via singleton
+	 * 
+	 * @return
+	 */
 	public static SceneManager getInstance() {
 		return INSTANCE;
 	}
 
+	/**
+	 * get the current scene the game is playing
+	 * 
+	 * @return
+	 */
 	public BaseScene getCurrentScene() {
 		return currentScene;
 	}

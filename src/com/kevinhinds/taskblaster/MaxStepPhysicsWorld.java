@@ -4,6 +4,11 @@ import org.andengine.extension.physics.box2d.PhysicsWorld;
 
 import com.badlogic.gdx.math.Vector2;
 
+/**
+ * improved PhysicsWorld with less sprite location glitches
+ * 
+ * @author unknown
+ */
 public class MaxStepPhysicsWorld extends PhysicsWorld {
 
 	public static final int STEPSPERSECOND_DEFAULT = 60;
@@ -31,5 +36,4 @@ public class MaxStepPhysicsWorld extends PhysicsWorld {
 
 		this.mPhysicsConnectorManager.onUpdate(pSecondsElapsed);
 	}
-
 }

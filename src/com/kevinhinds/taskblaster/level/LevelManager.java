@@ -17,6 +17,11 @@ import android.content.res.AssetManager;
 import com.kevinhinds.taskblaster.ResourceManager;
 import com.kevinhinds.taskblaster.tiles.Tile;
 
+/**
+ * manager to load in all game levels via XML descriptions of them
+ * 
+ * @author khinds
+ */
 public class LevelManager {
 
 	private final LevelLoader levelLoader;
@@ -28,6 +33,11 @@ public class LevelManager {
 	private static final String TAG_TILE_ATTR_Y = "y";
 	private static final String TAG_TILE_ATTR_TILE = "tile";
 
+	/**
+	 * construct level manager which will load into memory all the level specified by XML for the game
+	 * 
+	 * @param assetManager
+	 */
 	public LevelManager(AssetManager assetManager) {
 		levelLoader = new LevelLoader();
 		levelLoader.setAssetBasePath("levels/");
@@ -35,6 +45,12 @@ public class LevelManager {
 		addNewLevel(1, "example.lvl");
 	}
 
+	/**
+	 * load level information from XML via SAX parser
+	 * 
+	 * @param id
+	 * @param name
+	 */
 	private void addNewLevel(int id, String name) {
 		final Level level = new Level(id);
 
@@ -70,6 +86,13 @@ public class LevelManager {
 		levels.add(level);
 	}
 
+	/**
+	 * load level by id and apply it to the scene in question
+	 * 
+	 * @param id
+	 * @param scene
+	 * @param physicsWorld
+	 */
 	public void loadLevel(int id, Scene scene, PhysicsWorld physicsWorld) {
 		for (Level level : levels) {
 			level.load(scene, physicsWorld);

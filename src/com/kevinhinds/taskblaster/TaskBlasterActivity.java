@@ -14,6 +14,11 @@ import com.kevinhinds.taskblaster.scene.SceneManager;
 import android.view.KeyEvent;
 import android.widget.Toast;
 
+/**
+ * load the AndEngine based game into the main activity for the app and run it
+ * 
+ * @author khinds
+ */
 public class TaskBlasterActivity extends BaseGameActivity {
 
 	private Camera camera;
@@ -29,7 +34,6 @@ public class TaskBlasterActivity extends BaseGameActivity {
 		if (!MultiTouch.isSupported(this)) {
 			Toast.makeText(this, "Sorry, your device does not support multitouch to play.", Toast.LENGTH_LONG).show();
 		}
-
 		return engineOptions;
 	}
 
@@ -62,5 +66,4 @@ public class TaskBlasterActivity extends BaseGameActivity {
 		}
 		return false;
 	}
-
 }
