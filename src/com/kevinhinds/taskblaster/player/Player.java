@@ -39,9 +39,9 @@ public class Player {
 		final FixtureDef playerFixtureDef = PhysicsFactory.createFixtureDef(1, 0.0f, 0.0f);
 		playerSprite = scene.createAnimatedSprite(300, 100, ResourceManager.getIntance().player_region, scene.vbom);
 		playerBody = PhysicsFactory.createBoxBody(scene.physicsWorld, playerSprite, BodyType.DynamicBody, playerFixtureDef);
+		playerBody.setUserData("player");
 		scene.physicsWorld.registerPhysicsConnector(new PhysicsConnector(playerSprite, playerBody, true, true));
 		playerSprite.animate(new long[] { 100 }, new int[] { GameConstants.playerStandingTile });
-		playerSprite.setUserData(playerBody);
 		scene.attachChild(playerSprite);
 	}
 
@@ -49,18 +49,23 @@ public class Player {
 	 * player moves right w/animation
 	 */
 	public void moveRight() {
-		lastdirection = Action.MOVERIGHT;
-		playerSprite.animate(new long[] { GameConstants.playerSpeed, GameConstants.playerSpeed, GameConstants.playerSpeed, GameConstants.playerSpeed, GameConstants.playerSpeed, GameConstants.playerSpeed, GameConstants.playerSpeed, GameConstants.playerSpeed }, 8, 15, true);
-		playerBody.setLinearVelocity(4.0f, 0.0f);
+		if (!isJumping) {
+			lastdirection = Action.MOVERIGHT;
+			playerSprite.animate(new long[] { GameConstants.playerSpeed, GameConstants.playerSpeed, GameConstants.playerSpeed, GameConstants.playerSpeed, GameConstants.playerSpeed, GameConstants.playerSpeed, GameConstants.playerSpeed, GameConstants.playerSpeed }, 8, 15, true);
+			playerBody.setLinearVelocity(4.0f, 0.0f);
+		}
 	}
 
 	/**
 	 * player moves left w/animation
 	 */
 	public void moveLeft() {
-		lastdirection = Action.MOVELEFT;
-		playerSprite.animate(new long[] { GameConstants.playerSpeed, GameConstants.playerSpeed, GameConstants.playerSpeed, GameConstants.playerSpeed, GameConstants.playerSpeed, GameConstants.playerSpeed, GameConstants.playerSpeed, GameConstants.playerSpeed }, 0, 7, true);
-		playerBody.setLinearVelocity(-4.0f, 0.0f);
+		if (!isJumping) {
+			lastdirection = Action.MOVELEFT;
+			playerSprite.animate(new long[] { GameConstants.playerSpeed, GameConstants.playerSpeed, GameConstants.playerSpeed, GameConstants.playerSpeed, GameConstants.playerSpeed, GameConstants.playerSpeed, GameConstants.playerSpeed, GameConstants.playerSpeed }, 0, 7, true);
+			playerBody.setLinearVelocity(-4.0f, 0.0f);
+		}
+
 	}
 
 	/**
@@ -85,18 +90,20 @@ public class Player {
 	 */
 	public void jump() {
 
-		float jumpmotion = 0;
-		isJumping = true;
-		if (lastdirection == Action.MOVERIGHT) {
-			jumpmotion = 4;
-			playerSprite.animate(new long[] { 100 }, new int[] { 20 });
+		if (!isJumping) {
+			float jumpmotion = 0;
+			isJumping = true;
+			if (lastdirection == Action.MOVERIGHT) {
+				jumpmotion = 4;
+				playerSprite.animate(new long[] { 100 }, new int[] { 20 });
+			}
+			if (lastdirection == Action.MOVELEFT) {
+				jumpmotion = -4;
+				playerSprite.animate(new long[] { 100 }, new int[] { 21 });
+			}
+			final Vector2 velocity = Vector2Pool.obtain(jumpmotion, -6);
+			playerBody.setLinearVelocity(velocity);
 		}
-		if (lastdirection == Action.MOVELEFT) {
-			jumpmotion = -4;
-			playerSprite.animate(new long[] { 100 }, new int[] { 21 });
-		}
-		final Vector2 velocity = Vector2Pool.obtain(jumpmotion, -6);
-		playerBody.setLinearVelocity(velocity);
 
 	}
 }

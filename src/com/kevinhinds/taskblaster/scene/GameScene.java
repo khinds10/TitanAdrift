@@ -5,11 +5,19 @@ import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.scene.background.Background;
 import org.andengine.extension.physics.box2d.PhysicsFactory;
 import org.andengine.util.color.Color;
+
 import android.hardware.SensorManager;
+import android.util.Log;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.Contact;
+import com.badlogic.gdx.physics.box2d.ContactImpulse;
+import com.badlogic.gdx.physics.box2d.ContactListener;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.Manifold;
 import com.kevinhinds.taskblaster.MaxStepPhysicsWorld;
 import com.kevinhinds.taskblaster.ResourceManager;
 import com.kevinhinds.taskblaster.level.LevelManager;
@@ -27,6 +35,7 @@ public class GameScene extends BaseScene {
 	public HUD gameHUD;
 	private Player player;
 	private LevelManager levelManager;
+	public Body fixtureBody;
 
 	@Override
 	public void createScene() {
@@ -69,6 +78,7 @@ public class GameScene extends BaseScene {
 	 */
 	private void createPhysics() {
 		physicsWorld = new MaxStepPhysicsWorld(60, new Vector2(0, SensorManager.GRAVITY_EARTH), false);
+		physicsWorld.setContactListener(contactListener());
 		registerUpdateHandler(physicsWorld);
 	}
 
@@ -99,16 +109,74 @@ public class GameScene extends BaseScene {
 		final Rectangle left = new Rectangle(0, 0, 2, camera.getHeight(), vbom);
 		final Rectangle right = new Rectangle(camera.getWidth() - 2, 0, 2, camera.getHeight(), vbom);
 
-		PhysicsFactory.createBoxBody(physicsWorld, ground, BodyType.StaticBody, wallFixtureDef);
-		PhysicsFactory.createBoxBody(physicsWorld, roof, BodyType.StaticBody, wallFixtureDef);
-		PhysicsFactory.createBoxBody(physicsWorld, left, BodyType.StaticBody, wallFixtureDef);
-		PhysicsFactory.createBoxBody(physicsWorld, right, BodyType.StaticBody, wallFixtureDef);
-
+		fixtureBody = PhysicsFactory.createBoxBody(physicsWorld, ground, BodyType.StaticBody, wallFixtureDef);
+		fixtureBody.setUserData("ground");
 		attachChild(ground);
+
+		fixtureBody = PhysicsFactory.createBoxBody(physicsWorld, roof, BodyType.StaticBody, wallFixtureDef);
+		fixtureBody.setUserData("roof");
 		attachChild(roof);
+
+		fixtureBody = PhysicsFactory.createBoxBody(physicsWorld, left, BodyType.StaticBody, wallFixtureDef);
+		fixtureBody.setUserData("leftWall");
 		attachChild(left);
+
+		fixtureBody = PhysicsFactory.createBoxBody(physicsWorld, right, BodyType.StaticBody, wallFixtureDef);
+		fixtureBody.setUserData("rightWall");
 		attachChild(right);
 
 		levelManager.loadLevel(levelNumber, this, physicsWorld);
+	}
+
+	/**
+	 * contact listener for the game scene
+	 * 
+	 * @return
+	 */
+	private ContactListener contactListener() {
+		ContactListener contactListener = new ContactListener() {
+
+			/**
+			 * track begin of contact between fixtures
+			 */
+			public void beginContact(Contact contact) {
+				final Fixture x1 = contact.getFixtureA();
+				final Fixture x2 = contact.getFixtureB();
+				Log.i("beginContact", x1.getBody().getUserData() + " - " + x2.getBody().getUserData());
+
+				if (x1.getBody().getUserData() != null && x2.getBody().getUserData() != null) {
+					if (x1.getBody().getUserData().equals("player")) {
+						player.isJumping = false;
+						player.stop();
+					}
+				}
+			}
+
+			/**
+			 * track end of contact between fixtures
+			 */
+			public void endContact(Contact contact) {
+				final Fixture x1 = contact.getFixtureA();
+				final Fixture x2 = contact.getFixtureB();
+				Log.i("endContact", x1.getBody().getUserData() + " - " + x2.getBody().getUserData());
+
+				if (x1.getBody().getUserData() != null && x2.getBody().getUserData() != null) {
+					if (x1.getBody().getUserData().equals("player")) {
+						if (x2.getBody().getUserData().equals("ground")) {
+							
+						}
+					}
+				}
+			}
+
+			public void preSolve(Contact contact, Manifold oldManifold) {
+
+			}
+
+			public void postSolve(Contact contact, ContactImpulse impulse) {
+
+			}
+		};
+		return contactListener;
 	}
 }
