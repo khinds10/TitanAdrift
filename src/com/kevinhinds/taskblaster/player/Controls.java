@@ -87,7 +87,7 @@ public class Controls {
 
 			@Override
 			public boolean onAreaTouched(final TouchEvent event, final float x, final float y) {
-				if (event.isActionUp()) {
+				if (event.isActionDown()) {
 					player.jump();
 				}
 				return true;

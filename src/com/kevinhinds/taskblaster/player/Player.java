@@ -27,8 +27,13 @@ public class Player {
 		MOVELEFT, MOVERIGHT, STOP, SHOOTRIGHT, SHOOTLEFT;
 	}
 
+	public enum Facing {
+		LEFT, RIGHT
+	}
+
 	public boolean isJumping = false;
 	protected Action lastdirection;
+	protected Facing lastFacingDirection;
 
 	/**
 	 * create player on the scene in question
@@ -42,6 +47,8 @@ public class Player {
 		playerBody.setUserData("player");
 		scene.physicsWorld.registerPhysicsConnector(new PhysicsConnector(playerSprite, playerBody, true, true));
 		playerSprite.animate(new long[] { 100 }, new int[] { GameConstants.playerStandingTile });
+		lastdirection = Action.MOVERIGHT;
+		lastFacingDirection = Facing.RIGHT;
 		scene.attachChild(playerSprite);
 	}
 
@@ -51,6 +58,7 @@ public class Player {
 	public void moveRight() {
 		if (!isJumping) {
 			lastdirection = Action.MOVERIGHT;
+			lastFacingDirection = Facing.RIGHT;
 			playerSprite.animate(new long[] { GameConstants.playerSpeed, GameConstants.playerSpeed, GameConstants.playerSpeed, GameConstants.playerSpeed, GameConstants.playerSpeed, GameConstants.playerSpeed, GameConstants.playerSpeed, GameConstants.playerSpeed }, 8, 15, true);
 			playerBody.setLinearVelocity(4.0f, 0.0f);
 		}
@@ -62,6 +70,7 @@ public class Player {
 	public void moveLeft() {
 		if (!isJumping) {
 			lastdirection = Action.MOVELEFT;
+			lastFacingDirection = Facing.LEFT;
 			playerSprite.animate(new long[] { GameConstants.playerSpeed, GameConstants.playerSpeed, GameConstants.playerSpeed, GameConstants.playerSpeed, GameConstants.playerSpeed, GameConstants.playerSpeed, GameConstants.playerSpeed, GameConstants.playerSpeed }, 0, 7, true);
 			playerBody.setLinearVelocity(-4.0f, 0.0f);
 		}
@@ -72,9 +81,8 @@ public class Player {
 	 * player stops
 	 */
 	public void stop() {
-
 		if (!isJumping) {
-			if (lastdirection == Action.MOVERIGHT) {
+			if (lastFacingDirection == Facing.RIGHT) {
 				playerSprite.animate(new long[] { 100 }, new int[] { 16 });
 			} else {
 				playerSprite.animate(new long[] { 100 }, new int[] { 17 });
@@ -82,14 +90,12 @@ public class Player {
 			lastdirection = Action.STOP;
 			playerBody.setLinearVelocity(0f, 0f);
 		}
-
 	}
 
 	/**
 	 * player jumps
 	 */
 	public void jump() {
-
 		if (!isJumping) {
 			float jumpmotion = 0;
 			isJumping = true;
@@ -104,6 +110,5 @@ public class Player {
 			final Vector2 velocity = Vector2Pool.obtain(jumpmotion, -6);
 			playerBody.setLinearVelocity(velocity);
 		}
-
 	}
 }
