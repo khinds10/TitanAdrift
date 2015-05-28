@@ -146,8 +146,7 @@ public class GameScene extends BaseScene {
 
 				if (x1.getBody().getUserData() != null && x2.getBody().getUserData() != null) {
 					if (x1.getBody().getUserData().equals("player")) {
-						player.isJumping = false;
-						player.stop();
+						player.stopJumping();
 					}
 				}
 			}

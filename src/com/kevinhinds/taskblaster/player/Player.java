@@ -23,17 +23,13 @@ public class Player {
 	public Body playerBody;
 	public AnimatedSprite playerSprite;
 
-	public enum Action {
-		MOVELEFT, MOVERIGHT, STOP, SHOOTRIGHT, SHOOTLEFT;
+	public enum State {
+		LEFT, RIGHT, STOP
 	}
 
-	public enum Facing {
-		LEFT, RIGHT
-	}
-
-	public boolean isJumping = false;
-	protected Action lastdirection;
-	protected Facing lastFacingDirection;
+	public boolean isJumping;
+	protected State moving;
+	protected State facing;
 
 	/**
 	 * create player on the scene in question
@@ -42,13 +38,14 @@ public class Player {
 	 */
 	public Player(BaseScene scene) {
 		final FixtureDef playerFixtureDef = PhysicsFactory.createFixtureDef(1, 0.0f, 0.0f);
-		playerSprite = scene.createAnimatedSprite(300, 100, ResourceManager.getIntance().player_region, scene.vbom);
+		playerSprite = scene.createAnimatedSprite(ResourceManager.getIntance().camera.getWidth()/2, ResourceManager.getIntance().camera.getHeight()-150, ResourceManager.getIntance().player_region, scene.vbom);
 		playerBody = PhysicsFactory.createBoxBody(scene.physicsWorld, playerSprite, BodyType.DynamicBody, playerFixtureDef);
 		playerBody.setUserData("player");
 		scene.physicsWorld.registerPhysicsConnector(new PhysicsConnector(playerSprite, playerBody, true, true));
-		playerSprite.animate(new long[] { 100 }, new int[] { GameConstants.playerStandingTile });
-		lastdirection = Action.MOVERIGHT;
-		lastFacingDirection = Facing.RIGHT;
+		playerSprite.animate(new long[] { 100 }, new int[] { 22 });
+		moving = State.STOP;
+		facing = State.RIGHT;
+		isJumping = false;
 		scene.attachChild(playerSprite);
 	}
 
@@ -56,11 +53,27 @@ public class Player {
 	 * player moves right w/animation
 	 */
 	public void moveRight() {
+		moving = State.RIGHT;
+		facing = State.RIGHT;
+
 		if (!isJumping) {
-			lastdirection = Action.MOVERIGHT;
-			lastFacingDirection = Facing.RIGHT;
 			playerSprite.animate(new long[] { GameConstants.playerSpeed, GameConstants.playerSpeed, GameConstants.playerSpeed, GameConstants.playerSpeed, GameConstants.playerSpeed, GameConstants.playerSpeed, GameConstants.playerSpeed, GameConstants.playerSpeed }, 8, 15, true);
 			playerBody.setLinearVelocity(4.0f, 0.0f);
+		} else {
+
+			float minJumpVelocity = 1.0f;
+			if (moving == State.RIGHT) {
+				minJumpVelocity = 3.0f;
+			}
+
+			if (facing == State.RIGHT) {
+				playerSprite.animate(new long[] { 100 }, new int[] { 20 });
+			} else {
+				playerSprite.animate(new long[] { 100 }, new int[] { 21 });
+			}
+
+			playerBody.setLinearVelocity(minJumpVelocity, 3.0f);
+
 		}
 	}
 
@@ -68,27 +81,74 @@ public class Player {
 	 * player moves left w/animation
 	 */
 	public void moveLeft() {
+
+		moving = State.LEFT;
+		facing = State.LEFT;
+
 		if (!isJumping) {
-			lastdirection = Action.MOVELEFT;
-			lastFacingDirection = Facing.LEFT;
+
 			playerSprite.animate(new long[] { GameConstants.playerSpeed, GameConstants.playerSpeed, GameConstants.playerSpeed, GameConstants.playerSpeed, GameConstants.playerSpeed, GameConstants.playerSpeed, GameConstants.playerSpeed, GameConstants.playerSpeed }, 0, 7, true);
 			playerBody.setLinearVelocity(-4.0f, 0.0f);
-		}
+		} else {
 
+			float minJumpVelocity = -1.0f;
+			if (moving == State.LEFT) {
+				minJumpVelocity = -3.0f;
+			}
+
+			if (facing == State.RIGHT) {
+				playerSprite.animate(new long[] { 100 }, new int[] { 20 });
+			} else {
+				playerSprite.animate(new long[] { 100 }, new int[] { 21 });
+			}
+
+			playerBody.setLinearVelocity(minJumpVelocity, 3.0f);
+
+		}
 	}
 
 	/**
 	 * player stops
 	 */
 	public void stop() {
+
+		float jumpmotion = 0;
+
 		if (!isJumping) {
-			if (lastFacingDirection == Facing.RIGHT) {
+			if (facing == State.RIGHT) {
 				playerSprite.animate(new long[] { 100 }, new int[] { 16 });
 			} else {
 				playerSprite.animate(new long[] { 100 }, new int[] { 17 });
 			}
-			lastdirection = Action.STOP;
 			playerBody.setLinearVelocity(0f, 0f);
+		} else {
+			if (facing == State.RIGHT) {
+				jumpmotion = 2;
+				playerSprite.animate(new long[] { 100 }, new int[] { 20 });
+			} else {
+				jumpmotion = -2;
+				playerSprite.animate(new long[] { 100 }, new int[] { 21 });
+			}
+			playerBody.setLinearVelocity(jumpmotion, 3.0f);
+		}
+		moving = State.STOP;
+	}
+
+	/**
+	 * upon contact with object we must stop any current jump as well as continue as before
+	 */
+	public void stopJumping() {
+		if (isJumping) {
+			isJumping = false;
+			if (moving == State.RIGHT) {
+				moveRight();
+			}
+			if (moving == State.LEFT) {
+				moveLeft();
+			}
+			if (moving == State.STOP) {
+				stop();
+			}
 		}
 	}
 
@@ -96,17 +156,31 @@ public class Player {
 	 * player jumps
 	 */
 	public void jump() {
+
 		if (!isJumping) {
+
 			float jumpmotion = 0;
 			isJumping = true;
-			if (lastdirection == Action.MOVERIGHT) {
+
+			if (moving == State.RIGHT) {
 				jumpmotion = 4;
 				playerSprite.animate(new long[] { 100 }, new int[] { 20 });
 			}
-			if (lastdirection == Action.MOVELEFT) {
+			if (moving == State.LEFT) {
 				jumpmotion = -4;
 				playerSprite.animate(new long[] { 100 }, new int[] { 21 });
 			}
+
+			if (moving == State.STOP) {
+				jumpmotion = 0;
+				if (facing == State.RIGHT) {
+					playerSprite.animate(new long[] { 100 }, new int[] { 20 });
+				}
+				if (facing == State.LEFT) {
+					playerSprite.animate(new long[] { 100 }, new int[] { 21 });
+				}
+			}
+
 			final Vector2 velocity = Vector2Pool.obtain(jumpmotion, -6);
 			playerBody.setLinearVelocity(velocity);
 		}
