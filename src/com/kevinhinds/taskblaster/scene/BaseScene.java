@@ -65,6 +65,8 @@ public abstract class BaseScene extends Scene {
 		return sprite;
 	}
 
+
+
 	public abstract void createScene();
 
 	public abstract void onBackPressed();

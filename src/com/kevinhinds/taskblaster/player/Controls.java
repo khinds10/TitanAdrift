@@ -28,6 +28,7 @@ public class Controls {
 		this.player = player;
 		createPlayerJoystick();
 		createPlayerJump();
+		createPlayerShoot();
 	}
 
 	/**
@@ -35,7 +36,7 @@ public class Controls {
 	 */
 	private void createPlayerJoystick() {
 
-		Sprite right = new Sprite(120, scene.camera.getHeight() - 75, ResourceManager.getIntance().control_right_region, scene.vbom) {
+		Sprite right = new Sprite(90, scene.camera.getHeight() - 80, ResourceManager.getIntance().control_right_region, scene.vbom) {
 
 			@Override
 			public boolean onAreaTouched(final TouchEvent event, final float x, final float y) {
@@ -56,7 +57,7 @@ public class Controls {
 		scene.gameHUD.registerTouchArea(right);
 		scene.gameHUD.attachChild(right);
 
-		Sprite left = new Sprite(15, scene.camera.getHeight() - 75, ResourceManager.getIntance().control_right_region, scene.vbom) {
+		Sprite left = new Sprite(10, scene.camera.getHeight() - 80, ResourceManager.getIntance().control_left_region, scene.vbom) {
 
 			@Override
 			public boolean onAreaTouched(final TouchEvent event, final float x, final float y) {
@@ -83,7 +84,7 @@ public class Controls {
 	 * create the player jump button the game HUD
 	 */
 	private void createPlayerJump() {
-		Sprite jump = new Sprite(scene.camera.getWidth() - 100, scene.camera.getHeight() - 75, ResourceManager.getIntance().control_jump_region, scene.vbom) {
+		Sprite jump = new Sprite(scene.camera.getWidth() - 90, scene.camera.getHeight() - 80, ResourceManager.getIntance().control_jump_region, scene.vbom) {
 
 			@Override
 			public boolean onAreaTouched(final TouchEvent event, final float x, final float y) {
@@ -101,5 +102,29 @@ public class Controls {
 		};
 		scene.gameHUD.registerTouchArea(jump);
 		scene.gameHUD.attachChild(jump);
+	}
+
+	/**
+	 * create the player shoot button the game HUD
+	 */
+	private void createPlayerShoot() {
+		Sprite shoot = new Sprite(scene.camera.getWidth() - 175, scene.camera.getHeight() - 80, ResourceManager.getIntance().control_shoot_region, scene.vbom) {
+
+			@Override
+			public boolean onAreaTouched(final TouchEvent event, final float x, final float y) {
+				if (event.isActionDown()) {
+					player.shoot(scene);
+				}
+				return true;
+			}
+
+			@Override
+			protected void preDraw(GLState glstate, Camera camera) {
+				super.preDraw(glstate, camera);
+				glstate.enableDither();
+			}
+		};
+		scene.gameHUD.registerTouchArea(shoot);
+		scene.gameHUD.attachChild(shoot);
 	}
 }

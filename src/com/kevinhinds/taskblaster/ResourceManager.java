@@ -24,26 +24,34 @@ public class ResourceManager {
 
 	private static final ResourceManager INSTANCE = new ResourceManager();
 
+	/** universal resources */
 	public Engine engine;
 	public TaskBlasterActivity activity;
 	public Camera camera;
 	public VertexBufferObjectManager vbom;
 
+	/** menu regions */
 	private BuildableBitmapTextureAtlas menuTextureAtlas;
 	public ITextureRegion play_button_region;
 	public ITextureRegion exit_button_region;
 
+	/** game regions */
 	private BuildableBitmapTextureAtlas gameTextureAtlas;
 	public ITiledTextureRegion player_region;
 
+	/** weapon regions */
+	public ITiledTextureRegion laser_region;
+	
+	/** controls region */
 	public ITextureRegion control_jump_region;
+	public ITextureRegion control_shoot_region;
 	public ITextureRegion control_left_region;
 	public ITextureRegion control_right_region;
 
+	/** level regions */
 	private BuildableBitmapTextureAtlas tileTextureAtlas;
 	public ITextureRegion grass_region;
 	public ITextureRegion grass_platform_region;
-
 	public TileManager tileManager;
 
 	/**
@@ -75,11 +83,13 @@ public class ResourceManager {
 	 */
 	public void loadGameResources() {
 		gameTextureAtlas = new BuildableBitmapTextureAtlas(activity.getTextureManager(), 1024, 1024, TextureOptions.BILINEAR);
-		player_region = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "character/player.png", 8, 3);
-		control_jump_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "controls/control_knob.png");		
-		control_left_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "controls/control_knob.png");
-		control_right_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "controls/control_knob.png");
-
+		player_region = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "character/player.png", 8, 3);		
+		control_jump_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "controls/jump.png");		
+		control_left_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "controls/left.png");
+		control_right_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "controls/right.png");
+		control_shoot_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "controls/shoot.png");
+		laser_region = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "weapons/laser.png", 4, 1);
+		
 		try {
 			gameTextureAtlas.build(new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(0, 1, 0));
 			gameTextureAtlas.load();

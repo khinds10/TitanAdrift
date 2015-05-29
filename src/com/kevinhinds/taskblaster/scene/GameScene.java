@@ -104,10 +104,12 @@ public class GameScene extends BaseScene {
 	private void createLevel(int levelNumber) {
 
 		final FixtureDef wallFixtureDef = PhysicsFactory.createFixtureDef(0, 0.0f, 0.0f);
-		final Rectangle ground = new Rectangle(0, camera.getHeight() - 2, camera.getWidth(), 2, vbom);
 		final Rectangle roof = new Rectangle(0, 0, camera.getWidth(), 2, vbom);
-		final Rectangle left = new Rectangle(0, 0, 2, camera.getHeight(), vbom);
-		final Rectangle right = new Rectangle(camera.getWidth() - 2, 0, 2, camera.getHeight(), vbom);
+
+		final Rectangle ground = new Rectangle(0, camera.getHeight() - 80, camera.getWidth(), 2, vbom);
+
+		final Rectangle left = new Rectangle(0, 0, 2, camera.getHeight() - 80, vbom);
+		final Rectangle right = new Rectangle(camera.getWidth() - 2, 0, 2, camera.getHeight() - 80, vbom);
 
 		fixtureBody = PhysicsFactory.createBoxBody(physicsWorld, ground, BodyType.StaticBody, wallFixtureDef);
 		fixtureBody.setUserData("ground");
@@ -148,6 +150,9 @@ public class GameScene extends BaseScene {
 					if (x1.getBody().getUserData().equals("player")) {
 						player.stopJumping();
 					}
+					if (x2.getBody().getUserData().equals("laser")) {
+						player.shootContact();
+					}
 				}
 			}
 
@@ -162,7 +167,7 @@ public class GameScene extends BaseScene {
 				if (x1.getBody().getUserData() != null && x2.getBody().getUserData() != null) {
 					if (x1.getBody().getUserData().equals("player")) {
 						if (x2.getBody().getUserData().equals("ground")) {
-							
+
 						}
 					}
 				}
