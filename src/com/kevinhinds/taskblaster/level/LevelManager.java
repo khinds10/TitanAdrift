@@ -31,7 +31,7 @@ public class LevelManager {
 	private static final String TAG_TILE = "tile";
 	private static final String TAG_TILE_ATTR_X = "x";
 	private static final String TAG_TILE_ATTR_Y = "y";
-	private static final String TAG_TILE_ATTR_TILE = "tile";
+	private static final String TAG_TILE_ATTR_TILE = "type";
 
 	/**
 	 * construct level manager which will load into memory all the level specified by XML for the game
@@ -42,7 +42,7 @@ public class LevelManager {
 		levelLoader = new LevelLoader();
 		levelLoader.setAssetBasePath("levels/");
 		this.assetManager = assetManager;
-		addNewLevel(1, "example.lvl");
+		addNewLevel(1, "level1.lvl");
 	}
 
 	/**
@@ -68,7 +68,7 @@ public class LevelManager {
 		levelLoader.registerEntityLoader(TAG_TILE, new IEntityLoader() {
 
 			@Override
-			public IEntity onLoadEntity(String name, Attributes attr) {
+			public IEntity onLoadEntity(final String name, final Attributes attr) {
 				final int x = SAXUtils.getIntAttributeOrThrow(attr, TAG_TILE_ATTR_X);
 				final int y = SAXUtils.getIntAttributeOrThrow(attr, TAG_TILE_ATTR_Y);
 				final int id = SAXUtils.getIntAttributeOrThrow(attr, TAG_TILE_ATTR_TILE);

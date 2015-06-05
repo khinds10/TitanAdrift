@@ -6,13 +6,9 @@ import org.andengine.engine.options.ScreenOrientation;
 import org.andengine.engine.options.WakeLockOptions;
 import org.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.andengine.entity.scene.Scene;
-import org.andengine.entity.sprite.AnimatedSprite;
-import org.andengine.extension.physics.box2d.PhysicsConnector;
 import org.andengine.input.touch.controller.MultiTouch;
 import org.andengine.ui.activity.BaseGameActivity;
 
-import com.badlogic.gdx.physics.box2d.Body;
-import com.kevinhinds.taskblaster.scene.BaseScene;
 import com.kevinhinds.taskblaster.scene.SceneManager;
 
 import android.view.KeyEvent;

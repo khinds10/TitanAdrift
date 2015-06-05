@@ -24,7 +24,7 @@ public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener
 
 	@Override
 	public void createScene() {
-		setBackground(new Background(Color.WHITE));
+		setBackground(new Background(Color.BLACK));
 		createMenu();
 	}
 

@@ -147,10 +147,10 @@ public class GameScene extends BaseScene {
 				Log.i("beginContact", x1.getBody().getUserData() + " - " + x2.getBody().getUserData());
 
 				if (x1.getBody().getUserData() != null && x2.getBody().getUserData() != null) {
-					if (x1.getBody().getUserData().equals("player")) {
+					if (x1.getBody().getUserData().equals("player") && !x2.getBody().getUserData().equals("bullet")) {
 						player.stopJumping();
 					}
-					if (x2.getBody().getUserData().equals("laser")) {
+					if (x2.getBody().getUserData().equals("bullet") && !x1.getBody().getUserData().equals("player")) {
 						player.shootContact();
 					}
 				}

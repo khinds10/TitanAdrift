@@ -20,8 +20,37 @@ public class TileManager {
 	 * @param vbom
 	 */
 	public TileManager(VertexBufferObjectManager vbom) {
-		tiles.add(new Tile("Grass", 1, 0, 0, 5, 0f, 0.5f, ResourceManager.getIntance().grass_region, vbom));
-		tiles.add(new Tile("Grass Platform", 2, 0, 0, 5, 0f, 0.5f, ResourceManager.getIntance().grass_platform_region, vbom));
+
+		tiles.add(new Tile("Cave Floor 1", 1, 0, 0, 0, 0, 0f, 0f, ResourceManager.getIntance().cave_platform_region, vbom));
+		tiles.add(new Tile("Cave Floor 2", 2, 1, 0, 0, 0, 0f, 0f, ResourceManager.getIntance().cave_platform_region, vbom));
+		tiles.add(new Tile("Cave Floor 3", 3, 2, 0, 0, 0, 0f, 0f, ResourceManager.getIntance().cave_platform_region, vbom));
+		tiles.add(new Tile("Cave Floor 4", 4, 3, 0, 0, 0, 0f, 0f, ResourceManager.getIntance().cave_platform_region, vbom));
+
+		tiles.add(new Tile("Cave Block 1", 5, 4, 0, 0, 0, 0f, 0f, ResourceManager.getIntance().cave_platform_region, vbom));
+		tiles.add(new Tile("Cave Block 2", 6, 5, 0, 0, 0, 0f, 0f, ResourceManager.getIntance().cave_platform_region, vbom));
+		tiles.add(new Tile("Cave Block 3", 7, 6, 0, 0, 0, 0f, 0f, ResourceManager.getIntance().cave_platform_region, vbom));
+		tiles.add(new Tile("Cave Block 4", 8, 7, 0, 0, 0, 0f, 0f, ResourceManager.getIntance().cave_platform_region, vbom));
+
+		tiles.add(new Tile("Cave Roof Empty", 9, 8, 0, 0, 0, 0f, 0f, ResourceManager.getIntance().cave_platform_region, vbom));
+		tiles.add(new Tile("Cave Roof 1"	, 10, 9, 0, 0, 0, 0f, 0f, ResourceManager.getIntance().cave_platform_region, vbom));
+		tiles.add(new Tile("Cave Roof 2"	, 11, 10, 0, 0, 0, 0f, 0f, ResourceManager.getIntance().cave_platform_region, vbom));
+		tiles.add(new Tile("Cave Roof 3"	, 12, 11, 0, 0, 0, 0f, 0f, ResourceManager.getIntance().cave_platform_region, vbom));
+
+		tiles.add(new Tile("Pipe Large Top Left Corner" , 13, 0, 0, 0, 0, 0f, 0f, ResourceManager.getIntance().pipes_platform_region, vbom));
+		tiles.add(new Tile("Pipe Large Top Center"	    , 14, 1, 0, 0, 0, 0f, 0f, ResourceManager.getIntance().pipes_platform_region, vbom));
+		tiles.add(new Tile("Pipe Large Top Right Corner", 15, 2, 0, 0, 0, 0f, 0f, ResourceManager.getIntance().pipes_platform_region, vbom));
+		
+		tiles.add(new Tile("Pipe Large Top Left Joint"  , 16, 3, 0, 0, 0, 0f, 0f, ResourceManager.getIntance().pipes_platform_region, vbom));
+		tiles.add(new Tile("Pipe Large Top Verticle"    , 17, 4, 0, 0, 0, 0f, 0f, ResourceManager.getIntance().pipes_platform_region, vbom));
+		tiles.add(new Tile("Pipe Large Top Right Joint" , 18, 5, 0, 0, 0, 0f, 0f, ResourceManager.getIntance().pipes_platform_region, vbom));
+		
+		tiles.add(new Tile("Pipe Small Top Left Corner" , 19, 6, 0, 0, 0, 0f, 0f, ResourceManager.getIntance().pipes_platform_region, vbom));
+		tiles.add(new Tile("Pipe Small Top Center"	    , 20, 7, 0, 0, 0, 0f, 0f, ResourceManager.getIntance().pipes_platform_region, vbom));
+		tiles.add(new Tile("Pipe Small Top Right"	    , 21, 8, 0, 0, 0, 0f, 0f, ResourceManager.getIntance().pipes_platform_region, vbom));
+		
+		tiles.add(new Tile("Pipe Small Top Left Joint"  , 22, 9, 0, 0, 0, 0f, 0f, ResourceManager.getIntance().pipes_platform_region, vbom));
+		tiles.add(new Tile("Pipe Small Top Verticle"    , 23, 10, 0, 0, 0, 0f, 0f, ResourceManager.getIntance().pipes_platform_region, vbom));
+		tiles.add(new Tile("Pipe Small Top Right Joint" , 24, 11, 0, 0, 0, 0f, 0f, ResourceManager.getIntance().pipes_platform_region, vbom));
 	}
 
 	/**

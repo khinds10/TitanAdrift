@@ -40,7 +40,7 @@ public class ResourceManager {
 	public ITiledTextureRegion player_region;
 
 	/** weapon regions */
-	public ITiledTextureRegion laser_region;
+	public ITiledTextureRegion bullet_region;
 	
 	/** controls region */
 	public ITextureRegion control_jump_region;
@@ -50,8 +50,8 @@ public class ResourceManager {
 
 	/** level regions */
 	private BuildableBitmapTextureAtlas tileTextureAtlas;
-	public ITextureRegion grass_region;
-	public ITextureRegion grass_platform_region;
+	public ITiledTextureRegion cave_platform_region;
+	public ITiledTextureRegion pipes_platform_region;
 	public TileManager tileManager;
 
 	/**
@@ -88,8 +88,7 @@ public class ResourceManager {
 		control_left_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "controls/left.png");
 		control_right_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "controls/right.png");
 		control_shoot_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "controls/shoot.png");
-		laser_region = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "weapons/laser.png", 4, 1);
-		
+		bullet_region = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "weapons/laser.png", 4, 1);
 		try {
 			gameTextureAtlas.build(new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(0, 1, 0));
 			gameTextureAtlas.load();
@@ -104,8 +103,10 @@ public class ResourceManager {
 	public void loadTileResources() {
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/tiles/");
 		tileTextureAtlas = new BuildableBitmapTextureAtlas(activity.getTextureManager(), 1024, 1024, TextureOptions.BILINEAR);
-		grass_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(tileTextureAtlas, activity, "grass.png");
-		grass_platform_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(tileTextureAtlas, activity, "grass_platform.png");
+		
+		/** @todo, make this a "tiled" asset with the XML having the ability to specify parts of the tile by name or something... */
+		cave_platform_region = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(tileTextureAtlas, activity, "cave.png", 4, 3);
+		pipes_platform_region = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(tileTextureAtlas, activity, "pipes.png", 12, 6);
 		try {
 			tileTextureAtlas.build(new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(0, 1, 0));
 			tileTextureAtlas.load();
