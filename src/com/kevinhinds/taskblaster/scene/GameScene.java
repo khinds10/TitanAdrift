@@ -18,11 +18,14 @@ import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.Manifold;
+import com.kevinhinds.taskblaster.GameConfiguation;
 import com.kevinhinds.taskblaster.MaxStepPhysicsWorld;
 import com.kevinhinds.taskblaster.ResourceManager;
+import com.kevinhinds.taskblaster.level.AdversaryManager;
 import com.kevinhinds.taskblaster.level.LevelManager;
 import com.kevinhinds.taskblaster.player.Controls;
 import com.kevinhinds.taskblaster.player.Player;
+import com.kevinhinds.taskblaster.villains.Villain;
 
 /**
  * main game scene which contains multiple levels
@@ -35,11 +38,14 @@ public class GameScene extends BaseScene {
 	public HUD gameHUD;
 	private Player player;
 	private LevelManager levelManager;
+	private AdversaryManager adversaryManager;
+
 	public Body fixtureBody;
 
 	@Override
 	public void createScene() {
 		levelManager = new LevelManager(activity.getAssets());
+		adversaryManager = new AdversaryManager(activity.getAssets());
 		setBackground();
 		createHUD();
 		createPhysics();
@@ -104,12 +110,21 @@ public class GameScene extends BaseScene {
 	private void createLevel(int levelNumber) {
 
 		final FixtureDef wallFixtureDef = PhysicsFactory.createFixtureDef(0, 0.0f, 0.0f);
-		final Rectangle roof = new Rectangle(0, 0, camera.getWidth(), 2, vbom);
+		final Rectangle roof = new Rectangle(0, GameConfiguation.offscreenJumpHeight, camera.getWidth(), 2, vbom);
+		roof.setZIndex(-2);
+		roof.setColor(Color.BLACK);
 
-		final Rectangle ground = new Rectangle(0, camera.getHeight() - 80, camera.getWidth(), 2, vbom);
+		final Rectangle ground = new Rectangle(0, camera.getHeight() - GameConfiguation.buttonControlsHeight, camera.getWidth(), 2, vbom);
+		ground.setZIndex(-2);
+		ground.setColor(Color.BLACK);
 
-		final Rectangle left = new Rectangle(0, 0, 2, camera.getHeight() - 80, vbom);
-		final Rectangle right = new Rectangle(camera.getWidth() - 2, 0, 2, camera.getHeight() - 80, vbom);
+		final Rectangle left = new Rectangle(0, GameConfiguation.offscreenJumpHeight, 2, camera.getHeight() * 2, vbom);
+		left.setZIndex(-2);
+		left.setColor(Color.BLACK);
+
+		final Rectangle right = new Rectangle(camera.getWidth() - 2, 0, 2, camera.getHeight() * 2, vbom);
+		right.setZIndex(-2);
+		right.setColor(Color.BLACK);
 
 		fixtureBody = PhysicsFactory.createBoxBody(physicsWorld, ground, BodyType.StaticBody, wallFixtureDef);
 		fixtureBody.setUserData("ground");
@@ -128,6 +143,7 @@ public class GameScene extends BaseScene {
 		attachChild(right);
 
 		levelManager.loadLevel(levelNumber, this, physicsWorld);
+		adversaryManager.loadLevel(levelNumber, this, physicsWorld);
 	}
 
 	/**
@@ -147,12 +163,28 @@ public class GameScene extends BaseScene {
 				Log.i("beginContact", x1.getBody().getUserData() + " - " + x2.getBody().getUserData());
 
 				if (x1.getBody().getUserData() != null && x2.getBody().getUserData() != null) {
-					if (x1.getBody().getUserData().equals("player") && !x2.getBody().getUserData().equals("bullet")) {
+
+					String x1BodyName = (String) x1.getBody().getUserData();
+					String x2BodyName = (String) x2.getBody().getUserData();
+
+					/** if player is contact with something (not his own bullet) then he stops jumping */
+					if (x1BodyName.equals("player") && !x2BodyName.equals("bullet")) {
 						player.stopJumping();
 					}
-					if (x2.getBody().getUserData().equals("bullet") && !x1.getBody().getUserData().equals("player")) {
+					
+					/** if the bullet comes in contact with something that's not the player himself, then the sprite is detached from the scene */
+					if (x2BodyName.equals("bullet") && !x1BodyName.equals("player")) {
 						player.shootContact();
 					}
+
+					if (x1BodyName.contains("Villain") && x2BodyName.equals("bullet")) {
+						
+						// this is not getting the updated names so its NULL
+						
+						//Villain shotVillain = ResourceManager.getIntance().villainManager.getVillainByName(x1BodyName);
+						//shotVillain.takeDamage();
+					}
+
 				}
 			}
 

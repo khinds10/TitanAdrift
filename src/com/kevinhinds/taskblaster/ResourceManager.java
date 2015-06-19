@@ -14,6 +14,7 @@ import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.util.debug.Debug;
 
 import com.kevinhinds.taskblaster.tiles.TileManager;
+import com.kevinhinds.taskblaster.villains.VillainManager;
 
 /**
  * deal with game resources via singleton design pattern for reuseability
@@ -35,14 +36,17 @@ public class ResourceManager {
 	public ITextureRegion play_button_region;
 	public ITextureRegion exit_button_region;
 
-	/** game regions */
-	private BuildableBitmapTextureAtlas gameTextureAtlas;
+	/** player region */
 	public ITiledTextureRegion player_region;
 
-	/** weapon regions */
+	/** weapon region */
 	public ITiledTextureRegion bullet_region;
 	
-	/** controls region */
+	/** adversary region */
+	public ITiledTextureRegion adversary_region;	
+
+	/** controls regions */
+	private BuildableBitmapTextureAtlas gameTextureAtlas;
 	public ITextureRegion control_jump_region;
 	public ITextureRegion control_shoot_region;
 	public ITextureRegion control_left_region;
@@ -50,9 +54,9 @@ public class ResourceManager {
 
 	/** level regions */
 	private BuildableBitmapTextureAtlas tileTextureAtlas;
-	public ITiledTextureRegion cave_platform_region;
-	public ITiledTextureRegion pipes_platform_region;
+	public ITiledTextureRegion platform_region;
 	public TileManager tileManager;
+	public VillainManager villainManager;
 
 	/**
 	 * load resources to create the menu into memory
@@ -82,13 +86,14 @@ public class ResourceManager {
 	 * load resources for the game into memory
 	 */
 	public void loadGameResources() {
-		gameTextureAtlas = new BuildableBitmapTextureAtlas(activity.getTextureManager(), 1024, 1024, TextureOptions.BILINEAR);
-		player_region = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "character/player.png", 8, 3);		
-		control_jump_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "controls/jump.png");		
+		gameTextureAtlas = new BuildableBitmapTextureAtlas(activity.getTextureManager(), 2048, 2048, TextureOptions.BILINEAR);
+		player_region = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "character/player.png", GameConfiguation.playerMapColumns, GameConfiguation.playerMapRows);
+		adversary_region = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "adversary/creatures.png", GameConfiguation.villainMapColumns, GameConfiguation.villainMapRows);		
+		control_jump_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "controls/jump.png");
 		control_left_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "controls/left.png");
 		control_right_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "controls/right.png");
 		control_shoot_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "controls/shoot.png");
-		bullet_region = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "weapons/laser.png", 4, 1);
+		bullet_region = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "weapons/bullet.png", 4, 1);
 		try {
 			gameTextureAtlas.build(new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(0, 1, 0));
 			gameTextureAtlas.load();
@@ -103,10 +108,7 @@ public class ResourceManager {
 	public void loadTileResources() {
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/tiles/");
 		tileTextureAtlas = new BuildableBitmapTextureAtlas(activity.getTextureManager(), 1024, 1024, TextureOptions.BILINEAR);
-		
-		/** @todo, make this a "tiled" asset with the XML having the ability to specify parts of the tile by name or something... */
-		cave_platform_region = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(tileTextureAtlas, activity, "cave.png", 4, 3);
-		pipes_platform_region = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(tileTextureAtlas, activity, "pipes.png", 12, 6);
+		platform_region = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(tileTextureAtlas, activity, "platforms.png", 22, 13);
 		try {
 			tileTextureAtlas.build(new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(0, 1, 0));
 			tileTextureAtlas.load();
@@ -136,6 +138,7 @@ public class ResourceManager {
 	public void loadTileManager() {
 		loadTileResources();
 		tileManager = new TileManager(vbom);
+		villainManager = new VillainManager(vbom);
 	}
 
 	/**

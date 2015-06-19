@@ -28,6 +28,12 @@ public class GameConfiguation {
 	public static int walkLeftEndFrame = 7;
 	
 	/**
+	 * player sprite map
+	 */
+	public static int playerMapColumns = 8;
+	public static int playerMapRows = 3;
+	
+	/**
 	 * player sprite velocities
 	 */
 	public static int playerWalkingVelocity = 4;
@@ -40,9 +46,32 @@ public class GameConfiguation {
 	public static int playerFallingContinueDirectionVelocity = 3;
 	
 	/**
+	 * platform sprite map
+	 */
+	public static int platformMapColumns = 22;
+	public static int platformMapRows = 13;
+
+	/**
+	 * villains sprite map
+	 */
+	public static int villainMapColumns = 8;
+	public static int villainMapRows = 30;
+	
+	/**
 	 * sprite basic state indentifiers
 	 */
 	public static enum State {
 		UP, DOWN, LEFT, RIGHT, STOP
 	}
+	
+	/**
+	 * how far up and off the screen the player can jump
+	 */
+	public static int offscreenJumpHeight = -150;
+	
+	/**
+	 * how tall is the bottom player controls area 
+	 */
+	public static int buttonControlsHeight = 82;
+	
 }

@@ -19,16 +19,17 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
  */
 public class Tile extends TiledSprite {
 
-	private final String name;
+	private final String name, type;
 	private final int id, tileIndex;
 	private final float density, elastic, friction;
 
 	/**
-	 * create new tile from a tiledSprite with a specific tile index specified
+	 * create new tile from a tiledSprite with a specific tile index specified as well as if it's a physical tile a background or foreground tile
 	 * 
 	 * @param name
 	 * @param id
 	 * @param tileIndex
+	 * @param type
 	 * @param x
 	 * @param y
 	 * @param density
@@ -37,7 +38,7 @@ public class Tile extends TiledSprite {
 	 * @param texture
 	 * @param vbom
 	 */
-	public Tile(String name, int id, int tileIndex, float x, float y, float density, float elastic, float friction, ITiledTextureRegion texture, VertexBufferObjectManager vbom) {
+	public Tile(String name, int id, int tileIndex, String type, float x, float y, float density, float elastic, float friction, ITiledTextureRegion texture, VertexBufferObjectManager vbom) {
 		super(x, y, texture, vbom);
 		this.name = name;
 		this.id = id;
@@ -45,6 +46,7 @@ public class Tile extends TiledSprite {
 		this.density = density;
 		this.elastic = elastic;
 		this.friction = friction;
+		this.type = type;
 	}
 
 	/**
@@ -56,11 +58,26 @@ public class Tile extends TiledSprite {
 	public void createBodyAndAttach(Scene scene, PhysicsWorld physicsWorld) {
 		final FixtureDef tileFixtureDef = PhysicsFactory.createFixtureDef(density, elastic, friction);
 		tileFixtureDef.restitution = 0;
-		Body body = PhysicsFactory.createBoxBody(physicsWorld, this, BodyType.StaticBody, tileFixtureDef);
-		body.setUserData("tile");
-		scene.attachChild(this);
 		this.setCurrentTileIndex(tileIndex);
-		physicsWorld.registerPhysicsConnector(new PhysicsConnector(this, body, true, true));
+
+		/** only apply physics to the tiles marked as such */
+		if (type.equals("physical")) {
+			Body body = PhysicsFactory.createBoxBody(physicsWorld, this, BodyType.StaticBody, tileFixtureDef);
+			body.setUserData("tile");
+			physicsWorld.registerPhysicsConnector(new PhysicsConnector(this, body, true, true));
+		}
+
+		/** set the Z-Index of the tile based on the type */
+		if (type.equals("physical")) {
+			this.setZIndex(0);
+		}
+		if (type.equals("foreground")) {
+			this.setZIndex(1);
+		}
+		if (type.equals("background")) {
+			this.setZIndex(-1);
+		}
+		scene.attachChild(this);
 	}
 
 	/**
@@ -88,7 +105,7 @@ public class Tile extends TiledSprite {
 	 * @param y
 	 * @return
 	 */
-	public Tile getInstance(float x, float y) {
-		return new Tile(name, id, tileIndex, x, y, density, elastic, friction, getTiledTextureRegion(), getVertexBufferObjectManager());
+	public Tile getInstance(float x, float y, String type) {
+		return new Tile(name, id, tileIndex, type, x, y, density, elastic, friction, getTiledTextureRegion(), getVertexBufferObjectManager());
 	}
 }

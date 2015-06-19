@@ -46,13 +46,13 @@ public class Bullet {
 		}
 
 		/** create a new bullet sprite and fire it! */
-
 		bulletSprite = scene.createAnimatedSprite(objCenterPos[0] + (direction * 5), objCenterPos[1] - 5, ResourceManager.getIntance().bullet_region, scene.vbom);
 		bulletBody = PhysicsFactory.createBoxBody(scene.physicsWorld, bulletSprite, BodyType.DynamicBody, bulletFixtureDef);
 		bulletBody.setUserData("bullet");
 		bulletBody.setGravityScale(0);
 		scene.physicsWorld.registerPhysicsConnector(new PhysicsConnector(bulletSprite, bulletBody, true, true));
-		bulletSprite.animate(new long[] { 100 }, new int[] { 1 });
+		bulletSprite.animate(new long[] { 100, 100, 100, 100 }, new int[] { 0, 1, 2, 3 });
+
 		scene.attachChild(bulletSprite);
 		final Vector2 velocity = Vector2Pool.obtain((direction * 50), 0);
 		bulletBody.setLinearVelocity(velocity);
@@ -69,10 +69,8 @@ public class Bullet {
 			@Override
 			public void run() {
 				if (physicsConnector != null) {
-					scene.physicsWorld.unregisterPhysicsConnector(physicsConnector);
 					bulletBody.setActive(false);
 					bulletBody.setUserData("deleted");
-					scene.physicsWorld.destroyBody(bulletBody);
 					scene.detachChild(bulletSprite);
 				}
 			}

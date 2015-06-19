@@ -1,7 +1,6 @@
 package com.kevinhinds.taskblaster.scene;
 
 import org.andengine.engine.Engine;
-import org.andengine.entity.scene.IOnSceneTouchListener;
 import org.andengine.ui.IGameInterface.OnCreateSceneCallback;
 
 import com.kevinhinds.taskblaster.ResourceManager;

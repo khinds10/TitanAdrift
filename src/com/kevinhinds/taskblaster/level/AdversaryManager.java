@@ -15,35 +15,39 @@ import org.xml.sax.Attributes;
 import android.content.res.AssetManager;
 
 import com.kevinhinds.taskblaster.ResourceManager;
-import com.kevinhinds.taskblaster.tiles.Tile;
+import com.kevinhinds.taskblaster.villains.Villain;
 
 /**
  * manager to load in all game levels via XML descriptions of them
  * 
  * @author khinds
  */
-public class LevelManager {
+public class AdversaryManager {
 
 	private final LevelLoader levelLoader;
 	private final AssetManager assetManager;
 	private final ArrayList<Level> levels = new ArrayList<Level>();
 
-	private static final String TAG_TILE = "tile";
+	private static final String TAG_TILE = "adversary";
 	private static final String TAG_TILE_ATTR_X = "x";
 	private static final String TAG_TILE_ATTR_Y = "y";
-	private static final String TAG_TILE_ATTR_TILE = "block";
+	private static final String TAG_TILE_ATTR_TILE = "villain";
 	private static final String TAG_TILE_TYPE_TILE = "type";
-
+	private static final String TAG_TILE_STRING_WEAPON = "weapon";
+	private static final String TAG_TILE_STRING_SHOOTS = "shoots";
+	private static final String TAG_TILE_STRING_LIFE = "life";
+	private static final String TAG_TILE_STRING_FACING = "facing";
+	
 	/**
 	 * construct level manager which will load into memory all the level specified by XML for the game
 	 * 
 	 * @param assetManager
 	 */
-	public LevelManager(AssetManager assetManager) {
+	public AdversaryManager(AssetManager assetManager) {
 		levelLoader = new LevelLoader();
 		levelLoader.setAssetBasePath("levels/");
 		this.assetManager = assetManager;
-		addNewLevel(1, "level1.xml");
+		addNewLevel(1, "level1_villians.xml");
 	}
 
 	/**
@@ -73,9 +77,13 @@ public class LevelManager {
 				final int x = SAXUtils.getIntAttributeOrThrow(attr, TAG_TILE_ATTR_X);
 				final int y = SAXUtils.getIntAttributeOrThrow(attr, TAG_TILE_ATTR_Y);
 				final int id = SAXUtils.getIntAttributeOrThrow(attr, TAG_TILE_ATTR_TILE);
-				final String type = SAXUtils.getAttributeOrThrow(attr, TAG_TILE_TYPE_TILE);
-				Tile t = ResourceManager.getIntance().tileManager.getTileById(id);
-				level.addTile(t.getInstance(x, y, type));
+				final String type = SAXUtils.getAttributeOrThrow(attr, TAG_TILE_TYPE_TILE);				
+				final int life = SAXUtils.getIntAttributeOrThrow(attr, TAG_TILE_STRING_LIFE);
+				final String weapon = SAXUtils.getAttributeOrThrow(attr, TAG_TILE_STRING_WEAPON);
+				final String facing = SAXUtils.getAttributeOrThrow(attr, TAG_TILE_STRING_FACING);
+				final Boolean shoots = SAXUtils.getBooleanAttributeOrThrow(attr, TAG_TILE_STRING_SHOOTS);
+				Villain v = ResourceManager.getIntance().villainManager.getVillainById(id);
+				level.addVillain(v.getInstance(x, y, type, life, weapon, facing, shoots));
 				return null;
 			}
 		});

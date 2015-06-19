@@ -4,8 +4,6 @@ import java.util.ArrayList;
 
 import org.andengine.entity.scene.Scene;
 import org.andengine.extension.physics.box2d.PhysicsWorld;
-
-import com.kevinhinds.taskblaster.tiles.Tile;
 import com.kevinhinds.taskblaster.villains.Villain;
 
 /**
@@ -13,19 +11,18 @@ import com.kevinhinds.taskblaster.villains.Villain;
  * 
  * @author khinds
  */
-public class Level {
+public class Adversary {
 
 	public final int id;
 	public int width, height;
-	private final ArrayList<Tile> levelTiles = new ArrayList<Tile>();
-	private final ArrayList<Villain> characterTiles = new ArrayList<Villain>();
+	private final ArrayList<Villain> levelAdversaries = new ArrayList<Villain>();
 
 	/**
 	 * create new level by id identifier
 	 * 
 	 * @param id
 	 */
-	public Level(int id) {
+	public Adversary(int id) {
 		this.id = id;
 	}
 
@@ -61,17 +58,8 @@ public class Level {
 	 * 
 	 * @param t
 	 */
-	public void addTile(Tile t) {
-		levelTiles.add(t);
-	}
-
-	/**
-	 * add a new tile to the level
-	 * 
-	 * @param t
-	 */
-	public void addVillain(Villain v) {
-		characterTiles.add(v);
+	public void addTile(Villain t) {
+		levelAdversaries.add(t);
 	}
 
 	/**
@@ -81,10 +69,7 @@ public class Level {
 	 * @param physicsWorld
 	 */
 	public void load(Scene scene, PhysicsWorld physicsWorld) {
-		for (Tile t : levelTiles) {
-			t.createBodyAndAttach(scene, physicsWorld);
-		}
-		for (Villain v : characterTiles) {
+		for (Villain v : levelAdversaries) {
 			v.createBodyAndAttach(scene, physicsWorld);
 		}
 		scene.sortChildren();

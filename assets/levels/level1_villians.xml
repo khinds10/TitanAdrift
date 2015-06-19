@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<level width="800" height="480">
+    
+	<adversary x="700" y="255" villain="1" type="stationary" shoots='false' weapon='none' facing='left' life='8'/>
+	<adversary x="200" y="362" villain="1" type="stationary" shoots='false' weapon='none' facing='right' life='8'/>
+    
+    <adversary x="75" y="110" villain="7" type="stationary" shoots='true' weapon='bullet' facing='right' life='5'/>
+	<adversary x="320" y="200" villain="7" type="stationary" shoots='true' weapon='bullet' facing='left' life='5'/>
+	
+	<adversary x="700" y="50" villain="26" type="stationary" shoots='false' weapon='none' facing='right' life='10'/>
+	<adversary x="775" y="375" villain="26" type="stationary" shoots='false' weapon='none' facing='right' life='10'/>
+	
+</level>

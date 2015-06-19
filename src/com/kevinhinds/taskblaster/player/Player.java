@@ -99,6 +99,7 @@ public class Player {
 	 * player stops
 	 */
 	public void stop() {
+		
 		float jumpmotion = 0;
 		if (!isJumping) {
 			if (facing == State.RIGHT) {

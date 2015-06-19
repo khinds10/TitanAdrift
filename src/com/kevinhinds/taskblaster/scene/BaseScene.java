@@ -55,6 +55,17 @@ public abstract class BaseScene extends Scene {
 		return sprite;
 	}
 
+	/**
+	 * create an animated sprite on the scene in question
+	 * 
+	 * @param x
+	 *            location x coordinates
+	 * @param y
+	 *            location y coordinates
+	 * @param region
+	 * @param vbom
+	 * @return
+	 */
 	public AnimatedSprite createAnimatedSprite(float x, float y, ITiledTextureRegion region, VertexBufferObjectManager vbom) {
 		AnimatedSprite sprite = new AnimatedSprite(x, y, region, vbom) {
 			protected void preDraw(GLState glState, Camera camera) {
@@ -64,8 +75,6 @@ public abstract class BaseScene extends Scene {
 		};
 		return sprite;
 	}
-
-
 
 	public abstract void createScene();
 
