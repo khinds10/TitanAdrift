@@ -4,7 +4,8 @@ import java.util.ArrayList;
 
 import org.andengine.entity.scene.Scene;
 import org.andengine.extension.physics.box2d.PhysicsWorld;
-import com.kevinhinds.taskblaster.villains.Villain;
+
+import com.kevinhinds.taskblaster.characters.Character;
 
 /**
  * basic level object that attaches itself and respective tiles to the game scene
@@ -15,7 +16,7 @@ public class Adversary {
 
 	public final int id;
 	public int width, height;
-	private final ArrayList<Villain> levelAdversaries = new ArrayList<Villain>();
+	private final ArrayList<Character> levelAdversaries = new ArrayList<Character>();
 
 	/**
 	 * create new level by id identifier
@@ -58,7 +59,7 @@ public class Adversary {
 	 * 
 	 * @param t
 	 */
-	public void addTile(Villain t) {
+	public void addTile(Character t) {
 		levelAdversaries.add(t);
 	}
 
@@ -69,7 +70,7 @@ public class Adversary {
 	 * @param physicsWorld
 	 */
 	public void load(Scene scene, PhysicsWorld physicsWorld) {
-		for (Villain v : levelAdversaries) {
+		for (Character v : levelAdversaries) {
 			v.createBodyAndAttach(scene, physicsWorld);
 		}
 		scene.sortChildren();

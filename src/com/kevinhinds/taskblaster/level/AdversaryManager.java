@@ -15,7 +15,7 @@ import org.xml.sax.Attributes;
 import android.content.res.AssetManager;
 
 import com.kevinhinds.taskblaster.ResourceManager;
-import com.kevinhinds.taskblaster.villains.Villain;
+import com.kevinhinds.taskblaster.characters.Character;
 
 /**
  * manager to load in all game levels via XML descriptions of them
@@ -37,7 +37,7 @@ public class AdversaryManager {
 	private static final String TAG_TILE_STRING_SHOOTS = "shoots";
 	private static final String TAG_TILE_STRING_LIFE = "life";
 	private static final String TAG_TILE_STRING_FACING = "facing";
-	
+
 	/**
 	 * construct level manager which will load into memory all the level specified by XML for the game
 	 * 
@@ -77,13 +77,15 @@ public class AdversaryManager {
 				final int x = SAXUtils.getIntAttributeOrThrow(attr, TAG_TILE_ATTR_X);
 				final int y = SAXUtils.getIntAttributeOrThrow(attr, TAG_TILE_ATTR_Y);
 				final int id = SAXUtils.getIntAttributeOrThrow(attr, TAG_TILE_ATTR_TILE);
-				final String type = SAXUtils.getAttributeOrThrow(attr, TAG_TILE_TYPE_TILE);				
+				final String type = SAXUtils.getAttributeOrThrow(attr, TAG_TILE_TYPE_TILE);
 				final int life = SAXUtils.getIntAttributeOrThrow(attr, TAG_TILE_STRING_LIFE);
 				final String weapon = SAXUtils.getAttributeOrThrow(attr, TAG_TILE_STRING_WEAPON);
 				final String facing = SAXUtils.getAttributeOrThrow(attr, TAG_TILE_STRING_FACING);
 				final Boolean shoots = SAXUtils.getBooleanAttributeOrThrow(attr, TAG_TILE_STRING_SHOOTS);
-				Villain v = ResourceManager.getIntance().villainManager.getVillainById(id);
-				level.addVillain(v.getInstance(x, y, type, life, weapon, facing, shoots));
+				Character v = ResourceManager.getIntance().charactersManager.getVillainById(id);
+
+				/** add new villain with a unique name based on current XML options set */
+				level.addVillain(v.getInstance(x, y, type, life, weapon, facing, shoots, "Character: " + Float.toString(x) + "-" + Float.toString(y) + "-" + Integer.toString(id)));
 				return null;
 			}
 		});
@@ -96,6 +98,13 @@ public class AdversaryManager {
 		levels.add(level);
 	}
 
+	public Level getLevelById(int id) {
+		for (Level l : levels)
+			if (l.id == id)
+				return l;
+		return null;
+	}
+	
 	/**
 	 * load level by id and apply it to the scene in question
 	 * 

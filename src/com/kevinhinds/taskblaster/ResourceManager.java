@@ -13,8 +13,8 @@ import org.andengine.opengl.texture.region.ITiledTextureRegion;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.util.debug.Debug;
 
+import com.kevinhinds.taskblaster.characters.CharactersManager;
 import com.kevinhinds.taskblaster.tiles.TileManager;
-import com.kevinhinds.taskblaster.villains.VillainManager;
 
 /**
  * deal with game resources via singleton design pattern for reuseability
@@ -56,7 +56,7 @@ public class ResourceManager {
 	private BuildableBitmapTextureAtlas tileTextureAtlas;
 	public ITiledTextureRegion platform_region;
 	public TileManager tileManager;
-	public VillainManager villainManager;
+	public CharactersManager charactersManager;
 
 	/**
 	 * load resources to create the menu into memory
@@ -88,7 +88,7 @@ public class ResourceManager {
 	public void loadGameResources() {
 		gameTextureAtlas = new BuildableBitmapTextureAtlas(activity.getTextureManager(), 2048, 2048, TextureOptions.BILINEAR);
 		player_region = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "character/player.png", GameConfiguation.playerMapColumns, GameConfiguation.playerMapRows);
-		adversary_region = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "adversary/creatures.png", GameConfiguation.villainMapColumns, GameConfiguation.villainMapRows);		
+		adversary_region = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "adversary/creatures.png", GameConfiguation.characterMapColumns, GameConfiguation.characterMapRows);		
 		control_jump_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "controls/jump.png");
 		control_left_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "controls/left.png");
 		control_right_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "controls/right.png");
@@ -138,7 +138,7 @@ public class ResourceManager {
 	public void loadTileManager() {
 		loadTileResources();
 		tileManager = new TileManager(vbom);
-		villainManager = new VillainManager(vbom);
+		charactersManager = new CharactersManager(vbom);
 	}
 
 	/**

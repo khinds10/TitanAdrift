@@ -61,14 +61,18 @@ public class Tile extends TiledSprite {
 		this.setCurrentTileIndex(tileIndex);
 
 		/** only apply physics to the tiles marked as such */
-		if (type.equals("physical")) {
+		if (type.equals("physical") || type.equals("bounce")) {
+			String tileData = "tile";
+			if (type.equals("bounce")) {
+				tileData = "bounce";
+			}
 			Body body = PhysicsFactory.createBoxBody(physicsWorld, this, BodyType.StaticBody, tileFixtureDef);
-			body.setUserData("tile");
+			body.setUserData(tileData);
 			physicsWorld.registerPhysicsConnector(new PhysicsConnector(this, body, true, true));
 		}
 
 		/** set the Z-Index of the tile based on the type */
-		if (type.equals("physical")) {
+		if (type.equals("physical") || type.equals("bounce")) {
 			this.setZIndex(0);
 		}
 		if (type.equals("foreground")) {

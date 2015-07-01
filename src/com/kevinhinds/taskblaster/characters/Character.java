@@ -1,4 +1,4 @@
-package com.kevinhinds.taskblaster.villains;
+package com.kevinhinds.taskblaster.characters;
 
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.sprite.TiledSprite;
@@ -14,14 +14,13 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.kevinhinds.taskblaster.GameConfiguation;
-import com.kevinhinds.taskblaster.ResourceManager;
 
 /**
  * a tile sprite extends sprite to easily define and attach to any scene
  * 
  * @author khinds
  */
-public class Villain extends TiledSprite {
+public class Character extends TiledSprite {
 
 	private String facing, name, type, weapon;
 	private int id, life, spriteRow;
@@ -47,7 +46,7 @@ public class Villain extends TiledSprite {
 	 * @param texture
 	 * @param vbom
 	 */
-	public Villain(String name, int id, int spriteRow, String type, int life, String weapon, String facing, Boolean shoots, float x, float y, float density, float elastic, float friction, ITiledTextureRegion texture, VertexBufferObjectManager vbom) {
+	public Character(String name, int id, int spriteRow, String type, int life, String weapon, String facing, Boolean shoots, float x, float y, float density, float elastic, float friction, ITiledTextureRegion texture, VertexBufferObjectManager vbom) {
 		super(x, y, texture, vbom);
 		this.x = x;
 		this.y = y;
@@ -77,24 +76,14 @@ public class Villain extends TiledSprite {
 		tileFixtureDef.restitution = 0;
 
 		/** get the villian on the sprite row specified, if the sprite is facing left, then the tile is higher on the same tile row to face the other way */
-		this.spriteRow = (GameConfiguation.villainMapColumns * this.spriteRow) - (GameConfiguation.villainMapColumns - 1);
+		this.spriteRow = (GameConfiguation.characterMapColumns * this.spriteRow) - (GameConfiguation.characterMapColumns - 1);
 		if (this.facing.equals("left")) {
 			this.spriteRow = this.spriteRow + 5;
 		}
 		this.setCurrentTileIndex(spriteRow);
 
 		Body body = PhysicsFactory.createBoxBody(physicsWorld, this, BodyType.DynamicBody, tileFixtureDef);
-		
-		
-		
-		
-		this.name = "Villain: " + Float.toString(this.x) + "-" + Float.toString(this.y) + "-" + Integer.toString(this.spriteRow);
 		body.setUserData(this.name);
-		
-		
-		
-		
-		
 		physicsWorld.registerPhysicsConnector(new PhysicsConnector(this, body, true, false));
 
 		/** set the type of villain behavior of the tile based on the type */
@@ -167,7 +156,7 @@ public class Villain extends TiledSprite {
 	 * @param shoots
 	 * @return
 	 */
-	public Villain getInstance(float x, float y, String type, int life, String weapon, String facing, Boolean shoots) {
-		return new Villain(name, id, spriteRow, type, life, weapon, facing, shoots, x, y, density, elastic, friction, getTiledTextureRegion(), getVertexBufferObjectManager());
+	public Character getInstance(float x, float y, String type, int life, String weapon, String facing, Boolean shoots, String name) {
+		return new Character(name, id, spriteRow, type, life, weapon, facing, shoots, x, y, density, elastic, friction, getTiledTextureRegion(), getVertexBufferObjectManager());
 	}
 }

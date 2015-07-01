@@ -54,8 +54,8 @@ public class GameConfiguation {
 	/**
 	 * villains sprite map
 	 */
-	public static int villainMapColumns = 8;
-	public static int villainMapRows = 30;
+	public static int characterMapColumns = 8;
+	public static int characterMapRows = 30;
 	
 	/**
 	 * sprite basic state indentifiers

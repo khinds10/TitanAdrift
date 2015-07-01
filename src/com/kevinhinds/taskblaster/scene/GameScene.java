@@ -25,7 +25,6 @@ import com.kevinhinds.taskblaster.level.AdversaryManager;
 import com.kevinhinds.taskblaster.level.LevelManager;
 import com.kevinhinds.taskblaster.player.Controls;
 import com.kevinhinds.taskblaster.player.Player;
-import com.kevinhinds.taskblaster.villains.Villain;
 
 /**
  * main game scene which contains multiple levels
@@ -39,7 +38,6 @@ public class GameScene extends BaseScene {
 	private Player player;
 	private LevelManager levelManager;
 	private AdversaryManager adversaryManager;
-
 	public Body fixtureBody;
 
 	@Override
@@ -52,6 +50,10 @@ public class GameScene extends BaseScene {
 		addPlayer();
 		createControls();
 		createLevel(1);
+		
+		// concept of a current level in progress that the collision manager below will use to look up villians to apply damage, etc
+		
+		
 	}
 
 	@Override
@@ -168,23 +170,22 @@ public class GameScene extends BaseScene {
 					String x2BodyName = (String) x2.getBody().getUserData();
 
 					/** if player is contact with something (not his own bullet) then he stops jumping */
-					if (x1BodyName.equals("player") && !x2BodyName.equals("bullet")) {
-						player.stopJumping();
+					if (x1BodyName.equals("player") && (x2BodyName.equals("tile") || x2BodyName.equals("ground"))) {
+						player.stopJumping();	
 					}
 					
 					/** if the bullet comes in contact with something that's not the player himself, then the sprite is detached from the scene */
 					if (x2BodyName.equals("bullet") && !x1BodyName.equals("player")) {
 						player.shootContact();
 					}
-
-					if (x1BodyName.contains("Villain") && x2BodyName.equals("bullet")) {
-						
+					
+					if (x1BodyName.contains("Character") && x2BodyName.equals("bullet")) {
+						// adversaryManager;
+						// level.getCharacterByName
 						// this is not getting the updated names so its NULL
-						
-						//Villain shotVillain = ResourceManager.getIntance().villainManager.getVillainByName(x1BodyName);
-						//shotVillain.takeDamage();
+						// Character shotVillain = ResourceManager.getIntance().adver.getVillainByName(x1BodyName);
+						// shotVillain.takeDamage();
 					}
-
 				}
 			}
 
