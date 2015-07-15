@@ -13,7 +13,7 @@ import org.andengine.opengl.texture.region.ITiledTextureRegion;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.util.debug.Debug;
 
-import com.kevinhinds.taskblaster.characters.CharactersManager;
+import com.kevinhinds.taskblaster.actors.ActorsManager;
 import com.kevinhinds.taskblaster.tiles.TileManager;
 
 /**
@@ -45,6 +45,9 @@ public class ResourceManager {
 	/** adversary region */
 	public ITiledTextureRegion adversary_region;	
 
+	/** adversary region */
+	public ITiledTextureRegion explosion_region;
+	
 	/** controls regions */
 	private BuildableBitmapTextureAtlas gameTextureAtlas;
 	public ITextureRegion control_jump_region;
@@ -56,7 +59,7 @@ public class ResourceManager {
 	private BuildableBitmapTextureAtlas tileTextureAtlas;
 	public ITiledTextureRegion platform_region;
 	public TileManager tileManager;
-	public CharactersManager charactersManager;
+	public ActorsManager actorsManager;
 
 	/**
 	 * load resources to create the menu into memory
@@ -88,12 +91,14 @@ public class ResourceManager {
 	public void loadGameResources() {
 		gameTextureAtlas = new BuildableBitmapTextureAtlas(activity.getTextureManager(), 2048, 2048, TextureOptions.BILINEAR);
 		player_region = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "character/player.png", GameConfiguation.playerMapColumns, GameConfiguation.playerMapRows);
-		adversary_region = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "adversary/creatures.png", GameConfiguation.characterMapColumns, GameConfiguation.characterMapRows);		
+		adversary_region = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "adversary/creatures.png", GameConfiguation.actorMapColumns, GameConfiguation.actorMapRows);		
 		control_jump_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "controls/jump.png");
 		control_left_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "controls/left.png");
 		control_right_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "controls/right.png");
 		control_shoot_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "controls/shoot.png");
 		bullet_region = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "weapons/bullet.png", 4, 1);
+		explosion_region = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "explosions/explosions.png", GameConfiguation.explosionMapColumns, GameConfiguation.explosionMapRows);
+		
 		try {
 			gameTextureAtlas.build(new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(0, 1, 0));
 			gameTextureAtlas.load();
@@ -126,19 +131,12 @@ public class ResourceManager {
 	}
 
 	/**
-	 * load game fonts
-	 */
-	public void loadFonts() {
-
-	}
-
-	/**
 	 * produce the local tile manager to render level tiles via XML based descriptions
 	 */
 	public void loadTileManager() {
 		loadTileResources();
 		tileManager = new TileManager(vbom);
-		charactersManager = new CharactersManager(vbom);
+		actorsManager = new ActorsManager(vbom);
 	}
 
 	/**

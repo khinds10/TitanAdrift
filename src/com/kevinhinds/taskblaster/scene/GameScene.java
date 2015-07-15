@@ -4,6 +4,7 @@ import org.andengine.engine.camera.hud.HUD;
 import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.scene.background.Background;
 import org.andengine.extension.physics.box2d.PhysicsFactory;
+import org.andengine.extension.physics.box2d.PhysicsWorld;
 import org.andengine.util.color.Color;
 
 import android.hardware.SensorManager;
@@ -19,9 +20,10 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.kevinhinds.taskblaster.GameConfiguation;
-import com.kevinhinds.taskblaster.MaxStepPhysicsWorld;
 import com.kevinhinds.taskblaster.ResourceManager;
+import com.kevinhinds.taskblaster.actors.Actor;
 import com.kevinhinds.taskblaster.level.AdversaryManager;
+import com.kevinhinds.taskblaster.level.Level;
 import com.kevinhinds.taskblaster.level.LevelManager;
 import com.kevinhinds.taskblaster.player.Controls;
 import com.kevinhinds.taskblaster.player.Player;
@@ -39,6 +41,7 @@ public class GameScene extends BaseScene {
 	private LevelManager levelManager;
 	private AdversaryManager adversaryManager;
 	public Body fixtureBody;
+	private Level level;
 
 	@Override
 	public void createScene() {
@@ -49,11 +52,10 @@ public class GameScene extends BaseScene {
 		createPhysics();
 		addPlayer();
 		createControls();
+		
+		// @todo this should obviously be dynamic
 		createLevel(1);
-		
-		// concept of a current level in progress that the collision manager below will use to look up villians to apply damage, etc
-		
-		
+		level = adversaryManager.getLevelById(1);
 	}
 
 	@Override
@@ -85,7 +87,7 @@ public class GameScene extends BaseScene {
 	 * apply physics to the gamescene we'll use the new improved MaxStepPhysicsWorld which extends the regular PhysicsWorld
 	 */
 	private void createPhysics() {
-		physicsWorld = new MaxStepPhysicsWorld(60, new Vector2(0, SensorManager.GRAVITY_EARTH), false);
+		physicsWorld = new PhysicsWorld(new Vector2(0, SensorManager.GRAVITY_EARTH), false);
 		physicsWorld.setContactListener(contactListener());
 		registerUpdateHandler(physicsWorld);
 	}
@@ -174,17 +176,16 @@ public class GameScene extends BaseScene {
 						player.stopJumping();	
 					}
 					
-					/** if the bullet comes in contact with something that's not the player himself, then the sprite is detached from the scene */
-					if (x2BodyName.equals("bullet") && !x1BodyName.equals("player")) {
-						player.shootContact();
+					if (x1BodyName.contains("Actor") && x2BodyName.equals("bullet")) {
+						Actor actorShot = level.getActorByName(x1BodyName);
+						
+						// @todo this should be based on the player's "bullet" strength
+						actorShot.takeDamage(2, GameScene.this, player);
 					}
 					
-					if (x1BodyName.contains("Character") && x2BodyName.equals("bullet")) {
-						// adversaryManager;
-						// level.getCharacterByName
-						// this is not getting the updated names so its NULL
-						// Character shotVillain = ResourceManager.getIntance().adver.getVillainByName(x1BodyName);
-						// shotVillain.takeDamage();
+					/** if the bullet comes in contact with something that's not the player himself or an actor taking damage, then the sprite is detached from the scene */
+					if (x2BodyName.equals("bullet") && !x1BodyName.equals("player") && !x1BodyName.contains("Actor")) {
+						player.shootContact();
 					}
 				}
 			}

@@ -15,7 +15,7 @@ import org.xml.sax.Attributes;
 import android.content.res.AssetManager;
 
 import com.kevinhinds.taskblaster.ResourceManager;
-import com.kevinhinds.taskblaster.characters.Character;
+import com.kevinhinds.taskblaster.actors.Actor;
 
 /**
  * manager to load in all game levels via XML descriptions of them
@@ -37,6 +37,9 @@ public class AdversaryManager {
 	private static final String TAG_TILE_STRING_SHOOTS = "shoots";
 	private static final String TAG_TILE_STRING_LIFE = "life";
 	private static final String TAG_TILE_STRING_FACING = "facing";
+	private static final String TAG_TILE_ATTR_ANIMATION_SPEED = "animationSpeed";
+	private static final String TAG_TILE_ATTR_MOTION_SPEED = "movementSpeed";
+	private static final String TAG_TILE_ATTR_EXPLOSION_TYPE = "explosion";
 
 	/**
 	 * construct level manager which will load into memory all the level specified by XML for the game
@@ -82,10 +85,13 @@ public class AdversaryManager {
 				final String weapon = SAXUtils.getAttributeOrThrow(attr, TAG_TILE_STRING_WEAPON);
 				final String facing = SAXUtils.getAttributeOrThrow(attr, TAG_TILE_STRING_FACING);
 				final Boolean shoots = SAXUtils.getBooleanAttributeOrThrow(attr, TAG_TILE_STRING_SHOOTS);
-				Character v = ResourceManager.getIntance().charactersManager.getVillainById(id);
+				final int animationSpeed = SAXUtils.getIntAttributeOrThrow(attr, TAG_TILE_ATTR_ANIMATION_SPEED);
+				final int movementSpeed = SAXUtils.getIntAttributeOrThrow(attr, TAG_TILE_ATTR_MOTION_SPEED);
+				final int explosionType = SAXUtils.getIntAttributeOrThrow(attr, TAG_TILE_ATTR_EXPLOSION_TYPE);
+				Actor v = ResourceManager.getIntance().actorsManager.getVillainById(id);
 
 				/** add new villain with a unique name based on current XML options set */
-				level.addVillain(v.getInstance(x, y, type, life, weapon, facing, shoots, "Character: " + Float.toString(x) + "-" + Float.toString(y) + "-" + Integer.toString(id)));
+				level.addVillain(v.getInstance(x, y, type, life, weapon, facing, shoots, "Actor: " + Float.toString(x) + "-" + Float.toString(y) + "-" + Integer.toString(id), animationSpeed, movementSpeed, explosionType));
 				return null;
 			}
 		});
@@ -104,7 +110,7 @@ public class AdversaryManager {
 				return l;
 		return null;
 	}
-	
+
 	/**
 	 * load level by id and apply it to the scene in question
 	 * 

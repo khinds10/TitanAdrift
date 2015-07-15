@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <level width="800" height="480">
     
-	<adversary x="700" y="255" villain="1" type="stationary" shoots='false' weapon='none' facing='left' life='8'/>
-	<adversary x="200" y="362" villain="1" type="stationary" shoots='false' weapon='none' facing='right' life='8'/>
+	<adversary x="700" y="255" villain="1" type="walking" shoots='false' weapon='none' facing='right' life='8' explosion='15' animationSpeed='200' movementSpeed='0'/>
+	<adversary x="200" y="362" villain="1" type="walking" shoots='false' weapon='none' facing='left' life='8' explosion='9' animationSpeed='200' movementSpeed='0'/>
     
-    <adversary x="75" y="110" villain="7" type="stationary" shoots='true' weapon='bullet' facing='right' life='5'/>
-	<adversary x="320" y="200" villain="7" type="stationary" shoots='true' weapon='bullet' facing='left' life='5'/>
+    <adversary x="75" y="110" villain="7" type="walking" shoots='true' weapon='bullet' facing='left' life='5' explosion='1' animationSpeed='200' movementSpeed='0'/>
+	<adversary x="320" y="200" villain="7" type="walking" shoots='true' weapon='bullet' facing='right' life='5' explosion='10' animationSpeed='200' movementSpeed='0'/>
 	
-	<adversary x="700" y="50" villain="26" type="stationary" shoots='false' weapon='none' facing='right' life='10'/>
-	<adversary x="775" y="375" villain="26" type="stationary" shoots='false' weapon='none' facing='right' life='10'/>
+	<adversary x="700" y="50" villain="26" type="walking" shoots='false' weapon='none' facing='left' life='10' explosion='5' animationSpeed='200' movementSpeed='0'/>
+	<adversary x="775" y="375" villain="26" type="walking" shoots='false' weapon='none' facing='left' life='10' explosion='14' animationSpeed='200' movementSpeed='0'/>
+	
+	<adversary x="675" y="375" villain="15" type="walking" shoots='false' weapon='none' facing='left' life='5' explosion='15' animationSpeed='200' movementSpeed='0'/>
+	
+	<adversary x="575" y="375" villain="27" type="walking" shoots='false' weapon='none' facing='left' life='10' explosion='6' animationSpeed='200' movementSpeed='0'/>
 	
 </level>

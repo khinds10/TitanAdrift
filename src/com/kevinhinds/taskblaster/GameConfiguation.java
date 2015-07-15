@@ -37,7 +37,6 @@ public class GameConfiguation {
 	 * player sprite velocities
 	 */
 	public static int playerWalkingVelocity = 4;
-	
 	public static int playerJumpVelocity = -7;
 	public static int playerFallingVelocity = 4;
 	public static int playerFallingChangeDirectionVelocity = 1;
@@ -52,10 +51,20 @@ public class GameConfiguation {
 	public static int platformMapRows = 13;
 
 	/**
-	 * villains sprite map
+	 * villains sprite map and default options
 	 */
-	public static int characterMapColumns = 8;
-	public static int characterMapRows = 30;
+	public static int actorMapColumns = 8;
+	public static int actorMapRows = 30;
+	public static int villianAnimationSpeed = 200;
+	public static float villianMovementSpeed = 2;
+
+	/**
+	 * explosions map and default options
+	 */
+	public static int explosionAnimationSpeed = 15;
+	public static int explosionMapColumns = 14;
+	public static int explosionMapRows = 17;
+	public static int explosionDefault = 1;
 	
 	/**
 	 * sprite basic state indentifiers

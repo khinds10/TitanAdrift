@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import org.andengine.entity.scene.Scene;
 import org.andengine.extension.physics.box2d.PhysicsWorld;
 
-import com.kevinhinds.taskblaster.characters.Character;
+import com.kevinhinds.taskblaster.actors.Actor;
 import com.kevinhinds.taskblaster.tiles.Tile;
 
 /**
@@ -18,7 +18,7 @@ public class Level {
 	public final int id;
 	public int width, height;
 	private final ArrayList<Tile> levelTiles = new ArrayList<Tile>();
-	private final ArrayList<Character> characterTiles = new ArrayList<Character>();
+	private final ArrayList<Actor> actorTiles = new ArrayList<Actor>();
 
 	/**
 	 * create new level by id identifier
@@ -70,18 +70,18 @@ public class Level {
 	 * 
 	 * @param t
 	 */
-	public void addVillain(Character v) {
-		characterTiles.add(v);
+	public void addVillain(Actor v) {
+		actorTiles.add(v);
 	}
 
 	/**
-	 * find a particular character by name
+	 * find a particular actor by name
 	 * 
 	 * @param id
 	 * @return
 	 */
-	public Character getCharacterByName(String name) {
-		for (Character v : characterTiles)
+	public Actor getActorByName(String name) {
+		for (Actor v : actorTiles)
 			if (v.getName().equals(name))
 				return v;
 		return null;
@@ -97,7 +97,7 @@ public class Level {
 		for (Tile t : levelTiles) {
 			t.createBodyAndAttach(scene, physicsWorld);
 		}
-		for (Character v : characterTiles) {
+		for (Actor v : actorTiles) {
 			v.createBodyAndAttach(scene, physicsWorld);
 		}
 		scene.sortChildren();
