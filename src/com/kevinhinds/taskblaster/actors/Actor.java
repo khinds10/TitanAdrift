@@ -52,9 +52,9 @@ public class Actor extends AnimatedSprite {
 	 * @param friction
 	 * @param texture
 	 * @param vbom
-	 * @param animationSpeed 
-	 * @param movementSpeed 
-	 * @param explosionType 
+	 * @param animationSpeed
+	 * @param movementSpeed
+	 * @param explosionType
 	 */
 	public Actor(String name, int id, int spriteRow, String type, int life, String weapon, String facing, Boolean shoots, int animationSpeed, float movementSpeed, int explosionType, float x, float y, float density, float elastic, float friction, ITiledTextureRegion texture, VertexBufferObjectManager vbom) {
 		super(x, y, texture, vbom);
@@ -85,6 +85,8 @@ public class Actor extends AnimatedSprite {
 	 * @param physicsWorld
 	 */
 	public void createBodyAndAttach(Scene scene, PhysicsWorld physicsWorld) {
+
+		this.scene = scene;
 		final FixtureDef tileFixtureDef = PhysicsFactory.createFixtureDef(density, elastic, friction);
 		tileFixtureDef.restitution = 0;
 
@@ -95,27 +97,25 @@ public class Actor extends AnimatedSprite {
 			movementSpeed = -movementSpeed;
 		}
 		this.setCurrentTileIndex(spriteRow);
-
-		actorBody = PhysicsFactory.createBoxBody(physicsWorld, this, BodyType.DynamicBody, tileFixtureDef);
+		
+		/** different behavior based on type */
+		if (this.type.equals("standing")) {
+			actorBody = PhysicsFactory.createBoxBody(physicsWorld, this, BodyType.StaticBody, tileFixtureDef);
+		} else if (this.type.equals("flying")) {
+			actorBody = PhysicsFactory.createBoxBody(physicsWorld, this, BodyType.KinematicBody, tileFixtureDef);
+			actorBody.setLinearVelocity(movementSpeed, 0.0f);
+		} else {
+			actorBody = PhysicsFactory.createBoxBody(physicsWorld, this, BodyType.DynamicBody, tileFixtureDef);
+			actorBody.setLinearVelocity(movementSpeed, 0.0f);
+		}
+		
+		/** name the actor and hook it in to the physics world */
 		actorBody.setUserData(this.name);
 		physicsWorld.registerPhysicsConnector(new PhysicsConnector(this, actorBody, true, false));
 
-		/** set the type of villain behavior of the tile based on the type */
-		if (type.equals("flying")) {
-
-		}
-		if (type.equals("walking")) {
-
-		}
-		this.scene = scene;
-		scene.attachChild(this);
-		
 		/** the actor animates as it comes to life */
+		scene.attachChild(this);
 		this.animate(new long[] { animationSpeed, animationSpeed, animationSpeed }, spriteRow, spriteRow + 2, true);
-		
-		/** the actor moves */
-		actorBody.setLinearVelocity(movementSpeed, 0.0f);
-		
 	}
 
 	/**
@@ -142,7 +142,7 @@ public class Actor extends AnimatedSprite {
 	 * @param gameScene
 	 * 
 	 * @param gameScene
-	 * @param player 
+	 * @param player
 	 */
 	public void takeDamage(int hitPoints, GameScene gameScene, final Player player) {
 		life = life - hitPoints;
@@ -167,7 +167,7 @@ public class Actor extends AnimatedSprite {
 
 	/**
 	 * bullet hits object
-	 * @param player 
+	 * @param player
 	 * 
 	 * @param scene
 	 * 
@@ -175,9 +175,9 @@ public class Actor extends AnimatedSprite {
 	 */
 	public void die(BaseScene thisScene, final Player player) {
 		Log.e(this.getName(), "Has Died");
-		
+
 		new Explosion(thisScene, this, explosionType);
-		
+
 		final PhysicsConnector physicsConnector = thisScene.physicsWorld.getPhysicsConnectorManager().findPhysicsConnectorByShape(Actor.this);
 		ResourceManager.getIntance().engine.runOnUpdateThread(new Runnable() {
 			@Override

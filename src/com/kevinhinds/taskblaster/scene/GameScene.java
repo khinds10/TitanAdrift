@@ -1,6 +1,8 @@
 package com.kevinhinds.taskblaster.scene;
 
 import org.andengine.engine.camera.hud.HUD;
+import org.andengine.engine.handler.timer.ITimerCallback;
+import org.andengine.engine.handler.timer.TimerHandler;
 import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.scene.background.Background;
 import org.andengine.extension.physics.box2d.PhysicsFactory;
@@ -11,8 +13,8 @@ import android.hardware.SensorManager;
 import android.util.Log;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
@@ -52,10 +54,22 @@ public class GameScene extends BaseScene {
 		createPhysics();
 		addPlayer();
 		createControls();
-		
+
 		// @todo this should obviously be dynamic
 		createLevel(1);
 		level = adversaryManager.getLevelById(1);
+
+		/** every 2 seconds update scene timer */
+		this.registerUpdateHandler(new TimerHandler(2, true, new ITimerCallback() {
+			@Override
+			public void onTimePassed(TimerHandler pTimerHandler) {
+				
+				/** @todo, WTF i need to do this?? */
+				player.isShooting = false;
+				
+				/** the scene will clean up stray bullets?? */
+			}
+		}));
 	}
 
 	@Override
@@ -173,16 +187,16 @@ public class GameScene extends BaseScene {
 
 					/** if player is contact with something (not his own bullet) then he stops jumping */
 					if (x1BodyName.equals("player") && (x2BodyName.equals("tile") || x2BodyName.equals("ground"))) {
-						player.stopJumping();	
+						player.stopJumping();
 					}
-					
+
 					if (x1BodyName.contains("Actor") && x2BodyName.equals("bullet")) {
 						Actor actorShot = level.getActorByName(x1BodyName);
-						
+
 						// @todo this should be based on the player's "bullet" strength
 						actorShot.takeDamage(2, GameScene.this, player);
 					}
-					
+
 					/** if the bullet comes in contact with something that's not the player himself or an actor taking damage, then the sprite is detached from the scene */
 					if (x2BodyName.equals("bullet") && !x1BodyName.equals("player") && !x1BodyName.contains("Actor")) {
 						player.shootContact();
