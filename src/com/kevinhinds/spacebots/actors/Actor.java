@@ -1,24 +1,26 @@
-package com.kevinhinds.taskblaster.actors;
+package com.kevinhinds.spacebots.actors;
 
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.sprite.AnimatedSprite;
 import org.andengine.extension.physics.box2d.PhysicsConnector;
 import org.andengine.extension.physics.box2d.PhysicsFactory;
 import org.andengine.extension.physics.box2d.PhysicsWorld;
+import org.andengine.extension.physics.box2d.util.Vector2Pool;
 import org.andengine.opengl.texture.region.ITiledTextureRegion;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 
 import android.util.Log;
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.kevinhinds.taskblaster.GameConfiguation;
-import com.kevinhinds.taskblaster.ResourceManager;
-import com.kevinhinds.taskblaster.explosion.Explosion;
-import com.kevinhinds.taskblaster.player.Player;
-import com.kevinhinds.taskblaster.scene.BaseScene;
-import com.kevinhinds.taskblaster.scene.GameScene;
+import com.kevinhinds.spacebots.GameConfiguation;
+import com.kevinhinds.spacebots.ResourceManager;
+import com.kevinhinds.spacebots.explosion.Explosion;
+import com.kevinhinds.spacebots.player.Player;
+import com.kevinhinds.spacebots.scene.BaseScene;
+import com.kevinhinds.spacebots.scene.GameScene;
 
 /**
  * a tile sprite extends sprite to easily define and attach to any scene
@@ -75,7 +77,7 @@ public class Actor extends AnimatedSprite {
 		this.movementSpeed = movementSpeed;
 		this.explosionType = explosionType;
 
-		Log.e(this.getName(), "Life: " + Integer.toString(this.life));
+		Log.i(this.getName(), "Life: " + Integer.toString(this.life));
 	}
 
 	/**
@@ -97,7 +99,7 @@ public class Actor extends AnimatedSprite {
 			movementSpeed = -movementSpeed;
 		}
 		this.setCurrentTileIndex(spriteRow);
-		
+
 		/** different behavior based on type */
 		if (this.type.equals("standing")) {
 			actorBody = PhysicsFactory.createBoxBody(physicsWorld, this, BodyType.StaticBody, tileFixtureDef);
@@ -108,14 +110,39 @@ public class Actor extends AnimatedSprite {
 			actorBody = PhysicsFactory.createBoxBody(physicsWorld, this, BodyType.DynamicBody, tileFixtureDef);
 			actorBody.setLinearVelocity(movementSpeed, 0.0f);
 		}
-		
+
 		/** name the actor and hook it in to the physics world */
 		actorBody.setUserData(this.name);
 		physicsWorld.registerPhysicsConnector(new PhysicsConnector(this, actorBody, true, false));
 
 		/** the actor animates as it comes to life */
 		scene.attachChild(this);
+		final Vector2 velocity = Vector2Pool.obtain(movementSpeed, 0);
+		actorBody.setLinearVelocity(velocity);
+
 		this.animate(new long[] { animationSpeed, animationSpeed, animationSpeed }, spriteRow, spriteRow + 2, true);
+	}
+
+	/**
+	 * keep the actors moving
+	 */
+	public void move() {
+		if (!this.type.equals("standing")) {
+
+			final Vector2 stopVelocity = Vector2Pool.obtain(0, 0);
+			actorBody.setLinearVelocity(stopVelocity);
+
+			final Vector2 moveVelocity = Vector2Pool.obtain(movementSpeed, 0);
+			actorBody.setLinearVelocity(moveVelocity);
+		}
+	}
+
+	/**
+	 * actors change direction on contact with other objects
+	 */
+	public void changeDirection() {
+		movementSpeed = -movementSpeed;
+		move();
 	}
 
 	/**
@@ -146,7 +173,7 @@ public class Actor extends AnimatedSprite {
 	 */
 	public void takeDamage(int hitPoints, GameScene gameScene, final Player player) {
 		life = life - hitPoints;
-		Log.e(this.getName(), "Life: " + Integer.toString(this.life));
+		Log.i(this.getName(), "Life: " + Integer.toString(this.life));
 		if (this.life <= 0) {
 			die(gameScene, player);
 		} else {
@@ -167,6 +194,7 @@ public class Actor extends AnimatedSprite {
 
 	/**
 	 * bullet hits object
+	 * 
 	 * @param player
 	 * 
 	 * @param scene
@@ -174,7 +202,7 @@ public class Actor extends AnimatedSprite {
 	 * @param gameScene
 	 */
 	public void die(BaseScene thisScene, final Player player) {
-		Log.e(this.getName(), "Has Died");
+		Log.i(this.getName(), "Has Died");
 
 		new Explosion(thisScene, this, explosionType);
 
@@ -184,7 +212,7 @@ public class Actor extends AnimatedSprite {
 			public void run() {
 				if (physicsConnector != null) {
 					actorBody.setActive(false);
-					actorBody.setUserData("deleted");
+					actorBody.setUserData("deceased");
 					scene.detachChild(Actor.this);
 					player.bullet.bulletBody.setActive(false);
 					player.bullet.bulletBody.setUserData("deleted");

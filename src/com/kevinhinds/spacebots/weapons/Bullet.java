@@ -1,4 +1,4 @@
-package com.kevinhinds.taskblaster.weapons;
+package com.kevinhinds.spacebots.weapons;
 
 import org.andengine.entity.sprite.AnimatedSprite;
 import org.andengine.extension.physics.box2d.PhysicsConnector;
@@ -9,9 +9,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
-import com.kevinhinds.taskblaster.GameConfiguation.State;
-import com.kevinhinds.taskblaster.ResourceManager;
-import com.kevinhinds.taskblaster.scene.BaseScene;
+import com.kevinhinds.spacebots.ResourceManager;
+import com.kevinhinds.spacebots.GameConfiguation.State;
+import com.kevinhinds.spacebots.scene.BaseScene;
 
 /**
  * bullet from player

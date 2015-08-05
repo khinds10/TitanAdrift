@@ -1,4 +1,4 @@
-package com.kevinhinds.taskblaster.level;
+package com.kevinhinds.spacebots.level;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -14,36 +14,44 @@ import org.xml.sax.Attributes;
 
 import android.content.res.AssetManager;
 
-import com.kevinhinds.taskblaster.ResourceManager;
-import com.kevinhinds.taskblaster.tiles.Tile;
+import com.kevinhinds.spacebots.ResourceManager;
+import com.kevinhinds.spacebots.actors.Actor;
 
 /**
  * manager to load in all game levels via XML descriptions of them
  * 
  * @author khinds
  */
-public class LevelManager {
+public class AdversaryManager {
 
 	private final LevelLoader levelLoader;
 	private final AssetManager assetManager;
 	private final ArrayList<Level> levels = new ArrayList<Level>();
 
-	private static final String TAG_TILE = "tile";
+	private static final String TAG_TILE = "adversary";
 	private static final String TAG_TILE_ATTR_X = "x";
 	private static final String TAG_TILE_ATTR_Y = "y";
-	private static final String TAG_TILE_ATTR_TILE = "block";
+	private static final String TAG_TILE_ATTR_TILE = "villain";
 	private static final String TAG_TILE_TYPE_TILE = "type";
+	private static final String TAG_TILE_STRING_WEAPON = "weapon";
+	private static final String TAG_TILE_STRING_SHOOTS = "shoots";
+	private static final String TAG_TILE_STRING_LIFE = "life";
+	private static final String TAG_TILE_STRING_FACING = "facing";
+	private static final String TAG_TILE_ATTR_ANIMATION_SPEED = "animationSpeed";
+	private static final String TAG_TILE_ATTR_MOTION_SPEED = "movementSpeed";
+	private static final String TAG_TILE_ATTR_EXPLOSION_TYPE = "explosion";
 
 	/**
 	 * construct level manager which will load into memory all the level specified by XML for the game
 	 * 
 	 * @param assetManager
 	 */
-	public LevelManager(AssetManager assetManager) {
+	public AdversaryManager(AssetManager assetManager) {
 		levelLoader = new LevelLoader();
 		levelLoader.setAssetBasePath("levels/");
 		this.assetManager = assetManager;
-		addNewLevel(1, "level1.xml");
+		addNewLevel(1, "level1_villians.xml");
+		addNewLevel(2, "level2_villians.xml");
 	}
 
 	/**
@@ -74,8 +82,17 @@ public class LevelManager {
 				final int y = SAXUtils.getIntAttributeOrThrow(attr, TAG_TILE_ATTR_Y);
 				final int id = SAXUtils.getIntAttributeOrThrow(attr, TAG_TILE_ATTR_TILE);
 				final String type = SAXUtils.getAttributeOrThrow(attr, TAG_TILE_TYPE_TILE);
-				Tile t = ResourceManager.getIntance().tileManager.getTileById(id);
-				level.addTile(t.getInstance(x, y, type));
+				final int life = SAXUtils.getIntAttributeOrThrow(attr, TAG_TILE_STRING_LIFE);
+				final String weapon = SAXUtils.getAttributeOrThrow(attr, TAG_TILE_STRING_WEAPON);
+				final String facing = SAXUtils.getAttributeOrThrow(attr, TAG_TILE_STRING_FACING);
+				final Boolean shoots = SAXUtils.getBooleanAttributeOrThrow(attr, TAG_TILE_STRING_SHOOTS);
+				final int animationSpeed = SAXUtils.getIntAttributeOrThrow(attr, TAG_TILE_ATTR_ANIMATION_SPEED);
+				final int movementSpeed = SAXUtils.getIntAttributeOrThrow(attr, TAG_TILE_ATTR_MOTION_SPEED);
+				final int explosionType = SAXUtils.getIntAttributeOrThrow(attr, TAG_TILE_ATTR_EXPLOSION_TYPE);
+				Actor v = ResourceManager.getIntance().actorsManager.getVillainById(id);
+
+				/** add new villain with a unique name based on current XML options set */
+				level.addVillain(v.getInstance(x, y, type, life, weapon, facing, shoots, "Actor: " + Float.toString(x) + "-" + Float.toString(y) + "-" + Integer.toString(id), animationSpeed, movementSpeed, explosionType));
 				return null;
 			}
 		});
@@ -89,6 +106,19 @@ public class LevelManager {
 	}
 
 	/**
+	 * get level by id
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public Level getLevelById(int id) {
+		for (Level l : levels)
+			if (l.id == id)
+				return l;
+		return null;
+	}
+
+	/**
 	 * load level by id and apply it to the scene in question
 	 * 
 	 * @param id
@@ -96,8 +126,7 @@ public class LevelManager {
 	 * @param physicsWorld
 	 */
 	public void loadLevel(int id, Scene scene, PhysicsWorld physicsWorld) {
-		for (Level level : levels) {
-			level.load(scene, physicsWorld);
-		}
+		Level level = getLevelById(id);
+		level.load(scene, physicsWorld);
 	}
 }

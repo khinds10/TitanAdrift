@@ -1,12 +1,12 @@
-package com.kevinhinds.taskblaster.level;
+package com.kevinhinds.spacebots.level;
 
 import java.util.ArrayList;
 
 import org.andengine.entity.scene.Scene;
 import org.andengine.extension.physics.box2d.PhysicsWorld;
 
-import com.kevinhinds.taskblaster.actors.Actor;
-import com.kevinhinds.taskblaster.tiles.Tile;
+import com.kevinhinds.spacebots.actors.Actor;
+import com.kevinhinds.spacebots.tiles.Tile;
 
 /**
  * basic level object that attaches itself and respective tiles to the game scene
@@ -17,8 +17,8 @@ public class Level {
 
 	public final int id;
 	public int width, height;
-	private final ArrayList<Tile> levelTiles = new ArrayList<Tile>();
-	private final ArrayList<Actor> actorTiles = new ArrayList<Actor>();
+	public ArrayList<Tile> levelTiles = new ArrayList<Tile>();
+	public ArrayList<Actor> actorTiles = new ArrayList<Actor>();
 
 	/**
 	 * create new level by id identifier

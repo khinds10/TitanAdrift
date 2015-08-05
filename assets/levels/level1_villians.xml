@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <level width="800" height="480">
-	<adversary x="204" y="60" villain="18" type="walking" shoots="false" weapon="none" facing="left" life="5" explosion="10" animationSpeed="200" movementSpeed="10"/> <!-- ROW 5 COLUMN 17 -->
-	<adversary x="756" y="60" villain="1" type="walking" shoots="false" weapon="none" facing="right" life="5" explosion="1" animationSpeed="200" movementSpeed="10"/> <!-- ROW 5 COLUMN 63 -->
-	<adversary x="396" y="84" villain="7" type="walking" shoots="false" weapon="none" facing="left" life="5" explosion="2" animationSpeed="200" movementSpeed="10"/> <!-- ROW 7 COLUMN 33 -->
-	<adversary x="552" y="108" villain="7" type="walking" shoots="false" weapon="none" facing="right" life="5" explosion="2" animationSpeed="200" movementSpeed="10"/> <!-- ROW 9 COLUMN 46 -->
-	<adversary x="48" y="132" villain="1" type="walking" shoots="false" weapon="none" facing="left" life="5" explosion="1" animationSpeed="200" movementSpeed="10"/> <!-- ROW 11 COLUMN 4 -->
-	<adversary x="168" y="180" villain="7" type="walking" shoots="false" weapon="none" facing="left" life="5" explosion="2" animationSpeed="200" movementSpeed="10"/> <!-- ROW 15 COLUMN 14 -->
-	<adversary x="324" y="240" villain="1" type="walking" shoots="false" weapon="none" facing="left" life="5" explosion="1" animationSpeed="200" movementSpeed="10"/> <!-- ROW 20 COLUMN 27 -->
-	<adversary x="600" y="276" villain="18" type="walking" shoots="false" weapon="none" facing="right" life="5" explosion="10" animationSpeed="200" movementSpeed="10"/> <!-- ROW 23 COLUMN 50 -->
-	<adversary x="756" y="276" villain="7" type="walking" shoots="false" weapon="none" facing="right" life="5" explosion="2" animationSpeed="200" movementSpeed="10"/> <!-- ROW 23 COLUMN 63 -->
-	<adversary x="204" y="300" villain="1" type="walking" shoots="false" weapon="none" facing="left" life="5" explosion="1" animationSpeed="200" movementSpeed="10"/> <!-- ROW 25 COLUMN 17 -->
-	<adversary x="36" y="336" villain="18" type="walking" shoots="false" weapon="none" facing="left" life="5" explosion="10" animationSpeed="200" movementSpeed="10"/> <!-- ROW 28 COLUMN 3 -->
-	<adversary x="192" y="364" villain="15" type="standing" shoots="false" weapon="none" facing="left" life="5" explosion="8" animationSpeed="200" movementSpeed="0"/> <!-- ROW 32 COLUMN 16 -->
-	<adversary x="576" y="364" villain="15" type="standing" shoots="false" weapon="none" facing="right" life="5" explosion="8" animationSpeed="200" movementSpeed="0"/> <!-- ROW 32 COLUMN 48 -->
+<adversary x="696" y="24" villain="1" type="walking" shoots="false" weapon="none" facing="right" life="5" explosion="1" animationSpeed="200" movementSpeed="0"/> <!-- ROW 2 COLUMN 58 -->
+<adversary x="204" y="36" villain="1" type="walking" shoots="false" weapon="none" facing="left" life="5" explosion="1" animationSpeed="200" movementSpeed="0"/> <!-- ROW 3 COLUMN 17 -->
+<adversary x="756" y="36" villain="1" type="walking" shoots="false" weapon="none" facing="right" life="5" explosion="1" animationSpeed="200" movementSpeed="0"/> <!-- ROW 3 COLUMN 63 -->
+<adversary x="408" y="60" villain="1" type="walking" shoots="false" weapon="none" facing="right" life="5" explosion="1" animationSpeed="200" movementSpeed="0"/> <!-- ROW 5 COLUMN 34 -->
+<adversary x="48" y="108" villain="1" type="walking" shoots="false" weapon="none" facing="left" life="5" explosion="1" animationSpeed="200" movementSpeed="0"/> <!-- ROW 9 COLUMN 4 -->
+<adversary x="180" y="156" villain="1" type="walking" shoots="false" weapon="none" facing="left" life="5" explosion="1" animationSpeed="200" movementSpeed="0"/> <!-- ROW 13 COLUMN 15 -->
+<adversary x="324" y="228" villain="1" type="walking" shoots="false" weapon="none" facing="left" life="5" explosion="1" animationSpeed="200" movementSpeed="0"/> <!-- ROW 19 COLUMN 27 -->
+<adversary x="576" y="240" villain="1" type="walking" shoots="false" weapon="none" facing="right" life="5" explosion="1" animationSpeed="200" movementSpeed="0"/> <!-- ROW 20 COLUMN 48 -->
+<adversary x="648" y="240" villain="1" type="walking" shoots="false" weapon="none" facing="right" life="5" explosion="1" animationSpeed="200" movementSpeed="0"/> <!-- ROW 20 COLUMN 54 -->
+<adversary x="696" y="240" villain="1" type="walking" shoots="false" weapon="none" facing="right" life="5" explosion="1" animationSpeed="200" movementSpeed="0"/> <!-- ROW 20 COLUMN 58 -->
+<adversary x="204" y="276" villain="1" type="walking" shoots="false" weapon="none" facing="left" life="5" explosion="1" animationSpeed="200" movementSpeed="0"/> <!-- ROW 23 COLUMN 17 -->
+<adversary x="36" y="312" villain="1" type="walking" shoots="false" weapon="none" facing="left" life="5" explosion="1" animationSpeed="200" movementSpeed="0"/> <!-- ROW 26 COLUMN 3 -->
+<adversary x="204" y="384" villain="1" type="walking" shoots="false" weapon="none" facing="left" life="5" explosion="1" animationSpeed="200" movementSpeed="0"/> <!-- ROW 32 COLUMN 17 -->
+<adversary x="264" y="384" villain="1" type="walking" shoots="false" weapon="none" facing="left" life="5" explosion="1" animationSpeed="200" movementSpeed="0"/> <!-- ROW 32 COLUMN 22 -->
+<adversary x="588" y="384" villain="1" type="walking" shoots="false" weapon="none" facing="right" life="5" explosion="1" animationSpeed="200" movementSpeed="0"/> <!-- ROW 32 COLUMN 49 -->
+<adversary x="624" y="384" villain="1" type="walking" shoots="false" weapon="none" facing="right" life="5" explosion="1" animationSpeed="200" movementSpeed="0"/> <!-- ROW 32 COLUMN 52 -->
 </level>

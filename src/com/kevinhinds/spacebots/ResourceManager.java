@@ -1,4 +1,4 @@
-package com.kevinhinds.taskblaster;
+package com.kevinhinds.spacebots;
 
 import org.andengine.engine.Engine;
 import org.andengine.engine.camera.Camera;
@@ -10,11 +10,13 @@ import org.andengine.opengl.texture.atlas.bitmap.source.IBitmapTextureAtlasSourc
 import org.andengine.opengl.texture.atlas.buildable.builder.BlackPawnTextureAtlasBuilder;
 import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.opengl.texture.region.ITiledTextureRegion;
+
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
+
 import org.andengine.util.debug.Debug;
 
-import com.kevinhinds.taskblaster.actors.ActorsManager;
-import com.kevinhinds.taskblaster.tiles.TileManager;
+import com.kevinhinds.spacebots.actors.ActorsManager;
+import com.kevinhinds.spacebots.tiles.TileManager;
 
 /**
  * deal with game resources via singleton design pattern for reuseability
@@ -27,7 +29,7 @@ public class ResourceManager {
 
 	/** universal resources */
 	public Engine engine;
-	public TaskBlasterActivity activity;
+	public SpaceBotsActivity activity;
 	public Camera camera;
 	public VertexBufferObjectManager vbom;
 
@@ -41,13 +43,11 @@ public class ResourceManager {
 
 	/** weapon region */
 	public ITiledTextureRegion bullet_region;
-	
-	/** adversary region */
-	public ITiledTextureRegion adversary_region;	
 
 	/** adversary region */
+	public ITiledTextureRegion adversary_region;
 	public ITiledTextureRegion explosion_region;
-	
+
 	/** controls regions */
 	private BuildableBitmapTextureAtlas gameTextureAtlas;
 	public ITextureRegion control_jump_region;
@@ -89,16 +89,16 @@ public class ResourceManager {
 	 * load resources for the game into memory
 	 */
 	public void loadGameResources() {
+
 		gameTextureAtlas = new BuildableBitmapTextureAtlas(activity.getTextureManager(), 2048, 2048, TextureOptions.BILINEAR);
 		player_region = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "character/player.png", GameConfiguation.playerMapColumns, GameConfiguation.playerMapRows);
-		adversary_region = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "adversary/creatures.png", GameConfiguation.actorMapColumns, GameConfiguation.actorMapRows);		
+		adversary_region = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "adversary/creatures.png", GameConfiguation.actorMapColumns, GameConfiguation.actorMapRows);
 		control_jump_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "controls/jump.png");
 		control_left_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "controls/left.png");
 		control_right_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "controls/right.png");
 		control_shoot_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "controls/shoot.png");
 		bullet_region = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "weapons/bullet.png", 4, 1);
 		explosion_region = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "explosions/explosions.png", GameConfiguation.explosionMapColumns, GameConfiguation.explosionMapRows);
-		
 		try {
 			gameTextureAtlas.build(new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(0, 1, 0));
 			gameTextureAtlas.load();
@@ -147,7 +147,7 @@ public class ResourceManager {
 	 * @param camera
 	 * @param vbom
 	 */
-	public static void prepareManager(Engine engine, TaskBlasterActivity activity, Camera camera, VertexBufferObjectManager vbom) {
+	public static void prepareManager(Engine engine, SpaceBotsActivity activity, Camera camera, VertexBufferObjectManager vbom) {
 		getIntance().engine = engine;
 		getIntance().activity = activity;
 		getIntance().camera = camera;

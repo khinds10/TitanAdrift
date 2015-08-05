@@ -1,4 +1,4 @@
-package com.kevinhinds.taskblaster.scene;
+package com.kevinhinds.spacebots.scene;
 
 import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.scene.menu.MenuScene;
@@ -8,7 +8,7 @@ import org.andengine.entity.scene.menu.item.SpriteMenuItem;
 import org.andengine.entity.scene.menu.item.decorator.ScaleMenuItemDecorator;
 import org.andengine.util.color.Color;
 
-import com.kevinhinds.taskblaster.ResourceManager;
+import com.kevinhinds.spacebots.ResourceManager;
 
 /**
  * main menu scene for the game
@@ -63,7 +63,7 @@ public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener
 	public boolean onMenuItemClicked(MenuScene scene, IMenuItem item, float localX, float localY) {
 		switch (item.getID()) {
 		case MENU_PLAY:
-			SceneManager.getInstance().setGameScene();
+			SceneManager.getInstance().setGameScene(2);
 			return true;
 
 		case MENU_EXIT:
@@ -71,5 +71,10 @@ public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public void setGameLevel(int levelNumber) {
+
 	}
 }

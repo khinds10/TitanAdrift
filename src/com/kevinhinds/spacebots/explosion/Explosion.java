@@ -1,11 +1,11 @@
-package com.kevinhinds.taskblaster.explosion;
+package com.kevinhinds.spacebots.explosion;
 
 import org.andengine.entity.sprite.AnimatedSprite;
 import org.andengine.entity.sprite.AnimatedSprite.IAnimationListener;
 
-import com.kevinhinds.taskblaster.GameConfiguation;
-import com.kevinhinds.taskblaster.ResourceManager;
-import com.kevinhinds.taskblaster.scene.BaseScene;
+import com.kevinhinds.spacebots.GameConfiguation;
+import com.kevinhinds.spacebots.ResourceManager;
+import com.kevinhinds.spacebots.scene.BaseScene;
 
 /**
  * explosion on the screen

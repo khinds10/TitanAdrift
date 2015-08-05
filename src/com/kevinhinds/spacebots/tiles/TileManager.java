@@ -1,11 +1,11 @@
-package com.kevinhinds.taskblaster.tiles;
+package com.kevinhinds.spacebots.tiles;
 
 import java.util.ArrayList;
 
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 
-import com.kevinhinds.taskblaster.GameConfiguation;
-import com.kevinhinds.taskblaster.ResourceManager;
+import com.kevinhinds.spacebots.GameConfiguation;
+import com.kevinhinds.spacebots.ResourceManager;
 
 /**
  * create tiles to attach to scenes

@@ -1,4 +1,4 @@
-package com.kevinhinds.taskblaster;
+package com.kevinhinds.spacebots;
 
 /**
  * all constant values for game here pretty please

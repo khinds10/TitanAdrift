@@ -1,4 +1,4 @@
-package com.kevinhinds.taskblaster;
+package com.kevinhinds.spacebots;
 
 import org.andengine.engine.camera.Camera;
 import org.andengine.engine.options.EngineOptions;
@@ -9,7 +9,7 @@ import org.andengine.entity.scene.Scene;
 import org.andengine.input.touch.controller.MultiTouch;
 import org.andengine.ui.activity.BaseGameActivity;
 
-import com.kevinhinds.taskblaster.scene.SceneManager;
+import com.kevinhinds.spacebots.scene.SceneManager;
 
 import android.view.KeyEvent;
 import android.widget.Toast;
@@ -19,9 +19,9 @@ import android.widget.Toast;
  * 
  * @author khinds
  */
-public class TaskBlasterActivity extends BaseGameActivity {
+public class SpaceBotsActivity extends BaseGameActivity {
 
-	private Camera camera;
+	public Camera camera;
 
 	@Override
 	public EngineOptions onCreateEngineOptions() {

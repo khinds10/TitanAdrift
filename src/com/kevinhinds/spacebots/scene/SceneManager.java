@@ -1,9 +1,9 @@
-package com.kevinhinds.taskblaster.scene;
+package com.kevinhinds.spacebots.scene;
 
 import org.andengine.engine.Engine;
 import org.andengine.ui.IGameInterface.OnCreateSceneCallback;
 
-import com.kevinhinds.taskblaster.ResourceManager;
+import com.kevinhinds.spacebots.ResourceManager;
 
 /**
  * set scenes currently being displayed in the game via singleton
@@ -40,10 +40,11 @@ public class SceneManager {
 	/**
 	 * set the scene to the game
 	 */
-	public void setGameScene() {
+	public void setGameScene(int levelNumber) {
 		ResourceManager.getIntance().loadGameResources();
 		ResourceManager.getIntance().loadTileManager();
 		gameScene = new GameScene();
+		gameScene.setGameLevel(levelNumber);
 		setScene(gameScene);
 		currentScene.createScene();
 	}

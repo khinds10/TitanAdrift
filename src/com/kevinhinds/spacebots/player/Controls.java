@@ -1,11 +1,12 @@
-package com.kevinhinds.taskblaster.player;
+package com.kevinhinds.spacebots.player;
 
 import org.andengine.engine.camera.Camera;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.input.touch.TouchEvent;
 import org.andengine.opengl.util.GLState;
-import com.kevinhinds.taskblaster.ResourceManager;
-import com.kevinhinds.taskblaster.scene.GameScene;
+
+import com.kevinhinds.spacebots.ResourceManager;
+import com.kevinhinds.spacebots.scene.GameScene;
 
 /**
  * create controls for the character in the game

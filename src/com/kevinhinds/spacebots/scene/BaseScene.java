@@ -1,4 +1,4 @@
-package com.kevinhinds.taskblaster.scene;
+package com.kevinhinds.spacebots.scene;
 
 import org.andengine.engine.Engine;
 import org.andengine.engine.camera.Camera;
@@ -11,8 +11,8 @@ import org.andengine.opengl.texture.region.ITiledTextureRegion;
 import org.andengine.opengl.util.GLState;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 
-import com.kevinhinds.taskblaster.TaskBlasterActivity;
-import com.kevinhinds.taskblaster.ResourceManager;
+import com.kevinhinds.spacebots.ResourceManager;
+import com.kevinhinds.spacebots.SpaceBotsActivity;
 
 /**
  * basic scene for all other game scenes
@@ -24,7 +24,7 @@ public abstract class BaseScene extends Scene {
 	protected Engine engine;
 	public VertexBufferObjectManager vbom;
 	public PhysicsWorld physicsWorld;
-	protected TaskBlasterActivity activity;
+	protected SpaceBotsActivity activity;
 	public Camera camera;
 
 	public BaseScene() {
@@ -81,4 +81,6 @@ public abstract class BaseScene extends Scene {
 	public abstract void onBackPressed();
 
 	public abstract void disposeScene();
+
+	public abstract void setGameLevel(int levelNumber);
 }

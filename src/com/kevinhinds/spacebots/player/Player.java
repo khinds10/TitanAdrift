@@ -1,4 +1,4 @@
-package com.kevinhinds.taskblaster.player;
+package com.kevinhinds.spacebots.player;
 
 import org.andengine.entity.sprite.AnimatedSprite;
 import org.andengine.extension.physics.box2d.PhysicsConnector;
@@ -9,11 +9,11 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
-import com.kevinhinds.taskblaster.GameConfiguation;
-import com.kevinhinds.taskblaster.GameConfiguation.State;
-import com.kevinhinds.taskblaster.ResourceManager;
-import com.kevinhinds.taskblaster.scene.BaseScene;
-import com.kevinhinds.taskblaster.weapons.Bullet;
+import com.kevinhinds.spacebots.GameConfiguation;
+import com.kevinhinds.spacebots.ResourceManager;
+import com.kevinhinds.spacebots.GameConfiguation.State;
+import com.kevinhinds.spacebots.scene.BaseScene;
+import com.kevinhinds.spacebots.weapons.Bullet;
 
 /**
  * main character for the game
@@ -28,6 +28,7 @@ public class Player {
 	public boolean isShooting;
 
 	public boolean isJumping;
+	public boolean isFalling;
 	protected State moving;
 	protected State facing;
 
@@ -55,7 +56,7 @@ public class Player {
 	public void moveRight() {
 		moving = State.RIGHT;
 		facing = State.RIGHT;
-		if (!isJumping) {
+		if (!isJumping && !isFalling) {
 			playerSprite.animate(new long[] { GameConfiguation.playerAnimationSpeed, GameConfiguation.playerAnimationSpeed, GameConfiguation.playerAnimationSpeed, GameConfiguation.playerAnimationSpeed, GameConfiguation.playerAnimationSpeed, GameConfiguation.playerAnimationSpeed, GameConfiguation.playerAnimationSpeed, GameConfiguation.playerAnimationSpeed }, GameConfiguation.walkRightBeginFrame, GameConfiguation.walkRightEndFrame, true);
 			playerBody.setLinearVelocity(GameConfiguation.playerWalkingVelocity, 0.0f);
 		} else {
@@ -78,7 +79,7 @@ public class Player {
 	public void moveLeft() {
 		moving = State.LEFT;
 		facing = State.LEFT;
-		if (!isJumping) {
+		if (!isJumping && !isFalling) {
 			playerSprite.animate(new long[] { GameConfiguation.playerAnimationSpeed, GameConfiguation.playerAnimationSpeed, GameConfiguation.playerAnimationSpeed, GameConfiguation.playerAnimationSpeed, GameConfiguation.playerAnimationSpeed, GameConfiguation.playerAnimationSpeed, GameConfiguation.playerAnimationSpeed, GameConfiguation.playerAnimationSpeed }, GameConfiguation.walkLeftBeginFrame, GameConfiguation.walkLeftEndFrame, true);
 			playerBody.setLinearVelocity(-GameConfiguation.playerWalkingVelocity, 0.0f);
 		} else {
@@ -99,7 +100,6 @@ public class Player {
 	 * player stops
 	 */
 	public void stop() {
-		
 		float jumpmotion = 0;
 		if (!isJumping) {
 			if (facing == State.RIGHT) {
@@ -116,7 +116,7 @@ public class Player {
 				jumpmotion = -GameConfiguation.playerContinueMovingWhileFallingVelocity;
 				playerSprite.animate(new long[] { GameConfiguation.playerAnimationSpeed }, new int[] { GameConfiguation.playerJumpLeftFrame });
 			}
-			
+
 			playerBody.setLinearVelocity(jumpmotion, GameConfiguation.playerStopWhileFallingVelocity);
 		}
 		moving = State.STOP;
@@ -166,6 +166,37 @@ public class Player {
 			}
 			final Vector2 velocity = Vector2Pool.obtain(jumpmotion, GameConfiguation.playerJumpVelocity);
 			playerBody.setLinearVelocity(velocity);
+		}
+	}
+
+	/**
+	 * player falls
+	 */
+	public void fall() {
+		isFalling = true;
+		if (facing == State.RIGHT) {
+			playerSprite.animate(new long[] { GameConfiguation.playerAnimationSpeed }, new int[] { GameConfiguation.playerJumpRightFrame });
+		}
+		if (facing == State.LEFT) {
+			playerSprite.animate(new long[] { GameConfiguation.playerAnimationSpeed }, new int[] { GameConfiguation.playerJumpLeftFrame });
+		}
+	}
+
+	/**
+	 * player stops falling
+	 */
+	public void stopFalling() {
+		if (isFalling) {
+			isFalling = false;
+			if (moving == State.RIGHT) {
+				moveRight();
+			}
+			if (moving == State.LEFT) {
+				moveLeft();
+			}
+			if (moving == State.STOP) {
+				stop();
+			}
 		}
 	}
 
