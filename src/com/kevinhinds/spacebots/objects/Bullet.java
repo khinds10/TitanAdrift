@@ -1,4 +1,4 @@
-package com.kevinhinds.spacebots.weapons;
+package com.kevinhinds.spacebots.objects;
 
 import org.andengine.entity.sprite.AnimatedSprite;
 import org.andengine.extension.physics.box2d.PhysicsConnector;

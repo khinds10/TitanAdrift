@@ -5,9 +5,8 @@ import java.util.ArrayList;
 import org.andengine.entity.scene.Scene;
 import org.andengine.extension.physics.box2d.PhysicsWorld;
 
-import com.kevinhinds.spacebots.actors.Actor;
-import com.kevinhinds.spacebots.items.Item;
-import com.kevinhinds.spacebots.tiles.Tile;
+import com.kevinhinds.spacebots.objects.Actor;
+import com.kevinhinds.spacebots.objects.Tile;
 
 /**
  * basic level object that attaches itself and respective tiles to the game scene
@@ -18,9 +17,8 @@ public class Level {
 
 	public final int id;
 	public int width, height;
-	public ArrayList<Tile> levelTiles = new ArrayList<Tile>();
-	public ArrayList<Actor> actorTiles = new ArrayList<Actor>();
-	public ArrayList<Item> itemTiles = new ArrayList<Item>();
+	public ArrayList<Tile> tiles = new ArrayList<Tile>();
+	public ArrayList<Actor> actors = new ArrayList<Actor>();
 
 	/**
 	 * create new level by id identifier
@@ -64,7 +62,7 @@ public class Level {
 	 * @param t
 	 */
 	public void addTile(Tile t) {
-		levelTiles.add(t);
+		tiles.add(t);
 	}
 
 	/**
@@ -73,7 +71,7 @@ public class Level {
 	 * @param t
 	 */
 	public void addActor(Actor v) {
-		actorTiles.add(v);
+		actors.add(v);
 	}
 
 	/**
@@ -83,7 +81,7 @@ public class Level {
 	 * @return
 	 */
 	public Actor getActorByName(String name) {
-		for (Actor v : actorTiles)
+		for (Actor v : actors)
 			if (v.getName().equals(name))
 				return v;
 		return null;
@@ -96,10 +94,10 @@ public class Level {
 	 * @param physicsWorld
 	 */
 	public void load(Scene scene, PhysicsWorld physicsWorld) {
-		for (Tile t : levelTiles) {
+		for (Tile t : tiles) {
 			t.createBodyAndAttach(scene, physicsWorld);
 		}
-		for (Actor v : actorTiles) {
+		for (Actor v : actors) {
 			v.createBodyAndAttach(scene, physicsWorld);
 		}
 		scene.sortChildren();

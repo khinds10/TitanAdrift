@@ -23,10 +23,10 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.kevinhinds.spacebots.GameConfiguation;
 import com.kevinhinds.spacebots.ResourceManager;
-import com.kevinhinds.spacebots.actors.Actor;
-import com.kevinhinds.spacebots.level.AdversaryManager;
+import com.kevinhinds.spacebots.level.ActorXMLLoader;
 import com.kevinhinds.spacebots.level.Level;
-import com.kevinhinds.spacebots.level.LevelManager;
+import com.kevinhinds.spacebots.level.LevelXMLLoader;
+import com.kevinhinds.spacebots.objects.Actor;
 import com.kevinhinds.spacebots.player.Controls;
 import com.kevinhinds.spacebots.player.Player;
 
@@ -62,7 +62,7 @@ public class GameScene extends BaseScene {
 		addPlayer();
 		createControls();
 		createLevel(this.levelNumber);
-		adversaries = ResourceManager.getIntance().adversaryManager.getLevelById(this.levelNumber);
+		adversaries = ResourceManager.getIntance().actorXMLLoader.getLevelById(this.levelNumber);
 
 		/** every 2 seconds update scene timer */
 		this.registerUpdateHandler(new TimerHandler(1, true, new ITimerCallback() {
@@ -70,7 +70,7 @@ public class GameScene extends BaseScene {
 			public void onTimePassed(TimerHandler pTimerHandler) {
 				// @todo the scene will clean up stray bullets and other sprites marked as "deleted" (user data)
 				player.isShooting = false;
-				for (Actor a : adversaries.actorTiles) {
+				for (Actor a : adversaries.actors) {
 					if (a.actorBody != null) {
 						if (!a.actorBody.getUserData().equals("deceased")) {
 							a.move();
@@ -170,13 +170,13 @@ public class GameScene extends BaseScene {
 		fixtureBody.setUserData("rightWall");
 		attachChild(right);
 
-		if (ResourceManager.getIntance().levelManager == null)
-			ResourceManager.getIntance().levelManager = new LevelManager(activity.getAssets());
-		if (ResourceManager.getIntance().adversaryManager == null)
-			ResourceManager.getIntance().adversaryManager = new AdversaryManager(activity.getAssets());
+		if (ResourceManager.getIntance().levelXMLLoader == null)
+			ResourceManager.getIntance().levelXMLLoader = new LevelXMLLoader(activity.getAssets());
+		if (ResourceManager.getIntance().actorXMLLoader == null)
+			ResourceManager.getIntance().actorXMLLoader = new ActorXMLLoader(activity.getAssets());
 
-		ResourceManager.getIntance().levelManager.loadLevel(levelNumber, this, physicsWorld);
-		ResourceManager.getIntance().adversaryManager.loadLevel(levelNumber, this, physicsWorld);
+		ResourceManager.getIntance().levelXMLLoader.loadLevel(levelNumber, this, physicsWorld);
+		ResourceManager.getIntance().actorXMLLoader.loadLevel(levelNumber, this, physicsWorld);
 	}
 
 	/**

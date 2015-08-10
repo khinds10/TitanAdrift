@@ -15,43 +15,37 @@ import org.xml.sax.Attributes;
 import android.content.res.AssetManager;
 
 import com.kevinhinds.spacebots.ResourceManager;
-import com.kevinhinds.spacebots.actors.Actor;
+import com.kevinhinds.spacebots.objects.Tile;
 
 /**
  * manager to load in all game levels via XML descriptions of them
  * 
  * @author khinds
  */
-public class AdversaryManager {
+public class LevelXMLLoader {
 
 	private final LevelLoader levelLoader;
 	private final AssetManager assetManager;
 	private final ArrayList<Level> levels = new ArrayList<Level>();
 
-	private static final String TAG_TILE = "adversary";
+	private static final String TAG_TILE = "tile";
 	private static final String TAG_TILE_ATTR_X = "x";
 	private static final String TAG_TILE_ATTR_Y = "y";
-	private static final String TAG_TILE_ATTR_TILE = "villain";
+	private static final String TAG_TILE_ATTR_TILE = "block";
 	private static final String TAG_TILE_TYPE_TILE = "type";
-	private static final String TAG_TILE_STRING_WEAPON = "weapon";
-	private static final String TAG_TILE_STRING_SHOOTS = "shoots";
-	private static final String TAG_TILE_STRING_LIFE = "life";
-	private static final String TAG_TILE_STRING_FACING = "facing";
-	private static final String TAG_TILE_ATTR_ANIMATION_SPEED = "animationSpeed";
-	private static final String TAG_TILE_ATTR_MOTION_SPEED = "movementSpeed";
-	private static final String TAG_TILE_ATTR_EXPLOSION_TYPE = "explosion";
 
 	/**
 	 * construct level manager which will load into memory all the level specified by XML for the game
 	 * 
 	 * @param assetManager
 	 */
-	public AdversaryManager(AssetManager assetManager) {
+	public LevelXMLLoader(AssetManager assetManager) {
 		levelLoader = new LevelLoader();
 		levelLoader.setAssetBasePath("levels/");
 		this.assetManager = assetManager;
-		addNewLevel(1, "level1_villians.xml");
-		addNewLevel(2, "level2_villians.xml");
+		
+		/** @todo make this a file system iterator, you don't need to call this add level 1 then add level 2, etc... */
+		addNewLevel(1, "level1_platforms.xml");
 	}
 
 	/**
@@ -82,17 +76,8 @@ public class AdversaryManager {
 				final int y = SAXUtils.getIntAttributeOrThrow(attr, TAG_TILE_ATTR_Y);
 				final int id = SAXUtils.getIntAttributeOrThrow(attr, TAG_TILE_ATTR_TILE);
 				final String type = SAXUtils.getAttributeOrThrow(attr, TAG_TILE_TYPE_TILE);
-				final int life = SAXUtils.getIntAttributeOrThrow(attr, TAG_TILE_STRING_LIFE);
-				final String weapon = SAXUtils.getAttributeOrThrow(attr, TAG_TILE_STRING_WEAPON);
-				final String facing = SAXUtils.getAttributeOrThrow(attr, TAG_TILE_STRING_FACING);
-				final Boolean shoots = SAXUtils.getBooleanAttributeOrThrow(attr, TAG_TILE_STRING_SHOOTS);
-				final int animationSpeed = SAXUtils.getIntAttributeOrThrow(attr, TAG_TILE_ATTR_ANIMATION_SPEED);
-				final int movementSpeed = SAXUtils.getIntAttributeOrThrow(attr, TAG_TILE_ATTR_MOTION_SPEED);
-				final int explosionType = SAXUtils.getIntAttributeOrThrow(attr, TAG_TILE_ATTR_EXPLOSION_TYPE);
-				Actor v = ResourceManager.getIntance().actorsManager.getActorById(id);
-
-				/** add new villain with a unique name based on current XML options set */
-				level.addActor(v.getInstance(x, y, type, life, weapon, facing, shoots, "Actor: " + Float.toString(x) + "-" + Float.toString(y) + "-" + Integer.toString(id), animationSpeed, movementSpeed, explosionType));
+				Tile t = ResourceManager.getIntance().getGameTileById(id);
+				level.addTile(t.getInstance(x, y, type));
 				return null;
 			}
 		});
@@ -129,5 +114,4 @@ public class AdversaryManager {
 		Level level = getLevelById(id);
 		level.load(scene, physicsWorld);
 	}
-
 }

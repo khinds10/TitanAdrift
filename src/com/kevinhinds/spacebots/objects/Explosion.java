@@ -1,4 +1,4 @@
-package com.kevinhinds.spacebots.explosion;
+package com.kevinhinds.spacebots.objects;
 
 import org.andengine.entity.sprite.AnimatedSprite;
 import org.andengine.entity.sprite.AnimatedSprite.IAnimationListener;

@@ -1,4 +1,4 @@
-package com.kevinhinds.spacebots.actors;
+package com.kevinhinds.spacebots.objects;
 
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.sprite.AnimatedSprite;
@@ -17,7 +17,6 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.kevinhinds.spacebots.GameConfiguation;
 import com.kevinhinds.spacebots.ResourceManager;
-import com.kevinhinds.spacebots.explosion.Explosion;
 import com.kevinhinds.spacebots.player.Player;
 import com.kevinhinds.spacebots.scene.BaseScene;
 import com.kevinhinds.spacebots.scene.GameScene;

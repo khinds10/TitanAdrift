@@ -30,7 +30,6 @@ public class SceneManager {
 		/** load all the resources for the game to start */
 		ResourceManager.getIntance().loadMenuResources();
 		ResourceManager.getIntance().loadGameResources();
-		ResourceManager.getIntance().loadTileManager();
 		ResourceManager.getIntance().loadFonts();
 
 		menuScene = new MainMenuScene();

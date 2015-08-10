@@ -12,8 +12,8 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.kevinhinds.spacebots.GameConfiguation;
 import com.kevinhinds.spacebots.ResourceManager;
 import com.kevinhinds.spacebots.GameConfiguation.State;
+import com.kevinhinds.spacebots.objects.Bullet;
 import com.kevinhinds.spacebots.scene.BaseScene;
-import com.kevinhinds.spacebots.weapons.Bullet;
 
 /**
  * main character for the game

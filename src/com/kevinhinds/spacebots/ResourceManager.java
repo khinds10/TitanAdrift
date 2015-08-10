@@ -1,5 +1,7 @@
 package com.kevinhinds.spacebots;
 
+import java.util.ArrayList;
+
 import org.andengine.engine.Engine;
 import org.andengine.engine.camera.Camera;
 import org.andengine.opengl.font.Font;
@@ -18,10 +20,10 @@ import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.util.debug.Debug;
 import android.graphics.Color;
 
-import com.kevinhinds.spacebots.actors.ActorsSet;
-import com.kevinhinds.spacebots.level.AdversaryManager;
-import com.kevinhinds.spacebots.level.LevelManager;
-import com.kevinhinds.spacebots.tiles.TileSet;
+import com.kevinhinds.spacebots.level.ActorXMLLoader;
+import com.kevinhinds.spacebots.level.LevelXMLLoader;
+import com.kevinhinds.spacebots.objects.Actor;
+import com.kevinhinds.spacebots.objects.Tile;
 
 /**
  * deal with game resources via singleton design pattern for re-usability
@@ -38,8 +40,8 @@ public class ResourceManager {
 	public Camera camera;
 	public VertexBufferObjectManager vbom;
 	public Font gameFont;
-	public LevelManager levelManager;
-	public AdversaryManager adversaryManager;
+	public LevelXMLLoader levelXMLLoader;
+	public ActorXMLLoader actorXMLLoader;
 
 	/** menu regions */
 	private BuildableBitmapTextureAtlas menuTextureAtlas;
@@ -56,7 +58,7 @@ public class ResourceManager {
 	public ITiledTextureRegion bullet_region;
 
 	/** adversary region */
-	public ITiledTextureRegion adversary_region;
+	public ITiledTextureRegion actors_region;
 	public ITiledTextureRegion explosion_region;
 
 	/** controls regions */
@@ -69,8 +71,10 @@ public class ResourceManager {
 	/** level regions */
 	private BuildableBitmapTextureAtlas tileTextureAtlas;
 	public ITiledTextureRegion platform_region;
-	public TileSet tileManager;
-	public ActorsSet actorsManager;
+
+	/** complete set of the game's actors, tiles and items to render on levels via XML descriptions */
+	private ArrayList<Actor> gameActors = new ArrayList<Actor>();
+	private ArrayList<Tile> gameTiles = new ArrayList<Tile>();
 
 	/**
 	 * load resources to create the menu into memory
@@ -83,7 +87,7 @@ public class ResourceManager {
 		title_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "menu/title.png");
 		level_select_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "menu/select.png");
 		back_button_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "menu/back.png");
-		
+
 		/** have to run everything through black pawn to render it visibly */
 		try {
 			menuTextureAtlas.build(new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(0, 1, 0));
@@ -99,21 +103,21 @@ public class ResourceManager {
 	public void loadGameResources() {
 
 		gameTextureAtlas = new BuildableBitmapTextureAtlas(activity.getTextureManager(), 2048, 2048, TextureOptions.BILINEAR);
-		
+
 		/** player and weapons */
 		player_region = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "character/player.png", GameConfiguation.playerMapColumns, GameConfiguation.playerMapRows);
 		bullet_region = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "weapons/bullet.png", 4, 1);
-		
+
 		/** adversaries and explosions */
-		adversary_region = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "adversary/creatures.png", GameConfiguation.actorMapColumns, GameConfiguation.actorMapRows);
+		actors_region = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "actors/creatures.png", GameConfiguation.actorMapColumns, GameConfiguation.actorMapRows);
 		explosion_region = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "explosions/explosions.png", GameConfiguation.explosionMapColumns, GameConfiguation.explosionMapRows);
-		
+
 		/** game controls */
 		control_jump_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "controls/jump.png");
 		control_left_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "controls/left.png");
 		control_right_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "controls/right.png");
 		control_shoot_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "controls/shoot.png");
-		
+
 		/** have to run everything through black pawn to render it visibly */
 		try {
 			gameTextureAtlas.build(new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(0, 1, 0));
@@ -121,16 +125,12 @@ public class ResourceManager {
 		} catch (Exception e) {
 			Debug.e(e);
 		}
-	}
 
-	/**
-	 * load game tiles into memory for usage in multiple game scenes
-	 */
-	public void loadTileResources() {
+		/** load platforms */
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/tiles/");
 		tileTextureAtlas = new BuildableBitmapTextureAtlas(activity.getTextureManager(), 1024, 1024, TextureOptions.BILINEAR);
 		platform_region = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(tileTextureAtlas, activity, "platforms.png", 22, 13);
-		
+
 		/** have to run everything through black pawn to render it visibly */
 		try {
 			tileTextureAtlas.build(new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(0, 1, 0));
@@ -138,15 +138,42 @@ public class ResourceManager {
 		} catch (Exception e) {
 			Debug.e(e);
 		}
+
+		/** add all the gameActors from the platform map to the list of available gameActors */
+		for (int i = 0; i <= (GameConfiguation.actorMapColumns * GameConfiguation.actorMapRows); i++) {
+			gameActors.add(new Actor("Actor Image " + Integer.toString(i), i, i, "stationary", 0, "none", "right", false, GameConfiguation.actorAnimationSpeed, GameConfiguation.actorMovementSpeed, GameConfiguation.explosionDefault, 0, 0, 10f, 0f, 10f, ResourceManager.getIntance().actors_region, vbom));
+		}
+
+		/** add all the gameTiles from the platform map to the list of available gameTiles */
+		for (int i = 0; i <= (GameConfiguation.platformMapColumns * GameConfiguation.platformMapRows); i++) {
+			gameTiles.add(new Tile("Platform Tile " + Integer.toString(i), i, i, "physical", 0, 0, 0f, 10f, 00f, ResourceManager.getIntance().platform_region, vbom));
+		}
 	}
 
 	/**
-	 * produce the local tile manager to render level tiles via XML based descriptions
+	 * find a particular tile by id
+	 * 
+	 * @param id
+	 * @return
 	 */
-	public void loadTileManager() {
-		loadTileResources();
-		tileManager = new TileSet(vbom);
-		actorsManager = new ActorsSet(vbom);
+	public Actor getGameActorById(int id) {
+		for (Actor t : gameActors)
+			if (t.getId() == id)
+				return t;
+		return null;
+	}
+
+	/**
+	 * find a particular tile by id
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public Tile getGameTileById(int id) {
+		for (Tile t : gameTiles)
+			if (t.getId() == id)
+				return t;
+		return null;
 	}
 
 	/**

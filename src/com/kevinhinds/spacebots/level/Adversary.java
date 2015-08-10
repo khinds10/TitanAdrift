@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import org.andengine.entity.scene.Scene;
 import org.andengine.extension.physics.box2d.PhysicsWorld;
 
-import com.kevinhinds.spacebots.actors.Actor;
+import com.kevinhinds.spacebots.objects.Actor;
 
 /**
  * basic level object that attaches itself and respective tiles to the game scene
