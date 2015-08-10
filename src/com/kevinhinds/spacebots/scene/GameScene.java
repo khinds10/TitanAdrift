@@ -1,21 +1,14 @@
 package com.kevinhinds.spacebots.scene;
 
-import org.andengine.engine.camera.Camera;
 import org.andengine.engine.camera.hud.HUD;
 import org.andengine.engine.handler.timer.ITimerCallback;
 import org.andengine.engine.handler.timer.TimerHandler;
 import org.andengine.entity.primitive.Rectangle;
-import org.andengine.entity.scene.CameraScene;
+
 import org.andengine.entity.scene.background.Background;
-import org.andengine.entity.sprite.Sprite;
-import org.andengine.extension.physics.box2d.PhysicsConnector;
 import org.andengine.extension.physics.box2d.PhysicsFactory;
 import org.andengine.extension.physics.box2d.PhysicsWorld;
-import org.andengine.input.touch.TouchEvent;
-import org.andengine.opengl.texture.region.TextureRegion;
-import org.andengine.opengl.util.GLState;
 import org.andengine.util.color.Color;
-
 import android.hardware.SensorManager;
 import android.util.Log;
 
@@ -30,8 +23,6 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.kevinhinds.spacebots.GameConfiguation;
 import com.kevinhinds.spacebots.ResourceManager;
-import com.kevinhinds.spacebots.SpaceBotsActivity;
-import com.kevinhinds.spacebots.GameConfiguation.State;
 import com.kevinhinds.spacebots.actors.Actor;
 import com.kevinhinds.spacebots.level.AdversaryManager;
 import com.kevinhinds.spacebots.level.Level;
@@ -49,16 +40,12 @@ public class GameScene extends BaseScene {
 
 	public HUD gameHUD;
 	private Player player;
-	private LevelManager levelManager;
-	private AdversaryManager adversaryManager;
 	public Body fixtureBody;
-	private Level level;
+	private Level adversaries;
 	public int levelNumber;
-	public boolean isPaused;
-	private CameraScene mPauseScene;
 
 	/**
-	 * set the level the game is currently playing
+	 * set the adversaries the game is currently playing
 	 * 
 	 * @param levelNumber
 	 */
@@ -68,26 +55,26 @@ public class GameScene extends BaseScene {
 
 	@Override
 	public void createScene() {
-		levelManager = new LevelManager(activity.getAssets());
-		adversaryManager = new AdversaryManager(activity.getAssets());
+
 		setBackground();
 		createHUD();
 		createPhysics();
 		addPlayer();
 		createControls();
 		createLevel(this.levelNumber);
-		level = adversaryManager.getLevelById(this.levelNumber);
+		adversaries = ResourceManager.getIntance().adversaryManager.getLevelById(this.levelNumber);
 
 		/** every 2 seconds update scene timer */
 		this.registerUpdateHandler(new TimerHandler(1, true, new ITimerCallback() {
 			@Override
 			public void onTimePassed(TimerHandler pTimerHandler) {
-
 				// @todo the scene will clean up stray bullets and other sprites marked as "deleted" (user data)
 				player.isShooting = false;
-				for (Actor a : level.actorTiles) {
-					if (!a.actorBody.getUserData().equals("deceased")) {
-						a.move();
+				for (Actor a : adversaries.actorTiles) {
+					if (a.actorBody != null) {
+						if (!a.actorBody.getUserData().equals("deceased")) {
+							a.move();
+						}
 					}
 				}
 			}
@@ -96,12 +83,13 @@ public class GameScene extends BaseScene {
 
 	@Override
 	public void onBackPressed() {
-		SceneManager.getInstance().setScene(SceneManager.SceneType.SCENE_MENU);
+		SceneManager.getInstance().returnToMenuScene();
 	}
 
 	@Override
 	public void disposeScene() {
-		ResourceManager.getIntance().unloadGameResources();
+		gameHUD = null;
+		camera.setHUD(gameHUD);
 	}
 
 	/**
@@ -112,7 +100,7 @@ public class GameScene extends BaseScene {
 	}
 
 	/**
-	 * create the heads up display (game controls) that move with the player through the level
+	 * create the heads up display (game controls) that move with the player through the adversaries
 	 */
 	private void createHUD() {
 		gameHUD = new HUD();
@@ -143,7 +131,7 @@ public class GameScene extends BaseScene {
 	}
 
 	/**
-	 * create level for this game scene
+	 * create adversaries for this game scene
 	 * 
 	 * @param levelNumber
 	 */
@@ -182,9 +170,13 @@ public class GameScene extends BaseScene {
 		fixtureBody.setUserData("rightWall");
 		attachChild(right);
 
-		levelManager.loadLevel(levelNumber, this, physicsWorld);
-		adversaryManager.loadLevel(levelNumber, this, physicsWorld);
+		if (ResourceManager.getIntance().levelManager == null)
+			ResourceManager.getIntance().levelManager = new LevelManager(activity.getAssets());
+		if (ResourceManager.getIntance().adversaryManager == null)
+			ResourceManager.getIntance().adversaryManager = new AdversaryManager(activity.getAssets());
 
+		ResourceManager.getIntance().levelManager.loadLevel(levelNumber, this, physicsWorld);
+		ResourceManager.getIntance().adversaryManager.loadLevel(levelNumber, this, physicsWorld);
 	}
 
 	/**
@@ -218,14 +210,14 @@ public class GameScene extends BaseScene {
 
 					/** actor gets hit by bullet */
 					if (x1BodyName.contains("Actor") && x2BodyName.equals("bullet")) {
-						Actor actorShot = level.getActorByName(x1BodyName);
+						Actor actorShot = adversaries.getActorByName(x1BodyName);
 						// @todo this should be based on the player's "bullet" strength
 						actorShot.takeDamage(2, GameScene.this, player);
 					}
 
 					/** actor touches platform or another actor */
 					if ((x1BodyName.equals("bounce") || x1BodyName.equals("rightWall") || x1BodyName.equals("leftWall") || x1BodyName.contains("Actor")) && x2BodyName.contains("Actor")) {
-						Actor actor = level.getActorByName(x2BodyName);
+						Actor actor = adversaries.getActorByName(x2BodyName);
 						actor.changeDirection();
 						// @todo if the actor is touching another actor, apply a random force so they don't stack on top of each other
 					}
@@ -269,94 +261,5 @@ public class GameScene extends BaseScene {
 		};
 		return contactListener;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 
-//	private void initPauseScene() {
-//		
-//		this.mPauseScene = new CameraScene(activity.camera);
-//
-//		/** make the 'PAUSED'-label centered on the camera */
-//		final float centerX = (camera.getWidth() - SpaceBotsActivity.mPauseButton.getWidth()) / 2;
-//		final float centerY = (camera.getHeight() - SpaceBotsActivity.mPauseButton.getHeight()) / 2;
-//		
-//		
-//		
-//		
-//		
-//		final Sprite pausedSprite = createPauseSprite(centerX, centerY, BaseActivity.mPauseButton);
-//		this.mPauseScene.registerTouchArea(pausedSprite);
-//		this.mPauseScene.attachChild(pausedSprite);
-//
-//		/** makes the paused game look through */
-//		this.mPauseScene.setBackgroundEnabled(false);
-//	}	
-//
-//	
-//	
-//	
-//	
-//	/**
-//	 * Creates a Sprite that manages Pausing
-//	 * 
-//	 * @param pX
-//	 *            X Position to be created at
-//	 * @param pY
-//	 *            Y Position to be created at
-//	 * @return
-//	 */
-//	private Sprite createPauseSprite(float pX, float pY, TextureRegion button) {
-//		final Sprite pauseButton = new Sprite(pX, pY, button, activity.getVertexBufferObjectManager()) {
-//
-//			@Override
-//			public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
-//				
-//				/** Toggle pause or not */
-//				switch (pSceneTouchEvent.getAction()) {
-//				case TouchEvent.ACTION_DOWN:
-//					if (isPaused) {
-//						isPaused = false;
-//						activity.mCurrentScene.clearChildScene();
-//						activity.mCurrentScene.setIgnoreUpdate(false);
-//					} else {
-//						isPaused = true;
-//						activity.mCurrentScene.setIgnoreUpdate(true);
-//						activity.mCurrentScene.setChildScene(mPauseScene, false, true, true);
-//						Log.d("paused", "done");
-//					}
-//					break;
-//				case TouchEvent.ACTION_MOVE:
-//					break;
-//				case TouchEvent.ACTION_UP:
-//					break;
-//				}
-//				return true;
-//			}
-//		};
-//		return pauseButton;
-//	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 }

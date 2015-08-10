@@ -6,6 +6,7 @@ import org.andengine.entity.scene.Scene;
 import org.andengine.extension.physics.box2d.PhysicsWorld;
 
 import com.kevinhinds.spacebots.actors.Actor;
+import com.kevinhinds.spacebots.items.Item;
 import com.kevinhinds.spacebots.tiles.Tile;
 
 /**
@@ -19,6 +20,7 @@ public class Level {
 	public int width, height;
 	public ArrayList<Tile> levelTiles = new ArrayList<Tile>();
 	public ArrayList<Actor> actorTiles = new ArrayList<Actor>();
+	public ArrayList<Item> itemTiles = new ArrayList<Item>();
 
 	/**
 	 * create new level by id identifier
@@ -66,11 +68,11 @@ public class Level {
 	}
 
 	/**
-	 * add a new tile to the level
+	 * add a new actor to the level
 	 * 
 	 * @param t
 	 */
-	public void addVillain(Actor v) {
+	public void addActor(Actor v) {
 		actorTiles.add(v);
 	}
 

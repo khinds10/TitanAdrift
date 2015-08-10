@@ -146,7 +146,7 @@ public class Actor extends AnimatedSprite {
 	}
 
 	/**
-	 * get name of this villain
+	 * get name of this actor
 	 * 
 	 * @return
 	 */
@@ -155,7 +155,7 @@ public class Actor extends AnimatedSprite {
 	}
 
 	/**
-	 * get ID of this villain
+	 * get ID of this actor
 	 * 
 	 * @return
 	 */
@@ -164,7 +164,7 @@ public class Actor extends AnimatedSprite {
 	}
 
 	/**
-	 * villain takes a hit of damage
+	 * actor takes a hit of damage
 	 * 
 	 * @param gameScene
 	 * 

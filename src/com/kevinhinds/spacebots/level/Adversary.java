@@ -28,24 +28,6 @@ public class Adversary {
 	}
 
 	/**
-	 * width of the level
-	 * 
-	 * @param width
-	 */
-	public void setWidth(int width) {
-		this.width = width;
-	}
-
-	/**
-	 * height of the level
-	 * 
-	 * @param height
-	 */
-	public void setHeight(int height) {
-		this.height = height;
-	}
-
-	/**
 	 * return the id of the level
 	 * 
 	 * @return

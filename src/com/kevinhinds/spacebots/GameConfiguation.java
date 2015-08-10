@@ -51,12 +51,12 @@ public class GameConfiguation {
 	public static int platformMapRows = 13;
 
 	/**
-	 * villains sprite map and default options
+	 * actor sprite map and default velocities
 	 */
 	public static int actorMapColumns = 8;
 	public static int actorMapRows = 30;
-	public static int villianAnimationSpeed = 200;
-	public static float villianMovementSpeed = 2;
+	public static int actorAnimationSpeed = 200;
+	public static float actorMovementSpeed = 2;
 
 	/**
 	 * explosions map and default options
@@ -67,7 +67,7 @@ public class GameConfiguation {
 	public static int explosionDefault = 1;
 
 	/**
-	 * sprite basic state indentifiers
+	 * sprite basic state identifiers
 	 */
 	public static enum State {
 		UP, DOWN, LEFT, RIGHT, STOP

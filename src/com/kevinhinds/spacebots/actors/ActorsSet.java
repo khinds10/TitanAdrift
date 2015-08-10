@@ -11,7 +11,8 @@ import com.kevinhinds.spacebots.ResourceManager;
  * 
  * @author khinds
  */
-public class ActorsManager {
+public class ActorsSet {
+	
 	private ArrayList<Actor> actors = new ArrayList<Actor>();
 
 	/**
@@ -19,11 +20,11 @@ public class ActorsManager {
 	 * 
 	 * @param vbom
 	 */
-	public ActorsManager(VertexBufferObjectManager vbom) {
+	public ActorsSet(VertexBufferObjectManager vbom) {
 
 		/** add all the tiles from the platform map to the list of available tiles */
 		for (int i = 0; i <= (GameConfiguation.actorMapColumns * GameConfiguation.actorMapRows); i++) {
-			actors.add(new Actor("Actor Image " + Integer.toString(i), i, i, "stationary", 0, "none", "right", false, GameConfiguation.villianAnimationSpeed, GameConfiguation.villianMovementSpeed, GameConfiguation.explosionDefault, 0, 0, 10f, 0f, 10f, ResourceManager.getIntance().adversary_region, vbom));
+			actors.add(new Actor("Actor Image " + Integer.toString(i), i, i, "stationary", 0, "none", "right", false, GameConfiguation.actorAnimationSpeed, GameConfiguation.actorMovementSpeed, GameConfiguation.explosionDefault, 0, 0, 10f, 0f, 10f, ResourceManager.getIntance().adversary_region, vbom));
 		}
 	}
 
@@ -33,7 +34,7 @@ public class ActorsManager {
 	 * @param id
 	 * @return
 	 */
-	public Actor getVillainByName(String name) {
+	public Actor getActorByName(String name) {
 		for (Actor t : actors)
 			if (t.getName().equals(name))
 				return t;
@@ -46,7 +47,7 @@ public class ActorsManager {
 	 * @param id
 	 * @return
 	 */
-	public Actor getVillainById(int id) {
+	public Actor getActorById(int id) {
 		for (Actor t : actors)
 			if (t.getId() == id)
 				return t;

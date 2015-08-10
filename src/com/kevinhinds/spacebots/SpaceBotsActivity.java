@@ -45,7 +45,7 @@ public class SpaceBotsActivity extends BaseGameActivity {
 
 	@Override
 	public void onCreateScene(OnCreateSceneCallback cb) throws Exception {
-		SceneManager.getInstance().setMenuScene(cb);
+		SceneManager.getInstance().startGame(cb);
 	}
 
 	@Override

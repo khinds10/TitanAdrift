@@ -12,7 +12,7 @@ import com.kevinhinds.spacebots.ResourceManager;
  * 
  * @author khinds
  */
-public class TileManager {
+public class TileSet {
 	private ArrayList<Tile> tiles = new ArrayList<Tile>();
 
 	/**
@@ -20,7 +20,7 @@ public class TileManager {
 	 * 
 	 * @param vbom
 	 */
-	public TileManager(VertexBufferObjectManager vbom) {
+	public TileSet(VertexBufferObjectManager vbom) {
 
 		/** add all the tiles from the platform map to the list of available tiles */
 		for (int i = 0; i <= (GameConfiguation.platformMapColumns * GameConfiguation.platformMapRows); i++) {

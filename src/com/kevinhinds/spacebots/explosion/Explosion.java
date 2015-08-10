@@ -64,9 +64,6 @@ public class Explosion {
 
 			}
 		});
-
 		scene.attachChild(explosionSprite);
-
 	}
-
 }

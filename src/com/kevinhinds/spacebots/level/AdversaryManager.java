@@ -89,10 +89,10 @@ public class AdversaryManager {
 				final int animationSpeed = SAXUtils.getIntAttributeOrThrow(attr, TAG_TILE_ATTR_ANIMATION_SPEED);
 				final int movementSpeed = SAXUtils.getIntAttributeOrThrow(attr, TAG_TILE_ATTR_MOTION_SPEED);
 				final int explosionType = SAXUtils.getIntAttributeOrThrow(attr, TAG_TILE_ATTR_EXPLOSION_TYPE);
-				Actor v = ResourceManager.getIntance().actorsManager.getVillainById(id);
+				Actor v = ResourceManager.getIntance().actorsManager.getActorById(id);
 
 				/** add new villain with a unique name based on current XML options set */
-				level.addVillain(v.getInstance(x, y, type, life, weapon, facing, shoots, "Actor: " + Float.toString(x) + "-" + Float.toString(y) + "-" + Integer.toString(id), animationSpeed, movementSpeed, explosionType));
+				level.addActor(v.getInstance(x, y, type, life, weapon, facing, shoots, "Actor: " + Float.toString(x) + "-" + Float.toString(y) + "-" + Integer.toString(id), animationSpeed, movementSpeed, explosionType));
 				return null;
 			}
 		});
@@ -129,4 +129,5 @@ public class AdversaryManager {
 		Level level = getLevelById(id);
 		level.load(scene, physicsWorld);
 	}
+
 }
