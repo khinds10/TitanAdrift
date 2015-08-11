@@ -20,8 +20,6 @@ import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.util.debug.Debug;
 import android.graphics.Color;
 
-import com.kevinhinds.spacebots.level.ActorXMLLoader;
-import com.kevinhinds.spacebots.level.LevelXMLLoader;
 import com.kevinhinds.spacebots.objects.Actor;
 import com.kevinhinds.spacebots.objects.Tile;
 
@@ -40,8 +38,6 @@ public class ResourceManager {
 	public Camera camera;
 	public VertexBufferObjectManager vbom;
 	public Font gameFont;
-	public LevelXMLLoader levelXMLLoader;
-	public ActorXMLLoader actorXMLLoader;
 
 	/** menu regions */
 	private BuildableBitmapTextureAtlas menuTextureAtlas;

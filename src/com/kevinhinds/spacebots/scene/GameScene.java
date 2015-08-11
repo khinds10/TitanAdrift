@@ -9,6 +9,7 @@ import org.andengine.entity.scene.background.Background;
 import org.andengine.extension.physics.box2d.PhysicsFactory;
 import org.andengine.extension.physics.box2d.PhysicsWorld;
 import org.andengine.util.color.Color;
+
 import android.hardware.SensorManager;
 import android.util.Log;
 
@@ -22,10 +23,8 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.kevinhinds.spacebots.GameConfiguation;
-import com.kevinhinds.spacebots.ResourceManager;
-import com.kevinhinds.spacebots.level.ActorXMLLoader;
 import com.kevinhinds.spacebots.level.Level;
-import com.kevinhinds.spacebots.level.LevelXMLLoader;
+import com.kevinhinds.spacebots.level.LevelXMLBuilder;
 import com.kevinhinds.spacebots.objects.Actor;
 import com.kevinhinds.spacebots.player.Controls;
 import com.kevinhinds.spacebots.player.Player;
@@ -41,11 +40,19 @@ public class GameScene extends BaseScene {
 	public HUD gameHUD;
 	private Player player;
 	public Body fixtureBody;
-	private Level adversaries;
+	private Level level;
 	public int levelNumber;
+	private LevelXMLBuilder levelXMLBuilder;
 
 	/**
-	 * set the adversaries the game is currently playing
+	 * construct the gamescene with the level XML builder
+	 */
+	public GameScene() {
+		levelXMLBuilder = new LevelXMLBuilder(activity.getAssets());
+	}
+
+	/**
+	 * set the level the game is currently playing
 	 * 
 	 * @param levelNumber
 	 */
@@ -62,7 +69,7 @@ public class GameScene extends BaseScene {
 		addPlayer();
 		createControls();
 		createLevel(this.levelNumber);
-		adversaries = ResourceManager.getIntance().actorXMLLoader.getLevelById(this.levelNumber);
+		level = levelXMLBuilder.level;
 
 		/** every 2 seconds update scene timer */
 		this.registerUpdateHandler(new TimerHandler(1, true, new ITimerCallback() {
@@ -70,7 +77,7 @@ public class GameScene extends BaseScene {
 			public void onTimePassed(TimerHandler pTimerHandler) {
 				// @todo the scene will clean up stray bullets and other sprites marked as "deleted" (user data)
 				player.isShooting = false;
-				for (Actor a : adversaries.actors) {
+				for (Actor a : level.actors) {
 					if (a.actorBody != null) {
 						if (!a.actorBody.getUserData().equals("deceased")) {
 							a.move();
@@ -100,7 +107,7 @@ public class GameScene extends BaseScene {
 	}
 
 	/**
-	 * create the heads up display (game controls) that move with the player through the adversaries
+	 * create the heads up display (game controls) that move with the player through the level
 	 */
 	private void createHUD() {
 		gameHUD = new HUD();
@@ -131,7 +138,7 @@ public class GameScene extends BaseScene {
 	}
 
 	/**
-	 * create adversaries for this game scene
+	 * create level for this game scene
 	 * 
 	 * @param levelNumber
 	 */
@@ -170,13 +177,9 @@ public class GameScene extends BaseScene {
 		fixtureBody.setUserData("rightWall");
 		attachChild(right);
 
-		if (ResourceManager.getIntance().levelXMLLoader == null)
-			ResourceManager.getIntance().levelXMLLoader = new LevelXMLLoader(activity.getAssets());
-		if (ResourceManager.getIntance().actorXMLLoader == null)
-			ResourceManager.getIntance().actorXMLLoader = new ActorXMLLoader(activity.getAssets());
-
-		ResourceManager.getIntance().levelXMLLoader.loadLevel(levelNumber, this, physicsWorld);
-		ResourceManager.getIntance().actorXMLLoader.loadLevel(levelNumber, this, physicsWorld);
+		/** load all levels from XML */
+		levelXMLBuilder.createLevelFromXML(levelNumber);
+		levelXMLBuilder.loadLevel(GameScene.this, physicsWorld);
 	}
 
 	/**
@@ -210,14 +213,14 @@ public class GameScene extends BaseScene {
 
 					/** actor gets hit by bullet */
 					if (x1BodyName.contains("Actor") && x2BodyName.equals("bullet")) {
-						Actor actorShot = adversaries.getActorByName(x1BodyName);
+						Actor actorShot = level.getActorByName(x1BodyName);
 						// @todo this should be based on the player's "bullet" strength
 						actorShot.takeDamage(2, GameScene.this, player);
 					}
 
 					/** actor touches platform or another actor */
 					if ((x1BodyName.equals("bounce") || x1BodyName.equals("rightWall") || x1BodyName.equals("leftWall") || x1BodyName.contains("Actor")) && x2BodyName.contains("Actor")) {
-						Actor actor = adversaries.getActorByName(x2BodyName);
+						Actor actor = level.getActorByName(x2BodyName);
 						actor.changeDirection();
 						// @todo if the actor is touching another actor, apply a random force so they don't stack on top of each other
 					}
@@ -261,5 +264,4 @@ public class GameScene extends BaseScene {
 		};
 		return contactListener;
 	}
-
 }

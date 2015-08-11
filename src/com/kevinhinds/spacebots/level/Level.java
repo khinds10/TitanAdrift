@@ -9,25 +9,15 @@ import com.kevinhinds.spacebots.objects.Actor;
 import com.kevinhinds.spacebots.objects.Tile;
 
 /**
- * basic level object that attaches itself and respective tiles to the game scene
+ * basic level object that attaches all actors and respective tiles requested for the game scene
  * 
  * @author khinds
  */
 public class Level {
 
-	public final int id;
 	public int width, height;
 	public ArrayList<Tile> tiles = new ArrayList<Tile>();
 	public ArrayList<Actor> actors = new ArrayList<Actor>();
-
-	/**
-	 * create new level by id identifier
-	 * 
-	 * @param id
-	 */
-	public Level(int id) {
-		this.id = id;
-	}
 
 	/**
 	 * width of the level
@@ -45,15 +35,6 @@ public class Level {
 	 */
 	public void setHeight(int height) {
 		this.height = height;
-	}
-
-	/**
-	 * return the id of the level
-	 * 
-	 * @return
-	 */
-	public int getId() {
-		return id;
 	}
 
 	/**
