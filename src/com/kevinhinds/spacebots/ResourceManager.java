@@ -2,8 +2,14 @@ package com.kevinhinds.spacebots;
 
 import java.util.ArrayList;
 
+import javax.microedition.khronos.opengles.GL10;
+
 import org.andengine.engine.Engine;
 import org.andengine.engine.camera.Camera;
+import org.andengine.entity.scene.menu.item.IMenuItem;
+import org.andengine.entity.scene.menu.item.TextMenuItem;
+import org.andengine.entity.scene.menu.item.decorator.ColorMenuItemDecorator;
+import org.andengine.entity.scene.menu.item.decorator.ScaleMenuItemDecorator;
 import org.andengine.opengl.font.Font;
 import org.andengine.opengl.font.FontFactory;
 import org.andengine.opengl.texture.ITexture;
@@ -18,7 +24,7 @@ import org.andengine.opengl.texture.region.ITiledTextureRegion;
 
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.util.debug.Debug;
-import android.graphics.Color;
+import org.andengine.util.color.Color;
 
 import com.kevinhinds.spacebots.objects.Actor;
 import com.kevinhinds.spacebots.objects.Tile;
@@ -37,7 +43,14 @@ public class ResourceManager {
 	public SpaceBotsActivity activity;
 	public Camera camera;
 	public VertexBufferObjectManager vbom;
+
+	/** game fonts */
 	public Font gameFont;
+	public Font gameFontGray;
+	public Font titleFont;
+	public Font menuRedFont;
+	public Font menuBlueFont;
+	public Font menuGreenFont;
 
 	/** menu regions */
 	private BuildableBitmapTextureAtlas menuTextureAtlas;
@@ -177,9 +190,51 @@ public class ResourceManager {
 	 */
 	public void loadFonts() {
 		FontFactory.setAssetBasePath("fonts/");
-		final ITexture fontTexture = new BitmapTextureAtlas(this.engine.getTextureManager(), 256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		gameFont = FontFactory.createFromAsset(this.engine.getFontManager(), fontTexture, activity.getAssets(), "game.ttf", 40, true, Color.BLACK);
+
+		final ITexture gameFontTexture = new BitmapTextureAtlas(this.engine.getTextureManager(), 256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		gameFont = FontFactory.createFromAsset(this.engine.getFontManager(), gameFontTexture, activity.getAssets(), "game.ttf", 20, true, android.graphics.Color.WHITE);
 		gameFont.load();
+
+		final ITexture gameFontGrayTexture = new BitmapTextureAtlas(this.engine.getTextureManager(), 256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		gameFontGray = FontFactory.createFromAsset(this.engine.getFontManager(), gameFontGrayTexture, activity.getAssets(), "game.ttf", 20, true, android.graphics.Color.GRAY);
+		gameFontGray.load();
+
+		final ITexture titleFontTexture = new BitmapTextureAtlas(this.engine.getTextureManager(), 256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		titleFont = FontFactory.createFromAsset(this.engine.getFontManager(), titleFontTexture, activity.getAssets(), "game.ttf", 60, true, android.graphics.Color.WHITE);
+		titleFont.load();
+
+		final ITexture menuRedFontTexture = new BitmapTextureAtlas(this.engine.getTextureManager(), 256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		menuRedFont = FontFactory.createFromAsset(this.engine.getFontManager(), menuRedFontTexture, activity.getAssets(), "game.ttf", 40, true, android.graphics.Color.RED);
+		menuRedFont.load();
+
+		final ITexture menuBlueFontTexture = new BitmapTextureAtlas(this.engine.getTextureManager(), 256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		menuBlueFont = FontFactory.createFromAsset(this.engine.getFontManager(), menuBlueFontTexture, activity.getAssets(), "game.ttf", 40, true, android.graphics.Color.BLUE);
+		menuBlueFont.load();
+
+		final ITexture menuGreenFontTexture = new BitmapTextureAtlas(this.engine.getTextureManager(), 256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		menuGreenFont = FontFactory.createFromAsset(this.engine.getFontManager(), menuGreenFontTexture, activity.getAssets(), "game.ttf", 40, true, android.graphics.Color.GREEN);
+		menuGreenFont.load();
+	}
+
+	/**
+	 * create a new menu item from text
+	 * 
+	 * @param font
+	 * @param menuItemText
+	 * @param itemId
+	 * @param isAnimated
+	 * @return
+	 */
+	public IMenuItem createTextMenuItem(Font font, CharSequence menuItemText, int itemId, boolean isAnimated) {
+		Color color = new Color(1, 1, 1, 1);
+		IMenuItem menuItem = null;
+		if (isAnimated) {
+			menuItem = new ScaleMenuItemDecorator(new ColorMenuItemDecorator(new TextMenuItem(itemId, font, menuItemText, vbom), color, color), 1.1f, 1);
+		} else {
+			menuItem = new ColorMenuItemDecorator(new TextMenuItem(itemId, font, menuItemText, vbom), color, color);
+		}
+		menuItem.setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
+		return menuItem;
 	}
 
 	/**

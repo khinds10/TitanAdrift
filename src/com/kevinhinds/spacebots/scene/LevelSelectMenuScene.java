@@ -4,8 +4,6 @@ import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.scene.menu.MenuScene;
 import org.andengine.entity.scene.menu.MenuScene.IOnMenuItemClickListener;
 import org.andengine.entity.scene.menu.item.IMenuItem;
-import org.andengine.entity.scene.menu.item.SpriteMenuItem;
-import org.andengine.entity.scene.menu.item.decorator.ScaleMenuItemDecorator;
 import org.andengine.util.color.Color;
 
 import com.kevinhinds.spacebots.ResourceManager;
@@ -40,14 +38,12 @@ public class LevelSelectMenuScene extends BaseScene implements IOnMenuItemClickL
 		menu.setPosition(0, 0);
 
 		/** add items to the menu */
-		final IMenuItem backItem = new ScaleMenuItemDecorator(new SpriteMenuItem(MENU_BACK, ResourceManager.getIntance().back_button_region, vbom), 1.1f, 1);
-		menu.addMenuItem(backItem);
+		menu.addMenuItem(ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameFont, "LEVEL 1", 1, true));
+		menu.addMenuItem(ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameFont, "LEVEL 2", 2, true));
+		menu.addMenuItem(ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameFont, "LEVEL 3", 3, true));
+		menu.addMenuItem(ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().menuBlueFont, "BACK", MENU_BACK, true));
 		menu.buildAnimations();
 		menu.setBackgroundEnabled(true);
-
-		/** set menu item positions */
-		backItem.setPosition(backItem.getX(), backItem.getY());
-
 		menu.setOnMenuItemClickListener(this);
 		setChildScene(menu);
 	}
@@ -59,6 +55,9 @@ public class LevelSelectMenuScene extends BaseScene implements IOnMenuItemClickL
 			SceneManager.getInstance().returnToMenuScene();
 			return true;
 		}
+		
+		/** head over the scene selected! */
+		SceneManager.getInstance().setGameScene(item.getID());
 		return false;
 	}
 

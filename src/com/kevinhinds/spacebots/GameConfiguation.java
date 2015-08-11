@@ -82,5 +82,9 @@ public class GameConfiguation {
 	 * how tall is the bottom player controls area
 	 */
 	public static int buttonControlsHeight = 82;
-
+	
+	/**
+	 * level information
+	 */
+	public static int numberLevels = 3;
 }
