@@ -86,5 +86,5 @@ public class GameConfiguation {
 	/**
 	 * level information
 	 */
-	public static int numberLevels = 3;
+	public static int numberLevels = 30;
 }

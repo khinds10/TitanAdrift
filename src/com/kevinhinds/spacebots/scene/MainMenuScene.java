@@ -42,6 +42,7 @@ public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener
 		menu = new MenuScene(camera);
 		menu.setPosition(0, 0);
 
+		/** create menu items */
 		final IMenuItem mainTitle = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().titleFont, "SPACEBOTS", MENU_TITLE, false);
 		menu.addMenuItem(mainTitle);
 
@@ -60,6 +61,7 @@ public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener
 		menu.buildAnimations();
 		menu.setBackgroundEnabled(true);
 		
+		/** position the menu items */
 		mainTitle.setPosition(mainTitle.getX(), mainTitle.getY() - 60);
 		levelSelectItem.setPosition(levelSelectItem.getX(), levelSelectItem.getY() + 15);
 		exitItem.setPosition(exitItem.getX(), exitItem.getY() + 35);
