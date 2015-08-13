@@ -14,9 +14,7 @@ public class SceneManager {
 	private BaseScene menuScene;
 	private BaseScene gameScene;
 	private BaseScene levelScene;
-
 	private static final SceneManager INSTANCE = new SceneManager();
-
 	private BaseScene currentScene;
 	private Engine engine = ResourceManager.getIntance().engine;
 
@@ -47,6 +45,15 @@ public class SceneManager {
 		currentScene.createScene();
 	}
 
+	/**
+	 * return to menu scene
+	 */
+	public void loadCreditsScene() {
+		levelScene = new CreditsMenuScene();
+		setScene(levelScene);
+		currentScene.createScene();
+	}
+	
 	/**
 	 * return to menu scene
 	 */

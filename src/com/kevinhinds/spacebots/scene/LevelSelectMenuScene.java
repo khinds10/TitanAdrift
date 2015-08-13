@@ -2,11 +2,10 @@ package com.kevinhinds.spacebots.scene;
 
 import java.util.ArrayList;
 
-import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.scene.menu.MenuScene;
 import org.andengine.entity.scene.menu.MenuScene.IOnMenuItemClickListener;
 import org.andengine.entity.scene.menu.item.IMenuItem;
-import org.andengine.util.color.Color;
+import org.andengine.entity.sprite.Sprite;
 
 import com.kevinhinds.spacebots.GameConfiguation;
 import com.kevinhinds.spacebots.ResourceManager;
@@ -29,7 +28,8 @@ public class LevelSelectMenuScene extends BaseScene implements IOnMenuItemClickL
 
 	@Override
 	public void createScene() {
-		setBackground(new Background(Color.BLACK));
+		final Sprite spriteBG = new Sprite(0, 0, ResourceManager.getIntance().void_background_region, ResourceManager.getIntance().vbom);
+		attachChild(spriteBG);
 		createMenu();
 	}
 
@@ -47,7 +47,11 @@ public class LevelSelectMenuScene extends BaseScene implements IOnMenuItemClickL
 
 		/** create menu items */
 		for (int levelId = 1; levelId <= GameConfiguation.numberLevels; levelId++) {
-			levelMenuItems.add(ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameFont, Integer.toString(levelId), levelId, true));
+			String levelName = Integer.toString(levelId);
+			if (levelId < 10) {
+				levelName = "0" + Integer.toString(levelId);
+			}
+			levelMenuItems.add(ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().levelSelectFont, levelName, levelId, true));
 		}
 		for (int levelId = 0; levelId < GameConfiguation.numberLevels; levelId++) {
 			menu.addMenuItem(levelMenuItems.get(levelId));
@@ -59,14 +63,14 @@ public class LevelSelectMenuScene extends BaseScene implements IOnMenuItemClickL
 		menu.addMenuItem(levelSelectTitle);
 
 		menu.buildAnimations();
-		menu.setBackgroundEnabled(true);
+		menu.setBackgroundEnabled(false);
 
 		/** position buttons */
 		backButton.setPosition(backButton.getX(), backButton.getY() + 135);
 		for (int levelId = 0; levelId < GameConfiguation.numberLevels; levelId++) {
 			positionLevelMenuItem(levelId);
 		}
-		backButton.setPosition(ResourceManager.getIntance().camera.getCenterX() - 75, ResourceManager.getIntance().camera.getHeight() - 75);
+		backButton.setPosition(ResourceManager.getIntance().camera.getCenterX() - 75, ResourceManager.getIntance().camera.getHeight() - 60);
 		levelSelectTitle.setPosition(10, 10);
 
 		menu.setOnMenuItemClickListener(this);

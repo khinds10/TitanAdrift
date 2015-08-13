@@ -47,6 +47,7 @@ public class ResourceManager {
 	/** game fonts */
 	public Font gameFont;
 	public Font gameFontGray;
+	public Font levelSelectFont;
 	public Font titleFont;
 	public Font menuRedFont;
 	public Font menuBlueFont;
@@ -54,11 +55,11 @@ public class ResourceManager {
 
 	/** menu regions */
 	private BuildableBitmapTextureAtlas menuTextureAtlas;
-	public ITextureRegion play_button_region;
-	public ITextureRegion exit_button_region;
-	public ITextureRegion back_button_region;
-	public ITextureRegion title_region;
-	public ITextureRegion level_select_region;
+	public ITextureRegion galaxy_background_region;
+	public ITextureRegion illuminate_background_region;
+	public ITextureRegion planet_background_region;
+	public ITextureRegion void_background_region;
+	public ITextureRegion andengine_region;
 
 	/** player region */
 	public ITiledTextureRegion player_region;
@@ -90,12 +91,12 @@ public class ResourceManager {
 	 */
 	public void loadMenuResources() {
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
-		menuTextureAtlas = new BuildableBitmapTextureAtlas(activity.getTextureManager(), 1024, 1024, TextureOptions.BILINEAR);
-		play_button_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "menu/play.png");
-		exit_button_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "menu/exit.png");
-		title_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "menu/title.png");
-		level_select_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "menu/select.png");
-		back_button_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "menu/back.png");
+		menuTextureAtlas = new BuildableBitmapTextureAtlas(activity.getTextureManager(), 4096, 4096, TextureOptions.BILINEAR);
+		galaxy_background_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "menu/galaxy.jpg");
+		illuminate_background_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "menu/illuminate.jpg");
+		planet_background_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "menu/planet.jpg");
+		void_background_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "menu/void.jpg");
+		andengine_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "menu/andengine.png");
 
 		/** have to run everything through black pawn to render it visibly */
 		try {
@@ -191,29 +192,38 @@ public class ResourceManager {
 	public void loadFonts() {
 		FontFactory.setAssetBasePath("fonts/");
 
-		final ITexture gameFontTexture = new BitmapTextureAtlas(this.engine.getTextureManager(), 256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		gameFont = FontFactory.createFromAsset(this.engine.getFontManager(), gameFontTexture, activity.getAssets(), "game.ttf", 20, true, android.graphics.Color.WHITE);
+		gameFont = buildFont("game.ttf", 20, android.graphics.Color.argb(255, 255, 255, 255));
 		gameFont.load();
 
-		final ITexture gameFontGrayTexture = new BitmapTextureAtlas(this.engine.getTextureManager(), 256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		gameFontGray = FontFactory.createFromAsset(this.engine.getFontManager(), gameFontGrayTexture, activity.getAssets(), "game.ttf", 20, true, android.graphics.Color.GRAY);
+		gameFontGray = buildFont("game.ttf", 20, android.graphics.Color.argb(255, 255, 255, 255));
 		gameFontGray.load();
 
-		final ITexture titleFontTexture = new BitmapTextureAtlas(this.engine.getTextureManager(), 256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		titleFont = FontFactory.createFromAsset(this.engine.getFontManager(), titleFontTexture, activity.getAssets(), "game.ttf", 60, true, android.graphics.Color.WHITE);
+		titleFont = buildFont("game.ttf", 60, android.graphics.Color.argb(255, 255, 255, 255));
 		titleFont.load();
 
-		final ITexture menuRedFontTexture = new BitmapTextureAtlas(this.engine.getTextureManager(), 256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		menuRedFont = FontFactory.createFromAsset(this.engine.getFontManager(), menuRedFontTexture, activity.getAssets(), "game.ttf", 40, true, android.graphics.Color.RED);
+		menuRedFont = buildFont("game.ttf", 40, android.graphics.Color.argb(255, 255, 255, 255));
 		menuRedFont.load();
 
-		final ITexture menuBlueFontTexture = new BitmapTextureAtlas(this.engine.getTextureManager(), 256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		menuBlueFont = FontFactory.createFromAsset(this.engine.getFontManager(), menuBlueFontTexture, activity.getAssets(), "game.ttf", 40, true, android.graphics.Color.BLUE);
+		menuBlueFont = buildFont("game.ttf", 40, android.graphics.Color.argb(255, 255, 255, 255));
 		menuBlueFont.load();
 
-		final ITexture menuGreenFontTexture = new BitmapTextureAtlas(this.engine.getTextureManager(), 256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		menuGreenFont = FontFactory.createFromAsset(this.engine.getFontManager(), menuGreenFontTexture, activity.getAssets(), "game.ttf", 40, true, android.graphics.Color.GREEN);
+		menuGreenFont = buildFont("game.ttf", 40, android.graphics.Color.argb(255, 255, 255, 255));
 		menuGreenFont.load();
+
+		levelSelectFont = buildFont("game.ttf", 30, android.graphics.Color.argb(255, 255, 255, 255));
+		levelSelectFont.load();
+	}
+
+	/**
+	 * build the font from texture and return to apply to game font resources
+	 * 
+	 * @param fontFile
+	 * @param fontSize
+	 * @return
+	 */
+	private Font buildFont(String fontFile, int fontSize, int color) {
+		final ITexture levelSelectFontTexture = new BitmapTextureAtlas(this.engine.getTextureManager(), 256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		return FontFactory.createFromAsset(this.engine.getFontManager(), levelSelectFontTexture, activity.getAssets(), fontFile, fontSize, true, color);
 	}
 
 	/**

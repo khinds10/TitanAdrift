@@ -1,18 +1,16 @@
 package com.kevinhinds.spacebots.scene;
 
-import org.andengine.entity.scene.background.Background;
 import org.andengine.entity.scene.menu.MenuScene;
 import org.andengine.entity.scene.menu.MenuScene.IOnMenuItemClickListener;
 import org.andengine.entity.scene.menu.item.IMenuItem;
+import org.andengine.entity.sprite.Sprite;
 
-import org.andengine.util.color.Color;
 import com.kevinhinds.spacebots.ResourceManager;
 
 /**
  * main menu scene for the game
  * 
  * @author khinds
- * 
  */
 public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener {
 
@@ -26,7 +24,8 @@ public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener
 
 	@Override
 	public void createScene() {
-		setBackground(new Background(Color.BLACK));
+		final Sprite spriteBG = new Sprite(0, 0, ResourceManager.getIntance().planet_background_region, ResourceManager.getIntance().vbom);
+		attachChild(spriteBG);
 		createMenu();
 	}
 
@@ -59,8 +58,8 @@ public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener
 		menu.addMenuItem(creditsItem);
 
 		menu.buildAnimations();
-		menu.setBackgroundEnabled(true);
-		
+		menu.setBackgroundEnabled(false);
+
 		/** position the menu items */
 		mainTitle.setPosition(mainTitle.getX(), mainTitle.getY() - 60);
 		levelSelectItem.setPosition(levelSelectItem.getX(), levelSelectItem.getY() + 15);
@@ -75,12 +74,14 @@ public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener
 	public boolean onMenuItemClicked(MenuScene scene, IMenuItem item, float localX, float localY) {
 		switch (item.getID()) {
 		case MENU_PLAY:
-
 			/** @todo, this value should be from the last level you've not completed yet */
 			SceneManager.getInstance().setGameScene(1);
 			return true;
 		case MENU_LEVELS:
 			SceneManager.getInstance().loadLevelSelectScene();
+			return true;
+		case MENU_CREDITS:
+			SceneManager.getInstance().loadCreditsScene();
 			return true;
 		case MENU_EXIT:
 			System.exit(0);
