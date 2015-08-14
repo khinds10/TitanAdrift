@@ -3,7 +3,7 @@ package com.kevinhinds.spacebots.objects;
 import org.andengine.entity.sprite.AnimatedSprite;
 import org.andengine.entity.sprite.AnimatedSprite.IAnimationListener;
 
-import com.kevinhinds.spacebots.GameConfiguation;
+import com.kevinhinds.spacebots.GameConfiguration;
 import com.kevinhinds.spacebots.ResourceManager;
 import com.kevinhinds.spacebots.scene.BaseScene;
 
@@ -29,13 +29,13 @@ public class Explosion {
 		/** get the direction of the player facing */
 		float[] objCenterPos = new float[2];
 		actorSprite.getSceneCenterCoordinates(objCenterPos);
-		animationSpeed = new long[] { GameConfiguation.explosionAnimationSpeed, GameConfiguation.explosionAnimationSpeed, GameConfiguation.explosionAnimationSpeed, GameConfiguation.explosionAnimationSpeed, GameConfiguation.explosionAnimationSpeed, GameConfiguation.explosionAnimationSpeed, GameConfiguation.explosionAnimationSpeed, GameConfiguation.explosionAnimationSpeed, GameConfiguation.explosionAnimationSpeed, GameConfiguation.explosionAnimationSpeed, GameConfiguation.explosionAnimationSpeed, GameConfiguation.explosionAnimationSpeed, GameConfiguation.explosionAnimationSpeed, GameConfiguation.explosionAnimationSpeed, GameConfiguation.explosionAnimationSpeed, GameConfiguation.explosionAnimationSpeed, GameConfiguation.explosionAnimationSpeed };
+		animationSpeed = new long[] { GameConfiguration.explosionAnimationSpeed, GameConfiguration.explosionAnimationSpeed, GameConfiguration.explosionAnimationSpeed, GameConfiguration.explosionAnimationSpeed, GameConfiguration.explosionAnimationSpeed, GameConfiguration.explosionAnimationSpeed, GameConfiguration.explosionAnimationSpeed, GameConfiguration.explosionAnimationSpeed, GameConfiguration.explosionAnimationSpeed, GameConfiguration.explosionAnimationSpeed, GameConfiguration.explosionAnimationSpeed, GameConfiguration.explosionAnimationSpeed, GameConfiguration.explosionAnimationSpeed, GameConfiguration.explosionAnimationSpeed, GameConfiguration.explosionAnimationSpeed, GameConfiguration.explosionAnimationSpeed, GameConfiguration.explosionAnimationSpeed };
 
 		/** create a new explosion sprite and detonate it! */
 		explosionSprite = scene.createAnimatedSprite(objCenterPos[0], objCenterPos[1] - 12, ResourceManager.getIntance().explosion_region, scene.vbom);
 
 		/** we'll start counting from 1 but the sprite sheet counts from zero */
-		int startTile = (type * GameConfiguation.explosionMapColumns);
+		int startTile = (type * GameConfiguration.explosionMapColumns);
 		int endTile = startTile + 16;
 
 		/** explosion animates through and then disappears */

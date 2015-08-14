@@ -15,7 +15,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.kevinhinds.spacebots.GameConfiguation;
+import com.kevinhinds.spacebots.GameConfiguration;
 import com.kevinhinds.spacebots.ResourceManager;
 import com.kevinhinds.spacebots.player.Player;
 import com.kevinhinds.spacebots.scene.BaseScene;
@@ -92,7 +92,7 @@ public class Actor extends AnimatedSprite {
 		tileFixtureDef.restitution = 0;
 
 		/** get the villian on the sprite row specified, if the sprite is facing left, then the tile is higher on the same tile row to face the other way */
-		this.spriteRow = (GameConfiguation.actorMapColumns * this.spriteRow) - (GameConfiguation.actorMapColumns);
+		this.spriteRow = (GameConfiguration.actorMapColumns * this.spriteRow) - (GameConfiguration.actorMapColumns);
 		if (this.facing.equals("right")) {
 			this.spriteRow = this.spriteRow + 5;
 			movementSpeed = -movementSpeed;

@@ -13,6 +13,7 @@ import org.xml.sax.Attributes;
 
 import com.kevinhinds.spacebots.ResourceManager;
 import com.kevinhinds.spacebots.objects.Actor;
+import com.kevinhinds.spacebots.objects.Item;
 import com.kevinhinds.spacebots.objects.Tile;
 
 import android.content.res.AssetManager;
@@ -22,16 +23,26 @@ public class LevelXMLBuilder {
 	private final AssetManager assetManager;
 	public Level level;
 
-	private static final String TAG_TILE = "tile";
+	/** PLATFORM XML attributes */
+	private static final String TAG_TILE = "platform";
 	private static final String TAG_TILE_ATTR_X = "x";
 	private static final String TAG_TILE_ATTR_Y = "y";
 	private static final String TAG_TILE_ATTR_TILE = "block";
 	private static final String TAG_TILE_TYPE_TILE = "type";
 
-	private static final String TAG_ACTOR = "adversary";
+	/** ITEM XML attributes */
+	private static final String TAG_ITEM = "item";
+	private static final String TAG_ITEM_ATTR_X = "x";
+	private static final String TAG_ITEM_ATTR_Y = "y";
+	private static final String TAG_ITEM_TYPE_TILE = "type";
+	private static final String TAG_ITEM_ATTR_ANIMATION_SPEED = "animationSpeed";
+	private static final String TAG_ITEM_ATTR_MOTION_SPEED = "movementSpeed";
+
+	/** ACTOR XML attributes */
+	private static final String TAG_ACTOR = "actor";
 	private static final String TAG_ACTOR_ATTR_X = "x";
 	private static final String TAG_ACTOR_ATTR_Y = "y";
-	private static final String TAG_ACTOR_ATTR_TILE = "villain";
+	private static final String TAG_ACTOR_ATTR_TILE = "actor";
 	private static final String TAG_ACTOR_TYPE_TILE = "type";
 	private static final String TAG_ACTOR_STRING_WEAPON = "weapon";
 	private static final String TAG_ACTOR_STRING_SHOOTS = "shoots";
@@ -57,6 +68,9 @@ public class LevelXMLBuilder {
 	 */
 	public void createLevelFromXML(int levelNumber) {
 
+		/**
+		 * LOAD LEVEL INFO
+		 */
 		level = new Level();
 		levelLoader.registerEntityLoader(LevelConstants.TAG_LEVEL, new IEntityLoader() {
 			@Override
@@ -69,6 +83,9 @@ public class LevelXMLBuilder {
 			}
 		});
 
+		/**
+		 * LOAD IN PLATFORMS FROM XML
+		 */
 		levelLoader.registerEntityLoader(TAG_TILE, new IEntityLoader() {
 
 			@Override
@@ -89,6 +106,33 @@ public class LevelXMLBuilder {
 
 		}
 
+		/**
+		 * LOAD IN ITEMS FROM XML
+		 */
+		levelLoader.registerEntityLoader(TAG_ITEM, new IEntityLoader() {
+
+			@Override
+			public IEntity onLoadEntity(final String name, final Attributes attr) {
+				final int x = SAXUtils.getIntAttributeOrThrow(attr, TAG_ITEM_ATTR_X);
+				final int y = SAXUtils.getIntAttributeOrThrow(attr, TAG_ITEM_ATTR_Y);
+				final int id = SAXUtils.getIntAttributeOrThrow(attr, TAG_ITEM_TYPE_TILE);
+				final int animationSpeed = SAXUtils.getIntAttributeOrThrow(attr, TAG_ITEM_ATTR_ANIMATION_SPEED);
+				final int movementSpeed = SAXUtils.getIntAttributeOrThrow(attr, TAG_ITEM_ATTR_MOTION_SPEED);
+				Item i = ResourceManager.getIntance().getGameItemById(id);
+				level.addItem(i.getInstance(x, y, animationSpeed, movementSpeed));
+				return null;
+			}
+		});
+
+		try {
+			levelLoader.loadLevelFromAsset(assetManager, "level" + Integer.toString(levelNumber) + "_items.xml");
+		} catch (IOException e) {
+
+		}
+
+		/**
+		 * LOAD IN ACTORS FROM XML
+		 */
 		levelLoader.registerEntityLoader(LevelConstants.TAG_LEVEL, new IEntityLoader() {
 			@Override
 			public IEntity onLoadEntity(String name, Attributes attr) {

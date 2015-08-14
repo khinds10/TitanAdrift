@@ -22,7 +22,7 @@ import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.Manifold;
-import com.kevinhinds.spacebots.GameConfiguation;
+import com.kevinhinds.spacebots.GameConfiguration;
 import com.kevinhinds.spacebots.level.Level;
 import com.kevinhinds.spacebots.level.LevelXMLBuilder;
 import com.kevinhinds.spacebots.objects.Actor;
@@ -145,15 +145,15 @@ public class GameScene extends BaseScene {
 	private void createLevel(int levelNumber) {
 
 		final FixtureDef wallFixtureDef = PhysicsFactory.createFixtureDef(0, 0.0f, 0.0f);
-		final Rectangle roof = new Rectangle(0, GameConfiguation.offscreenJumpHeight, camera.getWidth(), 2, vbom);
+		final Rectangle roof = new Rectangle(0, GameConfiguration.offscreenJumpHeight, camera.getWidth(), 2, vbom);
 		roof.setZIndex(-2);
 		roof.setColor(Color.BLACK);
 
-		final Rectangle ground = new Rectangle(0, camera.getHeight() - GameConfiguation.buttonControlsHeight, camera.getWidth(), 2, vbom);
+		final Rectangle ground = new Rectangle(0, camera.getHeight() - GameConfiguration.buttonControlsHeight, camera.getWidth(), 2, vbom);
 		ground.setZIndex(-2);
 		ground.setColor(Color.BLACK);
 
-		final Rectangle left = new Rectangle(0, GameConfiguation.offscreenJumpHeight, 2, camera.getHeight() * 2, vbom);
+		final Rectangle left = new Rectangle(0, GameConfiguration.offscreenJumpHeight, 2, camera.getHeight() * 2, vbom);
 		left.setZIndex(-2);
 		left.setColor(Color.BLACK);
 

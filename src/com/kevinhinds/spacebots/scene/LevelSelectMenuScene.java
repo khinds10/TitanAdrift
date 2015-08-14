@@ -7,7 +7,7 @@ import org.andengine.entity.scene.menu.MenuScene.IOnMenuItemClickListener;
 import org.andengine.entity.scene.menu.item.IMenuItem;
 import org.andengine.entity.sprite.Sprite;
 
-import com.kevinhinds.spacebots.GameConfiguation;
+import com.kevinhinds.spacebots.GameConfiguration;
 import com.kevinhinds.spacebots.ResourceManager;
 
 /**
@@ -46,14 +46,14 @@ public class LevelSelectMenuScene extends BaseScene implements IOnMenuItemClickL
 		menu.setPosition(0, 0);
 
 		/** create menu items */
-		for (int levelId = 1; levelId <= GameConfiguation.numberLevels; levelId++) {
+		for (int levelId = 1; levelId <= GameConfiguration.numberLevels; levelId++) {
 			String levelName = Integer.toString(levelId);
 			if (levelId < 10) {
 				levelName = "0" + Integer.toString(levelId);
 			}
 			levelMenuItems.add(ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().levelSelectFont, levelName, levelId, true));
 		}
-		for (int levelId = 0; levelId < GameConfiguation.numberLevels; levelId++) {
+		for (int levelId = 0; levelId < GameConfiguration.numberLevels; levelId++) {
 			menu.addMenuItem(levelMenuItems.get(levelId));
 		}
 		final IMenuItem backButton = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().menuBlueFont, "BACK", MENU_BACK, true);
@@ -67,7 +67,7 @@ public class LevelSelectMenuScene extends BaseScene implements IOnMenuItemClickL
 
 		/** position buttons */
 		backButton.setPosition(backButton.getX(), backButton.getY() + 135);
-		for (int levelId = 0; levelId < GameConfiguation.numberLevels; levelId++) {
+		for (int levelId = 0; levelId < GameConfiguration.numberLevels; levelId++) {
 			positionLevelMenuItem(levelId);
 		}
 		backButton.setPosition(ResourceManager.getIntance().camera.getCenterX() - 75, ResourceManager.getIntance().camera.getHeight() - 60);

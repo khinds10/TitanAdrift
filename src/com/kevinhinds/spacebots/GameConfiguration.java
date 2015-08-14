@@ -5,7 +5,7 @@ package com.kevinhinds.spacebots;
  * 
  * @author khinds
  */
-public class GameConfiguation {
+public class GameConfiguration {
 
 	/**
 	 * player animated sprite tile frames
@@ -49,6 +49,12 @@ public class GameConfiguation {
 	 */
 	public static int platformMapColumns = 22;
 	public static int platformMapRows = 13;
+	
+	/**
+	 * item sprite map
+	 */
+	public static int itemMapColumns = 5;
+	public static int itemMapRows = 2;
 
 	/**
 	 * actor sprite map and default velocities

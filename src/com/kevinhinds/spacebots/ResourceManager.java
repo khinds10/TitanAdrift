@@ -27,6 +27,7 @@ import org.andengine.util.debug.Debug;
 import org.andengine.util.color.Color;
 
 import com.kevinhinds.spacebots.objects.Actor;
+import com.kevinhinds.spacebots.objects.Item;
 import com.kevinhinds.spacebots.objects.Tile;
 
 /**
@@ -80,11 +81,14 @@ public class ResourceManager {
 
 	/** level regions */
 	private BuildableBitmapTextureAtlas tileTextureAtlas;
+	private BuildableBitmapTextureAtlas itemTextureAtlas;
 	public ITiledTextureRegion platform_region;
+	public ITiledTextureRegion item_region;
 
 	/** complete set of the game's actors, tiles and items to render on levels via XML descriptions */
 	private ArrayList<Actor> gameActors = new ArrayList<Actor>();
 	private ArrayList<Tile> gameTiles = new ArrayList<Tile>();
+	private ArrayList<Item> gameItems = new ArrayList<Item>();
 
 	/**
 	 * load resources to create the menu into memory
@@ -115,12 +119,12 @@ public class ResourceManager {
 		gameTextureAtlas = new BuildableBitmapTextureAtlas(activity.getTextureManager(), 2048, 2048, TextureOptions.BILINEAR);
 
 		/** player and weapons */
-		player_region = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "character/player.png", GameConfiguation.playerMapColumns, GameConfiguation.playerMapRows);
+		player_region = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "character/player.png", GameConfiguration.playerMapColumns, GameConfiguration.playerMapRows);
 		bullet_region = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "weapons/bullet.png", 4, 1);
 
 		/** adversaries and explosions */
-		actors_region = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "actors/creatures.png", GameConfiguation.actorMapColumns, GameConfiguation.actorMapRows);
-		explosion_region = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "explosions/explosions.png", GameConfiguation.explosionMapColumns, GameConfiguation.explosionMapRows);
+		actors_region = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "actors/creatures.png", GameConfiguration.actorMapColumns, GameConfiguration.actorMapRows);
+		explosion_region = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "explosions/explosions.png", GameConfiguration.explosionMapColumns, GameConfiguration.explosionMapRows);
 
 		/** game controls */
 		control_jump_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "controls/jump.png");
@@ -139,7 +143,7 @@ public class ResourceManager {
 		/** load platforms */
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/tiles/");
 		tileTextureAtlas = new BuildableBitmapTextureAtlas(activity.getTextureManager(), 1024, 1024, TextureOptions.BILINEAR);
-		platform_region = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(tileTextureAtlas, activity, "platforms.png", 22, 13);
+		platform_region = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(tileTextureAtlas, activity, "platforms.png", GameConfiguration.platformMapColumns, GameConfiguration.platformMapRows);
 
 		/** have to run everything through black pawn to render it visibly */
 		try {
@@ -149,14 +153,32 @@ public class ResourceManager {
 			Debug.e(e);
 		}
 
-		/** add all the gameActors from the platform map to the list of available gameActors */
-		for (int i = 0; i <= (GameConfiguation.actorMapColumns * GameConfiguation.actorMapRows); i++) {
-			gameActors.add(new Actor("Actor Image " + Integer.toString(i), i, i, "stationary", 0, "none", "right", false, GameConfiguation.actorAnimationSpeed, GameConfiguation.actorMovementSpeed, GameConfiguation.explosionDefault, 0, 0, 10f, 0f, 10f, ResourceManager.getIntance().actors_region, vbom));
+		/** load items */
+		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/items/");
+		itemTextureAtlas = new BuildableBitmapTextureAtlas(activity.getTextureManager(), 1024, 1024, TextureOptions.BILINEAR);
+		item_region = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(itemTextureAtlas, activity, "items.png", GameConfiguration.itemMapColumns, GameConfiguration.itemMapRows);
+
+		/** have to run everything through black pawn to render it visibly */
+		try {
+			itemTextureAtlas.build(new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(0, 1, 0));
+			itemTextureAtlas.load();
+		} catch (Exception e) {
+			Debug.e(e);
 		}
 
-		/** add all the gameTiles from the platform map to the list of available gameTiles */
-		for (int i = 0; i <= (GameConfiguation.platformMapColumns * GameConfiguation.platformMapRows); i++) {
+		/** add all the gameActors from the actors sprite sheet to the list of available gameActors */
+		for (int i = 0; i <= (GameConfiguration.actorMapColumns * GameConfiguration.actorMapRows); i++) {
+			gameActors.add(new Actor("Actor Image " + Integer.toString(i), i, i, "stationary", 0, "none", "right", false, GameConfiguration.actorAnimationSpeed, GameConfiguration.actorMovementSpeed, GameConfiguration.explosionDefault, 0, 0, 10f, 0f, 10f, ResourceManager.getIntance().actors_region, vbom));
+		}
+
+		/** add all the gameTiles from the platform sprite sheet to the list of available gameTiles */
+		for (int i = 0; i <= (GameConfiguration.platformMapColumns * GameConfiguration.platformMapRows); i++) {
 			gameTiles.add(new Tile("Platform Tile " + Integer.toString(i), i, i, "physical", 0, 0, 0f, 10f, 00f, ResourceManager.getIntance().platform_region, vbom));
+		}
+
+		/** add all the gameItems from the items sprite sheet to the list of available gameItems */
+		for (int i = 0; i <= (GameConfiguration.itemMapColumns * GameConfiguration.itemMapRows); i++) {
+			gameItems.add(new Item("Game Item " + Integer.toString(i), i, i, 0, 0, 0f, 10f, 00f, ResourceManager.getIntance().item_region, vbom));
 		}
 	}
 
@@ -183,6 +205,19 @@ public class ResourceManager {
 		for (Tile t : gameTiles)
 			if (t.getId() == id)
 				return t;
+		return null;
+	}
+
+	/**
+	 * find a particular item by id
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public Item getGameItemById(int id) {
+		for (Item i : gameItems)
+			if (i.getId() == id)
+				return i;
 		return null;
 	}
 

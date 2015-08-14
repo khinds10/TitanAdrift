@@ -6,6 +6,7 @@ import org.andengine.entity.scene.Scene;
 import org.andengine.extension.physics.box2d.PhysicsWorld;
 
 import com.kevinhinds.spacebots.objects.Actor;
+import com.kevinhinds.spacebots.objects.Item;
 import com.kevinhinds.spacebots.objects.Tile;
 
 /**
@@ -18,6 +19,7 @@ public class Level {
 	public int width, height;
 	public ArrayList<Tile> tiles = new ArrayList<Tile>();
 	public ArrayList<Actor> actors = new ArrayList<Actor>();
+	public ArrayList<Item> items = new ArrayList<Item>();
 
 	/**
 	 * width of the level
@@ -56,6 +58,15 @@ public class Level {
 	}
 
 	/**
+	 * add a new item to the level
+	 * 
+	 * @param t
+	 */
+	public void addItem(Item i) {
+		items.add(i);
+	}
+
+	/**
 	 * find a particular actor by name
 	 * 
 	 * @param id
@@ -69,7 +80,7 @@ public class Level {
 	}
 
 	/**
-	 * for all the tiles currently present in the current level, attach them to the scene in question
+	 * for all the tiles, actors and items currently present in the current level, attach them to the scene in question
 	 * 
 	 * @param scene
 	 * @param physicsWorld
@@ -80,6 +91,9 @@ public class Level {
 		}
 		for (Actor v : actors) {
 			v.createBodyAndAttach(scene, physicsWorld);
+		}
+		for (Item i : items) {
+			i.createBodyAndAttach(scene, physicsWorld);
 		}
 		scene.sortChildren();
 	}

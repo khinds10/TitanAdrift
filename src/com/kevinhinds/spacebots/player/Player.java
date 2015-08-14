@@ -9,9 +9,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
-import com.kevinhinds.spacebots.GameConfiguation;
+import com.kevinhinds.spacebots.GameConfiguration;
 import com.kevinhinds.spacebots.ResourceManager;
-import com.kevinhinds.spacebots.GameConfiguation.State;
+import com.kevinhinds.spacebots.GameConfiguration.State;
 import com.kevinhinds.spacebots.objects.Bullet;
 import com.kevinhinds.spacebots.scene.BaseScene;
 
@@ -43,7 +43,7 @@ public class Player {
 		playerBody = PhysicsFactory.createBoxBody(scene.physicsWorld, playerSprite, BodyType.DynamicBody, playerFixtureDef);
 		playerBody.setUserData("player");
 		scene.physicsWorld.registerPhysicsConnector(new PhysicsConnector(playerSprite, playerBody, true, false));
-		playerSprite.animate(new long[] { GameConfiguation.playerAnimationSpeed }, new int[] { GameConfiguation.playerStartLevelFrame });
+		playerSprite.animate(new long[] { GameConfiguration.playerAnimationSpeed }, new int[] { GameConfiguration.playerStartLevelFrame });
 		moving = State.STOP;
 		facing = State.RIGHT;
 		isJumping = false;
@@ -57,19 +57,19 @@ public class Player {
 		moving = State.RIGHT;
 		facing = State.RIGHT;
 		if (!isJumping && !isFalling) {
-			playerSprite.animate(new long[] { GameConfiguation.playerAnimationSpeed, GameConfiguation.playerAnimationSpeed, GameConfiguation.playerAnimationSpeed, GameConfiguation.playerAnimationSpeed, GameConfiguation.playerAnimationSpeed, GameConfiguation.playerAnimationSpeed, GameConfiguation.playerAnimationSpeed, GameConfiguation.playerAnimationSpeed }, GameConfiguation.walkRightBeginFrame, GameConfiguation.walkRightEndFrame, true);
-			playerBody.setLinearVelocity(GameConfiguation.playerWalkingVelocity, 0.0f);
+			playerSprite.animate(new long[] { GameConfiguration.playerAnimationSpeed, GameConfiguration.playerAnimationSpeed, GameConfiguration.playerAnimationSpeed, GameConfiguration.playerAnimationSpeed, GameConfiguration.playerAnimationSpeed, GameConfiguration.playerAnimationSpeed, GameConfiguration.playerAnimationSpeed, GameConfiguration.playerAnimationSpeed }, GameConfiguration.walkRightBeginFrame, GameConfiguration.walkRightEndFrame, true);
+			playerBody.setLinearVelocity(GameConfiguration.playerWalkingVelocity, 0.0f);
 		} else {
-			float minJumpVelocity = GameConfiguation.playerFallingChangeDirectionVelocity;
+			float minJumpVelocity = GameConfiguration.playerFallingChangeDirectionVelocity;
 			if (moving == State.RIGHT) {
-				minJumpVelocity = GameConfiguation.playerFallingContinueDirectionVelocity;
+				minJumpVelocity = GameConfiguration.playerFallingContinueDirectionVelocity;
 			}
 			if (facing == State.RIGHT) {
-				playerSprite.animate(new long[] { GameConfiguation.playerAnimationSpeed }, new int[] { GameConfiguation.playerJumpRightFrame });
+				playerSprite.animate(new long[] { GameConfiguration.playerAnimationSpeed }, new int[] { GameConfiguration.playerJumpRightFrame });
 			} else {
-				playerSprite.animate(new long[] { GameConfiguation.playerAnimationSpeed }, new int[] { GameConfiguation.playerJumpLeftFrame });
+				playerSprite.animate(new long[] { GameConfiguration.playerAnimationSpeed }, new int[] { GameConfiguration.playerJumpLeftFrame });
 			}
-			playerBody.setLinearVelocity(minJumpVelocity, GameConfiguation.playerStopWhileFallingVelocity);
+			playerBody.setLinearVelocity(minJumpVelocity, GameConfiguration.playerStopWhileFallingVelocity);
 		}
 	}
 
@@ -80,19 +80,19 @@ public class Player {
 		moving = State.LEFT;
 		facing = State.LEFT;
 		if (!isJumping && !isFalling) {
-			playerSprite.animate(new long[] { GameConfiguation.playerAnimationSpeed, GameConfiguation.playerAnimationSpeed, GameConfiguation.playerAnimationSpeed, GameConfiguation.playerAnimationSpeed, GameConfiguation.playerAnimationSpeed, GameConfiguation.playerAnimationSpeed, GameConfiguation.playerAnimationSpeed, GameConfiguation.playerAnimationSpeed }, GameConfiguation.walkLeftBeginFrame, GameConfiguation.walkLeftEndFrame, true);
-			playerBody.setLinearVelocity(-GameConfiguation.playerWalkingVelocity, 0.0f);
+			playerSprite.animate(new long[] { GameConfiguration.playerAnimationSpeed, GameConfiguration.playerAnimationSpeed, GameConfiguration.playerAnimationSpeed, GameConfiguration.playerAnimationSpeed, GameConfiguration.playerAnimationSpeed, GameConfiguration.playerAnimationSpeed, GameConfiguration.playerAnimationSpeed, GameConfiguration.playerAnimationSpeed }, GameConfiguration.walkLeftBeginFrame, GameConfiguration.walkLeftEndFrame, true);
+			playerBody.setLinearVelocity(-GameConfiguration.playerWalkingVelocity, 0.0f);
 		} else {
-			float minJumpVelocity = -GameConfiguation.playerFallingChangeDirectionVelocity;
+			float minJumpVelocity = -GameConfiguration.playerFallingChangeDirectionVelocity;
 			if (moving == State.LEFT) {
-				minJumpVelocity = -GameConfiguation.playerFallingContinueDirectionVelocity;
+				minJumpVelocity = -GameConfiguration.playerFallingContinueDirectionVelocity;
 			}
 			if (facing == State.RIGHT) {
-				playerSprite.animate(new long[] { GameConfiguation.playerAnimationSpeed }, new int[] { GameConfiguation.playerJumpRightFrame });
+				playerSprite.animate(new long[] { GameConfiguration.playerAnimationSpeed }, new int[] { GameConfiguration.playerJumpRightFrame });
 			} else {
-				playerSprite.animate(new long[] { GameConfiguation.playerAnimationSpeed }, new int[] { GameConfiguation.playerJumpLeftFrame });
+				playerSprite.animate(new long[] { GameConfiguration.playerAnimationSpeed }, new int[] { GameConfiguration.playerJumpLeftFrame });
 			}
-			playerBody.setLinearVelocity(minJumpVelocity, GameConfiguation.playerStopWhileFallingVelocity);
+			playerBody.setLinearVelocity(minJumpVelocity, GameConfiguration.playerStopWhileFallingVelocity);
 		}
 	}
 
@@ -103,21 +103,21 @@ public class Player {
 		float jumpmotion = 0;
 		if (!isJumping) {
 			if (facing == State.RIGHT) {
-				playerSprite.animate(new long[] { GameConfiguation.playerAnimationSpeed }, new int[] { GameConfiguation.playerFaceRightFrame });
+				playerSprite.animate(new long[] { GameConfiguration.playerAnimationSpeed }, new int[] { GameConfiguration.playerFaceRightFrame });
 			} else {
-				playerSprite.animate(new long[] { GameConfiguation.playerAnimationSpeed }, new int[] { GameConfiguation.playerFaceLeftFrame });
+				playerSprite.animate(new long[] { GameConfiguration.playerAnimationSpeed }, new int[] { GameConfiguration.playerFaceLeftFrame });
 			}
 			playerBody.setLinearVelocity(0f, 0f);
 		} else {
 			if (facing == State.RIGHT) {
-				jumpmotion = GameConfiguation.playerContinueMovingWhileFallingVelocity;
-				playerSprite.animate(new long[] { GameConfiguation.playerAnimationSpeed }, new int[] { GameConfiguation.playerJumpRightFrame });
+				jumpmotion = GameConfiguration.playerContinueMovingWhileFallingVelocity;
+				playerSprite.animate(new long[] { GameConfiguration.playerAnimationSpeed }, new int[] { GameConfiguration.playerJumpRightFrame });
 			} else {
-				jumpmotion = -GameConfiguation.playerContinueMovingWhileFallingVelocity;
-				playerSprite.animate(new long[] { GameConfiguation.playerAnimationSpeed }, new int[] { GameConfiguation.playerJumpLeftFrame });
+				jumpmotion = -GameConfiguration.playerContinueMovingWhileFallingVelocity;
+				playerSprite.animate(new long[] { GameConfiguration.playerAnimationSpeed }, new int[] { GameConfiguration.playerJumpLeftFrame });
 			}
 
-			playerBody.setLinearVelocity(jumpmotion, GameConfiguation.playerStopWhileFallingVelocity);
+			playerBody.setLinearVelocity(jumpmotion, GameConfiguration.playerStopWhileFallingVelocity);
 		}
 		moving = State.STOP;
 	}
@@ -148,23 +148,23 @@ public class Player {
 			float jumpmotion = 0;
 			isJumping = true;
 			if (moving == State.RIGHT) {
-				jumpmotion = GameConfiguation.playerFallingVelocity;
-				playerSprite.animate(new long[] { GameConfiguation.playerAnimationSpeed }, new int[] { GameConfiguation.playerJumpRightFrame });
+				jumpmotion = GameConfiguration.playerFallingVelocity;
+				playerSprite.animate(new long[] { GameConfiguration.playerAnimationSpeed }, new int[] { GameConfiguration.playerJumpRightFrame });
 			}
 			if (moving == State.LEFT) {
-				jumpmotion = -GameConfiguation.playerFallingVelocity;
-				playerSprite.animate(new long[] { GameConfiguation.playerAnimationSpeed }, new int[] { GameConfiguation.playerJumpLeftFrame });
+				jumpmotion = -GameConfiguration.playerFallingVelocity;
+				playerSprite.animate(new long[] { GameConfiguration.playerAnimationSpeed }, new int[] { GameConfiguration.playerJumpLeftFrame });
 			}
 			if (moving == State.STOP) {
 				jumpmotion = 0;
 				if (facing == State.RIGHT) {
-					playerSprite.animate(new long[] { GameConfiguation.playerAnimationSpeed }, new int[] { GameConfiguation.playerJumpRightFrame });
+					playerSprite.animate(new long[] { GameConfiguration.playerAnimationSpeed }, new int[] { GameConfiguration.playerJumpRightFrame });
 				}
 				if (facing == State.LEFT) {
-					playerSprite.animate(new long[] { GameConfiguation.playerAnimationSpeed }, new int[] { GameConfiguation.playerJumpLeftFrame });
+					playerSprite.animate(new long[] { GameConfiguration.playerAnimationSpeed }, new int[] { GameConfiguration.playerJumpLeftFrame });
 				}
 			}
-			final Vector2 velocity = Vector2Pool.obtain(jumpmotion, GameConfiguation.playerJumpVelocity);
+			final Vector2 velocity = Vector2Pool.obtain(jumpmotion, GameConfiguration.playerJumpVelocity);
 			playerBody.setLinearVelocity(velocity);
 		}
 	}
@@ -175,10 +175,10 @@ public class Player {
 	public void fall() {
 		isFalling = true;
 		if (facing == State.RIGHT) {
-			playerSprite.animate(new long[] { GameConfiguation.playerAnimationSpeed }, new int[] { GameConfiguation.playerJumpRightFrame });
+			playerSprite.animate(new long[] { GameConfiguration.playerAnimationSpeed }, new int[] { GameConfiguration.playerJumpRightFrame });
 		}
 		if (facing == State.LEFT) {
-			playerSprite.animate(new long[] { GameConfiguation.playerAnimationSpeed }, new int[] { GameConfiguation.playerJumpLeftFrame });
+			playerSprite.animate(new long[] { GameConfiguration.playerAnimationSpeed }, new int[] { GameConfiguration.playerJumpLeftFrame });
 		}
 	}
 
