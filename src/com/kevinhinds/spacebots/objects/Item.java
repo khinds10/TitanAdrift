@@ -8,9 +8,13 @@ import org.andengine.extension.physics.box2d.PhysicsWorld;
 import org.andengine.opengl.texture.region.ITiledTextureRegion;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 
+import android.util.Log;
+
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.kevinhinds.spacebots.ResourceManager;
+import com.kevinhinds.spacebots.scene.BaseScene;
 
 /**
  * an item sprite extends sprite to easily define and attach to any scene
@@ -22,6 +26,8 @@ public class Item extends TiledSprite {
 	private final String name;
 	private final int id, tileIndex;
 	private final float density, elastic, friction;
+	public Body itemBody;
+	public Scene scene;
 
 	/**
 	 * create new item from a tiledSprite with a specific tile index specified as well as if it's a physical tile a background or foreground tile
@@ -55,15 +61,14 @@ public class Item extends TiledSprite {
 	 * @param physicsWorld
 	 */
 	public void createBodyAndAttach(Scene scene, PhysicsWorld physicsWorld) {
-		
+
+		this.scene = scene;
 		final FixtureDef tileFixtureDef = PhysicsFactory.createFixtureDef(density, elastic, friction);
 		tileFixtureDef.restitution = 0;
 		this.setCurrentTileIndex(tileIndex);
-		
-		String tileData = "item";
-		Body body = PhysicsFactory.createBoxBody(physicsWorld, this, BodyType.StaticBody, tileFixtureDef);
-		body.setUserData(tileData);
-		physicsWorld.registerPhysicsConnector(new PhysicsConnector(this, body, true, true));		
+		itemBody = PhysicsFactory.createBoxBody(physicsWorld, this, BodyType.KinematicBody, tileFixtureDef);
+		itemBody.setUserData(this.name);
+		physicsWorld.registerPhysicsConnector(new PhysicsConnector(this, itemBody, true, true));
 		scene.attachChild(this);
 	}
 
@@ -86,15 +91,39 @@ public class Item extends TiledSprite {
 	}
 
 	/**
+	 * bullet hits object
+	 * 
+	 * @param player
+	 * 
+	 * @param scene
+	 * 
+	 * @param gameScene
+	 */
+	public void collect(BaseScene thisScene) {
+		Log.i(this.getName(), "Item Collected");
+		final PhysicsConnector physicsConnector = thisScene.physicsWorld.getPhysicsConnectorManager().findPhysicsConnectorByShape(Item.this);
+		ResourceManager.getIntance().engine.runOnUpdateThread(new Runnable() {
+			@Override
+			public void run() {
+				if (physicsConnector != null) {
+					itemBody.setActive(false);
+					itemBody.setUserData("collected");
+					scene.detachChild(Item.this);
+				}
+			}
+		});
+	}
+
+	/**
 	 * by simple x and y coordinates create a new item
 	 * 
 	 * @param x
 	 * @param y
-	 * @param animationSpeed 
-	 * @param movementSpeed 
+	 * @param animationSpeed
+	 * @param movementSpeed
 	 * @return
 	 */
-	public Item getInstance(float x, float y, int animationSpeed, int movementSpeed) {
+	public Item getInstance(String name, float x, float y, int animationSpeed, int movementSpeed) {
 		return new Item(name, id, tileIndex, x, y, density, elastic, friction, getTiledTextureRegion(), getVertexBufferObjectManager());
 	}
 }

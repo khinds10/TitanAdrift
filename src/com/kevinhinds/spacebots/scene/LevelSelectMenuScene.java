@@ -56,7 +56,7 @@ public class LevelSelectMenuScene extends BaseScene implements IOnMenuItemClickL
 		for (int levelId = 0; levelId < GameConfiguration.numberLevels; levelId++) {
 			menu.addMenuItem(levelMenuItems.get(levelId));
 		}
-		final IMenuItem backButton = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().menuBlueFont, "BACK", MENU_BACK, true);
+		final IMenuItem backButton = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().menuGrayFont, "BACK", MENU_BACK, true);
 		menu.addMenuItem(backButton);
 
 		final IMenuItem levelSelectTitle = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameFontGray, "SELECT LEVEL...", MENU_BACK, false);

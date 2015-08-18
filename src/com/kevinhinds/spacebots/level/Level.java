@@ -78,6 +78,19 @@ public class Level {
 				return v;
 		return null;
 	}
+	
+	/**
+	 * find a particular actor by name
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public Item getItemByName(String name) {
+		for (Item i : items)
+			if (i.getName().equals(name))
+				return i;
+		return null;
+	}
 
 	/**
 	 * for all the tiles, actors and items currently present in the current level, attach them to the scene in question

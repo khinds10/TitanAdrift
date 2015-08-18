@@ -2,7 +2,5 @@
 <level width="800" height="480">
 <item x="516" y="228" type="1" animationSpeed="200" movementSpeed="0"/> <!-- ROW 19 COLUMN 43 -->
 <item x="252" y="252" type="2" animationSpeed="200" movementSpeed="0"/> <!-- ROW 21 COLUMN 21 -->
-<item x="384" y="348" type="3" animationSpeed="200" movementSpeed="0"/> <!-- ROW 29 COLUMN 32 -->
-<item x="408" y="348" type="4" animationSpeed="200" movementSpeed="0"/> <!-- ROW 29 COLUMN 34 -->
 <item x="576" y="384" type="5" animationSpeed="200" movementSpeed="0"/> <!-- ROW 32 COLUMN 48 -->
 </level>

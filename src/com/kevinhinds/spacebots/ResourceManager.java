@@ -53,13 +53,13 @@ public class ResourceManager {
 	public Font menuRedFont;
 	public Font menuBlueFont;
 	public Font menuGreenFont;
+	public Font menuGrayFont;
 
 	/** menu regions */
 	private BuildableBitmapTextureAtlas menuTextureAtlas;
-	public ITextureRegion galaxy_background_region;
-	public ITextureRegion illuminate_background_region;
 	public ITextureRegion planet_background_region;
 	public ITextureRegion void_background_region;
+	public ITextureRegion colorgalaxy_background_region;
 	public ITextureRegion andengine_region;
 
 	/** player region */
@@ -96,10 +96,9 @@ public class ResourceManager {
 	public void loadMenuResources() {
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
 		menuTextureAtlas = new BuildableBitmapTextureAtlas(activity.getTextureManager(), 4096, 4096, TextureOptions.BILINEAR);
-		galaxy_background_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "menu/galaxy.jpg");
-		illuminate_background_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "menu/illuminate.jpg");
-		planet_background_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "menu/planet.jpg");
-		void_background_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "menu/void.jpg");
+		colorgalaxy_background_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "menu/colorgalaxy.jpg");
+		planet_background_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "menu/largeplanet.jpg");
+		void_background_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "menu/multicolor.jpg");
 		andengine_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "menu/andengine.png");
 
 		/** have to run everything through black pawn to render it visibly */
@@ -173,12 +172,12 @@ public class ResourceManager {
 
 		/** add all the gameTiles from the platform sprite sheet to the list of available gameTiles */
 		for (int i = 0; i <= (GameConfiguration.platformMapColumns * GameConfiguration.platformMapRows); i++) {
-			gameTiles.add(new Tile("Platform Tile " + Integer.toString(i), i, i, "physical", 0, 0, 0f, 10f, 00f, ResourceManager.getIntance().platform_region, vbom));
+			gameTiles.add(new Tile("Platform Tile " + Integer.toString(i), i, i, "physical", 0, 0, 0f, 10f, 0f, ResourceManager.getIntance().platform_region, vbom));
 		}
 
 		/** add all the gameItems from the items sprite sheet to the list of available gameItems */
 		for (int i = 0; i <= (GameConfiguration.itemMapColumns * GameConfiguration.itemMapRows); i++) {
-			gameItems.add(new Item("Game Item " + Integer.toString(i), i, i, 0, 0, 0f, 10f, 00f, ResourceManager.getIntance().item_region, vbom));
+			gameItems.add(new Item("Game Item " + Integer.toString(i), i, i, 0, 0, 0f, 0f, 0f, ResourceManager.getIntance().item_region, vbom));
 		}
 	}
 
@@ -227,25 +226,28 @@ public class ResourceManager {
 	public void loadFonts() {
 		FontFactory.setAssetBasePath("fonts/");
 
-		gameFont = buildFont("game.ttf", 20, android.graphics.Color.argb(255, 255, 255, 255));
+		gameFont = buildFont("game.ttf", 20, android.graphics.Color.parseColor("#E0EFEF"));
 		gameFont.load();
 
-		gameFontGray = buildFont("game.ttf", 20, android.graphics.Color.argb(255, 255, 255, 255));
+		gameFontGray = buildFont("game.ttf", 20, android.graphics.Color.parseColor("#D8D8D8"));
 		gameFontGray.load();
 
-		titleFont = buildFont("game.ttf", 60, android.graphics.Color.argb(255, 255, 255, 255));
+		titleFont = buildFont("game.ttf", 60, android.graphics.Color.parseColor("#FFFAB5"));
 		titleFont.load();
 
-		menuRedFont = buildFont("game.ttf", 40, android.graphics.Color.argb(255, 255, 255, 255));
+		menuRedFont = buildFont("game.ttf", 40, android.graphics.Color.parseColor("#DB8E77"));
 		menuRedFont.load();
 
-		menuBlueFont = buildFont("game.ttf", 40, android.graphics.Color.argb(255, 255, 255, 255));
+		menuBlueFont = buildFont("game.ttf", 40, android.graphics.Color.parseColor("#81C1D7"));
 		menuBlueFont.load();
 
-		menuGreenFont = buildFont("game.ttf", 40, android.graphics.Color.argb(255, 255, 255, 255));
+		menuGreenFont = buildFont("game.ttf", 40, android.graphics.Color.parseColor("#AFDB6F"));
 		menuGreenFont.load();
 
-		levelSelectFont = buildFont("game.ttf", 30, android.graphics.Color.argb(255, 255, 255, 255));
+		menuGrayFont = buildFont("game.ttf", 40, android.graphics.Color.parseColor("#D8D8D8"));
+		menuGrayFont.load();
+		
+		levelSelectFont = buildFont("game.ttf", 30, android.graphics.Color.parseColor("#FFFCCD"));
 		levelSelectFont.load();
 	}
 

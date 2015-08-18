@@ -26,6 +26,7 @@ import com.kevinhinds.spacebots.GameConfiguration;
 import com.kevinhinds.spacebots.level.Level;
 import com.kevinhinds.spacebots.level.LevelXMLBuilder;
 import com.kevinhinds.spacebots.objects.Actor;
+import com.kevinhinds.spacebots.objects.Item;
 import com.kevinhinds.spacebots.player.Controls;
 import com.kevinhinds.spacebots.player.Player;
 
@@ -203,11 +204,19 @@ public class GameScene extends BaseScene {
 					String x1BodyName = (String) x1.getBody().getUserData();
 					String x2BodyName = (String) x2.getBody().getUserData();
 
-					/** player begins to fall when loses contact with a bounce tile (edges of platforms) */
+					/** deal with the player contacting sprites */
 					if (x1BodyName.equals("player")) {
+
+						/** player begins to fall when loses contact with a bounce tile (edges of platforms) */
 						if (x2BodyName.equals("tile") || x2BodyName.equals("ground")) {
 							player.stopFalling();
 							player.stopJumping();
+						}
+
+						/** player contacts an item */
+						if (x2BodyName.contains("Item")) {
+							Item itemCollected = level.getItemByName(x2BodyName);
+							itemCollected.collect(GameScene.this);
 						}
 					}
 
@@ -219,14 +228,14 @@ public class GameScene extends BaseScene {
 					}
 
 					/** actor touches platform or another actor */
-					if ((x1BodyName.equals("bounce") || x1BodyName.equals("rightWall") || x1BodyName.equals("leftWall") || x1BodyName.contains("Actor")) && x2BodyName.contains("Actor")) {
+					if ((x1BodyName.equals("bounce") || x1BodyName.equals("edge") || x1BodyName.equals("rightWall") || x1BodyName.equals("leftWall") || x1BodyName.contains("Actor") || x2BodyName.contains("Item")) && x2BodyName.contains("Actor")) {
 						Actor actor = level.getActorByName(x2BodyName);
 						actor.changeDirection();
 						// @todo if the actor is touching another actor, apply a random force so they don't stack on top of each other
 					}
 
 					/** if the bullet comes in contact with something that's not the player himself or an actor taking damage, then the sprite is detached from the scene */
-					if (x2BodyName.equals("bullet") && !x1BodyName.equals("player") && !x1BodyName.contains("Actor")) {
+					if (x2BodyName.equals("bullet") && !x1BodyName.equals("player")) {
 						player.shootContact();
 					}
 				}

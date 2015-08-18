@@ -19,7 +19,7 @@ public class CreditsMenuScene extends BaseScene implements IOnMenuItemClickListe
 
 	@Override
 	public void createScene() {
-		final Sprite spriteBG = new Sprite(0, 0, ResourceManager.getIntance().illuminate_background_region, ResourceManager.getIntance().vbom);
+		final Sprite spriteBG = new Sprite(0, 0, ResourceManager.getIntance().colorgalaxy_background_region, ResourceManager.getIntance().vbom);
 		attachChild(spriteBG);
 
 		final Sprite andLogoSprite = new Sprite(ResourceManager.getIntance().camera.getWidth() - 200, ResourceManager.getIntance().camera.getHeight() - 200, ResourceManager.getIntance().andengine_region, ResourceManager.getIntance().vbom);

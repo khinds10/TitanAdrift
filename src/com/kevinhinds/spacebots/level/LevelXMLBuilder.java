@@ -119,7 +119,7 @@ public class LevelXMLBuilder {
 				final int animationSpeed = SAXUtils.getIntAttributeOrThrow(attr, TAG_ITEM_ATTR_ANIMATION_SPEED);
 				final int movementSpeed = SAXUtils.getIntAttributeOrThrow(attr, TAG_ITEM_ATTR_MOTION_SPEED);
 				Item i = ResourceManager.getIntance().getGameItemById(id);
-				level.addItem(i.getInstance(x, y, animationSpeed, movementSpeed));
+				level.addItem(i.getInstance("Item: " + Float.toString(x) + "-" + Float.toString(y) + "-" + Integer.toString(id), x, y, animationSpeed, movementSpeed));
 				return null;
 			}
 		});

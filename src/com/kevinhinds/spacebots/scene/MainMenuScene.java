@@ -45,13 +45,13 @@ public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener
 		final IMenuItem mainTitle = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().titleFont, "SPACEBOTS", MENU_TITLE, false);
 		menu.addMenuItem(mainTitle);
 
-		final IMenuItem playItem = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().menuRedFont, "PLAY", MENU_PLAY, true);
+		final IMenuItem playItem = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().menuBlueFont, "PLAY", MENU_PLAY, true);
 		menu.addMenuItem(playItem);
 
 		final IMenuItem levelSelectItem = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().menuGreenFont, "LEVEL SELECT", MENU_LEVELS, true);
 		menu.addMenuItem(levelSelectItem);
 
-		final IMenuItem exitItem = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().menuBlueFont, "EXIT", MENU_EXIT, true);
+		final IMenuItem exitItem = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().menuGrayFont, "EXIT", MENU_EXIT, true);
 		menu.addMenuItem(exitItem);
 
 		final IMenuItem creditsItem = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameFontGray, "CREDITS", MENU_CREDITS, true);
