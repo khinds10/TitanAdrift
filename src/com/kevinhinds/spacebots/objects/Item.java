@@ -14,7 +14,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.kevinhinds.spacebots.ResourceManager;
-import com.kevinhinds.spacebots.scene.BaseScene;
+import com.kevinhinds.spacebots.scene.GameScene;
 
 /**
  * an item sprite extends sprite to easily define and attach to any scene
@@ -99,7 +99,7 @@ public class Item extends TiledSprite {
 	 * 
 	 * @param gameScene
 	 */
-	public void collect(BaseScene thisScene) {
+	public void collect(GameScene thisScene) {
 		Log.i(this.getName(), "Item Collected");
 		final PhysicsConnector physicsConnector = thisScene.physicsWorld.getPhysicsConnectorManager().findPhysicsConnectorByShape(Item.this);
 		ResourceManager.getIntance().engine.runOnUpdateThread(new Runnable() {

@@ -75,7 +75,6 @@ public class Actor extends AnimatedSprite {
 		this.animationSpeed = animationSpeed;
 		this.movementSpeed = movementSpeed;
 		this.explosionType = explosionType;
-
 		Log.i(this.getName(), "Life: " + Integer.toString(this.life));
 	}
 

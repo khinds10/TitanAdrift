@@ -72,21 +72,11 @@ public class GameScene extends BaseScene {
 		createControls();
 		createLevel(this.levelNumber);
 		level = levelXMLBuilder.level;
-		
-		
 
 		/** every 1 seconds update scene timer */
 		this.registerUpdateHandler(new TimerHandler(1, true, new ITimerCallback() {
 			@Override
 			public void onTimePassed(TimerHandler pTimerHandler) {
-				
-//				for (Bullet b : level.bullets) {
-//					String currentBulletName = (String) b.getUserData();
-//					if (currentBulletName.contains("deceased")){
-//						//b.hitObject(GameScene.this);
-//					}
-//				}
-				
 				for (Actor a : level.actors) {
 					if (a.actorBody != null) {
 						if (!a.actorBody.getUserData().equals("deceased")) {
@@ -210,8 +200,25 @@ public class GameScene extends BaseScene {
 
 				if (x1.getBody().getUserData() != null && x2.getBody().getUserData() != null) {
 
+					/** get the contacted bodies from the physics engine to deal with below */
 					String x1BodyName = (String) x1.getBody().getUserData();
 					String x2BodyName = (String) x2.getBody().getUserData();
+
+					/** clean up the bullets that hit object very first */
+					if (x2BodyName.contains("Bullet") && !x1BodyName.equals("player")) {
+						Bullet bullet = level.getBulletByName(x2BodyName);
+						bullet.hitObject(GameScene.this);
+					}
+					if (x1BodyName.contains("Bullet") && !x2BodyName.equals("player")) {
+						Bullet bullet = level.getBulletByName(x1BodyName);
+						bullet.hitObject(GameScene.this);
+					}
+
+					/** actor gets hit by bullet */
+					if (x1BodyName.contains("Actor") && x2BodyName.contains("Bullet")) {
+						Actor actorShot = level.getActorByName(x1BodyName);
+						actorShot.takeDamage(2, GameScene.this, player);
+					}
 
 					/** deal with the player contacting sprites */
 					if (x1BodyName.equals("player")) {
@@ -229,26 +236,10 @@ public class GameScene extends BaseScene {
 						}
 					}
 
-					/** actor gets hit by bullet */
-					if (x1BodyName.contains("Actor") && x2BodyName.contains("Bullet")) {
-						Actor actorShot = level.getActorByName(x1BodyName);
-						// @todo this should be based on the player's "bullet" strength
-						actorShot.takeDamage(2, GameScene.this, player);
-						Bullet bullet = level.getBulletByName(x2BodyName);
-						bullet.hitObject(GameScene.this);
-					}
-
 					/** actor touches platform or another actor */
-					if ((x1BodyName.equals("bounce") || x1BodyName.equals("edge") || x1BodyName.equals("rightWall") || x1BodyName.equals("leftWall") || x1BodyName.contains("Actor") || x2BodyName.contains("Item")) && x2BodyName.contains("Actor")) {
+					if (x2BodyName.contains("Actor") && !(x1BodyName.equals("ground") || x1BodyName.equals("physical"))) {
 						Actor actor = level.getActorByName(x2BodyName);
 						actor.changeDirection();
-						// @todo if the actor is touching another actor, apply a random force so they don't stack on top of each other
-					}
-
-					/** if the bullet comes in contact with something that's not the player himself or an actor taking damage, then the sprite is detached from the scene */
-					if (x2BodyName.contains("Bullet") && !x1BodyName.equals("player")) {
-						Bullet bullet = level.getBulletByName(x2BodyName);
-						bullet.hitObject(GameScene.this);
 					}
 				}
 			}
@@ -265,7 +256,8 @@ public class GameScene extends BaseScene {
 				String x2BodyName = (String) x2.getBody().getUserData();
 
 				if (x1BodyName != null && x2BodyName != null) {
-
+					
+					
 					/** player begins to fall when loses contact with a bounce tile (edges of platforms) */
 					if (x1BodyName.equals("player")) {
 						if (x2BodyName.equals("bounce")) {
