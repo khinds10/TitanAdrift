@@ -27,6 +27,7 @@ import org.andengine.util.debug.Debug;
 import org.andengine.util.color.Color;
 
 import com.kevinhinds.spacebots.objects.Actor;
+import com.kevinhinds.spacebots.objects.Bullet;
 import com.kevinhinds.spacebots.objects.Item;
 import com.kevinhinds.spacebots.objects.Tile;
 
@@ -89,6 +90,7 @@ public class ResourceManager {
 	private ArrayList<Actor> gameActors = new ArrayList<Actor>();
 	private ArrayList<Tile> gameTiles = new ArrayList<Tile>();
 	private ArrayList<Item> gameItems = new ArrayList<Item>();
+	private ArrayList<Bullet> gameBullets = new ArrayList<Bullet>();
 
 	/**
 	 * load resources to create the menu into memory
@@ -119,7 +121,7 @@ public class ResourceManager {
 
 		/** player and weapons */
 		player_region = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "character/player.png", GameConfiguration.playerMapColumns, GameConfiguration.playerMapRows);
-		bullet_region = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "weapons/bullet.png", 4, 1);
+		bullet_region = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "weapons/bullet_strip.png", GameConfiguration.bulletMapColumns, GameConfiguration.bulletMapRows);
 
 		/** adversaries and explosions */
 		actors_region = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "actors/creatures.png", GameConfiguration.actorMapColumns, GameConfiguration.actorMapRows);
@@ -179,6 +181,11 @@ public class ResourceManager {
 		for (int i = 0; i <= (GameConfiguration.itemMapColumns * GameConfiguration.itemMapRows); i++) {
 			gameItems.add(new Item("Game Item " + Integer.toString(i), i, i, 0, 0, 0f, 0f, 0f, ResourceManager.getIntance().item_region, vbom));
 		}
+
+		/** add all the gameBullets from the bullet sprite sheet to the list of available gameBullets */
+		for (int i = 0; i <= (GameConfiguration.bulletMapColumns * GameConfiguration.bulletMapRows); i++) {
+			gameBullets.add(new Bullet("Bullet Sprite " + Integer.toString(i), i, i, 0, 0, 0f, 0f, 0f, ResourceManager.getIntance().bullet_region, vbom));
+		}
 	}
 
 	/**
@@ -221,6 +228,19 @@ public class ResourceManager {
 	}
 
 	/**
+	 * find a particular bullet by id
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public Bullet getGameBulletById(int id) {
+		for (Bullet b : gameBullets)
+			if (b.getId() == id)
+				return b;
+		return null;
+	}
+
+	/**
 	 * load fonts for the game
 	 */
 	public void loadFonts() {
@@ -246,7 +266,7 @@ public class ResourceManager {
 
 		menuGrayFont = buildFont("game.ttf", 40, android.graphics.Color.parseColor("#D8D8D8"));
 		menuGrayFont.load();
-		
+
 		levelSelectFont = buildFont("game.ttf", 30, android.graphics.Color.parseColor("#FFFCCD"));
 		levelSelectFont.load();
 	}

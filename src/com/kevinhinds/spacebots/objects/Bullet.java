@@ -1,9 +1,14 @@
 package com.kevinhinds.spacebots.objects;
 
+import org.andengine.entity.scene.Scene;
 import org.andengine.entity.sprite.AnimatedSprite;
+import org.andengine.entity.sprite.TiledSprite;
 import org.andengine.extension.physics.box2d.PhysicsConnector;
 import org.andengine.extension.physics.box2d.PhysicsFactory;
+import org.andengine.extension.physics.box2d.PhysicsWorld;
 import org.andengine.extension.physics.box2d.util.Vector2Pool;
+import org.andengine.opengl.texture.region.ITiledTextureRegion;
+import org.andengine.opengl.vbo.VertexBufferObjectManager;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -14,29 +19,38 @@ import com.kevinhinds.spacebots.GameConfiguration.State;
 import com.kevinhinds.spacebots.scene.BaseScene;
 
 /**
- * bullet from player
+ * bullet generated from player
  * 
  * @author khinds
  */
-public class Bullet {
+public class Bullet extends TiledSprite {
 
+	private final String name;
+	private final int id, tileIndex;
+	private final float density, elastic, friction;
 	public Body bulletBody;
-	public AnimatedSprite bulletSprite;
-	public BaseScene scene;
+	public Scene scene;
+
+	public Bullet(String name, int id, int tileIndex, float x, float y, float density, float elastic, float friction, ITiledTextureRegion texture, VertexBufferObjectManager vbom) {
+		super(x, y, texture, vbom);
+		this.name = name;
+		this.id = id;
+		this.tileIndex = tileIndex;
+		this.density = density;
+		this.elastic = elastic;
+		this.friction = friction;
+	}
 
 	/**
-	 * create a new bullet based on the player position and facing direction
+	 * attach this current item to the scene in question with the tile index applied
 	 * 
 	 * @param scene
-	 * @param playerSprite
-	 * @param facing
+	 * @param physicsWorld
 	 */
-	public Bullet(BaseScene scene, AnimatedSprite playerSprite, State facing) {
+	public void createBodyAndAttach(AnimatedSprite playerSprite, State facing, Scene scene, PhysicsWorld physicsWorld) {
 
 		/** get the direction of the player facing */
-		float[] objCenterPos = new float[2];
-		playerSprite.getSceneCenterCoordinates(objCenterPos);
-		final FixtureDef bulletFixtureDef = PhysicsFactory.createFixtureDef(0, 0.0f, 0.0f);
+		final FixtureDef tileFixtureDef = PhysicsFactory.createFixtureDef(density, elastic, friction);
 		this.scene = scene;
 
 		/** apply left or right facing x and acceleration values */
@@ -45,33 +59,63 @@ public class Bullet {
 			direction = -1;
 		}
 
-		/** create a new bullet sprite and fire it! */
-		bulletSprite = scene.createAnimatedSprite(objCenterPos[0] + (direction * 5), objCenterPos[1] - 5, ResourceManager.getIntance().bullet_region, scene.vbom);
-		bulletBody = PhysicsFactory.createBoxBody(scene.physicsWorld, bulletSprite, BodyType.DynamicBody, bulletFixtureDef);
-		bulletBody.setUserData("bullet");
+		tileFixtureDef.restitution = 0;
+		this.setCurrentTileIndex(tileIndex);
+		bulletBody = PhysicsFactory.createBoxBody(physicsWorld, this, BodyType.DynamicBody, tileFixtureDef);
+		bulletBody.setUserData(this.name);
 		bulletBody.setGravityScale(0);
-		scene.physicsWorld.registerPhysicsConnector(new PhysicsConnector(bulletSprite, bulletBody, true, true));
-		bulletSprite.animate(new long[] { 100, 100, 100, 100 }, new int[] { 0, 1, 2, 3 });
-
-		scene.attachChild(bulletSprite);
+		physicsWorld.registerPhysicsConnector(new PhysicsConnector(this, bulletBody, true, true));
 		final Vector2 velocity = Vector2Pool.obtain((direction * 50), 0);
 		bulletBody.setLinearVelocity(velocity);
+		scene.attachChild(this);
 	}
 
 	/**
-	 * bullet hits object
+	 * get name of this item
+	 * 
+	 * @return
 	 */
-	public void hitObject() {
+	public String getName() {
+		return name;
+	}
 
-		final PhysicsConnector physicsConnector = scene.physicsWorld.getPhysicsConnectorManager().findPhysicsConnectorByShape(bulletSprite);
+	/**
+	 * get ID of this item
+	 * 
+	 * @return
+	 */
+	public int getId() {
+		return id;
+	}
 
+	/**
+	 * by simple x and y coordinates create a new bullet
+	 * 
+	 * @param x
+	 * @param y
+	 * @param animationSpeed
+	 * @param movementSpeed
+	 * @return
+	 */
+	public Bullet getInstance(String name, float x, float y) {
+		return new Bullet(name, id, tileIndex, x, y, density, elastic, friction, getTiledTextureRegion(), getVertexBufferObjectManager());
+	}
+
+	/**
+	 * bullet hits an object and disappears
+	 * 
+	 * @param thisScene
+	 */
+	public void hitObject(BaseScene thisScene) {
+		final PhysicsConnector physicsConnector = thisScene.physicsWorld.getPhysicsConnectorManager().findPhysicsConnectorByShape(Bullet.this);
 		ResourceManager.getIntance().engine.runOnUpdateThread(new Runnable() {
 			@Override
 			public void run() {
 				if (physicsConnector != null) {
+					String currentBulletName = (String) bulletBody.getUserData();
 					bulletBody.setActive(false);
-					bulletBody.setUserData("deleted");
-					scene.detachChild(bulletSprite);
+					bulletBody.setUserData(currentBulletName + "_deceased");
+					scene.detachChild(Bullet.this);
 				}
 			}
 		});

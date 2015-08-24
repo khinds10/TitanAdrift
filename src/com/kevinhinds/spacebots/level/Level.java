@@ -6,6 +6,7 @@ import org.andengine.entity.scene.Scene;
 import org.andengine.extension.physics.box2d.PhysicsWorld;
 
 import com.kevinhinds.spacebots.objects.Actor;
+import com.kevinhinds.spacebots.objects.Bullet;
 import com.kevinhinds.spacebots.objects.Item;
 import com.kevinhinds.spacebots.objects.Tile;
 
@@ -20,6 +21,7 @@ public class Level {
 	public ArrayList<Tile> tiles = new ArrayList<Tile>();
 	public ArrayList<Actor> actors = new ArrayList<Actor>();
 	public ArrayList<Item> items = new ArrayList<Item>();
+	public ArrayList<Bullet> bullets = new ArrayList<Bullet>();
 
 	/**
 	 * width of the level
@@ -65,6 +67,15 @@ public class Level {
 	public void addItem(Item i) {
 		items.add(i);
 	}
+	
+	/**
+	 * add a new bullet to the level
+	 * 
+	 * @param t
+	 */
+	public void addBullet(Bullet i) {
+		bullets.add(i);
+	}
 
 	/**
 	 * find a particular actor by name
@@ -82,13 +93,26 @@ public class Level {
 	/**
 	 * find a particular actor by name
 	 * 
-	 * @param id
+	 * @param name
 	 * @return
 	 */
 	public Item getItemByName(String name) {
 		for (Item i : items)
 			if (i.getName().equals(name))
 				return i;
+		return null;
+	}
+	
+	/**
+	 * find a particular bullet by name
+	 * 
+	 * @param name
+	 * @return
+	 */
+	public Bullet getBulletByName(String name) {
+		for (Bullet b : bullets)
+			if (b.getName().equals(name))
+				return b;
 		return null;
 	}
 

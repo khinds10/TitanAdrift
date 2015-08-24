@@ -45,6 +45,13 @@ public class GameConfiguration {
 	public static int playerFallingContinueDirectionVelocity = 3;
 
 	/**
+	 * player basic weapons identifiers
+	 */
+	public static enum playerWeapons {
+		BLUE_BULLET, GREEN_BULLET, YELLOW_BULLET, PINK_PHASER, YELLOW_DOUBLE_PHASER, YELLOW_PHASER, RED_PHASER, ORANGE_PHASER
+	}
+	
+	/**
 	 * platform sprite map
 	 */
 	public static int platformMapColumns = 22;
@@ -56,6 +63,12 @@ public class GameConfiguration {
 	public static int itemMapColumns = 5;
 	public static int itemMapRows = 2;
 
+	/**
+	 * bullet sprite map
+	 */
+	public static int bulletMapColumns = 3;
+	public static int bulletMapRows = 3;
+	
 	/**
 	 * actor sprite map and default velocities
 	 */

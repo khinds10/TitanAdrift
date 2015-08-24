@@ -26,6 +26,7 @@ import com.kevinhinds.spacebots.GameConfiguration;
 import com.kevinhinds.spacebots.level.Level;
 import com.kevinhinds.spacebots.level.LevelXMLBuilder;
 import com.kevinhinds.spacebots.objects.Actor;
+import com.kevinhinds.spacebots.objects.Bullet;
 import com.kevinhinds.spacebots.objects.Item;
 import com.kevinhinds.spacebots.player.Controls;
 import com.kevinhinds.spacebots.player.Player;
@@ -41,7 +42,7 @@ public class GameScene extends BaseScene {
 	public HUD gameHUD;
 	private Player player;
 	public Body fixtureBody;
-	private Level level;
+	public Level level;
 	public int levelNumber;
 	private LevelXMLBuilder levelXMLBuilder;
 
@@ -71,13 +72,21 @@ public class GameScene extends BaseScene {
 		createControls();
 		createLevel(this.levelNumber);
 		level = levelXMLBuilder.level;
+		
+		
 
-		/** every 2 seconds update scene timer */
+		/** every 1 seconds update scene timer */
 		this.registerUpdateHandler(new TimerHandler(1, true, new ITimerCallback() {
 			@Override
 			public void onTimePassed(TimerHandler pTimerHandler) {
-				// @todo the scene will clean up stray bullets and other sprites marked as "deleted" (user data)
-				player.isShooting = false;
+				
+//				for (Bullet b : level.bullets) {
+//					String currentBulletName = (String) b.getUserData();
+//					if (currentBulletName.contains("deceased")){
+//						//b.hitObject(GameScene.this);
+//					}
+//				}
+				
 				for (Actor a : level.actors) {
 					if (a.actorBody != null) {
 						if (!a.actorBody.getUserData().equals("deceased")) {
@@ -128,7 +137,7 @@ public class GameScene extends BaseScene {
 	 * add new player to this scene
 	 */
 	private void addPlayer() {
-		player = new Player(this);
+		player = new Player(this, physicsWorld);
 	}
 
 	/**
@@ -221,10 +230,12 @@ public class GameScene extends BaseScene {
 					}
 
 					/** actor gets hit by bullet */
-					if (x1BodyName.contains("Actor") && x2BodyName.equals("bullet")) {
+					if (x1BodyName.contains("Actor") && x2BodyName.contains("Bullet")) {
 						Actor actorShot = level.getActorByName(x1BodyName);
 						// @todo this should be based on the player's "bullet" strength
 						actorShot.takeDamage(2, GameScene.this, player);
+						Bullet bullet = level.getBulletByName(x2BodyName);
+						bullet.hitObject(GameScene.this);
 					}
 
 					/** actor touches platform or another actor */
@@ -235,8 +246,9 @@ public class GameScene extends BaseScene {
 					}
 
 					/** if the bullet comes in contact with something that's not the player himself or an actor taking damage, then the sprite is detached from the scene */
-					if (x2BodyName.equals("bullet") && !x1BodyName.equals("player")) {
-						player.shootContact();
+					if (x2BodyName.contains("Bullet") && !x1BodyName.equals("player")) {
+						Bullet bullet = level.getBulletByName(x2BodyName);
+						bullet.hitObject(GameScene.this);
 					}
 				}
 			}

@@ -3,6 +3,7 @@ package com.kevinhinds.spacebots.player;
 import org.andengine.entity.sprite.AnimatedSprite;
 import org.andengine.extension.physics.box2d.PhysicsConnector;
 import org.andengine.extension.physics.box2d.PhysicsFactory;
+import org.andengine.extension.physics.box2d.PhysicsWorld;
 import org.andengine.extension.physics.box2d.util.Vector2Pool;
 
 import com.badlogic.gdx.math.Vector2;
@@ -10,10 +11,11 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.kevinhinds.spacebots.GameConfiguration;
+import com.kevinhinds.spacebots.GameConfiguration.playerWeapons;
 import com.kevinhinds.spacebots.ResourceManager;
 import com.kevinhinds.spacebots.GameConfiguration.State;
 import com.kevinhinds.spacebots.objects.Bullet;
-import com.kevinhinds.spacebots.scene.BaseScene;
+import com.kevinhinds.spacebots.scene.GameScene;
 
 /**
  * main character for the game
@@ -24,30 +26,33 @@ public class Player {
 
 	public Body playerBody;
 	public AnimatedSprite playerSprite;
-	public Bullet bullet;
-	public boolean isShooting;
-
 	public boolean isJumping;
 	public boolean isFalling;
 	protected State moving;
-	protected State facing;
+	public State facing;
+	protected PhysicsWorld physicsWorld;
+	protected int bulletNumber = 0;
+	protected GameScene gameScene;
 
 	/**
 	 * create player on the scene in question
 	 * 
 	 * @param scene
+	 * @param physicsWorld
 	 */
-	public Player(BaseScene scene) {
+	public Player(GameScene scene, PhysicsWorld playerPhysicsworld) {
 		final FixtureDef playerFixtureDef = PhysicsFactory.createFixtureDef(1, 0.0f, 0.0f);
+		gameScene = scene;
 		playerSprite = scene.createAnimatedSprite(ResourceManager.getIntance().camera.getWidth() / 2, ResourceManager.getIntance().camera.getHeight() - 150, ResourceManager.getIntance().player_region, scene.vbom);
 		playerBody = PhysicsFactory.createBoxBody(scene.physicsWorld, playerSprite, BodyType.DynamicBody, playerFixtureDef);
 		playerBody.setUserData("player");
-		scene.physicsWorld.registerPhysicsConnector(new PhysicsConnector(playerSprite, playerBody, true, false));
+		gameScene.physicsWorld.registerPhysicsConnector(new PhysicsConnector(playerSprite, playerBody, true, false));
 		playerSprite.animate(new long[] { GameConfiguration.playerAnimationSpeed }, new int[] { GameConfiguration.playerStartLevelFrame });
 		moving = State.STOP;
 		facing = State.RIGHT;
 		isJumping = false;
-		scene.attachChild(playerSprite);
+		physicsWorld = playerPhysicsworld;
+		gameScene.attachChild(playerSprite);
 	}
 
 	/**
@@ -200,15 +205,22 @@ public class Player {
 		}
 	}
 
-	public void shoot(BaseScene scene) {
-		if (!isShooting) {
-			bullet = new Bullet(scene, playerSprite, facing);
-			isShooting = true;
-		}
-	}
+	/**
+	 * player shoots and adds a bullet sprite to the level being played
+	 * 
+	 * @param scene
+	 */
+	public void shoot(GameScene scene) {
+		bulletNumber++;
+		String bulletName = "Bullet-" + Integer.toString(bulletNumber);
+		Bullet b = ResourceManager.getIntance().getGameBulletById(playerWeapons.YELLOW_PHASER.ordinal());
 
-	public void shootContact() {
-		bullet.hitObject();
-		isShooting = false;
+		/** the player X,Y is the top left corner, so if facing right the bullet should start about 50px over to the right */
+		int moveBulletX = 0;
+		if (this.facing == State.RIGHT) {
+			moveBulletX = 25;
+		}
+		gameScene.level.addBullet(b.getInstance(bulletName, playerSprite.getX() + moveBulletX, playerSprite.getY() + 10));
+		gameScene.level.getBulletByName(bulletName).createBodyAndAttach(playerSprite, facing, scene, physicsWorld);
 	}
 }

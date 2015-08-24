@@ -175,19 +175,6 @@ public class Actor extends AnimatedSprite {
 		Log.i(this.getName(), "Life: " + Integer.toString(this.life));
 		if (this.life <= 0) {
 			die(gameScene, player);
-		} else {
-			final PhysicsConnector physicsConnector = gameScene.physicsWorld.getPhysicsConnectorManager().findPhysicsConnectorByShape(Actor.this);
-			ResourceManager.getIntance().engine.runOnUpdateThread(new Runnable() {
-				@Override
-				public void run() {
-					if (physicsConnector != null) {
-						player.bullet.bulletBody.setActive(false);
-						player.bullet.bulletBody.setUserData("deleted");
-						scene.detachChild(player.bullet.bulletSprite);
-						player.isShooting = false;
-					}
-				}
-			});
 		}
 	}
 
@@ -213,10 +200,6 @@ public class Actor extends AnimatedSprite {
 					actorBody.setActive(false);
 					actorBody.setUserData("deceased");
 					scene.detachChild(Actor.this);
-					player.bullet.bulletBody.setActive(false);
-					player.bullet.bulletBody.setUserData("deleted");
-					scene.detachChild(player.bullet.bulletSprite);
-					player.isShooting = false;
 				}
 			}
 		});
