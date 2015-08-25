@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<level width="800" height="480">
+	<actor x="660" y="24" actor="18" type="walking" shoots="false" weapon="none" facing="right" life="5" explosion="1" animationSpeed="200" movementSpeed="1"/> <!-- ROW 2 COLUMN 55 -->
+	<actor x="720" y="24" actor="7" type="walking" shoots="false" weapon="none" facing="right" life="5" explosion="1" animationSpeed="200" movementSpeed="0"/> <!-- ROW 2 COLUMN 60 -->
+	<actor x="300" y="48" actor="26" type="walking" shoots="false" weapon="none" facing="left" life="5" explosion="1" animationSpeed="200" movementSpeed="0"/> <!-- ROW 4 COLUMN 25 -->
+	<actor x="516" y="48" actor="29" type="walking" shoots="false" weapon="none" facing="right" life="5" explosion="1" animationSpeed="200" movementSpeed="2"/> <!-- ROW 4 COLUMN 43 -->
+	<actor x="156" y="120" actor="7" type="walking" shoots="false" weapon="none" facing="left" life="5" explosion="1" animationSpeed="200" movementSpeed="0"/> <!-- ROW 10 COLUMN 13 -->
+	<actor x="576" y="180" actor="18" type="walking" shoots="false" weapon="none" facing="right" life="5" explosion="1" animationSpeed="200" movementSpeed="1"/> <!-- ROW 15 COLUMN 48 -->
+	<actor x="288" y="192" actor="26" type="walking" shoots="false" weapon="none" facing="left" life="5" explosion="1" animationSpeed="200" movementSpeed="0"/> <!-- ROW 16 COLUMN 24 -->
+	<actor x="60" y="228" actor="29" type="walking" shoots="false" weapon="none" facing="left" life="5" explosion="1" animationSpeed="200" movementSpeed="2"/> <!-- ROW 19 COLUMN 5 -->
+	<actor x="180" y="228" actor="18" type="walking" shoots="false" weapon="none" facing="left" life="5" explosion="1" animationSpeed="200" movementSpeed="1"/> <!-- ROW 19 COLUMN 15 -->
+	<actor x="744" y="228" actor="26" type="walking" shoots="false" weapon="none" facing="right" life="5" explosion="1" animationSpeed="200" movementSpeed="0"/> <!-- ROW 19 COLUMN 62 -->
+	<actor x="72" y="336" actor="7" type="walking" shoots="false" weapon="none" facing="left" life="5" explosion="1" animationSpeed="200" movementSpeed="0"/> <!-- ROW 28 COLUMN 6 -->
+	<actor x="240" y="336" actor="26" type="walking" shoots="false" weapon="none" facing="left" life="5" explosion="1" animationSpeed="200" movementSpeed="0"/> <!-- ROW 28 COLUMN 20 -->
+	<actor x="492" y="336" actor="7" type="walking" shoots="false" weapon="none" facing="right" life="5" explosion="1" animationSpeed="200" movementSpeed="0"/> <!-- ROW 28 COLUMN 41 -->
+</level>
