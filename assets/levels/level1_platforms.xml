@@ -1,13 +1,3 @@
 <?xml version="1.0" encoding="utf-8"?>
 <level width="800" height="480">
-    <platform x="120" y="360" block="62" type="background" /> <!-- ROW 30 COLUMN 10 BLOCK 62 -->
-    <platform x="132" y="360" block="63" type="background" /> <!-- ROW 30 COLUMN 11 BLOCK 63 -->
-    <platform x="144" y="360" block="64" type="background" /> <!-- ROW 30 COLUMN 12 BLOCK 64 -->
-    <platform x="108" y="372" block="6" type="bounce" /> <!-- ROW 31 COLUMN 9 BLOCK 6 -->
-    <platform x="120" y="372" block="6" type="physical" /> <!-- ROW 31 COLUMN 10 BLOCK 6 -->
-    <platform x="132" y="372" block="6" type="physical" /> <!-- ROW 31 COLUMN 11 BLOCK 6 -->
-    <platform x="144" y="372" block="6" type="physical" /> <!-- ROW 31 COLUMN 12 BLOCK 6 -->
-    <platform x="156" y="372" block="6" type="bounce" /> <!-- ROW 31 COLUMN 13 BLOCK 6 -->
-    <platform x="240" y="372" block="216" type="foreground" /> <!-- ROW 31 COLUMN 20 BLOCK 216 -->
-    <platform x="240" y="384" block="238" type="foreground" /> <!-- ROW 32 COLUMN 20 BLOCK 238 -->
 </level>

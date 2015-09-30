@@ -1,16 +1,3 @@
 <?xml version="1.0" encoding="utf-8"?>
 <level width="800" height="480">
-    <actor x="120" y="360" actor="1" type="walking" shoots="false" weapon="none" facing="left" life="5" explosion="1" animationSpeed="200" movementSpeed="0"/> <!-- ROW 30 COLUMN 10 -->
-    <actor x="132" y="360" actor="1" type="walking" shoots="false" weapon="none" facing="left" life="5" explosion="1" animationSpeed="200" movementSpeed="0"/> <!-- ROW 30 COLUMN 11 -->
-    <actor x="144" y="360" actor="1" type="walking" shoots="false" weapon="none" facing="left" life="5" explosion="1" animationSpeed="200" movementSpeed="0"/> <!-- ROW 30 COLUMN 12 -->
-    <actor x="108" y="372" actor="1" type="walking" shoots="false" weapon="none" facing="left" life="5" explosion="1" animationSpeed="200" movementSpeed="0"/> <!-- ROW 31 COLUMN 9 -->
-    <actor x="120" y="372" actor="1" type="walking" shoots="false" weapon="none" facing="left" life="5" explosion="1" animationSpeed="200" movementSpeed="0"/> <!-- ROW 31 COLUMN 10 -->
-    <actor x="132" y="372" actor="1" type="walking" shoots="false" weapon="none" facing="left" life="5" explosion="1" animationSpeed="200" movementSpeed="0"/> <!-- ROW 31 COLUMN 11 -->
-    <actor x="144" y="372" actor="1" type="walking" shoots="false" weapon="none" facing="left" life="5" explosion="1" animationSpeed="200" movementSpeed="0"/> <!-- ROW 31 COLUMN 12 -->
-    <actor x="156" y="372" actor="1" type="walking" shoots="false" weapon="none" facing="left" life="5" explosion="1" animationSpeed="200" movementSpeed="0"/> <!-- ROW 31 COLUMN 13 -->
-    <actor x="240" y="372" actor="1" type="walking" shoots="false" weapon="none" facing="left" life="5" explosion="1" animationSpeed="200" movementSpeed="0"/> <!-- ROW 31 COLUMN 20 -->
-    <actor x="624" y="372" actor="1" type="walking" shoots="false" weapon="none" facing="right" life="5" explosion="1" animationSpeed="200" movementSpeed="0"/> <!-- ROW 31 COLUMN 52 -->
-    <actor x="684" y="372" actor="1" type="walking" shoots="false" weapon="none" facing="right" life="5" explosion="1" animationSpeed="200" movementSpeed="0"/> <!-- ROW 31 COLUMN 57 -->
-    <actor x="792" y="372" actor="1" type="walking" shoots="false" weapon="none" facing="right" life="5" explosion="1" animationSpeed="200" movementSpeed="0"/> <!-- ROW 31 COLUMN 66 -->
-    <actor x="240" y="384" actor="1" type="walking" shoots="false" weapon="none" facing="left" life="5" explosion="1" animationSpeed="200" movementSpeed="0"/> <!-- ROW 32 COLUMN 20 -->
 </level>

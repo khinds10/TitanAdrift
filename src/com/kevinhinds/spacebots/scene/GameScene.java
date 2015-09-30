@@ -28,6 +28,7 @@ import com.kevinhinds.spacebots.level.LevelXMLBuilder;
 import com.kevinhinds.spacebots.objects.Actor;
 import com.kevinhinds.spacebots.objects.Bullet;
 import com.kevinhinds.spacebots.objects.Item;
+import com.kevinhinds.spacebots.objects.Piece;
 import com.kevinhinds.spacebots.player.Controls;
 import com.kevinhinds.spacebots.player.Player;
 
@@ -232,6 +233,12 @@ public class GameScene extends BaseScene {
 						/** player contacts an item */
 						if (x2BodyName.contains("Item")) {
 							Item itemCollected = level.getItemByName(x2BodyName);
+							itemCollected.collect(GameScene.this);
+						}
+						
+						/** player contacts an piece */
+						if (x2BodyName.contains("Piece")) {
+							Piece itemCollected = level.getPieceByName(x2BodyName);
 							itemCollected.collect(GameScene.this);
 						}
 					}

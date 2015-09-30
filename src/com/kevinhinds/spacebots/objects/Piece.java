@@ -26,7 +26,7 @@ public class Piece extends TiledSprite {
 	private final String name;
 	private final int id, tileIndex;
 	private final float density, elastic, friction;
-	public Body itemBody;
+	public Body pieceBody;
 	public Scene scene;
 
 	/**
@@ -66,9 +66,9 @@ public class Piece extends TiledSprite {
 		final FixtureDef tileFixtureDef = PhysicsFactory.createFixtureDef(density, elastic, friction);
 		tileFixtureDef.restitution = 0;
 		this.setCurrentTileIndex(tileIndex);
-		itemBody = PhysicsFactory.createBoxBody(physicsWorld, this, BodyType.KinematicBody, tileFixtureDef);
-		itemBody.setUserData(this.name);
-		physicsWorld.registerPhysicsConnector(new PhysicsConnector(this, itemBody, true, true));
+		pieceBody = PhysicsFactory.createBoxBody(physicsWorld, this, BodyType.KinematicBody, tileFixtureDef);
+		pieceBody.setUserData(this.name);
+		physicsWorld.registerPhysicsConnector(new PhysicsConnector(this, pieceBody, true, true));
 		scene.attachChild(this);
 	}
 
@@ -106,8 +106,8 @@ public class Piece extends TiledSprite {
 			@Override
 			public void run() {
 				if (physicsConnector != null) {
-					itemBody.setActive(false);
-					itemBody.setUserData("collected");
+					pieceBody.setActive(false);
+					pieceBody.setUserData("collected");
 					scene.detachChild(Piece.this);
 				}
 			}
