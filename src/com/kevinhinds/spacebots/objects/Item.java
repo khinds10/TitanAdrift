@@ -24,6 +24,7 @@ import com.kevinhinds.spacebots.scene.GameScene;
 public class Item extends TiledSprite {
 
 	private final String name;
+	private final String type;
 	private final int id, tileIndex;
 	private final float density, elastic, friction;
 	public Body itemBody;
@@ -44,9 +45,10 @@ public class Item extends TiledSprite {
 	 * @param texture
 	 * @param vbom
 	 */
-	public Item(String name, int id, int tileIndex, float x, float y, float density, float elastic, float friction, ITiledTextureRegion texture, VertexBufferObjectManager vbom) {
+	public Item(String name, String type, int id, int tileIndex, float x, float y, float density, float elastic, float friction, ITiledTextureRegion texture, VertexBufferObjectManager vbom) {
 		super(x, y, texture, vbom);
 		this.name = name;
+		this.type = type;
 		this.id = id;
 		this.tileIndex = tileIndex;
 		this.density = density;
@@ -89,6 +91,15 @@ public class Item extends TiledSprite {
 	public int getId() {
 		return id;
 	}
+	
+	/**
+	 * get type of this item
+	 * 
+	 * @return
+	 */
+	public String getType() {
+		return type;
+	}
 
 	/**
 	 * bullet hits object
@@ -100,7 +111,7 @@ public class Item extends TiledSprite {
 	 * @param gameScene
 	 */
 	public void collect(GameScene thisScene) {
-		Log.i(this.getName(), "Item Collected");
+		Log.i(this.getType(), "Item Collected " + this.getType());
 		final PhysicsConnector physicsConnector = thisScene.physicsWorld.getPhysicsConnectorManager().findPhysicsConnectorByShape(Item.this);
 		ResourceManager.getIntance().engine.runOnUpdateThread(new Runnable() {
 			@Override
@@ -123,7 +134,7 @@ public class Item extends TiledSprite {
 	 * @param movementSpeed
 	 * @return
 	 */
-	public Item getInstance(String name, float x, float y, int animationSpeed, int movementSpeed) {
-		return new Item(name, id, tileIndex, x, y, density, elastic, friction, getTiledTextureRegion(), getVertexBufferObjectManager());
+	public Item getInstance(String name, String type, float x, float y, int animationSpeed, int movementSpeed) {
+		return new Item(name, type, id, tileIndex, x, y, density, elastic, friction, getTiledTextureRegion(), getVertexBufferObjectManager());
 	}
 }

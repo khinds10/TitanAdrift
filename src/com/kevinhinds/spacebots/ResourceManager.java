@@ -95,7 +95,7 @@ public class ResourceManager {
 	private ArrayList<Item> gameItems = new ArrayList<Item>();
 	private ArrayList<Bullet> gameBullets = new ArrayList<Bullet>();
 	private ArrayList<Piece> shipPieces = new ArrayList<Piece>();
-	
+
 	/**
 	 * load resources to create the menu into memory
 	 */
@@ -183,7 +183,7 @@ public class ResourceManager {
 		} catch (Exception e) {
 			Debug.e(e);
 		}
-		
+
 		/** add all the gameActors from the actors sprite sheet to the list of available gameActors */
 		for (int i = 0; i <= (GameConfiguration.actorMapColumns * GameConfiguration.actorMapRows); i++) {
 			gameActors.add(new Actor("Actor Image " + Integer.toString(i), i, i, "stationary", 0, "none", "right", false, GameConfiguration.actorAnimationSpeed, GameConfiguration.actorMovementSpeed, GameConfiguration.explosionDefault, 0, 0, 10f, 0f, 10f, ResourceManager.getIntance().actors_region, vbom));
@@ -196,7 +196,7 @@ public class ResourceManager {
 
 		/** add all the gameItems from the items sprite sheet to the list of available gameItems */
 		for (int i = 0; i <= (GameConfiguration.itemMapColumns * GameConfiguration.itemMapRows); i++) {
-			gameItems.add(new Item("Game Item " + Integer.toString(i), i, i, 0, 0, 0f, 0f, 0f, ResourceManager.getIntance().item_region, vbom));
+			gameItems.add(new Item("Game Item " + Integer.toString(i), String.valueOf(i), i, i, 0, 0, 0f, 0f, 0f, ResourceManager.getIntance().item_region, vbom));
 		}
 
 		/** add all the gameBullets from the bullet sprite sheet to the list of available gameBullets */
@@ -206,8 +206,8 @@ public class ResourceManager {
 
 		/** add all the shipPieces from the ship sprite sheet to the list of available shipPieces */
 		for (int i = 0; i <= (GameConfiguration.pieceMapColumns * GameConfiguration.pieceMapRows); i++) {
-			shipPieces.add(new Piece("Piece Sprite " + Integer.toString(i), i, i, 0, 0, 0f, 0f, 0f, ResourceManager.getIntance().piece_region, vbom));
-		}		
+			shipPieces.add(new Piece("Piece Sprite " + Integer.toString(i), String.valueOf(i), i, i, 0, 0, 0f, 0f, 0f, ResourceManager.getIntance().piece_region, vbom));
+		}
 	}
 
 	/**
@@ -248,7 +248,7 @@ public class ResourceManager {
 				return i;
 		return null;
 	}
-	
+
 	/**
 	 * find a particular item by id
 	 * 

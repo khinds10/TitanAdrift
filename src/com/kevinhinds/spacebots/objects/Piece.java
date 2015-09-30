@@ -24,6 +24,7 @@ import com.kevinhinds.spacebots.scene.GameScene;
 public class Piece extends TiledSprite {
 
 	private final String name;
+	private final String type;
 	private final int id, tileIndex;
 	private final float density, elastic, friction;
 	public Body pieceBody;
@@ -44,9 +45,10 @@ public class Piece extends TiledSprite {
 	 * @param texture
 	 * @param vbom
 	 */
-	public Piece(String name, int id, int tileIndex, float x, float y, float density, float elastic, float friction, ITiledTextureRegion texture, VertexBufferObjectManager vbom) {
+	public Piece(String name, String type, int id, int tileIndex, float x, float y, float density, float elastic, float friction, ITiledTextureRegion texture, VertexBufferObjectManager vbom) {
 		super(x, y, texture, vbom);
 		this.name = name;
+		this.type = type;
 		this.id = id;
 		this.tileIndex = tileIndex;
 		this.density = density;
@@ -89,6 +91,15 @@ public class Piece extends TiledSprite {
 	public int getId() {
 		return id;
 	}
+	
+	/**
+	 * get type of this item
+	 * 
+	 * @return
+	 */
+	public String getType() {
+		return type;
+	}
 
 	/**
 	 * bullet hits object
@@ -100,7 +111,7 @@ public class Piece extends TiledSprite {
 	 * @param gameScene
 	 */
 	public void collect(GameScene thisScene) {
-		Log.i(this.getName(), "Piece Collected");
+		Log.i(this.getType(), "Piece Collected " + this.getType());
 		final PhysicsConnector physicsConnector = thisScene.physicsWorld.getPhysicsConnectorManager().findPhysicsConnectorByShape(Piece.this);
 		ResourceManager.getIntance().engine.runOnUpdateThread(new Runnable() {
 			@Override
@@ -123,7 +134,7 @@ public class Piece extends TiledSprite {
 	 * @param movementSpeed
 	 * @return
 	 */
-	public Piece getInstance(String name, float x, float y, int animationSpeed, int movementSpeed) {
-		return new Piece(name, id, tileIndex, x, y, density, elastic, friction, getTiledTextureRegion(), getVertexBufferObjectManager());
+	public Piece getInstance(String name, String type, float x, float y, int animationSpeed, int movementSpeed) {
+		return new Piece(name, type, id, tileIndex, x, y, density, elastic, friction, getTiledTextureRegion(), getVertexBufferObjectManager());
 	}
 }

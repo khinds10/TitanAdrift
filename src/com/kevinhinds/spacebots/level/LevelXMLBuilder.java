@@ -118,7 +118,7 @@ public class LevelXMLBuilder {
 				final int animationSpeed = SAXUtils.getIntAttributeOrThrow(attr, TAG_ANIMATION_SPEED);
 				final int movementSpeed = SAXUtils.getIntAttributeOrThrow(attr, TAG_MOTION_SPEED);
 				Item i = ResourceManager.getIntance().getGameItemById(id);
-				level.addItem(i.getInstance("Item: " + Float.toString(x) + "-" + Float.toString(y) + "-" + Integer.toString(id), x, y, animationSpeed, movementSpeed));
+				level.addItem(i.getInstance("Item: " + Float.toString(x) + "-" + Float.toString(y) + "-" + Integer.toString(id), String.valueOf(id), x, y, animationSpeed, movementSpeed));
 				return null;
 			}
 		});
@@ -142,7 +142,7 @@ public class LevelXMLBuilder {
 				final int animationSpeed = SAXUtils.getIntAttributeOrThrow(attr, TAG_ANIMATION_SPEED);
 				final int movementSpeed = SAXUtils.getIntAttributeOrThrow(attr, TAG_MOTION_SPEED);
 				Piece p = ResourceManager.getIntance().getGamePieceById(id);
-				level.addPiece(p.getInstance("Piece: " + Float.toString(x) + "-" + Float.toString(y) + "-" + Integer.toString(id), x, y, animationSpeed, movementSpeed));
+				level.addPiece(p.getInstance("Piece: " + Float.toString(x) + "-" + Float.toString(y) + "-" + Integer.toString(id), String.valueOf(id), x, y, animationSpeed, movementSpeed));
 				return null;
 			}			
 		});
