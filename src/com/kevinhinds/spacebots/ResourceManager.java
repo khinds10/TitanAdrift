@@ -29,6 +29,7 @@ import org.andengine.util.color.Color;
 import com.kevinhinds.spacebots.objects.Actor;
 import com.kevinhinds.spacebots.objects.Bullet;
 import com.kevinhinds.spacebots.objects.Item;
+import com.kevinhinds.spacebots.objects.Piece;
 import com.kevinhinds.spacebots.objects.Tile;
 
 /**
@@ -83,15 +84,18 @@ public class ResourceManager {
 	/** level regions */
 	private BuildableBitmapTextureAtlas tileTextureAtlas;
 	private BuildableBitmapTextureAtlas itemTextureAtlas;
+	private BuildableBitmapTextureAtlas pieceTextureAtlas;
 	public ITiledTextureRegion platform_region;
 	public ITiledTextureRegion item_region;
+	public ITiledTextureRegion piece_region;
 
 	/** complete set of the game's actors, tiles and items to render on levels via XML descriptions */
 	private ArrayList<Actor> gameActors = new ArrayList<Actor>();
 	private ArrayList<Tile> gameTiles = new ArrayList<Tile>();
 	private ArrayList<Item> gameItems = new ArrayList<Item>();
 	private ArrayList<Bullet> gameBullets = new ArrayList<Bullet>();
-
+	private ArrayList<Piece> shipPieces = new ArrayList<Piece>();
+	
 	/**
 	 * load resources to create the menu into memory
 	 */
@@ -167,6 +171,19 @@ public class ResourceManager {
 			Debug.e(e);
 		}
 
+		/** load ship pieces */
+		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/items/");
+		pieceTextureAtlas = new BuildableBitmapTextureAtlas(activity.getTextureManager(), 1024, 1024, TextureOptions.BILINEAR);
+		piece_region = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(pieceTextureAtlas, activity, "ship.png", GameConfiguration.pieceMapColumns, GameConfiguration.pieceMapRows);
+
+		/** have to run everything through black pawn to render it visibly */
+		try {
+			pieceTextureAtlas.build(new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(0, 1, 0));
+			pieceTextureAtlas.load();
+		} catch (Exception e) {
+			Debug.e(e);
+		}
+		
 		/** add all the gameActors from the actors sprite sheet to the list of available gameActors */
 		for (int i = 0; i <= (GameConfiguration.actorMapColumns * GameConfiguration.actorMapRows); i++) {
 			gameActors.add(new Actor("Actor Image " + Integer.toString(i), i, i, "stationary", 0, "none", "right", false, GameConfiguration.actorAnimationSpeed, GameConfiguration.actorMovementSpeed, GameConfiguration.explosionDefault, 0, 0, 10f, 0f, 10f, ResourceManager.getIntance().actors_region, vbom));
@@ -186,6 +203,11 @@ public class ResourceManager {
 		for (int i = 0; i <= (GameConfiguration.bulletMapColumns * GameConfiguration.bulletMapRows); i++) {
 			gameBullets.add(new Bullet("Bullet Sprite " + Integer.toString(i), i, i, 0, 0, 0f, 0f, 0f, ResourceManager.getIntance().bullet_region, vbom));
 		}
+
+		/** add all the shipPieces from the ship sprite sheet to the list of available shipPieces */
+		for (int i = 0; i <= (GameConfiguration.pieceMapColumns * GameConfiguration.pieceMapRows); i++) {
+			shipPieces.add(new Piece("Piece Sprite " + Integer.toString(i), i, i, 0, 0, 0f, 0f, 0f, ResourceManager.getIntance().piece_region, vbom));
+		}		
 	}
 
 	/**
@@ -224,6 +246,19 @@ public class ResourceManager {
 		for (Item i : gameItems)
 			if (i.getId() == id)
 				return i;
+		return null;
+	}
+	
+	/**
+	 * find a particular item by id
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public Piece getGamePieceById(int id) {
+		for (Piece p : shipPieces)
+			if (p.getId() == id)
+				return p;
 		return null;
 	}
 
