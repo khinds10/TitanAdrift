@@ -29,6 +29,7 @@ public class LevelXMLBuilder {
 	private static final String TAG_ATTR_Y = "y";
 	private static final String TAG_ANIMATION_SPEED = "animationSpeed";
 	private static final String TAG_MOTION_SPEED = "movementSpeed";
+	private static final String TAG_TYPE = "type";
 	
 	/** PLATFORM XML attributes */
 	private static final String TAG_TILE = "platform";
@@ -37,16 +38,13 @@ public class LevelXMLBuilder {
 
 	/** ITEM XML attributes */
 	private static final String TAG_ITEM = "item";
-	private static final String TAG_ITEM_TYPE_TILE = "type";
-
+	
 	/** PIECE XML attributes */
 	private static final String TAG_PIECE = "piece";
-	private static final String TAG_PIECE_TYPE_TILE = "type";
 	
 	/** ACTOR XML attributes */
 	private static final String TAG_ACTOR = "actor";
 	private static final String TAG_ACTOR_ATTR_TILE = "actor";
-	private static final String TAG_ACTOR_TYPE_TILE = "type";
 	private static final String TAG_ACTOR_STRING_WEAPON = "weapon";
 	private static final String TAG_ACTOR_STRING_SHOOTS = "shoots";
 	private static final String TAG_ACTOR_STRING_LIFE = "life";
@@ -116,7 +114,7 @@ public class LevelXMLBuilder {
 			public IEntity onLoadEntity(final String name, final Attributes attr) {
 				final int x = SAXUtils.getIntAttributeOrThrow(attr, TAG_ATTR_X);
 				final int y = SAXUtils.getIntAttributeOrThrow(attr, TAG_ATTR_Y);
-				final int id = SAXUtils.getIntAttributeOrThrow(attr, TAG_ITEM_TYPE_TILE);
+				final int id = SAXUtils.getIntAttributeOrThrow(attr, TAG_TYPE);
 				final int animationSpeed = SAXUtils.getIntAttributeOrThrow(attr, TAG_ANIMATION_SPEED);
 				final int movementSpeed = SAXUtils.getIntAttributeOrThrow(attr, TAG_MOTION_SPEED);
 				Item i = ResourceManager.getIntance().getGameItemById(id);
@@ -140,7 +138,7 @@ public class LevelXMLBuilder {
 			public IEntity onLoadEntity(final String name, final Attributes attr) {
 				final int x = SAXUtils.getIntAttributeOrThrow(attr, TAG_ATTR_X);
 				final int y = SAXUtils.getIntAttributeOrThrow(attr, TAG_ATTR_Y);
-				final int id = SAXUtils.getIntAttributeOrThrow(attr, TAG_PIECE_TYPE_TILE);
+				final int id = SAXUtils.getIntAttributeOrThrow(attr, TAG_TYPE);
 				final int animationSpeed = SAXUtils.getIntAttributeOrThrow(attr, TAG_ANIMATION_SPEED);
 				final int movementSpeed = SAXUtils.getIntAttributeOrThrow(attr, TAG_MOTION_SPEED);
 				Piece p = ResourceManager.getIntance().getGamePieceById(id);
@@ -176,7 +174,7 @@ public class LevelXMLBuilder {
 				final int x = SAXUtils.getIntAttributeOrThrow(attr, TAG_ATTR_X);
 				final int y = SAXUtils.getIntAttributeOrThrow(attr, TAG_ATTR_Y);
 				final int id = SAXUtils.getIntAttributeOrThrow(attr, TAG_ACTOR_ATTR_TILE);
-				final String type = SAXUtils.getAttributeOrThrow(attr, TAG_ACTOR_TYPE_TILE);
+				final String type = SAXUtils.getAttributeOrThrow(attr, TAG_TYPE);
 				final int life = SAXUtils.getIntAttributeOrThrow(attr, TAG_ACTOR_STRING_LIFE);
 				final String weapon = SAXUtils.getAttributeOrThrow(attr, TAG_ACTOR_STRING_WEAPON);
 				final String facing = SAXUtils.getAttributeOrThrow(attr, TAG_ACTOR_STRING_FACING);
