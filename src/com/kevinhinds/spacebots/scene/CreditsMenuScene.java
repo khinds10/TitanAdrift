@@ -41,7 +41,7 @@ public class CreditsMenuScene extends BaseScene implements IOnMenuItemClickListe
 		menu.setPosition(0, 0);
 
 		/** create menu items */
-		final IMenuItem mainTitle = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().levelSelectFont, "SPACEBOTS", 0, false);
+		final IMenuItem mainTitle = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameFont, "SPACEBOTS", 0, false);
 		menu.addMenuItem(mainTitle);
 
 		final IMenuItem developTitle = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameFont, "DEVELOPED BY\n\t\t\t\tKEVIN HINDS @ BITSTREET APPS\n", 0, false);

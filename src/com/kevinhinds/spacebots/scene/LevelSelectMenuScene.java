@@ -6,9 +6,11 @@ import org.andengine.entity.scene.menu.MenuScene;
 import org.andengine.entity.scene.menu.MenuScene.IOnMenuItemClickListener;
 import org.andengine.entity.scene.menu.item.IMenuItem;
 import org.andengine.entity.sprite.Sprite;
+import org.andengine.opengl.font.Font;
 
 import com.kevinhinds.spacebots.GameConfiguration;
 import com.kevinhinds.spacebots.ResourceManager;
+import com.kevinhinds.spacebots.status.GameStatus;
 
 /**
  * main menu scene for the game
@@ -51,7 +53,26 @@ public class LevelSelectMenuScene extends BaseScene implements IOnMenuItemClickL
 			if (levelId < 10) {
 				levelName = "0" + Integer.toString(levelId);
 			}
-			levelMenuItems.add(ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().levelSelectFont, levelName, levelId, true));
+
+			/** switch the level select color coding based on level completion status */
+			Font selectedFont = null;
+			int levelStatus = GameStatus.levelStatusByLevelNumber(levelId);
+			if (levelStatus == 0) {
+				selectedFont = ResourceManager.getIntance().levelSelectFontNone; 
+			}
+			if (levelStatus == 1) {
+				selectedFont = ResourceManager.getIntance().levelSelectFontPlay;
+			}
+			if (levelStatus == 2) {
+				selectedFont = ResourceManager.getIntance().levelSelectFontOne;
+			}
+			if (levelStatus == 3) {
+				selectedFont = ResourceManager.getIntance().levelSelectFontTwo;
+			}
+			if (levelStatus == 4) {
+				selectedFont = ResourceManager.getIntance().levelSelectFontThree;
+			}
+			levelMenuItems.add(ResourceManager.getIntance().createTextMenuItem(selectedFont, levelName, levelId, true));
 		}
 		for (int levelId = 0; levelId < GameConfiguration.numberLevels; levelId++) {
 			menu.addMenuItem(levelMenuItems.get(levelId));
@@ -96,8 +117,10 @@ public class LevelSelectMenuScene extends BaseScene implements IOnMenuItemClickL
 			return true;
 		}
 
-		/** head over the scene selected! */
-		SceneManager.getInstance().setGameScene(item.getID());
+		/** head over the scene selected if the status for the level is non-zero (can't play yet) */
+		if (GameStatus.levelStatusByLevelNumber(item.getID()) > 0) {
+			SceneManager.getInstance().setGameScene(item.getID());	
+		}
 		return false;
 	}
 

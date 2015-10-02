@@ -12,7 +12,7 @@ import org.andengine.opengl.util.GLState;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 
 import com.kevinhinds.spacebots.ResourceManager;
-import com.kevinhinds.spacebots.SpaceBotsActivity;
+import com.kevinhinds.spacebots.MainGameActivity;
 
 /**
  * basic scene for all other game scenes
@@ -24,7 +24,7 @@ public abstract class BaseScene extends Scene {
 	protected Engine engine;
 	public VertexBufferObjectManager vbom;
 	public PhysicsWorld physicsWorld;
-	protected SpaceBotsActivity activity;
+	protected MainGameActivity activity;
 	public Camera camera;
 
 	public BaseScene() {

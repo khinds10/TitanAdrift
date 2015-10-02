@@ -10,7 +10,10 @@ import org.andengine.input.touch.controller.MultiTouch;
 import org.andengine.ui.activity.BaseGameActivity;
 
 import com.kevinhinds.spacebots.scene.SceneManager;
+import com.kevinhinds.spacebots.status.GameStatus;
 
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.view.KeyEvent;
 import android.widget.Toast;
 
@@ -19,12 +22,18 @@ import android.widget.Toast;
  * 
  * @author khinds
  */
-public class SpaceBotsActivity extends BaseGameActivity {
+public class MainGameActivity extends BaseGameActivity {
 
 	public Camera camera;
+	public SharedPreferences statusAndPreferences;
+	public SharedPreferences.Editor statusAndPreferencesEditor;
 
 	@Override
 	public EngineOptions onCreateEngineOptions() {
+
+		statusAndPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+		statusAndPreferencesEditor = statusAndPreferences.edit();
+
 		camera = new Camera(0, 0, 804, 480);
 		EngineOptions engineOptions = new EngineOptions(true, ScreenOrientation.LANDSCAPE_FIXED, new RatioResolutionPolicy(800, 480), camera);
 		engineOptions.getAudioOptions().setNeedsMusic(true).setNeedsSound(true);
@@ -40,6 +49,11 @@ public class SpaceBotsActivity extends BaseGameActivity {
 	@Override
 	public void onCreateResources(OnCreateResourcesCallback cb) throws Exception {
 		ResourceManager.prepareManager(getEngine(), this, camera, getVertexBufferObjectManager());
+		
+		/** if first install then need some default game player status created */
+		if (statusAndPreferences.getBoolean("FIRSTRUN", true)) {
+			GameStatus.setDefaultGameStatus();
+		}
 		cb.onCreateResourcesFinished();
 	}
 

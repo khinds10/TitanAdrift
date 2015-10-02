@@ -43,14 +43,21 @@ public class ResourceManager {
 
 	/** universal resources */
 	public Engine engine;
-	public SpaceBotsActivity activity;
+	public MainGameActivity activity;
 	public Camera camera;
 	public VertexBufferObjectManager vbom;
 
 	/** game fonts */
 	public Font gameFont;
 	public Font gameFontGray;
-	public Font levelSelectFont;
+	
+	/** level fonts color coded by status */
+	public Font levelSelectFontNone;
+	public Font levelSelectFontPlay;
+	public Font levelSelectFontOne;
+	public Font levelSelectFontTwo;
+	public Font levelSelectFontThree;
+	
 	public Font titleFont;
 	public Font menuRedFont;
 	public Font menuBlueFont;
@@ -302,8 +309,21 @@ public class ResourceManager {
 		menuGrayFont = buildFont("game.ttf", 40, android.graphics.Color.parseColor("#D8D8D8"));
 		menuGrayFont.load();
 
-		levelSelectFont = buildFont("game.ttf", 30, android.graphics.Color.parseColor("#FFFCCD"));
-		levelSelectFont.load();
+		/** color coded game level select fonts */
+		levelSelectFontNone = buildFont("game.ttf", 30, android.graphics.Color.parseColor("#515151"));
+		levelSelectFontNone.load();
+		
+		levelSelectFontPlay = buildFont("game.ttf", 30, android.graphics.Color.parseColor("#FFFCCD"));
+		levelSelectFontPlay.load();
+		
+		levelSelectFontOne = buildFont("game.ttf", 30, android.graphics.Color.parseColor("#FFB273"));
+		levelSelectFontOne.load();		
+		
+		levelSelectFontTwo = buildFont("game.ttf", 30, android.graphics.Color.parseColor("#F77F00"));
+		levelSelectFontTwo.load();
+		
+		levelSelectFontThree = buildFont("game.ttf", 30, android.graphics.Color.parseColor("#D64027"));
+		levelSelectFontThree.load();
 	}
 
 	/**
@@ -347,7 +367,7 @@ public class ResourceManager {
 	 * @param camera
 	 * @param vbom
 	 */
-	public static void prepareManager(Engine engine, SpaceBotsActivity activity, Camera camera, VertexBufferObjectManager vbom) {
+	public static void prepareManager(Engine engine, MainGameActivity activity, Camera camera, VertexBufferObjectManager vbom) {
 		getIntance().engine = engine;
 		getIntance().activity = activity;
 		getIntance().camera = camera;
