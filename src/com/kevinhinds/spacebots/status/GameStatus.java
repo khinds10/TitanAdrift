@@ -16,6 +16,8 @@ public class GameStatus {
 	public static String MusicPlay = "MusicPlay";
 	public static String SoundFXPlay = "SoundFXPlay";
 	public static String LevelStatus = "LevelStatus";
+	public static String ShipRepairedStatus = "ShipRepairedStatus";
+	public static String TokensAquiredList = "TokensAquiredList";
 
 	/**
 	 * code that will run if it's the first time we've installed the application
@@ -26,7 +28,7 @@ public class GameStatus {
 		activity.statusAndPreferencesEditor.putInt(GameStatus.HighScore, 0);
 		activity.statusAndPreferencesEditor.putBoolean(GameStatus.MusicPlay, false);
 		activity.statusAndPreferencesEditor.putBoolean(GameStatus.SoundFXPlay, false);
-		
+
 		/** create a list of all new level status numbers, marking level 1 as "1" or available to play */
 		String levelStats = StatusListManager.createDefaultCSVList(GameConfiguration.numberLevels, "0");
 		levelStats = StatusListManager.updateIndexByValue(levelStats, 1, "1");
@@ -35,6 +37,20 @@ public class GameStatus {
 		/** update FirstRun to say we're no longer running game for the first time and commit default values */
 		activity.statusAndPreferencesEditor.putBoolean("FIRSTRUN", false);
 		activity.statusAndPreferencesEditor.commit();
+	}
+
+	/**
+	 * collect ship piece by name by saving it to the game status list for it
+	 * @param pieceName
+	 */
+	public static void collectShipPiece(String pieceName) {
+		MainGameActivity activity = ResourceManager.getIntance().activity;
+		String shipRepairedStatus = activity.statusAndPreferences.getString(GameStatus.ShipRepairedStatus, "");
+		if (!StatusListManager.containsValue(shipRepairedStatus, pieceName)) {
+			shipRepairedStatus = shipRepairedStatus + pieceName + ",";
+			activity.statusAndPreferencesEditor.putString(GameStatus.ShipRepairedStatus, shipRepairedStatus);
+			activity.statusAndPreferencesEditor.commit();
+		}
 	}
 
 	/** determine if we're supposed to play music in the game */
@@ -69,6 +85,7 @@ public class GameStatus {
 		MainGameActivity activity = ResourceManager.getIntance().activity;
 		String NewLevelStatusList = StatusListManager.updateIndexByValue(activity.statusAndPreferences.getString(GameStatus.LevelStatus, ""), levelNumber, status);
 		activity.statusAndPreferencesEditor.putString(GameStatus.LevelStatus, NewLevelStatusList);
+		ResourceManager.getIntance().activity.statusAndPreferencesEditor.commit();
 	}
 
 	/**

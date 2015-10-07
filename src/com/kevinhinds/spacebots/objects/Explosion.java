@@ -32,7 +32,7 @@ public class Explosion {
 		animationSpeed = new long[] { GameConfiguration.explosionAnimationSpeed, GameConfiguration.explosionAnimationSpeed, GameConfiguration.explosionAnimationSpeed, GameConfiguration.explosionAnimationSpeed, GameConfiguration.explosionAnimationSpeed, GameConfiguration.explosionAnimationSpeed, GameConfiguration.explosionAnimationSpeed, GameConfiguration.explosionAnimationSpeed, GameConfiguration.explosionAnimationSpeed, GameConfiguration.explosionAnimationSpeed, GameConfiguration.explosionAnimationSpeed, GameConfiguration.explosionAnimationSpeed, GameConfiguration.explosionAnimationSpeed, GameConfiguration.explosionAnimationSpeed, GameConfiguration.explosionAnimationSpeed, GameConfiguration.explosionAnimationSpeed, GameConfiguration.explosionAnimationSpeed };
 
 		/** create a new explosion sprite and detonate it! */
-		explosionSprite = scene.createAnimatedSprite(objCenterPos[0], objCenterPos[1] - 12, ResourceManager.getIntance().explosion_region, scene.vbom);
+		explosionSprite = scene.createAnimatedSprite(objCenterPos[0], objCenterPos[1] - 12, ResourceManager.getIntance().explosionRegion, scene.vbom);
 
 		/** we'll start counting from 1 but the sprite sheet counts from zero */
 		int startTile = (type * GameConfiguration.explosionMapColumns);

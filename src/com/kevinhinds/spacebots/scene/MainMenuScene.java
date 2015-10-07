@@ -24,7 +24,7 @@ public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener
 
 	@Override
 	public void createScene() {
-		final Sprite spriteBG = new Sprite(0, 0, ResourceManager.getIntance().planet_background_region, ResourceManager.getIntance().vbom);
+		final Sprite spriteBG = new Sprite(0, 0, ResourceManager.getIntance().planetBackgroundRegion, ResourceManager.getIntance().vbom);
 		attachChild(spriteBG);
 		createMenu();
 	}

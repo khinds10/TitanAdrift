@@ -43,7 +43,7 @@ public class Player {
 	public Player(GameScene scene, PhysicsWorld playerPhysicsworld) {
 		final FixtureDef playerFixtureDef = PhysicsFactory.createFixtureDef(1, 0.0f, 0.0f);
 		gameScene = scene;
-		playerSprite = scene.createAnimatedSprite(ResourceManager.getIntance().camera.getWidth() / 2, ResourceManager.getIntance().camera.getHeight() - 150, ResourceManager.getIntance().player_region, scene.vbom);
+		playerSprite = scene.createAnimatedSprite(ResourceManager.getIntance().camera.getWidth() / 2, ResourceManager.getIntance().camera.getHeight() - 150, ResourceManager.getIntance().playerRegion, scene.vbom);
 		playerBody = PhysicsFactory.createBoxBody(scene.physicsWorld, playerSprite, BodyType.DynamicBody, playerFixtureDef);
 		playerBody.setUserData("player");
 		gameScene.physicsWorld.registerPhysicsConnector(new PhysicsConnector(playerSprite, playerBody, true, false));
@@ -148,7 +148,7 @@ public class Player {
 	/**
 	 * player jumps
 	 */
-	public void jump() {
+	public void jump(float jumpVelocity) {
 		if (!isJumping) {
 			float jumpmotion = 0;
 			isJumping = true;
@@ -169,7 +169,7 @@ public class Player {
 					playerSprite.animate(new long[] { GameConfiguration.playerAnimationSpeed }, new int[] { GameConfiguration.playerJumpLeftFrame });
 				}
 			}
-			final Vector2 velocity = Vector2Pool.obtain(jumpmotion, GameConfiguration.playerJumpVelocity);
+			final Vector2 velocity = Vector2Pool.obtain(jumpmotion, jumpVelocity);
 			playerBody.setLinearVelocity(velocity);
 		}
 	}
@@ -222,5 +222,12 @@ public class Player {
 		}
 		gameScene.level.addBullet(b.getInstance(bulletName, playerSprite.getX() + moveBulletX, playerSprite.getY() + 10));
 		gameScene.level.getBulletByName(bulletName).createBodyAndAttach(playerSprite, facing, scene, physicsWorld);
+	}
+
+	/**
+	 * jump higher with the token ability jump
+	 */
+	public void tokenAbilityJump() {
+		jump((float) (GameConfiguration.playerJumpVelocity * 1.5));
 	}
 }

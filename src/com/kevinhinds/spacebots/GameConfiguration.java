@@ -1,14 +1,20 @@
 package com.kevinhinds.spacebots;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import android.annotation.SuppressLint;
+
 /**
  * all constant values for game here pretty please
  * 
  * @author khinds
  */
+@SuppressLint("UseSparseArrays")
 public class GameConfiguration {
 
 	/** player animated sprite tile frames */
-	public static int playerAnimationSpeed = 150;
+	public static int playerAnimationSpeed = 110;
 	public static int playerStartLevelFrame = 22;
 
 	public static int playerFaceRightFrame = 16;
@@ -43,18 +49,34 @@ public class GameConfiguration {
 		BLUE_BULLET, GREEN_BULLET, YELLOW_BULLET, PINK_PHASER, YELLOW_DOUBLE_PHASER, YELLOW_PHASER, RED_PHASER, ORANGE_PHASER
 	}
 
+	/** player advanced abilities mapped to token IDs */
+	public static Map<Integer, String> playerAbilitiesTokensMapping = new HashMap<Integer, String>();
+	static {
+		playerAbilitiesTokensMapping = new HashMap<Integer, String>();
+		playerAbilitiesTokensMapping.put(0, "RELOAD");
+		playerAbilitiesTokensMapping.put(1, "FLOAT");
+		playerAbilitiesTokensMapping.put(2, "JUMP");
+		playerAbilitiesTokensMapping.put(3, "LIFE");
+		playerAbilitiesTokensMapping.put(4, "FREEZE");
+		playerAbilitiesTokensMapping.put(5, "POWER");
+	}
+
 	/** platform sprite map */
 	public static int platformMapColumns = 22;
 	public static int platformMapRows = 13;
 
 	/** item sprite map */
-	public static int itemMapColumns = 5;
-	public static int itemMapRows = 2;
+	public static int itemMapColumns = 6;
+	public static int itemMapRows = 1;
+
+	/** item button sprite map */
+	public static int itemButtonMapColumns = 6;
+	public static int itemButtonMapRows = 1;
 
 	/** ship pieces sprite map */
 	public static int pieceMapColumns = 17;
 	public static int pieceMapRows = 27;
-	
+
 	/** bullet sprite map */
 	public static int bulletMapColumns = 3;
 	public static int bulletMapRows = 3;

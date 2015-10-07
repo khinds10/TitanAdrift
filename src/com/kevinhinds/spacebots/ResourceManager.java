@@ -66,35 +66,37 @@ public class ResourceManager {
 
 	/** menu regions */
 	private BuildableBitmapTextureAtlas menuTextureAtlas;
-	public ITextureRegion planet_background_region;
-	public ITextureRegion void_background_region;
-	public ITextureRegion colorgalaxy_background_region;
-	public ITextureRegion andengine_region;
+	public ITextureRegion planetBackgroundRegion;
+	public ITextureRegion voidBackgroundRegion;
+	public ITextureRegion colorgalaxyBackgroundRegion;
+	public ITextureRegion andengineRegion;
 
 	/** player region */
-	public ITiledTextureRegion player_region;
+	public ITiledTextureRegion playerRegion;
 
 	/** weapon region */
-	public ITiledTextureRegion bullet_region;
+	public ITiledTextureRegion bulletRegion;
 
 	/** adversary region */
-	public ITiledTextureRegion actors_region;
-	public ITiledTextureRegion explosion_region;
+	public ITiledTextureRegion actorsRegion;
+	public ITiledTextureRegion explosionRegion;
 
 	/** controls regions */
 	private BuildableBitmapTextureAtlas gameTextureAtlas;
-	public ITextureRegion control_jump_region;
-	public ITextureRegion control_shoot_region;
-	public ITextureRegion control_left_region;
-	public ITextureRegion control_right_region;
+	public ITextureRegion controlJumpRegion;
+	public ITextureRegion controlShootRegion;
+	public ITextureRegion controlLeftRegion;
+	public ITextureRegion controlRightRegion;
 
 	/** level regions */
 	private BuildableBitmapTextureAtlas tileTextureAtlas;
 	private BuildableBitmapTextureAtlas itemTextureAtlas;
+	private BuildableBitmapTextureAtlas itemButtonTextureAtlas;
 	private BuildableBitmapTextureAtlas pieceTextureAtlas;
-	public ITiledTextureRegion platform_region;
-	public ITiledTextureRegion item_region;
-	public ITiledTextureRegion piece_region;
+	public ITiledTextureRegion platformRegion;
+	public ITiledTextureRegion itemRegion;
+	public ITiledTextureRegion itemButtonRegion;
+	public ITiledTextureRegion pieceRegion;
 
 	/** complete set of the game's actors, tiles and items to render on levels via XML descriptions */
 	private ArrayList<Actor> gameActors = new ArrayList<Actor>();
@@ -109,10 +111,10 @@ public class ResourceManager {
 	public void loadMenuResources() {
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
 		menuTextureAtlas = new BuildableBitmapTextureAtlas(activity.getTextureManager(), 4096, 4096, TextureOptions.BILINEAR);
-		colorgalaxy_background_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "menu/colorgalaxy.jpg");
-		planet_background_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "menu/largeplanet.jpg");
-		void_background_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "menu/multicolor.jpg");
-		andengine_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "menu/andengine.png");
+		colorgalaxyBackgroundRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "menu/colorgalaxy.jpg");
+		planetBackgroundRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "menu/largeplanet.jpg");
+		voidBackgroundRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "menu/multicolor.jpg");
+		andengineRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "menu/andengine.png");
 
 		/** have to run everything through black pawn to render it visibly */
 		try {
@@ -131,18 +133,18 @@ public class ResourceManager {
 		gameTextureAtlas = new BuildableBitmapTextureAtlas(activity.getTextureManager(), 2048, 2048, TextureOptions.BILINEAR);
 
 		/** player and weapons */
-		player_region = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "character/player.png", GameConfiguration.playerMapColumns, GameConfiguration.playerMapRows);
-		bullet_region = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "weapons/bullet_strip.png", GameConfiguration.bulletMapColumns, GameConfiguration.bulletMapRows);
+		playerRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "character/player.png", GameConfiguration.playerMapColumns, GameConfiguration.playerMapRows);
+		bulletRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "weapons/bullet_strip.png", GameConfiguration.bulletMapColumns, GameConfiguration.bulletMapRows);
 
 		/** adversaries and explosions */
-		actors_region = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "actors/creatures.png", GameConfiguration.actorMapColumns, GameConfiguration.actorMapRows);
-		explosion_region = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "explosions/explosions.png", GameConfiguration.explosionMapColumns, GameConfiguration.explosionMapRows);
+		actorsRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "actors/creatures.png", GameConfiguration.actorMapColumns, GameConfiguration.actorMapRows);
+		explosionRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "explosions/explosions.png", GameConfiguration.explosionMapColumns, GameConfiguration.explosionMapRows);
 
 		/** game controls */
-		control_jump_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "controls/jump.png");
-		control_left_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "controls/left.png");
-		control_right_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "controls/right.png");
-		control_shoot_region = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "controls/shoot.png");
+		controlJumpRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "controls/jump.png");
+		controlLeftRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "controls/left.png");
+		controlRightRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "controls/right.png");
+		controlShootRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "controls/shoot.png");
 
 		/** have to run everything through black pawn to render it visibly */
 		try {
@@ -155,7 +157,7 @@ public class ResourceManager {
 		/** load platforms */
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/tiles/");
 		tileTextureAtlas = new BuildableBitmapTextureAtlas(activity.getTextureManager(), 1024, 1024, TextureOptions.BILINEAR);
-		platform_region = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(tileTextureAtlas, activity, "platforms.png", GameConfiguration.platformMapColumns, GameConfiguration.platformMapRows);
+		platformRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(tileTextureAtlas, activity, "platforms.png", GameConfiguration.platformMapColumns, GameConfiguration.platformMapRows);
 
 		/** have to run everything through black pawn to render it visibly */
 		try {
@@ -168,7 +170,7 @@ public class ResourceManager {
 		/** load items */
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/items/");
 		itemTextureAtlas = new BuildableBitmapTextureAtlas(activity.getTextureManager(), 1024, 1024, TextureOptions.BILINEAR);
-		item_region = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(itemTextureAtlas, activity, "items.png", GameConfiguration.itemMapColumns, GameConfiguration.itemMapRows);
+		itemRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(itemTextureAtlas, activity, "tokens.png", GameConfiguration.itemMapColumns, GameConfiguration.itemMapRows);
 
 		/** have to run everything through black pawn to render it visibly */
 		try {
@@ -177,11 +179,24 @@ public class ResourceManager {
 		} catch (Exception e) {
 			Debug.e(e);
 		}
+		
+		/** load item buttons */
+		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/items/");
+		itemButtonTextureAtlas = new BuildableBitmapTextureAtlas(activity.getTextureManager(), 512, 512, TextureOptions.BILINEAR);
+		itemButtonRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(itemButtonTextureAtlas, activity, "tokenbuttons.png", GameConfiguration.itemButtonMapColumns, GameConfiguration.itemButtonMapRows);
 
+		/** have to run everything through black pawn to render it visibly */
+		try {
+			itemButtonTextureAtlas.build(new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(0, 1, 0));
+			itemButtonTextureAtlas.load();
+		} catch (Exception e) {
+			Debug.e(e);
+		}
+		
 		/** load ship pieces */
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/items/");
 		pieceTextureAtlas = new BuildableBitmapTextureAtlas(activity.getTextureManager(), 1024, 1024, TextureOptions.BILINEAR);
-		piece_region = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(pieceTextureAtlas, activity, "ship.png", GameConfiguration.pieceMapColumns, GameConfiguration.pieceMapRows);
+		pieceRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(pieceTextureAtlas, activity, "ship.png", GameConfiguration.pieceMapColumns, GameConfiguration.pieceMapRows);
 
 		/** have to run everything through black pawn to render it visibly */
 		try {
@@ -193,27 +208,27 @@ public class ResourceManager {
 
 		/** add all the gameActors from the actors sprite sheet to the list of available gameActors */
 		for (int i = 0; i <= (GameConfiguration.actorMapColumns * GameConfiguration.actorMapRows); i++) {
-			gameActors.add(new Actor("Actor Image " + Integer.toString(i), i, i, "stationary", 0, "none", "right", false, GameConfiguration.actorAnimationSpeed, GameConfiguration.actorMovementSpeed, GameConfiguration.explosionDefault, 0, 0, 10f, 0f, 10f, ResourceManager.getIntance().actors_region, vbom));
+			gameActors.add(new Actor("Actor Image " + Integer.toString(i), i, i, "stationary", 0, "none", "right", false, GameConfiguration.actorAnimationSpeed, GameConfiguration.actorMovementSpeed, GameConfiguration.explosionDefault, 0, 0, 10f, 0f, 10f, ResourceManager.getIntance().actorsRegion, vbom));
 		}
 
 		/** add all the gameTiles from the platform sprite sheet to the list of available gameTiles */
 		for (int i = 0; i <= (GameConfiguration.platformMapColumns * GameConfiguration.platformMapRows); i++) {
-			gameTiles.add(new Tile("Platform Tile " + Integer.toString(i), i, i, "physical", 0, 0, 0f, 10f, 0f, ResourceManager.getIntance().platform_region, vbom));
+			gameTiles.add(new Tile("Platform Tile " + Integer.toString(i), i, i, "physical", 0, 0, 0f, 10f, 0f, ResourceManager.getIntance().platformRegion, vbom));
 		}
 
 		/** add all the gameItems from the items sprite sheet to the list of available gameItems */
 		for (int i = 0; i <= (GameConfiguration.itemMapColumns * GameConfiguration.itemMapRows); i++) {
-			gameItems.add(new Item("Game Item " + Integer.toString(i), String.valueOf(i), i, i, 0, 0, 0f, 0f, 0f, ResourceManager.getIntance().item_region, vbom));
+			gameItems.add(new Item("Game Item " + Integer.toString(i), String.valueOf(i), i, i, 0, 0, 0f, 0f, 0f, ResourceManager.getIntance().itemRegion, vbom));
 		}
 
 		/** add all the gameBullets from the bullet sprite sheet to the list of available gameBullets */
 		for (int i = 0; i <= (GameConfiguration.bulletMapColumns * GameConfiguration.bulletMapRows); i++) {
-			gameBullets.add(new Bullet("Bullet Sprite " + Integer.toString(i), i, i, 0, 0, 0f, 0f, 0f, ResourceManager.getIntance().bullet_region, vbom));
+			gameBullets.add(new Bullet("Bullet Sprite " + Integer.toString(i), i, i, 0, 0, 0f, 0f, 0f, ResourceManager.getIntance().bulletRegion, vbom));
 		}
 
 		/** add all the shipPieces from the ship sprite sheet to the list of available shipPieces */
 		for (int i = 0; i <= (GameConfiguration.pieceMapColumns * GameConfiguration.pieceMapRows); i++) {
-			shipPieces.add(new Piece("Piece Sprite " + Integer.toString(i), String.valueOf(i), i, i, 0, 0, 0f, 0f, 0f, ResourceManager.getIntance().piece_region, vbom));
+			shipPieces.add(new Piece("Piece Sprite " + Integer.toString(i), String.valueOf(i), i, i, 0, 0, 0f, 0f, 0f, ResourceManager.getIntance().pieceRegion, vbom));
 		}
 	}
 

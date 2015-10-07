@@ -31,6 +31,7 @@ import com.kevinhinds.spacebots.objects.Item;
 import com.kevinhinds.spacebots.objects.Piece;
 import com.kevinhinds.spacebots.player.Controls;
 import com.kevinhinds.spacebots.player.Player;
+import com.kevinhinds.spacebots.status.GameStatus;
 
 /**
  * main game scene which contains multiple levels
@@ -46,6 +47,7 @@ public class GameScene extends BaseScene {
 	public Level level;
 	public int levelNumber;
 	private LevelXMLBuilder levelXMLBuilder;
+	private Controls controls;
 
 	/**
 	 * construct the gamescene with the level XML builder
@@ -135,7 +137,7 @@ public class GameScene extends BaseScene {
 	 * create controls for the game for the player's character
 	 */
 	private void createControls() {
-		new Controls(this, player);
+		controls = new Controls(this, player);
 	}
 
 	/**
@@ -233,12 +235,20 @@ public class GameScene extends BaseScene {
 						/** player contacts an item */
 						if (x2BodyName.contains("Item")) {
 							Item itemCollected = level.getItemByName(x2BodyName);
+
+							/** update player controls showing the new item has been collected */
+							String itemName = itemCollected.getName();
+							Log.i("Collected Item: ", itemName);
+							String[] itemNameDetails = itemName.split("-");
+							controls.updatePlayerAbilityButtons(Integer.parseInt(itemNameDetails[2]));
 							itemCollected.collect(GameScene.this);
 						}
-						
+
 						/** player contacts an piece */
 						if (x2BodyName.contains("Piece")) {
+							/** save player collected piece and collect it */
 							Piece itemCollected = level.getPieceByName(x2BodyName);
+							GameStatus.collectShipPiece(itemCollected.getType());
 							itemCollected.collect(GameScene.this);
 						}
 					}
@@ -263,8 +273,6 @@ public class GameScene extends BaseScene {
 				String x2BodyName = (String) x2.getBody().getUserData();
 
 				if (x1BodyName != null && x2BodyName != null) {
-					
-					
 					/** player begins to fall when loses contact with a bounce tile (edges of platforms) */
 					if (x1BodyName.equals("player")) {
 						if (x2BodyName.equals("bounce")) {

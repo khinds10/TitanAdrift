@@ -30,7 +30,7 @@ public class LevelSelectMenuScene extends BaseScene implements IOnMenuItemClickL
 
 	@Override
 	public void createScene() {
-		final Sprite spriteBG = new Sprite(0, 0, ResourceManager.getIntance().void_background_region, ResourceManager.getIntance().vbom);
+		final Sprite spriteBG = new Sprite(0, 0, ResourceManager.getIntance().voidBackgroundRegion, ResourceManager.getIntance().vbom);
 		attachChild(spriteBG);
 		createMenu();
 	}

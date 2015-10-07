@@ -1,7 +1,10 @@
 package com.kevinhinds.spacebots.status;
 
+import java.util.Arrays;
+
 /**
- * Android SharedPreferences are limited to basic types, if we have a list of items saved for a particular key (CSV format) utilities exist here to create/update lists quickly
+ * Android SharedPreferences are limited to basic types, 
+ * 	if we have a list of items saved for a particular key (CSV format) utilities exist here to create/update lists quickly
  * 
  * @author khinds
  */
@@ -50,6 +53,18 @@ public class StatusListManager {
 			x++;
 		}
 		return listUpdated.replaceAll(",$", "");
+	}
+
+	/**
+	 * check if the current CSVList contains a value you've specified
+	 * 
+	 * @param CSVList
+	 * @param checkValue
+	 * @return
+	 */
+	public static boolean containsValue(String CSVList, String checkValue) {
+		String[] listItems = CSVList.split(",");
+		return Arrays.asList(listItems).contains(checkValue);
 	}
 
 	/**
