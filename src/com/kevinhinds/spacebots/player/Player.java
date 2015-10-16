@@ -16,6 +16,7 @@ import com.kevinhinds.spacebots.ResourceManager;
 import com.kevinhinds.spacebots.GameConfiguration.State;
 import com.kevinhinds.spacebots.objects.Bullet;
 import com.kevinhinds.spacebots.scene.GameScene;
+import com.kevinhinds.spacebots.scene.SceneManager;
 
 /**
  * main character for the game
@@ -24,15 +25,23 @@ import com.kevinhinds.spacebots.scene.GameScene;
  */
 public class Player {
 
+	/** physics world and scene for the player */
+	protected PhysicsWorld physicsWorld;
+	protected GameScene gameScene;
+
+	/** player sprite and current state values */
 	public Body playerBody;
 	public AnimatedSprite playerSprite;
 	public boolean isJumping;
 	public boolean isFalling;
 	protected State moving;
 	public State facing;
-	protected PhysicsWorld physicsWorld;
 	protected int bulletNumber = 0;
-	protected GameScene gameScene;
+	public int bulletStrength = 1;
+
+	/** player start level energy and life amounts */
+	public int lifeAmount = GameConfiguration.playerStartingLife;
+	public int energyAmount = GameConfiguration.playerStartingEnergy;
 
 	/**
 	 * create player on the scene in question
@@ -211,16 +220,42 @@ public class Player {
 	 * @param scene
 	 */
 	public void shoot(GameScene scene) {
+
+		/** decrease energy because the gun was shot and update the control */
+		energyAmount = energyAmount - GameConfiguration.playerEnergyShotAmount;
+		scene.controls.setEnergyLevelByPercent((energyAmount * 100) / GameConfiguration.playerStartingEnergy);
+		if (energyAmount <= 0) {
+			energyAmount = 0;
+			ResourceManager.getIntance().gunClickSound.play();
+			return;
+		}
+
+		
 		bulletNumber++;
 		String bulletName = "Bullet-" + Integer.toString(bulletNumber);
-		Bullet b = ResourceManager.getIntance().getGameBulletById(playerWeapons.YELLOW_PHASER.ordinal());
-
+		
+		/** create a strength 1 2 or 3 bullet based on player's current energy */
+		Bullet bullet = ResourceManager.getIntance().getGameBulletById(playerWeapons.YELLOW_PHASER.ordinal());
+		ResourceManager.getIntance().laserSound.play();
+		
+		bullet.strength = 1;
+		if (energyAmount > GameConfiguration.playerStartingEnergy) {
+			bullet = ResourceManager.getIntance().getGameBulletById(playerWeapons.YELLOW_DOUBLE_PHASER.ordinal());
+			bullet.strength = 2;
+		}
+		if (energyAmount > GameConfiguration.playerStartingEnergy * 2) {
+			bullet = ResourceManager.getIntance().getGameBulletById(playerWeapons.YELLOW_BULLET.ordinal());
+			bullet.strength = 3;
+		}
+		
 		/** the player X,Y is the top left corner, so if facing right the bullet should start about 50px over to the right */
 		int moveBulletX = 0;
+		bullet.direction = State.LEFT;
 		if (this.facing == State.RIGHT) {
 			moveBulletX = 25;
+			bullet.direction = State.RIGHT;
 		}
-		gameScene.level.addBullet(b.getInstance(bulletName, playerSprite.getX() + moveBulletX, playerSprite.getY() + 10));
+		gameScene.level.addBullet(bullet.getInstance(bulletName, playerSprite.getX() + moveBulletX, playerSprite.getY() + 10));
 		gameScene.level.getBulletByName(bulletName).createBodyAndAttach(playerSprite, facing, scene, physicsWorld);
 	}
 
@@ -229,5 +264,50 @@ public class Player {
 	 */
 	public void tokenAbilityJump() {
 		jump((float) (GameConfiguration.playerJumpVelocity * 1.5));
+	}
+
+	/**
+	 * reload from token item press
+	 */
+	public void reload() {
+		energyAmount = energyAmount + 15;
+		gameScene.controls.setEnergyLevelByPercent((energyAmount * 100) / GameConfiguration.playerStartingEnergy);
+	}
+
+	/**
+	 * float ability acquired from a token collection
+	 */
+	public void tokenAbilityFloat() {
+		float jumpmotion = 0;
+		if (moving == State.RIGHT) {
+			jumpmotion = GameConfiguration.playerFloatingVelocity;
+		}
+		if (moving == State.LEFT) {
+			jumpmotion = -GameConfiguration.playerFloatingVelocity;
+		}
+		final Vector2 velocity = Vector2Pool.obtain(jumpmotion, 0);
+		playerBody.setLinearVelocity(velocity);
+	}
+
+	/**
+	 * player takes damage in the level
+	 */
+	public void takeDamage(int damageAmount) {
+		lifeAmount = lifeAmount - damageAmount;
+		ResourceManager.getIntance().hitSound.play();
+		
+		/** player dies */
+		if (lifeAmount <=0) {
+			SceneManager.getInstance().loadLevelStatusScene();
+		}
+		gameScene.controls.setLifeMeterLevelByPercent((lifeAmount * 100) / GameConfiguration.playerStartingLife);
+	}
+	
+	/**
+	 * revive player life from token item press
+	 */
+	public void revive() {
+		lifeAmount = lifeAmount + 1;
+		gameScene.controls.setLifeMeterLevelByPercent((lifeAmount * 100) / GameConfiguration.playerStartingLife);
 	}
 }

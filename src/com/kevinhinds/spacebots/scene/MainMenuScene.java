@@ -42,7 +42,7 @@ public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener
 		menu.setPosition(0, 0);
 
 		/** create menu items */
-		final IMenuItem mainTitle = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().titleFont, "SPACEBOTS", MENU_TITLE, false);
+		final IMenuItem mainTitle = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().titleFont, "TITAN ADRIFT", MENU_TITLE, false);
 		menu.addMenuItem(mainTitle);
 
 		final IMenuItem playItem = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().menuBlueFont, "PLAY", MENU_PLAY, true);

@@ -1,5 +1,6 @@
 package com.kevinhinds.spacebots.scene;
 
+import org.andengine.audio.music.Music;
 import org.andengine.engine.Engine;
 import org.andengine.ui.IGameInterface.OnCreateSceneCallback;
 import com.kevinhinds.spacebots.ResourceManager;
@@ -28,11 +29,10 @@ public class SceneManager {
 		/** load all the resources for the game to start */
 		ResourceManager.getIntance().loadMenuResources();
 		ResourceManager.getIntance().loadGameResources();
+		ResourceManager.getIntance().loadMusic();
+		ResourceManager.getIntance().loadSoundEffects();
 		ResourceManager.getIntance().loadFonts();
-
-		menuScene = new MainMenuScene();
-		setScene(menuScene);
-		currentScene.createScene();
+		returnToMenuScene();
 		cb.onCreateSceneFinished(menuScene);
 	}
 
@@ -41,7 +41,7 @@ public class SceneManager {
 	 */
 	public void returnToMenuScene() {
 		menuScene = new MainMenuScene();
-		setScene(menuScene);
+		setScene(menuScene, ResourceManager.getIntance().titleMusic);
 		currentScene.createScene();
 	}
 
@@ -50,7 +50,7 @@ public class SceneManager {
 	 */
 	public void loadCreditsScene() {
 		levelScene = new CreditsMenuScene();
-		setScene(levelScene);
+		setScene(levelScene, ResourceManager.getIntance().creditsMusic);
 		currentScene.createScene();
 	}
 	
@@ -59,7 +59,7 @@ public class SceneManager {
 	 */
 	public void loadLevelSelectScene() {
 		levelScene = new LevelSelectMenuScene();
-		setScene(levelScene);
+		setScene(levelScene, null);
 		currentScene.createScene();
 	}
 
@@ -69,16 +69,35 @@ public class SceneManager {
 	public void setGameScene(int levelNumber) {
 		gameScene = new GameScene();
 		gameScene.setGameLevel(levelNumber);
-		setScene(gameScene);
+		setScene(gameScene, null);
 		currentScene.createScene();
 	}
 
+	/**
+	 * return to menu scene
+	 */
+	public void loadLevelStatusScene() {
+		levelScene = new LevelStatusScene();
+		setScene(levelScene, ResourceManager.getIntance().deadMusic);
+		currentScene.createScene();
+	}
+	
 	/**
 	 * dispose current scene and apply the new one specified
 	 * 
 	 * @param scene
 	 */
-	public void setScene(BaseScene scene) {
+	public void setScene(BaseScene scene, Music music) {
+		
+		/** stop any music and play new scene music if it's present */
+		ResourceManager.getIntance().stopAllMusic();
+		if (music != null) {
+			music.seekTo(0);
+			music.setVolume(0.2f);
+			music.resume();
+		}
+		
+		/** dispose and load new scene */
 		if (currentScene != null) {
 			currentScene.disposeScene();
 		}

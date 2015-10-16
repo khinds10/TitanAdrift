@@ -1,10 +1,16 @@
 package com.kevinhinds.spacebots;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.microedition.khronos.opengles.GL10;
 
+import org.andengine.audio.music.Music;
+import org.andengine.audio.music.MusicFactory;
+import org.andengine.audio.sound.Sound;
+import org.andengine.audio.sound.SoundFactory;
 import org.andengine.engine.Engine;
+import org.andengine.engine.camera.BoundCamera;
 import org.andengine.engine.camera.Camera;
 import org.andengine.entity.scene.menu.item.IMenuItem;
 import org.andengine.entity.scene.menu.item.TextMenuItem;
@@ -45,19 +51,22 @@ public class ResourceManager {
 	public Engine engine;
 	public MainGameActivity activity;
 	public Camera camera;
+	public BoundCamera boundCamera;
 	public VertexBufferObjectManager vbom;
 
 	/** game fonts */
 	public Font gameFont;
+	public Font gameFontLarge;
 	public Font gameFontGray;
-	
+	public Font gameFontTiny;
+
 	/** level fonts color coded by status */
 	public Font levelSelectFontNone;
 	public Font levelSelectFontPlay;
 	public Font levelSelectFontOne;
 	public Font levelSelectFontTwo;
 	public Font levelSelectFontThree;
-	
+
 	public Font titleFont;
 	public Font menuRedFont;
 	public Font menuBlueFont;
@@ -73,6 +82,8 @@ public class ResourceManager {
 
 	/** player region */
 	public ITiledTextureRegion playerRegion;
+	public ITiledTextureRegion playerEnergyRegion;
+	public ITiledTextureRegion playerLifeRegion;
 
 	/** weapon region */
 	public ITiledTextureRegion bulletRegion;
@@ -105,6 +116,21 @@ public class ResourceManager {
 	private ArrayList<Bullet> gameBullets = new ArrayList<Bullet>();
 	private ArrayList<Piece> shipPieces = new ArrayList<Piece>();
 
+	/** load all the music */
+	public Music titleMusic;
+	public Music creditsMusic;
+	public Music daydreamMusic;
+	public Music deadMusic;
+	public Music endingMusic;
+	public Music finishedMusic;
+
+	/** load all the sound effects */
+	public Sound laserSound;
+	public Sound gunClickSound;
+	public Sound impactSound;
+	public Sound tokenSound;
+	public Sound hitSound;
+
 	/**
 	 * load resources to create the menu into memory
 	 */
@@ -132,9 +158,11 @@ public class ResourceManager {
 
 		gameTextureAtlas = new BuildableBitmapTextureAtlas(activity.getTextureManager(), 2048, 2048, TextureOptions.BILINEAR);
 
-		/** player and weapons */
+		/** player, weapons and life/energy meters */
 		playerRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "character/player.png", GameConfiguration.playerMapColumns, GameConfiguration.playerMapRows);
 		bulletRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "weapons/bullet_strip.png", GameConfiguration.bulletMapColumns, GameConfiguration.bulletMapRows);
+		playerEnergyRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "character/energy.png", GameConfiguration.energyMapColumns, GameConfiguration.energyMapRows);
+		playerLifeRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "character/life.png", GameConfiguration.lifeMapColumns, GameConfiguration.lifeMapRows);
 
 		/** adversaries and explosions */
 		actorsRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "actors/creatures.png", GameConfiguration.actorMapColumns, GameConfiguration.actorMapRows);
@@ -179,7 +207,7 @@ public class ResourceManager {
 		} catch (Exception e) {
 			Debug.e(e);
 		}
-		
+
 		/** load item buttons */
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/items/");
 		itemButtonTextureAtlas = new BuildableBitmapTextureAtlas(activity.getTextureManager(), 512, 512, TextureOptions.BILINEAR);
@@ -192,7 +220,7 @@ public class ResourceManager {
 		} catch (Exception e) {
 			Debug.e(e);
 		}
-		
+
 		/** load ship pieces */
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/items/");
 		pieceTextureAtlas = new BuildableBitmapTextureAtlas(activity.getTextureManager(), 1024, 1024, TextureOptions.BILINEAR);
@@ -229,6 +257,65 @@ public class ResourceManager {
 		/** add all the shipPieces from the ship sprite sheet to the list of available shipPieces */
 		for (int i = 0; i <= (GameConfiguration.pieceMapColumns * GameConfiguration.pieceMapRows); i++) {
 			shipPieces.add(new Piece("Piece Sprite " + Integer.toString(i), String.valueOf(i), i, i, 0, 0, 0f, 0f, 0f, ResourceManager.getIntance().pieceRegion, vbom));
+		}
+	}
+
+	/**
+	 * load all music from assets
+	 */
+	public void loadMusic() {
+		MusicFactory.setAssetBasePath("music/");
+		try {
+			titleMusic = MusicFactory.createMusicFromAsset(this.engine.getMusicManager(), this.activity, "title.ogg");
+			creditsMusic = MusicFactory.createMusicFromAsset(this.engine.getMusicManager(), this.activity, "credits.ogg");
+			daydreamMusic = MusicFactory.createMusicFromAsset(this.engine.getMusicManager(), this.activity, "daydream.ogg");
+			deadMusic = MusicFactory.createMusicFromAsset(this.engine.getMusicManager(), this.activity, "dead.ogg");
+			endingMusic = MusicFactory.createMusicFromAsset(this.engine.getMusicManager(), this.activity, "ending.ogg");
+			finishedMusic = MusicFactory.createMusicFromAsset(this.engine.getMusicManager(), this.activity, "finished.ogg");
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/*
+	 * load all sound effects from resources
+	 */
+	public void loadSoundEffects() {
+		SoundFactory.setAssetBasePath("sfx/");
+		try {
+			laserSound = SoundFactory.createSoundFromAsset(this.engine.getSoundManager(), this.activity, "laser.ogg");
+			gunClickSound = SoundFactory.createSoundFromAsset(this.engine.getSoundManager(), this.activity, "gunclick.ogg");
+			impactSound = SoundFactory.createSoundFromAsset(this.engine.getSoundManager(), this.activity, "impact.ogg");
+			hitSound = SoundFactory.createSoundFromAsset(this.engine.getSoundManager(), this.activity, "hit.ogg");
+			tokenSound = SoundFactory.createSoundFromAsset(this.engine.getSoundManager(), this.activity, "token.ogg");
+		} catch (final IOException e) {
+			Debug.e(e);
+		}
+	}
+
+	/**
+	 * stop any music playing
+	 */
+	public void stopAllMusic() {
+		if (titleMusic.isPlaying()) {
+			titleMusic.pause();
+		}
+		if (creditsMusic.isPlaying()) {
+			creditsMusic.pause();
+		}
+		if (daydreamMusic.isPlaying()) {
+			daydreamMusic.pause();
+		}
+		if (deadMusic.isPlaying()) {
+			deadMusic.pause();
+		}
+		if (endingMusic.isPlaying()) {
+			endingMusic.pause();
+		}
+		if (finishedMusic.isPlaying()) {
+			finishedMusic.pause();
 		}
 	}
 
@@ -303,13 +390,19 @@ public class ResourceManager {
 	public void loadFonts() {
 		FontFactory.setAssetBasePath("fonts/");
 
+		gameFontLarge = buildFont("game.ttf", 30, android.graphics.Color.parseColor("#FFFAB5"));
+		gameFontLarge.load();
+
 		gameFont = buildFont("game.ttf", 20, android.graphics.Color.parseColor("#E0EFEF"));
 		gameFont.load();
 
 		gameFontGray = buildFont("game.ttf", 20, android.graphics.Color.parseColor("#D8D8D8"));
 		gameFontGray.load();
 
-		titleFont = buildFont("game.ttf", 60, android.graphics.Color.parseColor("#FFFAB5"));
+		gameFontTiny = buildFont("game.ttf", 10, android.graphics.Color.parseColor("#D8D8D8"));
+		gameFontTiny.load();
+
+		titleFont = buildFont("game.ttf", 50, android.graphics.Color.parseColor("#FFFAB5"));
 		titleFont.load();
 
 		menuRedFont = buildFont("game.ttf", 40, android.graphics.Color.parseColor("#DB8E77"));
@@ -327,16 +420,16 @@ public class ResourceManager {
 		/** color coded game level select fonts */
 		levelSelectFontNone = buildFont("game.ttf", 30, android.graphics.Color.parseColor("#515151"));
 		levelSelectFontNone.load();
-		
+
 		levelSelectFontPlay = buildFont("game.ttf", 30, android.graphics.Color.parseColor("#FFFCCD"));
 		levelSelectFontPlay.load();
-		
+
 		levelSelectFontOne = buildFont("game.ttf", 30, android.graphics.Color.parseColor("#FFB273"));
-		levelSelectFontOne.load();		
-		
+		levelSelectFontOne.load();
+
 		levelSelectFontTwo = buildFont("game.ttf", 30, android.graphics.Color.parseColor("#F77F00"));
 		levelSelectFontTwo.load();
-		
+
 		levelSelectFontThree = buildFont("game.ttf", 30, android.graphics.Color.parseColor("#D64027"));
 		levelSelectFontThree.load();
 	}
@@ -382,10 +475,11 @@ public class ResourceManager {
 	 * @param camera
 	 * @param vbom
 	 */
-	public static void prepareManager(Engine engine, MainGameActivity activity, Camera camera, VertexBufferObjectManager vbom) {
+	public static void prepareManager(Engine engine, MainGameActivity activity, Camera camera, BoundCamera boundCamera, VertexBufferObjectManager vbom) {
 		getIntance().engine = engine;
 		getIntance().activity = activity;
 		getIntance().camera = camera;
+		getIntance().boundCamera = boundCamera;
 		getIntance().vbom = vbom;
 	}
 

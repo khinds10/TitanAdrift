@@ -2,7 +2,6 @@ package com.kevinhinds.spacebots;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import android.annotation.SuppressLint;
 
 /**
@@ -39,6 +38,7 @@ public class GameConfiguration {
 	public static int playerWalkingVelocity = 4;
 	public static int playerJumpVelocity = -7;
 	public static int playerFallingVelocity = 4;
+	public static int playerFloatingVelocity = 8;
 	public static int playerFallingChangeDirectionVelocity = 1;
 	public static int playerStopWhileFallingVelocity = 2;
 	public static int playerContinueMovingWhileFallingVelocity = 2;
@@ -49,8 +49,17 @@ public class GameConfiguration {
 		BLUE_BULLET, GREEN_BULLET, YELLOW_BULLET, PINK_PHASER, YELLOW_DOUBLE_PHASER, YELLOW_PHASER, RED_PHASER, ORANGE_PHASER
 	}
 
+	/** set how much energy the player has starting the level and how much each gun shot decreases that energy by default */
+	public static int playerStartingEnergy = 25;
+	public static int playerEnergyShotAmount = 1;
+
+	/** set how much life the player has starting the level and how much each damage decreases that life by default */
+	public static int playerStartingLife = 3;
+	public static int playerLifeDamageAmount = 1;
+
 	/** player advanced abilities mapped to token IDs */
 	public static Map<Integer, String> playerAbilitiesTokensMapping = new HashMap<Integer, String>();
+
 	static {
 		playerAbilitiesTokensMapping = new HashMap<Integer, String>();
 		playerAbilitiesTokensMapping.put(0, "RELOAD");
@@ -80,6 +89,13 @@ public class GameConfiguration {
 	/** bullet sprite map */
 	public static int bulletMapColumns = 3;
 	public static int bulletMapRows = 3;
+
+	/** player life and energy meter map */
+	public static int lifeMapColumns = 5;
+	public static int lifeMapRows = 1;
+
+	public static int energyMapColumns = 1;
+	public static int energyMapRows = 10;
 
 	/** actor sprite map and default velocities */
 	public static int actorMapColumns = 8;

@@ -30,6 +30,8 @@ public class Bullet extends TiledSprite {
 	private final float density, elastic, friction;
 	public Body bulletBody;
 	public Scene scene;
+	public int strength = 1;
+	public State direction;
 
 	public Bullet(String name, int id, int tileIndex, float x, float y, float density, float elastic, float friction, ITiledTextureRegion texture, VertexBufferObjectManager vbom) {
 		super(x, y, texture, vbom);
@@ -39,6 +41,7 @@ public class Bullet extends TiledSprite {
 		this.density = density;
 		this.elastic = elastic;
 		this.friction = friction;
+		this.direction = State.LEFT;
 	}
 
 	/**
@@ -107,6 +110,10 @@ public class Bullet extends TiledSprite {
 	 * @param thisScene
 	 */
 	public void hitObject(BaseScene thisScene) {
+
+		new Explosion(thisScene, this, 5);
+		ResourceManager.getIntance().impactSound.play();
+
 		final PhysicsConnector physicsConnector = thisScene.physicsWorld.getPhysicsConnectorManager().findPhysicsConnectorByShape(Bullet.this);
 		ResourceManager.getIntance().engine.runOnUpdateThread(new Runnable() {
 			@Override

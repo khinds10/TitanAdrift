@@ -2,6 +2,8 @@ package com.kevinhinds.spacebots.player;
 
 import org.andengine.engine.camera.Camera;
 import org.andengine.entity.sprite.Sprite;
+import org.andengine.entity.sprite.TiledSprite;
+import org.andengine.entity.text.Text;
 import org.andengine.input.touch.TouchEvent;
 import org.andengine.opengl.util.GLState;
 
@@ -19,8 +21,16 @@ public class Controls {
 	private GameScene scene;
 	private Player player;
 	public TokenButton[] abilityButton;
+	public Text[] abilityButtonCounts;
+
 	int abilityButtonHorizontalStart = 250;
 	int abilityButtonHorizontalNext = 70;
+
+	public TiledSprite lifeMeter;
+	public Text lifeMeterLabel;
+
+	public TiledSprite energyMeter;
+	public Text energyMeterLabel;
 
 	/**
 	 * create the controls for the scene
@@ -35,40 +45,127 @@ public class Controls {
 		createPlayerJump();
 		createPlayerShoot();
 		createPlayerAbilityButtons();
+		displayInitialPlayerStats();
 	}
 
+	/**
+	 * display player stats at the beginning of the level such as hitpoints and gun strength
+	 */
+	public void displayInitialPlayerStats() {
+
+		lifeMeter = new TiledSprite(scene.camera.getWidth() - 100, 12, ResourceManager.getIntance().playerLifeRegion, scene.vbom);
+		lifeMeter.setCurrentTileIndex(3);
+		scene.gameHUD.attachChild(lifeMeter);
+
+		lifeMeterLabel = new Text(scene.camera.getWidth() - 132, 10, ResourceManager.getIntance().gameFontTiny, "Life", ResourceManager.getIntance().vbom);
+		scene.gameHUD.attachChild(lifeMeterLabel);
+
+		energyMeter = new TiledSprite(scene.camera.getWidth() - 200, 12, ResourceManager.getIntance().playerEnergyRegion, scene.vbom);
+		energyMeter.setCurrentTileIndex(2);
+		scene.gameHUD.attachChild(energyMeter);
+
+		energyMeterLabel = new Text(scene.camera.getWidth() - 255, 10, ResourceManager.getIntance().gameFontTiny, "Energy", ResourceManager.getIntance().vbom);
+		scene.gameHUD.attachChild(energyMeterLabel);
+	}
+
+	/**
+	 * for a given percent of life left update the life meter on the heads up display to say so
+	 * 
+	 * @param percentLife
+	 */
+	public void setLifeMeterLevelByPercent(int percentLife) {
+		if (percentLife > 100) {
+			lifeMeter.setCurrentTileIndex(4);
+		} else if (percentLife >= 75) {
+			lifeMeter.setCurrentTileIndex(3);
+		} else if (percentLife >= 50) {
+			lifeMeter.setCurrentTileIndex(2);
+		} else if (percentLife >= 25) {
+			lifeMeter.setCurrentTileIndex(1);
+		} else {
+			lifeMeter.setCurrentTileIndex(0);
+		}
+	}
+
+	/**
+	 * for a given percent of energy left update the energy meter on the heads up display to say so
+	 * 
+	 * @param percentEnergy
+	 */
+	public void setEnergyLevelByPercent(int percentEnergy) {
+		if (percentEnergy >= 200) {
+			energyMeter.setCurrentTileIndex(0);
+		} else if (percentEnergy > 100) {
+			energyMeter.setCurrentTileIndex(1);
+		} else if (percentEnergy > 86) {
+			energyMeter.setCurrentTileIndex(2);
+		} else if (percentEnergy > 72) {
+			energyMeter.setCurrentTileIndex(3);
+		} else if (percentEnergy > 58) {
+			energyMeter.setCurrentTileIndex(4);
+		} else if (percentEnergy > 44) {
+			energyMeter.setCurrentTileIndex(5);
+		} else if (percentEnergy > 30) {
+			energyMeter.setCurrentTileIndex(6);
+		} else if (percentEnergy > 16) {
+			energyMeter.setCurrentTileIndex(7);
+		} else if (percentEnergy > 2) {
+			energyMeter.setCurrentTileIndex(8);
+		} else {
+			energyMeter.setCurrentTileIndex(9);
+		}
+	}
+
+	/**
+	 * create one ability button on the HUD for each possible kind of token you can aquire in the level
+	 */
 	public void createPlayerAbilityButtons() {
 		abilityButton = new TokenButton[6];
+		abilityButtonCounts = new Text[6];
+
 		int horizontalPosition = abilityButtonHorizontalStart;
 		for (int i = 0; i < abilityButton.length; i++) {
+
+			abilityButtonCounts[i] = new Text(scene.camera.getWidth() - horizontalPosition + 40, scene.camera.getHeight() - 25, ResourceManager.getIntance().gameFontTiny, "0", ResourceManager.getIntance().vbom);
+			abilityButtonCounts[i].setVisible(false);
+			scene.gameHUD.attachChild(abilityButtonCounts[i]);
 
 			abilityButton[i] = new TokenButton(i, 0, i, scene.camera.getWidth() - horizontalPosition, scene.camera.getHeight() - 65, ResourceManager.getIntance().itemButtonRegion, scene.vbom) {
 				@Override
 				public boolean onAreaTouched(final TouchEvent event, final float x, final float y) {
 					if (event.isActionDown()) {
 						if (countAvailable > 0) {
+							ResourceManager.getIntance().tokenSound.play();
 							switch (this.playerAbilityID) {
 							case 0: // RELOAD
+								player.reload();
 								use();
+								updateTokenButtonText(this.playerAbilityID);
 								break;
 							case 1: // FLOAT
+								player.tokenAbilityFloat();
 								use();
+								updateTokenButtonText(this.playerAbilityID);
 								break;
 							case 2: // JUMP
-								/** use the pressed token ability to super jump */
 								if (!player.isJumping) {
-									use();
 									player.tokenAbilityJump();
+									use();
+									updateTokenButtonText(this.playerAbilityID);
 								}
 								break;
 							case 3: // LIFE
+								player.revive();
 								use();
+								updateTokenButtonText(this.playerAbilityID);
 								break;
 							case 4: // FREEZE
 								use();
+								updateTokenButtonText(this.playerAbilityID);
 								break;
 							case 5: // POWER
 								use();
+								updateTokenButtonText(this.playerAbilityID);
 								break;
 							default:
 								break;
@@ -91,10 +188,27 @@ public class Controls {
 
 	/**
 	 * based on token id collected from game level, update the cooresponding control to show it's available
+	 * 
 	 * @param tokenCollected
 	 */
 	public void updatePlayerAbilityButtons(int tokenCollected) {
 		abilityButton[tokenCollected].aquire();
+		updateTokenButtonText(tokenCollected);
+	}
+
+	/**
+	 * update the text next to the token button to show how many the player has, else make it disappear if zero are left
+	 * 
+	 * @param tokenCollected
+	 */
+	public void updateTokenButtonText(int tokenCollected) {
+		int countAvailable = abilityButton[tokenCollected].countAvailable;
+		abilityButtonCounts[tokenCollected].setText(String.valueOf(countAvailable));
+		if (countAvailable > 0) {
+			abilityButtonCounts[tokenCollected].setVisible(true);
+		} else {
+			abilityButtonCounts[tokenCollected].setVisible(false);
+		}
 	}
 
 	/**
@@ -143,7 +257,6 @@ public class Controls {
 		};
 		scene.gameHUD.registerTouchArea(left);
 		scene.gameHUD.attachChild(left);
-
 	}
 
 	/**

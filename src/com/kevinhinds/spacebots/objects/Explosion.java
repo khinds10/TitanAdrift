@@ -5,6 +5,7 @@ import org.andengine.entity.sprite.AnimatedSprite.IAnimationListener;
 
 import com.kevinhinds.spacebots.GameConfiguration;
 import com.kevinhinds.spacebots.ResourceManager;
+import com.kevinhinds.spacebots.GameConfiguration.State;
 import com.kevinhinds.spacebots.scene.BaseScene;
 
 /**
@@ -18,17 +19,44 @@ public class Explosion {
 	private long[] animationSpeed;
 
 	/**
-	 * create a new bullet based on the player position and facing direction
+	 * create a new explosion based on sprite exploding and what type of explosion it is
 	 * 
 	 * @param scene
 	 * @param actorSprite
 	 * @param facing
 	 */
 	public Explosion(final BaseScene scene, AnimatedSprite actorSprite, int type) {
-
-		/** get the direction of the player facing */
 		float[] objCenterPos = new float[2];
 		actorSprite.getSceneCenterCoordinates(objCenterPos);
+		this.explode(scene, objCenterPos, type);
+	}
+
+	/**
+	 * create a new explosion based on sprite exploding and what type of explosion it is
+	 * 
+	 * @param scene
+	 * @param bullet
+	 * @param type
+	 */
+	public Explosion(final BaseScene scene, Bullet bullet, int type) {
+		float[] objCenterPos = new float[2];
+		bullet.getSceneCenterCoordinates(objCenterPos);
+		if (bullet.direction == State.RIGHT) {
+			objCenterPos[1] = objCenterPos[1] - 10;
+		} else {
+			objCenterPos[1] = objCenterPos[1] + 10;
+		}
+		this.explode(scene, objCenterPos, type);
+	}
+
+	/**
+	 * explode!
+	 * 
+	 * @param scene
+	 * @param objCenterPos
+	 * @param type
+	 */
+	protected void explode(final BaseScene scene, float[] objCenterPos, int type) {
 		animationSpeed = new long[] { GameConfiguration.explosionAnimationSpeed, GameConfiguration.explosionAnimationSpeed, GameConfiguration.explosionAnimationSpeed, GameConfiguration.explosionAnimationSpeed, GameConfiguration.explosionAnimationSpeed, GameConfiguration.explosionAnimationSpeed, GameConfiguration.explosionAnimationSpeed, GameConfiguration.explosionAnimationSpeed, GameConfiguration.explosionAnimationSpeed, GameConfiguration.explosionAnimationSpeed, GameConfiguration.explosionAnimationSpeed, GameConfiguration.explosionAnimationSpeed, GameConfiguration.explosionAnimationSpeed, GameConfiguration.explosionAnimationSpeed, GameConfiguration.explosionAnimationSpeed, GameConfiguration.explosionAnimationSpeed, GameConfiguration.explosionAnimationSpeed };
 
 		/** create a new explosion sprite and detonate it! */

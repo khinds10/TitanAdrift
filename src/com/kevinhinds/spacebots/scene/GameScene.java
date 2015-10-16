@@ -23,6 +23,7 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.kevinhinds.spacebots.GameConfiguration;
+import com.kevinhinds.spacebots.ResourceManager;
 import com.kevinhinds.spacebots.level.Level;
 import com.kevinhinds.spacebots.level.LevelXMLBuilder;
 import com.kevinhinds.spacebots.objects.Actor;
@@ -47,7 +48,7 @@ public class GameScene extends BaseScene {
 	public Level level;
 	public int levelNumber;
 	private LevelXMLBuilder levelXMLBuilder;
-	private Controls controls;
+	public Controls controls;
 
 	/**
 	 * construct the gamescene with the level XML builder
@@ -89,6 +90,16 @@ public class GameScene extends BaseScene {
 				}
 			}
 		}));
+		
+		
+		
+		
+		ResourceManager.getIntance().camera.setChaseEntity(player.playerSprite);
+		
+		
+		
+		//		ResourceManager.getIntance().camera.setBounds(0, 0, 2000, 780);
+		//		ResourceManager.getIntance().camera.setBoundsEnabled(true);
 	}
 
 	@Override
@@ -207,7 +218,13 @@ public class GameScene extends BaseScene {
 					String x1BodyName = (String) x1.getBody().getUserData();
 					String x2BodyName = (String) x2.getBody().getUserData();
 
-					/** clean up the bullets that hit object very first */
+					/** actor gets hit by bullet */
+					if (x1BodyName.contains("Actor") && x2BodyName.contains("Bullet")) {
+						Actor actorShot = level.getActorByName(x1BodyName);
+						actorShot.takeDamage(2, GameScene.this, player);
+					}
+					
+					/** clean up the bullets that hit objects */
 					if (x2BodyName.contains("Bullet") && !x1BodyName.equals("player")) {
 						Bullet bullet = level.getBulletByName(x2BodyName);
 						bullet.hitObject(GameScene.this);
@@ -217,12 +234,12 @@ public class GameScene extends BaseScene {
 						bullet.hitObject(GameScene.this);
 					}
 
-					/** actor gets hit by bullet */
-					if (x1BodyName.contains("Actor") && x2BodyName.contains("Bullet")) {
-						Actor actorShot = level.getActorByName(x1BodyName);
-						actorShot.takeDamage(2, GameScene.this, player);
+					/** player interacts with an actor on the level */
+					if ((x2BodyName.contains("Actor") && x1BodyName.equals("player")) || (x1BodyName.contains("Actor") && x2BodyName.equals("player"))) {
+						Log.e("Player Actor Contact", x1BodyName + " : " + x2BodyName);
+						player.takeDamage(1);
 					}
-
+					
 					/** deal with the player contacting sprites */
 					if (x1BodyName.equals("player")) {
 
