@@ -1,3 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<level width="800" height="480">
+<level width="804" height="480">
+    <piece x="720" y="216" type="144" animationSpeed="200" movementSpeed="0"/> <!-- ROW 18 COLUMN 60 -->
+    <piece x="60" y="312" type="144" animationSpeed="200" movementSpeed="0"/> <!-- ROW 26 COLUMN 5 -->
 </level>

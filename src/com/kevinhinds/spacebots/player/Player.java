@@ -230,14 +230,13 @@ public class Player {
 			return;
 		}
 
-		
 		bulletNumber++;
 		String bulletName = "Bullet-" + Integer.toString(bulletNumber);
-		
+
 		/** create a strength 1 2 or 3 bullet based on player's current energy */
 		Bullet bullet = ResourceManager.getIntance().getGameBulletById(playerWeapons.YELLOW_PHASER.ordinal());
 		ResourceManager.getIntance().laserSound.play();
-		
+
 		bullet.strength = 1;
 		if (energyAmount > GameConfiguration.playerStartingEnergy) {
 			bullet = ResourceManager.getIntance().getGameBulletById(playerWeapons.YELLOW_DOUBLE_PHASER.ordinal());
@@ -247,7 +246,7 @@ public class Player {
 			bullet = ResourceManager.getIntance().getGameBulletById(playerWeapons.YELLOW_BULLET.ordinal());
 			bullet.strength = 3;
 		}
-		
+
 		/** the player X,Y is the top left corner, so if facing right the bullet should start about 50px over to the right */
 		int moveBulletX = 0;
 		bullet.direction = State.LEFT;
@@ -295,14 +294,14 @@ public class Player {
 	public void takeDamage(int damageAmount) {
 		lifeAmount = lifeAmount - damageAmount;
 		ResourceManager.getIntance().hitSound.play();
-		
+
 		/** player dies */
-		if (lifeAmount <=0) {
+		if (lifeAmount <= 0) {
 			SceneManager.getInstance().loadLevelStatusScene();
 		}
 		gameScene.controls.setLifeMeterLevelByPercent((lifeAmount * 100) / GameConfiguration.playerStartingLife);
 	}
-	
+
 	/**
 	 * revive player life from token item press
 	 */

@@ -88,14 +88,4 @@ public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener
 		}
 		return false;
 	}
-
-	@Override
-	public void setGameLevel(int levelNumber) {
-
-	}
-
-	@Override
-	public void disposeScene() {
-
-	}
 }

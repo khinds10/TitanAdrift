@@ -123,14 +123,4 @@ public class LevelSelectMenuScene extends BaseScene implements IOnMenuItemClickL
 		}
 		return false;
 	}
-
-	@Override
-	public void setGameLevel(int levelNumber) {
-
-	}
-
-	@Override
-	public void disposeScene() {
-
-	}
 }

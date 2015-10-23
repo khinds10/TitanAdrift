@@ -10,7 +10,6 @@ import org.andengine.audio.music.MusicFactory;
 import org.andengine.audio.sound.Sound;
 import org.andengine.audio.sound.SoundFactory;
 import org.andengine.engine.Engine;
-import org.andengine.engine.camera.BoundCamera;
 import org.andengine.engine.camera.Camera;
 import org.andengine.entity.scene.menu.item.IMenuItem;
 import org.andengine.entity.scene.menu.item.TextMenuItem;
@@ -51,7 +50,6 @@ public class ResourceManager {
 	public Engine engine;
 	public MainGameActivity activity;
 	public Camera camera;
-	public BoundCamera boundCamera;
 	public VertexBufferObjectManager vbom;
 
 	/** game fonts */
@@ -128,8 +126,13 @@ public class ResourceManager {
 	public Sound laserSound;
 	public Sound gunClickSound;
 	public Sound impactSound;
+
 	public Sound tokenSound;
 	public Sound hitSound;
+
+	public Sound explosion1;
+	public Sound explosion2;
+	public Sound explosion3;
 
 	/**
 	 * load resources to create the menu into memory
@@ -290,6 +293,9 @@ public class ResourceManager {
 			impactSound = SoundFactory.createSoundFromAsset(this.engine.getSoundManager(), this.activity, "impact.ogg");
 			hitSound = SoundFactory.createSoundFromAsset(this.engine.getSoundManager(), this.activity, "hit.ogg");
 			tokenSound = SoundFactory.createSoundFromAsset(this.engine.getSoundManager(), this.activity, "token.ogg");
+			explosion1 = SoundFactory.createSoundFromAsset(this.engine.getSoundManager(), this.activity, "explosion1.ogg");
+			explosion2 = SoundFactory.createSoundFromAsset(this.engine.getSoundManager(), this.activity, "explosion1.ogg");
+			explosion3 = SoundFactory.createSoundFromAsset(this.engine.getSoundManager(), this.activity, "explosion1.ogg");
 		} catch (final IOException e) {
 			Debug.e(e);
 		}
@@ -475,11 +481,10 @@ public class ResourceManager {
 	 * @param camera
 	 * @param vbom
 	 */
-	public static void prepareManager(Engine engine, MainGameActivity activity, Camera camera, BoundCamera boundCamera, VertexBufferObjectManager vbom) {
+	public static void prepareManager(Engine engine, MainGameActivity activity, Camera camera, VertexBufferObjectManager vbom) {
 		getIntance().engine = engine;
 		getIntance().activity = activity;
 		getIntance().camera = camera;
-		getIntance().boundCamera = boundCamera;
 		getIntance().vbom = vbom;
 	}
 

@@ -2,6 +2,7 @@ package com.kevinhinds.spacebots.scene;
 
 import org.andengine.engine.Engine;
 import org.andengine.engine.camera.Camera;
+import org.andengine.engine.camera.hud.HUD;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.sprite.AnimatedSprite;
 import org.andengine.entity.sprite.Sprite;
@@ -10,7 +11,6 @@ import org.andengine.opengl.texture.region.ITextureRegion;
 import org.andengine.opengl.texture.region.ITiledTextureRegion;
 import org.andengine.opengl.util.GLState;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
-
 import com.kevinhinds.spacebots.ResourceManager;
 import com.kevinhinds.spacebots.MainGameActivity;
 
@@ -21,11 +21,13 @@ import com.kevinhinds.spacebots.MainGameActivity;
  */
 public abstract class BaseScene extends Scene {
 
+	public HUD gameHUD;
 	protected Engine engine;
 	public VertexBufferObjectManager vbom;
 	public PhysicsWorld physicsWorld;
 	protected MainGameActivity activity;
 	public Camera camera;
+	public int levelNumber;
 
 	public BaseScene() {
 		engine = ResourceManager.getIntance().engine;
@@ -80,7 +82,20 @@ public abstract class BaseScene extends Scene {
 
 	public abstract void onBackPressed();
 
-	public abstract void disposeScene();
+	/**
+	 * remove any game HUD present
+	 */
+	public void disposeScene() {
+		gameHUD = null;
+		camera.setHUD(gameHUD);
+	}
 
-	public abstract void setGameLevel(int levelNumber);
+	/**
+	 * set the level the game is currently playing
+	 * 
+	 * @param levelNumber
+	 */
+	public void setGameLevel(int levelNumber) {
+		this.levelNumber = levelNumber;
+	}
 }

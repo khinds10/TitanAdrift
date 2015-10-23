@@ -53,7 +53,7 @@ public class SceneManager {
 		setScene(levelScene, ResourceManager.getIntance().creditsMusic);
 		currentScene.createScene();
 	}
-	
+
 	/**
 	 * return to menu scene
 	 */
@@ -81,14 +81,14 @@ public class SceneManager {
 		setScene(levelScene, ResourceManager.getIntance().deadMusic);
 		currentScene.createScene();
 	}
-	
+
 	/**
 	 * dispose current scene and apply the new one specified
 	 * 
 	 * @param scene
 	 */
 	public void setScene(BaseScene scene, Music music) {
-		
+
 		/** stop any music and play new scene music if it's present */
 		ResourceManager.getIntance().stopAllMusic();
 		if (music != null) {
@@ -96,7 +96,7 @@ public class SceneManager {
 			music.setVolume(0.2f);
 			music.resume();
 		}
-		
+
 		/** dispose and load new scene */
 		if (currentScene != null) {
 			currentScene.disposeScene();

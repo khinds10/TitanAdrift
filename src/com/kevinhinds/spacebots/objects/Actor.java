@@ -1,5 +1,6 @@
 package com.kevinhinds.spacebots.objects;
 
+import java.util.Random;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.sprite.AnimatedSprite;
 import org.andengine.extension.physics.box2d.PhysicsConnector;
@@ -190,6 +191,19 @@ public class Actor extends AnimatedSprite {
 		Log.i(this.getName(), "Has Died");
 
 		new Explosion(thisScene, this, explosionType);
+
+		/** random explosion sound is played on actor death */
+		Random random = new Random();
+		int explosion = random.nextInt(3) + 1;
+		if (explosion == 1) {
+			ResourceManager.getIntance().explosion1.play();
+		}
+		if (explosion == 2) {
+			ResourceManager.getIntance().explosion2.play();
+		}
+		if (explosion == 3) {
+			ResourceManager.getIntance().explosion3.play();
+		}
 
 		final PhysicsConnector physicsConnector = thisScene.physicsWorld.getPhysicsConnectorManager().findPhysicsConnectorByShape(Actor.this);
 		ResourceManager.getIntance().engine.runOnUpdateThread(new Runnable() {

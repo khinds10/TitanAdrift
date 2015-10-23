@@ -21,7 +21,6 @@ public class LevelStatusScene extends BaseScene implements IOnMenuItemClickListe
 	public void createScene() {
 		final Sprite spriteBG = new Sprite(0, 0, ResourceManager.getIntance().voidBackgroundRegion, ResourceManager.getIntance().vbom);
 		attachChild(spriteBG);
-
 		createMenu();
 	}
 
@@ -62,15 +61,5 @@ public class LevelStatusScene extends BaseScene implements IOnMenuItemClickListe
 			return true;
 		}
 		return false;
-	}
-
-	@Override
-	public void setGameLevel(int levelNumber) {
-
-	}
-
-	@Override
-	public void disposeScene() {
-
 	}
 }

@@ -42,11 +42,9 @@ import com.kevinhinds.spacebots.status.GameStatus;
  */
 public class GameScene extends BaseScene {
 
-	public HUD gameHUD;
 	private Player player;
 	public Body fixtureBody;
 	public Level level;
-	public int levelNumber;
 	private LevelXMLBuilder levelXMLBuilder;
 	public Controls controls;
 
@@ -55,15 +53,6 @@ public class GameScene extends BaseScene {
 	 */
 	public GameScene() {
 		levelXMLBuilder = new LevelXMLBuilder(activity.getAssets());
-	}
-
-	/**
-	 * set the level the game is currently playing
-	 * 
-	 * @param levelNumber
-	 */
-	public void setGameLevel(int levelNumber) {
-		this.levelNumber = levelNumber;
 	}
 
 	@Override
@@ -90,27 +79,11 @@ public class GameScene extends BaseScene {
 				}
 			}
 		}));
-		
-		
-		
-		
-		ResourceManager.getIntance().camera.setChaseEntity(player.playerSprite);
-		
-		
-		
-		//		ResourceManager.getIntance().camera.setBounds(0, 0, 2000, 780);
-		//		ResourceManager.getIntance().camera.setBoundsEnabled(true);
 	}
 
 	@Override
 	public void onBackPressed() {
 		SceneManager.getInstance().returnToMenuScene();
-	}
-
-	@Override
-	public void disposeScene() {
-		gameHUD = null;
-		camera.setHUD(gameHUD);
 	}
 
 	/**
@@ -223,7 +196,7 @@ public class GameScene extends BaseScene {
 						Actor actorShot = level.getActorByName(x1BodyName);
 						actorShot.takeDamage(2, GameScene.this, player);
 					}
-					
+
 					/** clean up the bullets that hit objects */
 					if (x2BodyName.contains("Bullet") && !x1BodyName.equals("player")) {
 						Bullet bullet = level.getBulletByName(x2BodyName);
@@ -239,7 +212,7 @@ public class GameScene extends BaseScene {
 						Log.e("Player Actor Contact", x1BodyName + " : " + x2BodyName);
 						player.takeDamage(1);
 					}
-					
+
 					/** deal with the player contacting sprites */
 					if (x1BodyName.equals("player")) {
 

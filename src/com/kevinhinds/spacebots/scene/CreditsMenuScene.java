@@ -78,14 +78,4 @@ public class CreditsMenuScene extends BaseScene implements IOnMenuItemClickListe
 		}
 		return false;
 	}
-
-	@Override
-	public void setGameLevel(int levelNumber) {
-
-	}
-
-	@Override
-	public void disposeScene() {
-
-	}
 }
