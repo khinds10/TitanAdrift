@@ -16,6 +16,8 @@ import com.kevinhinds.spacebots.objects.Actor;
 import com.kevinhinds.spacebots.objects.Item;
 import com.kevinhinds.spacebots.objects.Piece;
 import com.kevinhinds.spacebots.objects.Tile;
+import com.kevinhinds.spacebots.scene.GameScene;
+import com.kevinhinds.spacebots.status.GameStatus;
 
 import android.content.res.AssetManager;
 
@@ -94,7 +96,7 @@ public class LevelXMLBuilder {
 				final int id = SAXUtils.getIntAttributeOrThrow(attr, TAG_TILE_ATTR_TILE);
 				final String type = SAXUtils.getAttributeOrThrow(attr, TAG_TILE_TYPE_TILE);
 				Tile t = ResourceManager.getIntance().getGameTileById(id);
-				level.addTile(t.getInstance(x, y, type));
+				level.addTile(t.getInstance(x, y, type, "Platform:" + Float.toString(x) + "-" + Float.toString(y) + "-" + Integer.toString(id)));
 				return null;
 			}
 		});
@@ -148,7 +150,10 @@ public class LevelXMLBuilder {
 		});
 
 		try {
-			levelLoader.loadLevelFromAsset(assetManager, "level" + Integer.toString(levelNumber) + "_pieces.xml");
+			/** we only load in the pieces to collect if the level is "playable" status "1", else "2" or above for level status means it's already completed */
+			if (GameStatus.levelStatusByLevelNumber(levelNumber) < 2) {
+				levelLoader.loadLevelFromAsset(assetManager, "level" + Integer.toString(levelNumber) + "_pieces.xml");	
+			}
 		} catch (IOException e) {
 
 		}
@@ -204,7 +209,7 @@ public class LevelXMLBuilder {
 	 * @param scene
 	 * @param physicsWorld
 	 */
-	public void loadLevel(Scene scene, PhysicsWorld physicsWorld) {
+	public void loadLevel(GameScene scene, PhysicsWorld physicsWorld) {
 		level.load(scene, physicsWorld);
 	}
 }

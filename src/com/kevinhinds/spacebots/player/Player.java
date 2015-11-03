@@ -15,6 +15,7 @@ import com.kevinhinds.spacebots.GameConfiguration.playerWeapons;
 import com.kevinhinds.spacebots.ResourceManager;
 import com.kevinhinds.spacebots.GameConfiguration.State;
 import com.kevinhinds.spacebots.objects.Bullet;
+import com.kevinhinds.spacebots.objects.FloorBomb;
 import com.kevinhinds.spacebots.scene.GameScene;
 import com.kevinhinds.spacebots.scene.SceneManager;
 
@@ -276,16 +277,14 @@ public class Player {
 	/**
 	 * float ability acquired from a token collection
 	 */
-	public void tokenAbilityFloat() {
-		float jumpmotion = 0;
-		if (moving == State.RIGHT) {
-			jumpmotion = GameConfiguration.playerFloatingVelocity;
+	public void tokenAbilityFloorBomb() {
+		if (facing == State.RIGHT) {
+			playerSprite.animate(new long[] { GameConfiguration.playerAnimationSpeed }, new int[] { GameConfiguration.playerKneelRightFrame });
+			
+		} else {
+			playerSprite.animate(new long[] { GameConfiguration.playerAnimationSpeed }, new int[] { GameConfiguration.playerKneelLeftFrame });
 		}
-		if (moving == State.LEFT) {
-			jumpmotion = -GameConfiguration.playerFloatingVelocity;
-		}
-		final Vector2 velocity = Vector2Pool.obtain(jumpmotion, 0);
-		playerBody.setLinearVelocity(velocity);
+		new FloorBomb(gameScene, playerSprite, facing);
 	}
 
 	/**

@@ -63,7 +63,6 @@ public class Piece extends TiledSprite {
 	 * @param physicsWorld
 	 */
 	public void createBodyAndAttach(Scene scene, PhysicsWorld physicsWorld) {
-
 		this.scene = scene;
 		final FixtureDef tileFixtureDef = PhysicsFactory.createFixtureDef(density, elastic, friction);
 		tileFixtureDef.restitution = 0;
@@ -71,6 +70,17 @@ public class Piece extends TiledSprite {
 		pieceBody = PhysicsFactory.createBoxBody(physicsWorld, this, BodyType.KinematicBody, tileFixtureDef);
 		pieceBody.setUserData(this.name);
 		physicsWorld.registerPhysicsConnector(new PhysicsConnector(this, pieceBody, true, true));
+		scene.attachChild(this);
+	}
+
+	/**
+	 * attach the sprite to the scene in question
+	 * 
+	 * @param scene
+	 */
+	public void attach(Scene scene) {
+		this.scene = scene;
+		this.setCurrentTileIndex(tileIndex);
 		scene.attachChild(this);
 	}
 
@@ -91,7 +101,7 @@ public class Piece extends TiledSprite {
 	public int getId() {
 		return id;
 	}
-	
+
 	/**
 	 * get type of this item
 	 * 

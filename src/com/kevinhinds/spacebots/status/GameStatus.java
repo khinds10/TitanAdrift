@@ -17,7 +17,6 @@ public class GameStatus {
 	public static String SoundFXPlay = "SoundFXPlay";
 	public static String LevelStatus = "LevelStatus";
 	public static String ShipRepairedStatus = "ShipRepairedStatus";
-	public static String TokensAquiredList = "TokensAquiredList";
 
 	/**
 	 * code that will run if it's the first time we've installed the application
@@ -41,6 +40,7 @@ public class GameStatus {
 
 	/**
 	 * collect ship piece by name by saving it to the game status list for it
+	 * 
 	 * @param pieceName
 	 */
 	public static void collectShipPiece(String pieceName) {
@@ -51,6 +51,15 @@ public class GameStatus {
 			activity.statusAndPreferencesEditor.putString(GameStatus.ShipRepairedStatus, shipRepairedStatus);
 			activity.statusAndPreferencesEditor.commit();
 		}
+	}
+
+	/**
+	 * get the current status of ship in repair to show in UI
+	 * 
+	 * @return
+	 */
+	public static String getShipRepairedStatus() {
+		return ResourceManager.getIntance().activity.statusAndPreferences.getString(GameStatus.ShipRepairedStatus, "");
 	}
 
 	/** determine if we're supposed to play music in the game */

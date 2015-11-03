@@ -10,6 +10,7 @@ import com.kevinhinds.spacebots.objects.Bullet;
 import com.kevinhinds.spacebots.objects.Item;
 import com.kevinhinds.spacebots.objects.Piece;
 import com.kevinhinds.spacebots.objects.Tile;
+import com.kevinhinds.spacebots.scene.GameScene;
 
 /**
  * basic level object that attaches all actors and respective tiles requested for the game scene
@@ -87,6 +88,19 @@ public class Level {
 	public void addBullet(Bullet i) {
 		bullets.add(i);
 	}
+	
+	/**
+	 * find a particular tile by name
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public Tile getTileByName(String name) {
+		for (Tile t : tiles)
+			if (t.getName().equals(name))
+				return t;
+		return null;
+	}
 
 	/**
 	 * find a particular actor by name
@@ -146,7 +160,7 @@ public class Level {
 	 * @param scene
 	 * @param physicsWorld
 	 */
-	public void load(Scene scene, PhysicsWorld physicsWorld) {
+	public void load(GameScene scene, PhysicsWorld physicsWorld) {
 		for (Tile t : tiles) {
 			t.createBodyAndAttach(scene, physicsWorld);
 		}

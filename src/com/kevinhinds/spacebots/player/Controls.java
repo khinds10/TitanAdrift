@@ -135,26 +135,29 @@ public class Controls {
 				public boolean onAreaTouched(final TouchEvent event, final float x, final float y) {
 					if (event.isActionDown()) {
 						if (countAvailable > 0) {
-							ResourceManager.getIntance().tokenSound.play();
 							switch (this.playerAbilityID) {
 							case 0: // RELOAD
+								ResourceManager.getIntance().powerUp.play();
 								player.reload();
 								use();
 								updateTokenButtonText(this.playerAbilityID);
 								break;
-							case 1: // FLOAT
-								player.tokenAbilityFloat();
+							case 1: // FLOOR BOMB
+								ResourceManager.getIntance().floorBomb.play();
+								player.tokenAbilityFloorBomb();
 								use();
 								updateTokenButtonText(this.playerAbilityID);
 								break;
 							case 2: // JUMP
 								if (!player.isJumping) {
+									ResourceManager.getIntance().superJump.play();
 									player.tokenAbilityJump();
 									use();
 									updateTokenButtonText(this.playerAbilityID);
 								}
 								break;
 							case 3: // LIFE
+								ResourceManager.getIntance().tokenSound.play();
 								player.revive();
 								use();
 								updateTokenButtonText(this.playerAbilityID);
@@ -163,7 +166,7 @@ public class Controls {
 								use();
 								updateTokenButtonText(this.playerAbilityID);
 								break;
-							case 5: // POWER
+							case 5: // FIRE
 								use();
 								updateTokenButtonText(this.playerAbilityID);
 								break;

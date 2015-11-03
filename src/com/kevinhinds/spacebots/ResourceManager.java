@@ -85,6 +85,7 @@ public class ResourceManager {
 
 	/** weapon region */
 	public ITiledTextureRegion bulletRegion;
+	public ITiledTextureRegion floorBombRegion;
 
 	/** adversary region */
 	public ITiledTextureRegion actorsRegion;
@@ -129,7 +130,12 @@ public class ResourceManager {
 
 	public Sound tokenSound;
 	public Sound hitSound;
-
+	public Sound aquireTokenSound;
+	public Sound aquirePieceSound;
+	public Sound powerUp;
+	public Sound superJump;
+	public Sound floorBomb;
+	
 	public Sound explosion1;
 	public Sound explosion2;
 	public Sound explosion3;
@@ -164,6 +170,8 @@ public class ResourceManager {
 		/** player, weapons and life/energy meters */
 		playerRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "character/player.png", GameConfiguration.playerMapColumns, GameConfiguration.playerMapRows);
 		bulletRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "weapons/bullet_strip.png", GameConfiguration.bulletMapColumns, GameConfiguration.bulletMapRows);
+		floorBombRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "weapons/floor_bomb.png", GameConfiguration.floorBombMapColumns, GameConfiguration.floorBombMapRows);
+		
 		playerEnergyRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "character/energy.png", GameConfiguration.energyMapColumns, GameConfiguration.energyMapRows);
 		playerLifeRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "character/life.png", GameConfiguration.lifeMapColumns, GameConfiguration.lifeMapRows);
 
@@ -292,10 +300,15 @@ public class ResourceManager {
 			gunClickSound = SoundFactory.createSoundFromAsset(this.engine.getSoundManager(), this.activity, "gunclick.ogg");
 			impactSound = SoundFactory.createSoundFromAsset(this.engine.getSoundManager(), this.activity, "impact.ogg");
 			hitSound = SoundFactory.createSoundFromAsset(this.engine.getSoundManager(), this.activity, "hit.ogg");
+			aquireTokenSound = SoundFactory.createSoundFromAsset(this.engine.getSoundManager(), this.activity, "aquireToken.ogg");	
+			aquirePieceSound = SoundFactory.createSoundFromAsset(this.engine.getSoundManager(), this.activity, "piece.ogg");
+			powerUp = SoundFactory.createSoundFromAsset(this.engine.getSoundManager(), this.activity, "powerUp.ogg");
+			superJump = SoundFactory.createSoundFromAsset(this.engine.getSoundManager(), this.activity, "jump.ogg");
+			floorBomb = SoundFactory.createSoundFromAsset(this.engine.getSoundManager(), this.activity, "floorbomb.ogg");
 			tokenSound = SoundFactory.createSoundFromAsset(this.engine.getSoundManager(), this.activity, "token.ogg");
 			explosion1 = SoundFactory.createSoundFromAsset(this.engine.getSoundManager(), this.activity, "explosion1.ogg");
-			explosion2 = SoundFactory.createSoundFromAsset(this.engine.getSoundManager(), this.activity, "explosion1.ogg");
-			explosion3 = SoundFactory.createSoundFromAsset(this.engine.getSoundManager(), this.activity, "explosion1.ogg");
+			explosion2 = SoundFactory.createSoundFromAsset(this.engine.getSoundManager(), this.activity, "explosion2.ogg");
+			explosion3 = SoundFactory.createSoundFromAsset(this.engine.getSoundManager(), this.activity, "explosion3.ogg");
 		} catch (final IOException e) {
 			Debug.e(e);
 		}
@@ -376,7 +389,16 @@ public class ResourceManager {
 				return p;
 		return null;
 	}
-
+	
+	/**
+	 * get current ship pieces in the game to display which ones user as already collected
+	 * 
+	 * @return
+	 */
+	public ArrayList<Piece> getShipPieces() {
+		return this.shipPieces;
+	}
+	
 	/**
 	 * find a particular bullet by id
 	 * 

@@ -10,6 +10,12 @@ import org.andengine.opengl.vbo.VertexBufferObjectManager;
 
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.kevinhinds.spacebots.ResourceManager;
+import com.kevinhinds.spacebots.scene.BaseScene;
+import com.kevinhinds.spacebots.scene.GameScene;
+
+import android.util.Log;
+
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 
 /**
@@ -19,9 +25,12 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
  */
 public class Tile extends TiledSprite {
 
-	private final String name, type;
+	private String name;
+	private final String type;
 	private final int id, tileIndex;
 	private final float density, elastic, friction;
+	private Body tileBody;
+	private GameScene scene;
 
 	/**
 	 * create new tile from a tiledSprite with a specific tile index specified as well as if it's a physical tile a background or foreground tile
@@ -47,6 +56,8 @@ public class Tile extends TiledSprite {
 		this.elastic = elastic;
 		this.friction = friction;
 		this.type = type;
+		this.tileBody = null;
+		this.scene = null;
 	}
 
 	/**
@@ -55,7 +66,7 @@ public class Tile extends TiledSprite {
 	 * @param scene
 	 * @param physicsWorld
 	 */
-	public void createBodyAndAttach(Scene scene, PhysicsWorld physicsWorld) {
+	public void createBodyAndAttach(GameScene scene, PhysicsWorld physicsWorld) {
 		final FixtureDef tileFixtureDef = PhysicsFactory.createFixtureDef(density, elastic, friction);
 		tileFixtureDef.restitution = 0;
 		this.setCurrentTileIndex(tileIndex);
@@ -69,9 +80,10 @@ public class Tile extends TiledSprite {
 			if (type.equals("edge")) {
 				tileData = "edge";
 			}
-			Body body = PhysicsFactory.createBoxBody(physicsWorld, this, BodyType.StaticBody, tileFixtureDef);
-			body.setUserData(tileData);
-			physicsWorld.registerPhysicsConnector(new PhysicsConnector(this, body, true, true));
+			tileBody = PhysicsFactory.createBoxBody(physicsWorld, this, BodyType.StaticBody, tileFixtureDef);
+			name = tileData + " - " +  name;
+			tileBody.setUserData(name);
+			physicsWorld.registerPhysicsConnector(new PhysicsConnector(this, tileBody, true, true));
 			this.setZIndex(0);
 		}
 		if (type.equals("foreground")) {
@@ -80,7 +92,8 @@ public class Tile extends TiledSprite {
 		if (type.equals("background")) {
 			this.setZIndex(-1);
 		}
-		scene.attachChild(this);
+		this.scene = scene;
+		this.scene.attachChild(this);
 	}
 
 	/**
@@ -100,7 +113,29 @@ public class Tile extends TiledSprite {
 	public int getId() {
 		return id;
 	}
-
+	
+	/**
+	 * tile gets broken by gamescene
+	 * 
+	 * @param scene
+	 * @param gameScene
+	 */
+	public void breakTile(BaseScene thisScene) {
+		Log.i(this.getName(), " has been broken");
+		final PhysicsConnector physicsConnector = thisScene.physicsWorld.getPhysicsConnectorManager().findPhysicsConnectorByShape(Tile.this);
+		ResourceManager.getIntance().engine.runOnUpdateThread(new Runnable() {
+			@Override
+			public void run() {
+				if (physicsConnector != null) {
+					Tile.this.setVisible(false);	
+					Tile.this.tileBody.setActive(false);
+					Tile.this.scene.randomGameRoundExplosion(Tile.this);
+					Tile.this.scene.randomExplosionSound();
+				}
+			}
+		});
+	}
+	
 	/**
 	 * by simple x and y coordinates create a new tile
 	 * 
@@ -108,7 +143,7 @@ public class Tile extends TiledSprite {
 	 * @param y
 	 * @return
 	 */
-	public Tile getInstance(float x, float y, String type) {
+	public Tile getInstance(float x, float y, String type, String name) {
 		return new Tile(name, id, tileIndex, type, x, y, density, elastic, friction, getTiledTextureRegion(), getVertexBufferObjectManager());
 	}
 }

@@ -15,10 +15,10 @@ public class GameConfiguration {
 	/** player animated sprite tile frames */
 	public static int playerAnimationSpeed = 110;
 	public static int playerStartLevelFrame = 22;
-
 	public static int playerFaceRightFrame = 16;
 	public static int playerFaceLeftFrame = 17;
-
+	public static int playerKneelRightFrame = 18;
+	public static int playerKneelLeftFrame = 19;
 	public static int playerJumpRightFrame = 20;
 	public static int playerJumpLeftFrame = 21;
 
@@ -59,15 +59,14 @@ public class GameConfiguration {
 
 	/** player advanced abilities mapped to token IDs */
 	public static Map<Integer, String> playerAbilitiesTokensMapping = new HashMap<Integer, String>();
-
 	static {
 		playerAbilitiesTokensMapping = new HashMap<Integer, String>();
-		playerAbilitiesTokensMapping.put(0, "RELOAD");
-		playerAbilitiesTokensMapping.put(1, "FLOAT");
-		playerAbilitiesTokensMapping.put(2, "JUMP");
-		playerAbilitiesTokensMapping.put(3, "LIFE");
-		playerAbilitiesTokensMapping.put(4, "FREEZE");
-		playerAbilitiesTokensMapping.put(5, "POWER");
+		playerAbilitiesTokensMapping.put(0, "RELOAD"); // White
+		playerAbilitiesTokensMapping.put(1, "FLOOR");  // Purple
+		playerAbilitiesTokensMapping.put(2, "JUMP");   // Yellow
+		playerAbilitiesTokensMapping.put(3, "LIFE");   // Green
+		playerAbilitiesTokensMapping.put(4, "FREEZE"); // Blue
+		playerAbilitiesTokensMapping.put(5, "FIRE"); // Red
 	}
 
 	/** platform sprite map */
@@ -85,11 +84,17 @@ public class GameConfiguration {
 	/** ship pieces sprite map */
 	public static int pieceMapColumns = 17;
 	public static int pieceMapRows = 27;
+	public static int pieceMapTileSize = 12;
 
 	/** bullet sprite map */
 	public static int bulletMapColumns = 3;
 	public static int bulletMapRows = 3;
 
+	/** floor bomb sprite map */
+	public static int floorBombMapColumns = 7;
+	public static int floorBombMapRows = 5;
+	public static int floorBombAnimationSpeed = 15;
+	
 	/** player life and energy meter map */
 	public static int lifeMapColumns = 5;
 	public static int lifeMapRows = 1;
@@ -122,4 +127,45 @@ public class GameConfiguration {
 
 	/** level information */
 	public static int numberLevels = 30;
+	
+	/** array of all the pieces to collect to win the game */
+	public static String shipPiecesToCollect = "8,25,42,58,59,60,75,76,77,92,93,94,109,110,111,126,127,128,140,141,142,143,144,145,146,147,148,"
+			+ "157,158,159,160,161,162,163,164,165,173,174,175,176,177,178,179,180,181,182,191,192,193,194,195,196,197,198,199,205,206,207,208,209,"
+			+ "210,211,212,213,214,215,216,217,218,219,222,223,224,225,226,227,228,229,230,231,232,233,234,235,236,239,240,241,242,243,244,245,246,247,"
+			+ "248,249,250,251,252,253,255,256,257,258,259,260,261,262,263,264,265,266,267,268,269,270,271,272,273,274,275,276,277,278,279,280,281,282,283,"
+			+ "284,285,286,287,288,292,293,294,296,296,297,298,299,300,301,302,309,311,312,313,314,315,316,317,318,319,326,328,329,330,331,332,333,334,335,336,"
+			+ "345,346,347,348,349,350,351,362,363,364,365,366,367,368,381,382,383,384,385,405,410,427,444,447,453,456,439,422,402,396";
+	
+	/** list of pieces to collect in each level, starting @ index 1 for ease */
+	public static String[] levelPieces = 		
+			{"","8,25,42,58,59,60",
+			"75,76,77,92,93,94,348",
+			"109,110,111,126,127,396",
+			"128140,141,142,143,402",
+			"144,145,146,147,148,422,349",
+			"157,158,159,160,161,439",
+			"162,163,164,165,173,456,351",
+			"174,175,176,177,178,453,362",
+			"179,180,181,182,191,447",
+			"192,193,194,195,427,444",
+			"196,197,198,199,205,410,330",
+			"206,207,208,209,210,405,331",
+			"211,212,213,214,215,216,335",
+			"217,218,219,222,223,224",
+			"225,226,227,228,229,230,366",
+			"231,232,233,234,235,236",
+			"239,240,241,242,243,244,350",
+			"245,246,247,248,249,250",
+			"251,252,336,345,346,347",
+			"253,255,256,257,258,259,364",
+			"261,262,263,264,265,266",
+			"267,268,269,270,271,272,333",
+			"273,274,275,276,277,260,332",
+			"278,279,280,281,282,385",
+			"283,284,285,286,287,384",
+			"288,292,293,294,296,296,334",
+			"297,298,299,300,301,383,365",
+			"302,309,311,367,368,381",
+			"312,313,314,315,316,382,363",
+			"317,318,319,326,328,329"};
 }

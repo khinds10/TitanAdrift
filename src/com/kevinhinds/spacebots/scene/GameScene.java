@@ -1,11 +1,14 @@
 package com.kevinhinds.spacebots.scene;
 
+import java.util.Random;
+
 import org.andengine.engine.camera.hud.HUD;
 import org.andengine.engine.handler.timer.ITimerCallback;
 import org.andengine.engine.handler.timer.TimerHandler;
 import org.andengine.entity.primitive.Rectangle;
 
 import org.andengine.entity.scene.background.Background;
+import org.andengine.entity.sprite.Sprite;
 import org.andengine.extension.physics.box2d.PhysicsFactory;
 import org.andengine.extension.physics.box2d.PhysicsWorld;
 import org.andengine.util.color.Color;
@@ -28,11 +31,14 @@ import com.kevinhinds.spacebots.level.Level;
 import com.kevinhinds.spacebots.level.LevelXMLBuilder;
 import com.kevinhinds.spacebots.objects.Actor;
 import com.kevinhinds.spacebots.objects.Bullet;
+import com.kevinhinds.spacebots.objects.Explosion;
 import com.kevinhinds.spacebots.objects.Item;
 import com.kevinhinds.spacebots.objects.Piece;
+import com.kevinhinds.spacebots.objects.Tile;
 import com.kevinhinds.spacebots.player.Controls;
 import com.kevinhinds.spacebots.player.Player;
 import com.kevinhinds.spacebots.status.GameStatus;
+import com.kevinhinds.spacebots.status.StatusListManager;
 
 /**
  * main game scene which contains multiple levels
@@ -197,6 +203,12 @@ public class GameScene extends BaseScene {
 						actorShot.takeDamage(2, GameScene.this, player);
 					}
 
+					/** actor gets hit by floor bomb */
+					if (x1BodyName.contains("Actor") && x2BodyName.contains("floorbomb")) {
+						Actor actorShot = level.getActorByName(x1BodyName);
+						actorShot.takeDamage(20, GameScene.this, player);
+					}
+
 					/** clean up the bullets that hit objects */
 					if (x2BodyName.contains("Bullet") && !x1BodyName.equals("player")) {
 						Bullet bullet = level.getBulletByName(x2BodyName);
@@ -217,7 +229,7 @@ public class GameScene extends BaseScene {
 					if (x1BodyName.equals("player")) {
 
 						/** player begins to fall when loses contact with a bounce tile (edges of platforms) */
-						if (x2BodyName.equals("tile") || x2BodyName.equals("ground")) {
+						if (x2BodyName.contains("tile") || x2BodyName.contains("ground")) {
 							player.stopFalling();
 							player.stopJumping();
 						}
@@ -231,23 +243,40 @@ public class GameScene extends BaseScene {
 							Log.i("Collected Item: ", itemName);
 							String[] itemNameDetails = itemName.split("-");
 							controls.updatePlayerAbilityButtons(Integer.parseInt(itemNameDetails[2]));
+							ResourceManager.getIntance().aquireTokenSound.play();
 							itemCollected.collect(GameScene.this);
 						}
 
 						/** player contacts an piece */
 						if (x2BodyName.contains("Piece")) {
+
 							/** save player collected piece and collect it */
 							Piece itemCollected = level.getPieceByName(x2BodyName);
 							GameStatus.collectShipPiece(itemCollected.getType());
+							ResourceManager.getIntance().aquirePieceSound.play();
 							itemCollected.collect(GameScene.this);
+
+							/** now that we've collected a new piece, see if we've completed the level yet */
+							checkLevelComplete();
 						}
 					}
 
 					/** actor touches platform or another actor */
-					if (x2BodyName.contains("Actor") && !(x1BodyName.equals("ground") || x1BodyName.equals("physical"))) {
+					if (x2BodyName.contains("Actor") && !(x1BodyName.contains("ground") || x1BodyName.contains("physical"))) {
 						Actor actor = level.getActorByName(x2BodyName);
 						actor.changeDirection();
 					}
+
+					/** handle floorbomb drop which destroys tiles */
+					if (x1BodyName.contains("floorbomb") && x2BodyName.contains("tile")) {
+						Tile tile = level.getTileByName(x2BodyName);
+						tile.breakTile(GameScene.this);
+					}
+					if (x2BodyName.contains("floorbomb") && x1BodyName.contains("tile")) {
+						Tile tile = level.getTileByName(x1BodyName);
+						tile.breakTile(GameScene.this);
+					}
+
 				}
 			}
 
@@ -265,7 +294,7 @@ public class GameScene extends BaseScene {
 				if (x1BodyName != null && x2BodyName != null) {
 					/** player begins to fall when loses contact with a bounce tile (edges of platforms) */
 					if (x1BodyName.equals("player")) {
-						if (x2BodyName.equals("bounce")) {
+						if (x2BodyName.contains("bounce")) {
 							player.fall();
 						}
 					}
@@ -281,5 +310,69 @@ public class GameScene extends BaseScene {
 			}
 		};
 		return contactListener;
+	}
+
+	/**
+	 * from the current list of pieces needed to complete a level, if the player has all the pieces then the level is complete!
+	 */
+	private void checkLevelComplete() {
+		int thisLevelID = SceneManager.getInstance().getCurrentScene().levelNumber;
+		String[] pieceslist = GameConfiguration.levelPieces[thisLevelID].split(",");
+		String collectedPieces = GameStatus.getShipRepairedStatus();
+		boolean levelCompleted = true;
+		for (String piece : pieceslist) {
+			if (!StatusListManager.containsValue(collectedPieces, piece)) {
+				levelCompleted = false;
+			}
+		}
+
+		/** level is complete, set next level to status = 1 (playable) and the current level status as 2, 3 or 4 based on player performance */
+		if (levelCompleted) {
+			/**
+			 * @todo this should set 2, 3 or 4 based on overall level player performance
+			 */
+			GameStatus.setLevelStatusByLevelNumber(thisLevelID, "2");
+			GameStatus.setLevelStatusByLevelNumber(++thisLevelID, "1");
+			SceneManager.getInstance().loadLevelStatusScene();
+		}
+	}
+
+	/**
+	 * random explosion sound from currently available sounds
+	 */
+	public void randomExplosionSound() {
+		Random random = new Random();
+		int explosion = random.nextInt(3) + 1;
+		if (explosion == 1) {
+			ResourceManager.getIntance().explosion1.play();
+		}
+		if (explosion == 2) {
+			ResourceManager.getIntance().explosion2.play();
+		}
+		if (explosion == 3) {
+			ResourceManager.getIntance().explosion3.play();
+		}
+	}
+
+	/**
+	 * for the exploding sprite in question create a random explosion for it (mushroom cloud shape)
+	 * 
+	 * @param explodingSprite
+	 */
+	public void randomGameMushroomExplosion(Sprite explodingSprite) {
+		Random random = new Random();
+		int explosion = random.nextInt(4);
+		new Explosion(GameScene.this, explodingSprite, explosion);
+	}
+
+	/**
+	 * for the exploding sprite in question create a random explosion for it (round cloud shape)
+	 * 
+	 * @param explodingSprite
+	 */
+	public void randomGameRoundExplosion(Sprite explodingSprite) {
+		Random random = new Random();
+		int explosion = random.nextInt(11) + 5;
+		new Explosion(GameScene.this, explodingSprite, explosion);
 	}
 }

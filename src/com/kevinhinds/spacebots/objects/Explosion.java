@@ -2,6 +2,7 @@ package com.kevinhinds.spacebots.objects;
 
 import org.andengine.entity.sprite.AnimatedSprite;
 import org.andengine.entity.sprite.AnimatedSprite.IAnimationListener;
+import org.andengine.entity.sprite.Sprite;
 
 import com.kevinhinds.spacebots.GameConfiguration;
 import com.kevinhinds.spacebots.ResourceManager;
@@ -22,12 +23,12 @@ public class Explosion {
 	 * create a new explosion based on sprite exploding and what type of explosion it is
 	 * 
 	 * @param scene
-	 * @param actorSprite
+	 * @param explodingSprite
 	 * @param facing
 	 */
-	public Explosion(final BaseScene scene, AnimatedSprite actorSprite, int type) {
+	public Explosion(final BaseScene scene, Sprite explodingSprite, int type) {
 		float[] objCenterPos = new float[2];
-		actorSprite.getSceneCenterCoordinates(objCenterPos);
+		explodingSprite.getSceneCenterCoordinates(objCenterPos);
 		this.explode(scene, objCenterPos, type);
 	}
 

@@ -18,7 +18,6 @@ public class StatusListManager {
 	 * @return
 	 */
 	public static String createDefaultCSVList(int count, String defaultValue) {
-
 		String defaultList = "";
 		int x = 1;
 		while (x <= count) {
