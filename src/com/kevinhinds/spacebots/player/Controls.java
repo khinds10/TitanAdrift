@@ -142,9 +142,9 @@ public class Controls {
 								use();
 								updateTokenButtonText(this.playerAbilityID);
 								break;
-							case 1: // FLOOR BOMB
-								ResourceManager.getIntance().floorBomb.play();
-								player.tokenAbilityFloorBomb();
+							case 1: // BOMB
+								ResourceManager.getIntance().bomb.play();
+								player.tokenAbilityBomb();
 								use();
 								updateTokenButtonText(this.playerAbilityID);
 								break;
@@ -162,11 +162,14 @@ public class Controls {
 								use();
 								updateTokenButtonText(this.playerAbilityID);
 								break;
-							case 4: // FREEZE
+							case 4: // BRIDGE
+								player.tokenAbilityCreateBridge();
 								use();
 								updateTokenButtonText(this.playerAbilityID);
 								break;
-							case 5: // FIRE
+							case 5: // FLARE
+								ResourceManager.getIntance().flare.play();
+								player.tokenAbilityFlare(scene);
 								use();
 								updateTokenButtonText(this.playerAbilityID);
 								break;
@@ -205,6 +208,11 @@ public class Controls {
 	 * @param tokenCollected
 	 */
 	public void updateTokenButtonText(int tokenCollected) {
+		
+		
+		
+		
+		
 		int countAvailable = abilityButton[tokenCollected].countAvailable;
 		abilityButtonCounts[tokenCollected].setText(String.valueOf(countAvailable));
 		if (countAvailable > 0) {

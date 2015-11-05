@@ -1,5 +1,6 @@
 package com.kevinhinds.spacebots.player;
 
+import org.andengine.entity.scene.Scene;
 import org.andengine.entity.sprite.AnimatedSprite;
 import org.andengine.extension.physics.box2d.PhysicsConnector;
 import org.andengine.extension.physics.box2d.PhysicsFactory;
@@ -14,8 +15,10 @@ import com.kevinhinds.spacebots.GameConfiguration;
 import com.kevinhinds.spacebots.GameConfiguration.playerWeapons;
 import com.kevinhinds.spacebots.ResourceManager;
 import com.kevinhinds.spacebots.GameConfiguration.State;
+import com.kevinhinds.spacebots.objects.Bridge;
 import com.kevinhinds.spacebots.objects.Bullet;
-import com.kevinhinds.spacebots.objects.FloorBomb;
+import com.kevinhinds.spacebots.objects.Flare;
+import com.kevinhinds.spacebots.objects.Bomb;
 import com.kevinhinds.spacebots.scene.GameScene;
 import com.kevinhinds.spacebots.scene.SceneManager;
 
@@ -38,6 +41,7 @@ public class Player {
 	protected State moving;
 	public State facing;
 	protected int bulletNumber = 0;
+	protected int flareNumber = 0;
 	public int bulletStrength = 1;
 
 	/** player start level energy and life amounts */
@@ -260,6 +264,25 @@ public class Player {
 	}
 
 	/**
+	 * create a new flare in the level
+	 */
+	public void tokenAbilityFlare(Scene scene) {
+		Flare flare = ResourceManager.getIntance().getGameFlareById(0);
+		flareNumber++;
+		String flareName = "Flare-" + Integer.toString(flareNumber);
+		gameScene.level.addFlare(flare.getInstance(flareName, playerSprite.getX(), playerSprite.getY(), facing));
+		gameScene.level.getFlareByName(flareName).createBodyAndAttach(playerSprite, facing, scene, physicsWorld);
+	}
+
+	/**
+	 * player creates a bridge as a special ability
+	 */
+	public void tokenAbilityCreateBridge() {
+		Bridge bridge = new Bridge("bridge tile", 0, 0, playerSprite.getX(), playerSprite.getY(), 10, 10, 10, ResourceManager.getIntance().bridgeRegion, ResourceManager.getIntance().vbom);
+		bridge.createBodyAndAttach(playerSprite, facing, gameScene, physicsWorld);
+	}
+
+	/**
 	 * jump higher with the token ability jump
 	 */
 	public void tokenAbilityJump() {
@@ -277,14 +300,14 @@ public class Player {
 	/**
 	 * float ability acquired from a token collection
 	 */
-	public void tokenAbilityFloorBomb() {
+	public void tokenAbilityBomb() {
 		if (facing == State.RIGHT) {
 			playerSprite.animate(new long[] { GameConfiguration.playerAnimationSpeed }, new int[] { GameConfiguration.playerKneelRightFrame });
-			
+
 		} else {
 			playerSprite.animate(new long[] { GameConfiguration.playerAnimationSpeed }, new int[] { GameConfiguration.playerKneelLeftFrame });
 		}
-		new FloorBomb(gameScene, playerSprite, facing);
+		new Bomb(gameScene, playerSprite, facing);
 	}
 
 	/**

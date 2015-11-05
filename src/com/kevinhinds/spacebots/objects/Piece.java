@@ -112,7 +112,7 @@ public class Piece extends TiledSprite {
 	}
 
 	/**
-	 * bullet hits object
+	 * player collects item
 	 * 
 	 * @param player
 	 * 

@@ -62,11 +62,11 @@ public class GameConfiguration {
 	static {
 		playerAbilitiesTokensMapping = new HashMap<Integer, String>();
 		playerAbilitiesTokensMapping.put(0, "RELOAD"); // White
-		playerAbilitiesTokensMapping.put(1, "FLOOR");  // Purple
+		playerAbilitiesTokensMapping.put(1, "BOMB");  // Purple
 		playerAbilitiesTokensMapping.put(2, "JUMP");   // Yellow
 		playerAbilitiesTokensMapping.put(3, "LIFE");   // Green
-		playerAbilitiesTokensMapping.put(4, "FREEZE"); // Blue
-		playerAbilitiesTokensMapping.put(5, "FIRE"); // Red
+		playerAbilitiesTokensMapping.put(4, "BRIDGE"); // Blue
+		playerAbilitiesTokensMapping.put(5, "FLARE"); // Red
 	}
 
 	/** platform sprite map */
@@ -89,11 +89,18 @@ public class GameConfiguration {
 	/** bullet sprite map */
 	public static int bulletMapColumns = 3;
 	public static int bulletMapRows = 3;
+	public static int bulletVelocity = 50;
 
-	/** floor bomb sprite map */
-	public static int floorBombMapColumns = 7;
-	public static int floorBombMapRows = 5;
-	public static int floorBombAnimationSpeed = 15;
+	/** bomb sprite map */
+	public static int bombMapColumns = 7;
+	public static int bombMapRows = 5;
+	public static int bombAnimationSpeed = 15;
+	
+	/** flare sprite map */
+	public static int flareMapColumns = 10;
+	public static int flareMapRows = 10;
+	public static int flareAnimationSpeed = 15;
+	public static int flareVelocity = 6;
 	
 	/** player life and energy meter map */
 	public static int lifeMapColumns = 5;

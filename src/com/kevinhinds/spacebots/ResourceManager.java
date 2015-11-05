@@ -31,8 +31,10 @@ import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.util.debug.Debug;
 import org.andengine.util.color.Color;
 
+import com.kevinhinds.spacebots.GameConfiguration.State;
 import com.kevinhinds.spacebots.objects.Actor;
 import com.kevinhinds.spacebots.objects.Bullet;
+import com.kevinhinds.spacebots.objects.Flare;
 import com.kevinhinds.spacebots.objects.Item;
 import com.kevinhinds.spacebots.objects.Piece;
 import com.kevinhinds.spacebots.objects.Tile;
@@ -85,7 +87,8 @@ public class ResourceManager {
 
 	/** weapon region */
 	public ITiledTextureRegion bulletRegion;
-	public ITiledTextureRegion floorBombRegion;
+	public ITiledTextureRegion bombRegion;
+	public ITiledTextureRegion flareRegion;
 
 	/** adversary region */
 	public ITiledTextureRegion actorsRegion;
@@ -107,12 +110,14 @@ public class ResourceManager {
 	public ITiledTextureRegion itemRegion;
 	public ITiledTextureRegion itemButtonRegion;
 	public ITiledTextureRegion pieceRegion;
+	public ITiledTextureRegion bridgeRegion;
 
 	/** complete set of the game's actors, tiles and items to render on levels via XML descriptions */
 	private ArrayList<Actor> gameActors = new ArrayList<Actor>();
 	private ArrayList<Tile> gameTiles = new ArrayList<Tile>();
 	private ArrayList<Item> gameItems = new ArrayList<Item>();
 	private ArrayList<Bullet> gameBullets = new ArrayList<Bullet>();
+	private ArrayList<Flare> gameFlares = new ArrayList<Flare>();
 	private ArrayList<Piece> shipPieces = new ArrayList<Piece>();
 
 	/** load all the music */
@@ -134,8 +139,9 @@ public class ResourceManager {
 	public Sound aquirePieceSound;
 	public Sound powerUp;
 	public Sound superJump;
-	public Sound floorBomb;
-	
+	public Sound bomb;
+	public Sound flare;
+
 	public Sound explosion1;
 	public Sound explosion2;
 	public Sound explosion3;
@@ -165,19 +171,23 @@ public class ResourceManager {
 	 */
 	public void loadGameResources() {
 
-		gameTextureAtlas = new BuildableBitmapTextureAtlas(activity.getTextureManager(), 2048, 2048, TextureOptions.BILINEAR);
+		gameTextureAtlas = new BuildableBitmapTextureAtlas(activity.getTextureManager(), 4096, 4096, TextureOptions.BILINEAR);
 
 		/** player, weapons and life/energy meters */
 		playerRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "character/player.png", GameConfiguration.playerMapColumns, GameConfiguration.playerMapRows);
 		bulletRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "weapons/bullet_strip.png", GameConfiguration.bulletMapColumns, GameConfiguration.bulletMapRows);
-		floorBombRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "weapons/floor_bomb.png", GameConfiguration.floorBombMapColumns, GameConfiguration.floorBombMapRows);
-		
+		bombRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "weapons/bomb.png", GameConfiguration.bombMapColumns, GameConfiguration.bombMapRows);
+		flareRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "weapons/flare.png", GameConfiguration.flareMapColumns, GameConfiguration.flareMapRows);
+
 		playerEnergyRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "character/energy.png", GameConfiguration.energyMapColumns, GameConfiguration.energyMapRows);
 		playerLifeRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "character/life.png", GameConfiguration.lifeMapColumns, GameConfiguration.lifeMapRows);
 
 		/** adversaries and explosions */
 		actorsRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "actors/creatures.png", GameConfiguration.actorMapColumns, GameConfiguration.actorMapRows);
 		explosionRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "explosions/explosions.png", GameConfiguration.explosionMapColumns, GameConfiguration.explosionMapRows);
+
+		/** player can create their own bridge tiles */
+		bridgeRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(gameTextureAtlas, activity, "items/bridge.png", 1, 1);
 
 		/** game controls */
 		controlJumpRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "controls/jump.png");
@@ -269,6 +279,9 @@ public class ResourceManager {
 		for (int i = 0; i <= (GameConfiguration.pieceMapColumns * GameConfiguration.pieceMapRows); i++) {
 			shipPieces.add(new Piece("Piece Sprite " + Integer.toString(i), String.valueOf(i), i, i, 0, 0, 0f, 0f, 0f, ResourceManager.getIntance().pieceRegion, vbom));
 		}
+
+		/** add the single game flare which is fired from a token ability */
+		gameFlares.add(new Flare("Flare Sprite " + Integer.toString(0), 0, 0, 0, 0, 0f, 0f, 0f, ResourceManager.getIntance().flareRegion, vbom, State.LEFT));
 	}
 
 	/**
@@ -300,11 +313,12 @@ public class ResourceManager {
 			gunClickSound = SoundFactory.createSoundFromAsset(this.engine.getSoundManager(), this.activity, "gunclick.ogg");
 			impactSound = SoundFactory.createSoundFromAsset(this.engine.getSoundManager(), this.activity, "impact.ogg");
 			hitSound = SoundFactory.createSoundFromAsset(this.engine.getSoundManager(), this.activity, "hit.ogg");
-			aquireTokenSound = SoundFactory.createSoundFromAsset(this.engine.getSoundManager(), this.activity, "aquireToken.ogg");	
+			aquireTokenSound = SoundFactory.createSoundFromAsset(this.engine.getSoundManager(), this.activity, "aquireToken.ogg");
 			aquirePieceSound = SoundFactory.createSoundFromAsset(this.engine.getSoundManager(), this.activity, "piece.ogg");
 			powerUp = SoundFactory.createSoundFromAsset(this.engine.getSoundManager(), this.activity, "powerUp.ogg");
 			superJump = SoundFactory.createSoundFromAsset(this.engine.getSoundManager(), this.activity, "jump.ogg");
-			floorBomb = SoundFactory.createSoundFromAsset(this.engine.getSoundManager(), this.activity, "floorbomb.ogg");
+			bomb = SoundFactory.createSoundFromAsset(this.engine.getSoundManager(), this.activity, "bomb.ogg");
+			flare = SoundFactory.createSoundFromAsset(this.engine.getSoundManager(), this.activity, "flare.ogg");
 			tokenSound = SoundFactory.createSoundFromAsset(this.engine.getSoundManager(), this.activity, "token.ogg");
 			explosion1 = SoundFactory.createSoundFromAsset(this.engine.getSoundManager(), this.activity, "explosion1.ogg");
 			explosion2 = SoundFactory.createSoundFromAsset(this.engine.getSoundManager(), this.activity, "explosion2.ogg");
@@ -389,7 +403,7 @@ public class ResourceManager {
 				return p;
 		return null;
 	}
-	
+
 	/**
 	 * get current ship pieces in the game to display which ones user as already collected
 	 * 
@@ -398,7 +412,20 @@ public class ResourceManager {
 	public ArrayList<Piece> getShipPieces() {
 		return this.shipPieces;
 	}
-	
+
+	/**
+	 * find a particular flare by id
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public Flare getGameFlareById(int id) {
+		for (Flare f : gameFlares)
+			if (f.getId() == id)
+				return f;
+		return null;
+	}
+
 	/**
 	 * find a particular bullet by id
 	 * 

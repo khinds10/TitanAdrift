@@ -102,7 +102,7 @@ public class Item extends TiledSprite {
 	}
 
 	/**
-	 * bullet hits object
+	 * player collects item
 	 * 
 	 * @param player
 	 * 

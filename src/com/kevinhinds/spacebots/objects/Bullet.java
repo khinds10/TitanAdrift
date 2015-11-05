@@ -14,6 +14,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.kevinhinds.spacebots.GameConfiguration;
 import com.kevinhinds.spacebots.ResourceManager;
 import com.kevinhinds.spacebots.GameConfiguration.State;
 import com.kevinhinds.spacebots.scene.BaseScene;
@@ -68,7 +69,7 @@ public class Bullet extends TiledSprite {
 		bulletBody.setUserData(this.name);
 		bulletBody.setGravityScale(0);
 		physicsWorld.registerPhysicsConnector(new PhysicsConnector(this, bulletBody, true, true));
-		final Vector2 velocity = Vector2Pool.obtain((direction * 50), 0);
+		final Vector2 velocity = Vector2Pool.obtain((direction * GameConfiguration.bulletVelocity), 0);
 		bulletBody.setLinearVelocity(velocity);
 		scene.attachChild(this);
 	}

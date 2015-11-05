@@ -7,6 +7,7 @@ import org.andengine.extension.physics.box2d.PhysicsWorld;
 
 import com.kevinhinds.spacebots.objects.Actor;
 import com.kevinhinds.spacebots.objects.Bullet;
+import com.kevinhinds.spacebots.objects.Flare;
 import com.kevinhinds.spacebots.objects.Item;
 import com.kevinhinds.spacebots.objects.Piece;
 import com.kevinhinds.spacebots.objects.Tile;
@@ -24,6 +25,7 @@ public class Level {
 	public ArrayList<Actor> actors = new ArrayList<Actor>();
 	public ArrayList<Item> items = new ArrayList<Item>();
 	public ArrayList<Bullet> bullets = new ArrayList<Bullet>();
+	public ArrayList<Flare> flares = new ArrayList<Flare>();
 	public ArrayList<Piece> pieces = new ArrayList<Piece>();
 
 	/**
@@ -70,25 +72,34 @@ public class Level {
 	public void addItem(Item i) {
 		items.add(i);
 	}
-	
+
 	/**
 	 * add a new piece to the level
 	 * 
-	 * @param t
+	 * @param p
 	 */
-	public void addPiece(Piece i) {
-		pieces.add(i);
+	public void addPiece(Piece p) {
+		pieces.add(p);
 	}
-	
+
+	/**
+	 * add a new flare to the level
+	 * 
+	 * @param f
+	 */
+	public void addFlare(Flare f) {
+		flares.add(f);
+	}
+
 	/**
 	 * add a new bullet to the level
 	 * 
-	 * @param t
+	 * @param b
 	 */
-	public void addBullet(Bullet i) {
-		bullets.add(i);
+	public void addBullet(Bullet b) {
+		bullets.add(b);
 	}
-	
+
 	/**
 	 * find a particular tile by name
 	 * 
@@ -114,7 +125,7 @@ public class Level {
 				return v;
 		return null;
 	}
-	
+
 	/**
 	 * find a particular actor by name
 	 * 
@@ -127,7 +138,7 @@ public class Level {
 				return i;
 		return null;
 	}
-	
+
 	/**
 	 * find a particular piece by name
 	 * 
@@ -140,7 +151,7 @@ public class Level {
 				return p;
 		return null;
 	}
-	
+
 	/**
 	 * find a particular bullet by name
 	 * 
@@ -151,6 +162,19 @@ public class Level {
 		for (Bullet b : bullets)
 			if (b.getName().equals(name))
 				return b;
+		return null;
+	}
+
+	/**
+	 * find a particular flare by name
+	 * 
+	 * @param name
+	 * @return
+	 */
+	public Flare getFlareByName(String name) {
+		for (Flare f : flares)
+			if (f.getName().equals(name))
+				return f;
 		return null;
 	}
 
