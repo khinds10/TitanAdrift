@@ -22,6 +22,7 @@ public class Controls {
 	private Player player;
 	public TokenButton[] abilityButton;
 	public Text[] abilityButtonCounts;
+	public Text[] abilityButtonTitles;
 
 	int abilityButtonHorizontalStart = 250;
 	int abilityButtonHorizontalNext = 70;
@@ -49,7 +50,7 @@ public class Controls {
 	}
 
 	/**
-	 * display player stats at the beginning of the level such as hitpoints and gun strength
+	 * display player stats at the beginning of the level such as hit points and gun strength
 	 */
 	public void displayInitialPlayerStats() {
 
@@ -122,15 +123,24 @@ public class Controls {
 	public void createPlayerAbilityButtons() {
 		abilityButton = new TokenButton[6];
 		abilityButtonCounts = new Text[6];
+		abilityButtonTitles = new Text[6];
 
 		int horizontalPosition = abilityButtonHorizontalStart;
+		int horizontalTitlesPosition = abilityButtonHorizontalStart + 50;
 		for (int i = 0; i < abilityButton.length; i++) {
 
-			abilityButtonCounts[i] = new Text(scene.camera.getWidth() - horizontalPosition + 40, scene.camera.getHeight() - 25, ResourceManager.getIntance().gameFontTiny, "0", ResourceManager.getIntance().vbom);
+			/** create special ability titles */
+			abilityButtonTitles[i] = new Text(scene.camera.getWidth() - horizontalTitlesPosition + 40, scene.camera.getHeight() - 68, ResourceManager.getIntance().gameFontTiny, GameConfiguration.playerAbilitiesTokensMapping.get(i), ResourceManager.getIntance().vbom);
+			abilityButtonTitles[i].setVisible(false);
+			scene.gameHUD.attachChild(abilityButtonTitles[i]);
+			
+			/** create special ability counts */
+			abilityButtonCounts[i] = new Text(scene.camera.getWidth() - horizontalPosition + 40, scene.camera.getHeight() - 18, ResourceManager.getIntance().gameFontTiny, "0", ResourceManager.getIntance().vbom);
 			abilityButtonCounts[i].setVisible(false);
-			scene.gameHUD.attachChild(abilityButtonCounts[i]);
-
-			abilityButton[i] = new TokenButton(i, 0, i, scene.camera.getWidth() - horizontalPosition, scene.camera.getHeight() - 65, ResourceManager.getIntance().itemButtonRegion, scene.vbom) {
+			scene.gameHUD.attachChild(abilityButtonCounts[i]);			
+			
+			/** create special ability buttons */
+			abilityButton[i] = new TokenButton(i, 0, i, scene.camera.getWidth() - horizontalPosition, scene.camera.getHeight() - 56, ResourceManager.getIntance().itemButtonRegion, scene.vbom) {
 				@Override
 				public boolean onAreaTouched(final TouchEvent event, final float x, final float y) {
 					if (event.isActionDown()) {
@@ -189,6 +199,7 @@ public class Controls {
 			};
 			abilityButton[i].attachToHUD(this.scene);
 			horizontalPosition += abilityButtonHorizontalNext;
+			horizontalTitlesPosition += abilityButtonHorizontalNext;
 		}
 	}
 
@@ -208,17 +219,14 @@ public class Controls {
 	 * @param tokenCollected
 	 */
 	public void updateTokenButtonText(int tokenCollected) {
-		
-		
-		
-		
-		
 		int countAvailable = abilityButton[tokenCollected].countAvailable;
 		abilityButtonCounts[tokenCollected].setText(String.valueOf(countAvailable));
 		if (countAvailable > 0) {
 			abilityButtonCounts[tokenCollected].setVisible(true);
+			abilityButtonTitles[tokenCollected].setVisible(true);
 		} else {
 			abilityButtonCounts[tokenCollected].setVisible(false);
+			abilityButtonTitles[tokenCollected].setVisible(false);
 		}
 	}
 

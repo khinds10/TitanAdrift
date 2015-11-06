@@ -143,7 +143,7 @@ public class GameConfiguration {
 			+ "284,285,286,287,288,292,293,294,296,296,297,298,299,300,301,302,309,311,312,313,314,315,316,317,318,319,326,328,329,330,331,332,333,334,335,336,"
 			+ "345,346,347,348,349,350,351,362,363,364,365,366,367,368,381,382,383,384,385,405,410,427,444,447,453,456,439,422,402,396";
 	
-	/** list of pieces to collect in each level, starting @ index 1 for ease */
+	/** list of pieces to collect in each level, starting @ index 1 for readability */
 	public static String[] levelPieces = 		
 			{"","8,25,42,58,59,60",
 			"75,76,77,92,93,94,348",

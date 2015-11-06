@@ -27,15 +27,11 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.kevinhinds.spacebots.GameConfiguration;
 import com.kevinhinds.spacebots.ResourceManager;
+import com.kevinhinds.spacebots.level.Collision;
 import com.kevinhinds.spacebots.level.Level;
 import com.kevinhinds.spacebots.level.LevelXMLBuilder;
 import com.kevinhinds.spacebots.objects.Actor;
-import com.kevinhinds.spacebots.objects.Bullet;
 import com.kevinhinds.spacebots.objects.Explosion;
-import com.kevinhinds.spacebots.objects.Flare;
-import com.kevinhinds.spacebots.objects.Item;
-import com.kevinhinds.spacebots.objects.Piece;
-import com.kevinhinds.spacebots.objects.Tile;
 import com.kevinhinds.spacebots.player.Controls;
 import com.kevinhinds.spacebots.player.Player;
 import com.kevinhinds.spacebots.status.GameStatus;
@@ -49,10 +45,10 @@ import com.kevinhinds.spacebots.status.StatusListManager;
  */
 public class GameScene extends BaseScene {
 
-	private Player player;
+	public Player player;
 	public Body fixtureBody;
 	public Level level;
-	private LevelXMLBuilder levelXMLBuilder;
+	public LevelXMLBuilder levelXMLBuilder;
 	public Controls controls;
 
 	/**
@@ -194,115 +190,10 @@ public class GameScene extends BaseScene {
 
 				if (x1.getBody().getUserData() != null && x2.getBody().getUserData() != null) {
 
-					/** get the contacted bodies from the physics engine to deal with below */
-					String x1BodyName = (String) x1.getBody().getUserData();
-					String x2BodyName = (String) x2.getBody().getUserData();
-
-					/** actor gets hit by bullet */
-					if (x1BodyName.contains("Actor") && x2BodyName.contains("Bullet")) {
-						Actor actorShot = level.getActorByName(x1BodyName);
-						actorShot.takeDamage(2, GameScene.this, player);
-					}
-
-					/** actor gets hit by bomb */
-					if (x1BodyName.contains("Actor") && x2BodyName.contains("bomb")) {
-						Actor actorShot = level.getActorByName(x1BodyName);
-						actorShot.takeDamage(20, GameScene.this, player);
-					}
-					
-					/** actor gets hit by flare */
-					if (x1BodyName.contains("Actor") && x2BodyName.contains("Flare")) {
-						Actor actorShot = level.getActorByName(x1BodyName);
-						actorShot.takeDamage(20, GameScene.this, player);
-					}
-
-					/** clean up the bullets that hit objects */
-					if (x2BodyName.contains("Bullet") && !x1BodyName.equals("player")) {
-						Bullet bullet = level.getBulletByName(x2BodyName);
-						bullet.hitObject(GameScene.this);
-					}
-					if (x1BodyName.contains("Bullet") && !x2BodyName.equals("player")) {
-						Bullet bullet = level.getBulletByName(x1BodyName);
-						bullet.hitObject(GameScene.this);
-					}
-					
-					/** clean up the flares that hit objects */
-					if (x2BodyName.contains("Flare") && !x1BodyName.equals("player")) {
-						Flare flare = level.getFlareByName(x2BodyName);
-						flare.hitObject(GameScene.this);
-					}
-					if (x1BodyName.contains("Flare") && !x2BodyName.equals("player")) {
-						Flare flare = level.getFlareByName(x1BodyName);
-						flare.hitObject(GameScene.this);
-					}
-
-					/** player interacts with an actor on the level */
-					if ((x2BodyName.contains("Actor") && x1BodyName.equals("player")) || (x1BodyName.contains("Actor") && x2BodyName.equals("player"))) {
-						Log.e("Player Actor Contact", x1BodyName + " : " + x2BodyName);
-						player.takeDamage(1);
-					}
-
-					/** deal with the player contacting sprites */
-					if (x1BodyName.equals("player")) {
-
-						/** player begins to fall when loses contact with a bounce tile (edges of platforms) */
-						if (x2BodyName.contains("tile") || x2BodyName.contains("ground")) {
-							player.stopFalling();
-							player.stopJumping();
-						}
-
-						/** player contacts an item */
-						if (x2BodyName.contains("Item")) {
-
-							/** update player controls showing the new item has been collected */
-							Item itemCollected = level.getItemByName(x2BodyName);
-							String itemName = itemCollected.getName();
-							Log.i("Collected Item: ", itemName);
-							String[] itemNameDetails = itemName.split("-");
-							controls.updatePlayerAbilityButtons(Integer.parseInt(itemNameDetails[2]));
-							ResourceManager.getIntance().aquireTokenSound.play();
-							itemCollected.collect(GameScene.this);
-						}
-
-						/** player contacts an piece */
-						if (x2BodyName.contains("Piece")) {
-
-							/** save player collected piece and collect it */
-							Piece itemCollected = level.getPieceByName(x2BodyName);
-							GameStatus.collectShipPiece(itemCollected.getType());
-							ResourceManager.getIntance().aquirePieceSound.play();
-							itemCollected.collect(GameScene.this);
-
-							/** now that we've collected a new piece, see if we've completed the level yet */
-							checkLevelComplete();
-						}
-					}
-
-					/** actor touches platform or another actor */
-					if (x2BodyName.contains("Actor") && !(x1BodyName.contains("ground") || x1BodyName.contains("physical"))) {
-						Actor actor = level.getActorByName(x2BodyName);
-						actor.changeDirection();
-					}
-
-					/** handle bomb drop which destroys tiles */
-					if (x1BodyName.contains("bomb") && x2BodyName.contains("tile")) {
-						Tile tile = level.getTileByName(x2BodyName);
-						tile.breakTile(GameScene.this);
-					}
-					if (x2BodyName.contains("bomb") && x1BodyName.contains("tile")) {
-						Tile tile = level.getTileByName(x1BodyName);
-						tile.breakTile(GameScene.this);
-					}
-					
-					/** handle flare drop which destroys tiles */
-					if (x1BodyName.contains("Flare") && x2BodyName.contains("tile")) {
-						Tile tile = level.getTileByName(x2BodyName);
-						tile.breakTile(GameScene.this);
-					}
-					if (x2BodyName.contains("Flare") && x1BodyName.contains("tile")) {
-						Tile tile = level.getTileByName(x1BodyName);
-						tile.breakTile(GameScene.this);
-					}
+					/**
+					 * PROCESS GAME SCENE COLLISION
+					 */
+					new Collision((String) x1.getBody().getUserData(), (String) x2.getBody().getUserData(), level, GameScene.this);
 				}
 			}
 
@@ -319,7 +210,7 @@ public class GameScene extends BaseScene {
 
 				if (x1BodyName != null && x2BodyName != null) {
 					/** player begins to fall when loses contact with a bounce tile (edges of platforms) */
-					if (x1BodyName.equals("player")) {
+					if (x1BodyName.contains("player")) {
 						if (x2BodyName.contains("bounce")) {
 							player.fall();
 						}
@@ -341,7 +232,7 @@ public class GameScene extends BaseScene {
 	/**
 	 * from the current list of pieces needed to complete a level, if the player has all the pieces then the level is complete!
 	 */
-	private void checkLevelComplete() {
+	public void checkLevelComplete() {
 		int thisLevelID = SceneManager.getInstance().getCurrentScene().levelNumber;
 		String[] pieceslist = GameConfiguration.levelPieces[thisLevelID].split(",");
 		String collectedPieces = GameStatus.getShipRepairedStatus();
@@ -355,7 +246,7 @@ public class GameScene extends BaseScene {
 		/** level is complete, set next level to status = 1 (playable) and the current level status as 2, 3 or 4 based on player performance */
 		if (levelCompleted) {
 			/**
-			 * @todo this should set 2, 3 or 4 based on overall level player performance
+			 * @TODO this should set 2, 3 or 4 based on overall level player performance
 			 */
 			GameStatus.setLevelStatusByLevelNumber(thisLevelID, "2");
 			GameStatus.setLevelStatusByLevelNumber(++thisLevelID, "1");
