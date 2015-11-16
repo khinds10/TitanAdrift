@@ -1,15 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <level width="804" height="480">
-    <item x="708" y="168" type="0" animationSpeed="200" movementSpeed="0"/> <!-- ROW 14 COLUMN 59 -->
-    <item x="0" y="264" type="0" animationSpeed="200" movementSpeed="0"/> <!-- ROW 22 COLUMN 0 -->
-    <item x="516" y="276" type="1" animationSpeed="200" movementSpeed="0"/> <!-- ROW 23 COLUMN 43 -->
-    <item x="540" y="276" type="1" animationSpeed="200" movementSpeed="0"/> <!-- ROW 23 COLUMN 45 -->
-    <item x="0" y="360" type="2" animationSpeed="200" movementSpeed="0"/> <!-- ROW 30 COLUMN 0 -->
-    <item x="288" y="372" type="2" animationSpeed="200" movementSpeed="0"/> <!-- ROW 31 COLUMN 24 -->
-    <item x="396" y="372" type="3" animationSpeed="200" movementSpeed="0"/> <!-- ROW 31 COLUMN 33 -->
-    <item x="444" y="372" type="3" animationSpeed="200" movementSpeed="0"/> <!-- ROW 31 COLUMN 37 -->
-    <item x="588" y="372" type="4" animationSpeed="200" movementSpeed="0"/> <!-- ROW 31 COLUMN 49 -->
-    <item x="624" y="372" type="4" animationSpeed="200" movementSpeed="0"/> <!-- ROW 31 COLUMN 52 -->
-    <item x="732" y="372" type="5" animationSpeed="200" movementSpeed="0"/> <!-- ROW 31 COLUMN 61 -->
-    <item x="756" y="372" type="5" animationSpeed="200" movementSpeed="0"/> <!-- ROW 31 COLUMN 63 -->
+    <item x="264" y="156" type="0" animationSpeed="200" movementSpeed="0"/> <!-- ROW 13 COLUMN 22 -->
 </level>

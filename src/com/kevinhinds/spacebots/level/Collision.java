@@ -108,14 +108,14 @@ public class Collision {
 		 * PLAYER COLLIDES
 		 */
 		if (body1.contains("player") || body2.contains("player")) {
-			
+
 			String collidingBody = body1;
 			if (body1.contains("player")) {
 				collidingBody = body2;
 			}
 
 			/** player begins to fall when loses contact with a bounce tile (edges of platforms) */
-			if (collidingBody.contains("tile") || collidingBody.contains("ground")) {
+			if (collidingBody.contains("tile") || collidingBody.contains("ground") || collidingBody.contains("edge")) {
 				gameScene.player.stopFalling();
 				gameScene.player.stopJumping();
 			}
@@ -172,7 +172,7 @@ public class Collision {
 	public void actorCollision(String collidingBody) {
 
 		/** actor touches something and changes direction */
-		if (collidingBody.contains("ground") || collidingBody.contains("physical")) {
+		if (collidingBody.contains("ground") || collidingBody.contains("physical") || collidingBody.contains("edge") || collidingBody.contains("Actor")) {
 			actor.changeDirection();
 		}
 
