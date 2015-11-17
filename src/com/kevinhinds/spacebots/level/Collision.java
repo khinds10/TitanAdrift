@@ -172,7 +172,7 @@ public class Collision {
 	public void actorCollision(String collidingBody) {
 
 		/** actor touches something and changes direction */
-		if (collidingBody.contains("ground") || collidingBody.contains("physical") || collidingBody.contains("edge") || collidingBody.contains("Actor")) {
+		if (collidingBody.contains("ground") || collidingBody.contains("physical") || collidingBody.contains("edge") || collidingBody.contains("Actor") || collidingBody.contains("Item") || collidingBody.contains("Piece")) {
 			actor.changeDirection();
 		}
 
