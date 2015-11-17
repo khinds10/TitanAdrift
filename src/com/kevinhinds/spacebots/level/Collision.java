@@ -1,5 +1,6 @@
 package com.kevinhinds.spacebots.level;
 
+import com.kevinhinds.spacebots.GameConfiguration;
 import com.kevinhinds.spacebots.ResourceManager;
 import com.kevinhinds.spacebots.objects.Actor;
 import com.kevinhinds.spacebots.objects.Bullet;
@@ -145,6 +146,14 @@ public class Collision {
 				/** now that we've collected a new piece, see if we've completed the level yet */
 				gameScene.checkLevelComplete();
 			}
+
+			/** player contacts any water tiles which are fatal */
+			if (collidingBody.contains("Platform")) {
+				for (String waterTile : GameConfiguration.waterTiles) {
+					collidingBody.contains("-" + waterTile);
+					gameScene.player.takeDamage(1);
+				}
+			}
 		}
 	}
 
@@ -189,6 +198,14 @@ public class Collision {
 			actor.takeDamage(20, gameScene, gameScene.player);
 		}
 
+		/** player contacts any water tiles which are fatal */
+		if (collidingBody.contains("Platform")) {
+			for (String waterTile : GameConfiguration.waterTiles) {
+				collidingBody.contains("-" + waterTile);
+				actor.takeDamage(20, gameScene, gameScene.player);
+			}
+		}
+		
 		/** player hits an actor */
 		if (collidingBody.contains("player")) {
 			gameScene.player.takeDamage(1);

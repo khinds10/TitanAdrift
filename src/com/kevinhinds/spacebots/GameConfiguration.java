@@ -73,6 +73,9 @@ public class GameConfiguration {
 	/** platform sprite map */
 	public static int platformMapColumns = 22;
 	public static int platformMapRows = 13;
+	
+	/** water tiles are deadly so have a list to check if the player comes in contact with any of them */
+	public static String[] waterTiles = {"242","243","244","245","246","247","264","265","266","267","268","269"};
 
 	/** item sprite map */
 	public static int itemMapColumns = 6;
