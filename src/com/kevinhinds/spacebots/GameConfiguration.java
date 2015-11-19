@@ -54,7 +54,7 @@ public class GameConfiguration {
 	public static int playerEnergyShotAmount = 1;
 
 	/** set how much life the player has starting the level and how much each damage decreases that life by default */
-	public static int playerStartingLife = 3;
+	public static int playerStartingLife = 2;
 	public static int playerLifeDamageAmount = 1;
 
 	/** player advanced abilities mapped to token IDs */

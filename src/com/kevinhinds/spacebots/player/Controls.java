@@ -77,11 +77,11 @@ public class Controls {
 	public void setLifeMeterLevelByPercent(int percentLife) {
 		if (percentLife > 100) {
 			lifeMeter.setCurrentTileIndex(4);
-		} else if (percentLife >= 75) {
+		} else if (percentLife > 75) {
 			lifeMeter.setCurrentTileIndex(3);
-		} else if (percentLife >= 50) {
+		} else if (percentLife > 50) {
 			lifeMeter.setCurrentTileIndex(2);
-		} else if (percentLife >= 25) {
+		} else if (percentLife > 25) {
 			lifeMeter.setCurrentTileIndex(1);
 		} else {
 			lifeMeter.setCurrentTileIndex(0);
@@ -94,7 +94,7 @@ public class Controls {
 	 * @param percentEnergy
 	 */
 	public void setEnergyLevelByPercent(int percentEnergy) {
-		if (percentEnergy >= 200) {
+		if (percentEnergy > 200) {
 			energyMeter.setCurrentTileIndex(0);
 		} else if (percentEnergy > 100) {
 			energyMeter.setCurrentTileIndex(1);

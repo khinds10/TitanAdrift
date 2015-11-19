@@ -294,6 +294,9 @@ public class Player {
 	 */
 	public void reload() {
 		energyAmount = energyAmount + 15;
+		if (energyAmount > GameConfiguration.playerStartingEnergy) {
+			energyAmount = GameConfiguration.playerStartingEnergy;
+		}
 		gameScene.controls.setEnergyLevelByPercent((energyAmount * 100) / GameConfiguration.playerStartingEnergy);
 	}
 
@@ -329,6 +332,9 @@ public class Player {
 	 */
 	public void revive() {
 		lifeAmount = lifeAmount + 1;
+		if (lifeAmount > GameConfiguration.playerStartingLife) {
+			lifeAmount = GameConfiguration.playerStartingLife;
+		}
 		gameScene.controls.setLifeMeterLevelByPercent((lifeAmount * 100) / GameConfiguration.playerStartingLife);
 	}
 }
