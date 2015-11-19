@@ -73,9 +73,9 @@ public class GameConfiguration {
 	/** platform sprite map */
 	public static int platformMapColumns = 22;
 	public static int platformMapRows = 13;
-	
+
 	/** water tiles are deadly so have a list to check if the player comes in contact with any of them */
-	public static String[] waterTiles = {"242","243","244","245","246","247","264","265","266","267","268","269"};
+	public static String[] waterTiles = { "242", "243", "244", "245", "246", "247", "264", "265", "266", "267", "268", "269" };
 
 	/** item sprite map */
 	public static int itemMapColumns = 6;
@@ -144,8 +144,7 @@ public class GameConfiguration {
 
 	/** list of pieces to collect in each level, starting @ index 1 for readability */
 	public static String[] levelPieces = { "", "8,25,42,58,59,60", "75,76,77,92,93,94,348", "109,110,111,126,127,396", "128,140,141,142,143,402", "144,145,146,147,148,422,349", "157,158,159,160,161,439", "162,163,164,165,173,456,351", "174,175,176,177,178,453,362", "179,180,181,182,191,447", "192,193,194,195,427,444", "196,197,198,199,205,410,330", "206,207,208,209,210,405,331", "211,212,213,214,215,216,335", "217,218,219,222,223,224", "225,226,227,228,229,230,366", "231,232,233,234,235,236", "239,240,241,242,243,244,350", "245,246,247,248,249,250", "251,252,336,345,346,347", "253,255,256,257,258,259,364", "261,262,263,264,265,266", "267,268,269,270,271,272,333", "273,274,275,276,277,260,332", "278,279,280,281,282,385", "283,284,285,286,287,384", "288,292,293,294,296,296,334", "297,298,299,300,301,383,365", "302,309,311,367,368,381", "312,313,314,315,316,382,363", "317,318,319,326,328,329" };
-	
-	
+
 	/** player daydream begin levels mapped out */
 	public static Map<Integer, String> daydreamLevelsMapping = new HashMap<Integer, String>();
 
