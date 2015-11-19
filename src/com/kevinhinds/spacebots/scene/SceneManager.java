@@ -3,6 +3,8 @@ package com.kevinhinds.spacebots.scene;
 import org.andengine.audio.music.Music;
 import org.andengine.engine.Engine;
 import org.andengine.ui.IGameInterface.OnCreateSceneCallback;
+
+import com.kevinhinds.spacebots.GameConfiguration;
 import com.kevinhinds.spacebots.ResourceManager;
 
 /**
@@ -15,12 +17,13 @@ public class SceneManager {
 	private BaseScene menuScene;
 	private BaseScene gameScene;
 	private BaseScene levelScene;
+	private DayDreamScene dayDreamScene;
 	private static final SceneManager INSTANCE = new SceneManager();
 	private BaseScene currentScene;
 	private Engine engine = ResourceManager.getIntance().engine;
 
 	/**
-	 * set the scene to menu
+	 * set the scene to beginning main menu
 	 * 
 	 * @param cb
 	 */
@@ -37,7 +40,7 @@ public class SceneManager {
 	}
 
 	/**
-	 * return to menu scene
+	 * return to menu
 	 */
 	public void returnToMenuScene() {
 		menuScene = new MainMenuScene();
@@ -46,7 +49,7 @@ public class SceneManager {
 	}
 
 	/**
-	 * return to menu scene
+	 * load game credits
 	 */
 	public void loadCreditsScene() {
 		levelScene = new CreditsMenuScene();
@@ -55,7 +58,7 @@ public class SceneManager {
 	}
 
 	/**
-	 * return to menu scene
+	 * load level selector
 	 */
 	public void loadLevelSelectScene() {
 		levelScene = new LevelSelectMenuScene();
@@ -65,8 +68,28 @@ public class SceneManager {
 
 	/**
 	 * set the scene to the game
+	 * 
+	 * @param levelNumber
 	 */
 	public void setGameScene(int levelNumber) {
+
+		/** if a daydream is mapped to this level, then show the daydream scene before the level begins */
+		if (GameConfiguration.daydreamLevelsMapping.keySet().contains(levelNumber)) {
+			this.loadDayDreamScene(levelNumber);
+		} else {
+			gameScene = new GameScene();
+			gameScene.setGameLevel(levelNumber);
+			setScene(gameScene, null);
+			currentScene.createScene();
+		}
+	}
+
+	/**
+	 * set the scene to play the game! (after possible daydream scene)
+	 * 
+	 * @param levelNumber
+	 */
+	public void playGameScene(int levelNumber) {
 		gameScene = new GameScene();
 		gameScene.setGameLevel(levelNumber);
 		setScene(gameScene, null);
@@ -74,7 +97,19 @@ public class SceneManager {
 	}
 
 	/**
-	 * return to menu scene
+	 * load a daydream scene
+	 * 
+	 * @param level
+	 */
+	public void loadDayDreamScene(int level) {
+		dayDreamScene = new DayDreamScene();
+		dayDreamScene.setLevelToPlayNext(level);
+		setScene(dayDreamScene, ResourceManager.getIntance().daydreamMusic);
+		currentScene.createScene();
+	}
+
+	/**
+	 * show current level status
 	 */
 	public void loadLevelStatusScene() {
 		levelScene = new LevelStatusScene();
@@ -86,6 +121,7 @@ public class SceneManager {
 	 * dispose current scene and apply the new one specified
 	 * 
 	 * @param scene
+	 * @param music
 	 */
 	public void setScene(BaseScene scene, Music music) {
 

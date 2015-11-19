@@ -112,6 +112,15 @@ public class Piece extends TiledSprite {
 	}
 
 	/**
+	 * get the current tile index the piece is set to
+	 * 
+	 * @return
+	 */
+	public int getTileIndex() {
+		return tileIndex;
+	}
+
+	/**
 	 * player collects item
 	 * 
 	 * @param player

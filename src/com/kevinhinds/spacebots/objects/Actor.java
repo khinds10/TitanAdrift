@@ -93,18 +93,22 @@ public class Actor extends AnimatedSprite {
 
 		/** get the villian on the sprite row specified, if the sprite is facing left, then the tile is higher on the same tile row to face the other way */
 		this.spriteRow = (GameConfiguration.actorMapColumns * this.spriteRow) - (GameConfiguration.actorMapColumns);
+		
+		/** create the start animation frame based on which way the player is facing */
+		int animationFrameStart = this.spriteRow;
 		if (this.facing.equals("right")) {
-			this.spriteRow = this.spriteRow + 5;
+			animationFrameStart = animationFrameStart + 5;
 			movementSpeed = -movementSpeed;
 		}
-		this.setCurrentTileIndex(spriteRow);
+		this.setCurrentTileIndex(animationFrameStart);
 
 		/** different behavior based on type */
 		if (this.type.equals("standing")) {
 			actorBody = PhysicsFactory.createBoxBody(physicsWorld, this, BodyType.StaticBody, tileFixtureDef);
 		} else if (this.type.equals("flying")) {
-			actorBody = PhysicsFactory.createBoxBody(physicsWorld, this, BodyType.KinematicBody, tileFixtureDef);
+			actorBody = PhysicsFactory.createBoxBody(physicsWorld, this, BodyType.DynamicBody, tileFixtureDef);
 			actorBody.setLinearVelocity(movementSpeed, 0.0f);
+			actorBody.setGravityScale(0);
 		} else {
 			actorBody = PhysicsFactory.createBoxBody(physicsWorld, this, BodyType.DynamicBody, tileFixtureDef);
 			actorBody.setLinearVelocity(movementSpeed, 0.0f);
@@ -119,7 +123,7 @@ public class Actor extends AnimatedSprite {
 		final Vector2 velocity = Vector2Pool.obtain(movementSpeed, 0);
 		actorBody.setLinearVelocity(velocity);
 
-		this.animate(new long[] { animationSpeed, animationSpeed, animationSpeed }, spriteRow, spriteRow + 2, true);
+		this.animate(new long[] { animationSpeed, animationSpeed, animationSpeed }, animationFrameStart, animationFrameStart + 2, true);
 	}
 
 	/**
@@ -140,6 +144,18 @@ public class Actor extends AnimatedSprite {
 	 * actors change direction on contact with other objects
 	 */
 	public void changeDirection() {
+		
+		/** change facing direction and animation tiles to animate through */
+		int animationFrameStart = this.spriteRow;
+		if (this.facing.equals("right")) {
+			this.facing = "left";
+		} else {
+			this.facing = "right";
+			animationFrameStart = animationFrameStart + 5;
+		}
+		this.setCurrentTileIndex(animationFrameStart);
+		this.animate(new long[] { animationSpeed, animationSpeed, animationSpeed }, animationFrameStart, animationFrameStart + 2, true);
+		
 		movementSpeed = -movementSpeed;
 		move();
 	}

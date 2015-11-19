@@ -3,7 +3,6 @@ package com.kevinhinds.spacebots.level;
 import java.io.IOException;
 
 import org.andengine.entity.IEntity;
-import org.andengine.entity.scene.Scene;
 import org.andengine.extension.physics.box2d.PhysicsWorld;
 import org.andengine.util.SAXUtils;
 import org.andengine.util.level.IEntityLoader;
@@ -96,7 +95,7 @@ public class LevelXMLBuilder {
 				final int id = SAXUtils.getIntAttributeOrThrow(attr, TAG_TILE_ATTR_TILE);
 				final String type = SAXUtils.getAttributeOrThrow(attr, TAG_TILE_TYPE_TILE);
 				Tile t = ResourceManager.getIntance().getGameTileById(id);
-				level.addTile(t.getInstance(x, y, type, "Platform:" + Float.toString(x) + "-" + Float.toString(y) + "-" + Integer.toString(id)));
+				level.addTile(t.getInstance(x, y, type, "Platform:" + Float.toString(x) + "-" + Float.toString(y) + "-ID:" + Integer.toString(id)));
 				return null;
 			}
 		});

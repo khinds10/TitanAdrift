@@ -57,6 +57,15 @@ public class Collision {
 				actorCollision(body1);
 			}
 		}
+		
+		/** if 2 moving actors collide, then we must both change to opposite directions */
+		if (body1.contains("Actor") && body2.contains("Actor")) {
+			actor = level.getActorByName(body1);
+			actor.changeDirection();
+			actor.changeDirection();
+			actor = level.getActorByName(body2);
+			actor.changeDirection();
+		}
 
 		/**
 		 * TILE COLLISIONS
@@ -150,8 +159,9 @@ public class Collision {
 			/** player contacts any water tiles which are fatal */
 			if (collidingBody.contains("Platform")) {
 				for (String waterTile : GameConfiguration.waterTiles) {
-					collidingBody.contains("-" + waterTile);
-					gameScene.player.takeDamage(1);
+					if (collidingBody.contains("-ID:" + waterTile)) {
+						gameScene.player.takeDamage(1);
+					}
 				}
 			}
 		}
@@ -181,7 +191,15 @@ public class Collision {
 	public void actorCollision(String collidingBody) {
 
 		/** actor touches something and changes direction */
-		if (collidingBody.contains("ground") || collidingBody.contains("physical") || collidingBody.contains("edge") || collidingBody.contains("Actor") || collidingBody.contains("Item") || collidingBody.contains("Piece")) {
+		if (collidingBody.contains("ground") 
+				|| collidingBody.contains("physical") 
+				|| collidingBody.contains("edge") 
+				|| collidingBody.contains("Actor") 
+				|| collidingBody.contains("Item") 
+				|| collidingBody.contains("Piece")
+				|| collidingBody.contains("leftWall")
+				|| collidingBody.contains("rightWall")
+				) {
 			actor.changeDirection();
 		}
 
@@ -201,11 +219,12 @@ public class Collision {
 		/** player contacts any water tiles which are fatal */
 		if (collidingBody.contains("Platform")) {
 			for (String waterTile : GameConfiguration.waterTiles) {
-				collidingBody.contains("-" + waterTile);
-				actor.takeDamage(20, gameScene, gameScene.player);
+				if (collidingBody.contains("-" + waterTile)) {
+					actor.takeDamage(20, gameScene, gameScene.player);
+				}
 			}
 		}
-		
+
 		/** player hits an actor */
 		if (collidingBody.contains("player")) {
 			gameScene.player.takeDamage(1);

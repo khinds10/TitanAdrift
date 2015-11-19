@@ -2,7 +2,6 @@ package com.kevinhinds.spacebots.level;
 
 import java.util.ArrayList;
 
-import org.andengine.entity.scene.Scene;
 import org.andengine.extension.physics.box2d.PhysicsWorld;
 
 import com.kevinhinds.spacebots.objects.Actor;

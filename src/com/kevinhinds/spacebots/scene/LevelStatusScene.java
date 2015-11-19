@@ -4,13 +4,14 @@ import java.util.ArrayList;
 import org.andengine.entity.scene.menu.MenuScene;
 import org.andengine.entity.scene.menu.MenuScene.IOnMenuItemClickListener;
 import org.andengine.entity.scene.menu.item.IMenuItem;
-import org.andengine.entity.sprite.Sprite;
 
 import com.kevinhinds.spacebots.GameConfiguration;
 import com.kevinhinds.spacebots.ResourceManager;
 import com.kevinhinds.spacebots.objects.Piece;
 import com.kevinhinds.spacebots.status.GameStatus;
 import com.kevinhinds.spacebots.status.StatusListManager;
+
+import android.util.Log;
 
 /**
  * credits scene for the game
@@ -21,11 +22,10 @@ public class LevelStatusScene extends BaseScene implements IOnMenuItemClickListe
 
 	private MenuScene menu;
 	private final int MENU_BACK = 1;
+	public ArrayList<Piece> foundPieces = new ArrayList<Piece>();
 
 	@Override
 	public void createScene() {
-		final Sprite spriteBG = new Sprite(0, 0, ResourceManager.getIntance().voidBackgroundRegion, ResourceManager.getIntance().vbom);
-		attachChild(spriteBG);
 		createMenu();
 		showShipStatus();
 	}
@@ -48,12 +48,20 @@ public class LevelStatusScene extends BaseScene implements IOnMenuItemClickListe
 		/** create the display of the ship in its current status being built by what the user has collected */
 		int count = 0;
 		for (int i = 0; i < GameConfiguration.pieceMapColumns * GameConfiguration.pieceMapRows; i++) {
+
+			/** create a new found piece from the complete list of pieces you can find */
 			Piece thisPiece = shipPieces.get(i);
 			Integer pieceID = thisPiece.getId();
+			Piece foundPiece = new Piece("Found Piece " + Integer.toString(pieceID), String.valueOf(pieceID), i, i, 0, 0, 0f, 0f, 0f, ResourceManager.getIntance().pieceRegion, vbom);
+
 			/** if the current list of pieces the player aquired contains the piece then show that we have it on the screen, else if it's a piece they don't have to collect then just show it */
 			if (StatusListManager.containsValue(shipStatus, pieceID.toString()) || !StatusListManager.containsValue(GameConfiguration.shipPiecesToCollect, pieceID.toString())) {
-				thisPiece.setPosition(x + (count * GameConfiguration.pieceMapTileSize), y);
-				thisPiece.attach(this);
+				foundPiece.setPosition(x + (count * GameConfiguration.pieceMapTileSize), y);
+				try {
+					foundPiece.attach(this);	
+				} catch (Exception e) {
+					Log.e("Could not attached ship piece", e.getMessage());
+				}
 			}
 			count++;
 			if (count == GameConfiguration.pieceMapColumns) {
