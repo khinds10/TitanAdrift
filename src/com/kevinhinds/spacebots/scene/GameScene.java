@@ -50,6 +50,7 @@ public class GameScene extends BaseScene {
 	public Level level;
 	public LevelXMLBuilder levelXMLBuilder;
 	public Controls controls;
+	public String currentPiecesObtained;
 
 	/**
 	 * construct the gamescene with the level XML builder
@@ -68,6 +69,7 @@ public class GameScene extends BaseScene {
 		createControls();
 		createLevel(this.levelNumber);
 		level = levelXMLBuilder.level;
+		currentPiecesObtained = "";
 
 		/** every 1 seconds update scene timer */
 		this.registerUpdateHandler(new TimerHandler(1, true, new ITimerCallback() {
@@ -86,7 +88,7 @@ public class GameScene extends BaseScene {
 
 	@Override
 	public void onBackPressed() {
-		SceneManager.getInstance().returnToMenuScene();
+		SceneManager.getInstance().loadLevelSelectScene();
 	}
 
 	/**
@@ -233,12 +235,13 @@ public class GameScene extends BaseScene {
 	 * from the current list of pieces needed to complete a level, if the player has all the pieces then the level is complete!
 	 */
 	public void checkLevelComplete() {
+		
+		/**  if you've collected all the pieces locally in this level to complete, then it's finished */
 		int thisLevelID = SceneManager.getInstance().getCurrentScene().levelNumber;
 		String[] pieceslist = GameConfiguration.levelPieces[thisLevelID].split(",");
-		String collectedPieces = GameStatus.getShipRepairedStatus();
 		boolean levelCompleted = true;
 		for (String piece : pieceslist) {
-			if (!StatusListManager.containsValue(collectedPieces, piece)) {
+			if (!StatusListManager.containsValue(currentPiecesObtained, piece)) {
 				levelCompleted = false;
 			}
 		}
@@ -250,7 +253,7 @@ public class GameScene extends BaseScene {
 			 */
 			GameStatus.setLevelStatusByLevelNumber(thisLevelID, "2");
 			GameStatus.setLevelStatusByLevelNumber(++thisLevelID, "1");
-			SceneManager.getInstance().loadLevelStatusScene();
+			SceneManager.getInstance().loadLevelStatusScene("success");
 		}
 	}
 

@@ -16,6 +16,7 @@ public class GameStatus {
 	public static String MusicPlay = "MusicPlay";
 	public static String SoundFXPlay = "SoundFXPlay";
 	public static String LevelStatus = "LevelStatus";
+	public static String MostRecentLevel = "MostRecentLevel";
 	public static String ShipRepairedStatus = "ShipRepairedStatus";
 
 	/**
@@ -26,7 +27,8 @@ public class GameStatus {
 		MainGameActivity activity = ResourceManager.getIntance().activity;
 		activity.statusAndPreferencesEditor.putInt(GameStatus.HighScore, 0);
 		activity.statusAndPreferencesEditor.putBoolean(GameStatus.MusicPlay, false);
-		activity.statusAndPreferencesEditor.putBoolean(GameStatus.SoundFXPlay, false);
+		activity.statusAndPreferencesEditor.putBoolean(GameStatus.SoundFXPlay, false);		
+		activity.statusAndPreferencesEditor.putInt(GameStatus.MostRecentLevel, 1);
 
 		/** create a list of all new level status numbers, marking level 1 as "1" or available to play */
 		String levelStats = StatusListManager.createDefaultCSVList(GameConfiguration.numberLevels, "0");
@@ -62,6 +64,22 @@ public class GameStatus {
 		return ResourceManager.getIntance().activity.statusAndPreferences.getString(GameStatus.ShipRepairedStatus, "");
 	}
 
+	/**
+	 * get the highest completed level for player
+	 * 
+	 * @return
+	 */
+	public static int getHighestCompletedLevel() {
+		int level = GameConfiguration.numberLevels;
+		while (level > 1) {
+			if (GameStatus.levelStatusByLevelNumber(level) > 0) {
+				return level;
+			}
+			level--;
+		}
+		return 1;
+	}
+
 	/** determine if we're supposed to play music in the game */
 	public static boolean playMusic() {
 		return ResourceManager.getIntance().activity.statusAndPreferences.getBoolean(GameStatus.MusicPlay, true);
@@ -84,6 +102,17 @@ public class GameStatus {
 		ResourceManager.getIntance().activity.statusAndPreferencesEditor.commit();
 	}
 
+	/** get the most recently level played */
+	public static int getMostRecentlLevel() {
+		return ResourceManager.getIntance().activity.statusAndPreferences.getInt(GameStatus.MostRecentLevel, 1);
+	}
+
+	/** set the most recently level played */
+	public static void setMostRecentlLevel(int levelNumber) {
+		ResourceManager.getIntance().activity.statusAndPreferencesEditor.putInt(GameStatus.MostRecentLevel, levelNumber);
+		ResourceManager.getIntance().activity.statusAndPreferencesEditor.commit();
+	}
+	
 	/**
 	 * generate comma separated list of current status code for each level in the game, updating the one specified to a new value
 	 * 

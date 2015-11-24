@@ -28,6 +28,7 @@ public abstract class BaseScene extends Scene {
 	protected MainGameActivity activity;
 	public Camera camera;
 	public int levelNumber;
+	public String levelStatus;
 
 	public BaseScene() {
 		engine = ResourceManager.getIntance().engine;
@@ -97,5 +98,14 @@ public abstract class BaseScene extends Scene {
 	 */
 	public void setGameLevel(int levelNumber) {
 		this.levelNumber = levelNumber;
+	}
+
+	/**
+	 * set the current status the scene level is in as an additional option to render different elements
+	 * 
+	 * @param status
+	 */
+	public void setStatus(String status) {
+		this.levelStatus = status;
 	}
 }

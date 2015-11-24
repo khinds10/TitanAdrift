@@ -6,6 +6,7 @@ import org.andengine.entity.scene.menu.item.IMenuItem;
 import org.andengine.entity.sprite.Sprite;
 
 import com.kevinhinds.spacebots.ResourceManager;
+import com.kevinhinds.spacebots.status.GameStatus;
 
 /**
  * main menu scene for the game
@@ -74,11 +75,7 @@ public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener
 	public boolean onMenuItemClicked(MenuScene scene, IMenuItem item, float localX, float localY) {
 		switch (item.getID()) {
 		case MENU_PLAY:
-			
-			
-			
-			
-			SceneManager.getInstance().setGameScene(1);
+			SceneManager.getInstance().playLevelAgain();
 			return true;
 		case MENU_LEVELS:
 			SceneManager.getInstance().loadLevelSelectScene();

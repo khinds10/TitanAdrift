@@ -148,6 +148,11 @@ public class Collision {
 
 				/** save player collected piece and collect it */
 				Piece itemCollected = level.getPieceByName(collidingBody);
+			
+				/** apply the piece collected to the immediate game status */
+				gameScene.currentPiecesObtained = gameScene.currentPiecesObtained + itemCollected.getType() + ","; 
+				
+				/** collect piece in the overall game status as well */
 				GameStatus.collectShipPiece(itemCollected.getType());
 				ResourceManager.getIntance().aquirePieceSound.play();
 				itemCollected.collect(gameScene);
@@ -219,7 +224,7 @@ public class Collision {
 		/** player contacts any water tiles which are fatal */
 		if (collidingBody.contains("Platform")) {
 			for (String waterTile : GameConfiguration.waterTiles) {
-				if (collidingBody.contains("-" + waterTile)) {
+				if (collidingBody.contains("-ID:" + waterTile)) {
 					actor.takeDamage(20, gameScene, gameScene.player);
 				}
 			}

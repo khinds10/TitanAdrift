@@ -59,6 +59,9 @@ public class ResourceManager {
 	public Font gameFontLarge;
 	public Font gameFontGray;
 	public Font gameFontTiny;
+	public Font gameRedFont;
+	public Font gameBlueFont;
+	public Font gameGreenFont;
 
 	/** level fonts color coded by status */
 	public Font levelSelectFontNone;
@@ -100,6 +103,7 @@ public class ResourceManager {
 	public ITextureRegion controlShootRegion;
 	public ITextureRegion controlLeftRegion;
 	public ITextureRegion controlRightRegion;
+	public ITextureRegion controlDownRegion;
 
 	/** level regions */
 	private BuildableBitmapTextureAtlas tileTextureAtlas;
@@ -194,6 +198,7 @@ public class ResourceManager {
 		controlLeftRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "controls/left.png");
 		controlRightRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "controls/right.png");
 		controlShootRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "controls/shoot.png");
+		controlDownRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(gameTextureAtlas, activity, "controls/down.png");
 
 		/** have to run everything through black pawn to render it visibly */
 		try {
@@ -443,6 +448,7 @@ public class ResourceManager {
 	 * load fonts for the game
 	 */
 	public void loadFonts() {
+
 		FontFactory.setAssetBasePath("fonts/");
 
 		gameFontLarge = buildFont("game.ttf", 30, android.graphics.Color.parseColor("#FFFAB5"));
@@ -456,6 +462,15 @@ public class ResourceManager {
 
 		gameFontTiny = buildFont("game.ttf", 10, android.graphics.Color.parseColor("#D8D8D8"));
 		gameFontTiny.load();
+
+		gameRedFont = buildFont("game.ttf", 20, android.graphics.Color.parseColor("#DB8E77"));
+		gameRedFont.load();
+
+		gameBlueFont = buildFont("game.ttf", 20, android.graphics.Color.parseColor("#81C1D7"));
+		gameBlueFont.load();
+
+		gameGreenFont = buildFont("game.ttf", 20, android.graphics.Color.parseColor("#AFDB6F"));
+		gameGreenFont.load();
 
 		titleFont = buildFont("game.ttf", 50, android.graphics.Color.parseColor("#FFFAB5"));
 		titleFont.load();

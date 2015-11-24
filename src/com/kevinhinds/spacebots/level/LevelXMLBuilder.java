@@ -24,14 +24,14 @@ public class LevelXMLBuilder {
 	private final LevelLoader levelLoader;
 	private final AssetManager assetManager;
 	public Level level;
-	
+
 	/** XML attributes */
 	private static final String TAG_ATTR_X = "x";
 	private static final String TAG_ATTR_Y = "y";
 	private static final String TAG_ANIMATION_SPEED = "animationSpeed";
 	private static final String TAG_MOTION_SPEED = "movementSpeed";
 	private static final String TAG_TYPE = "type";
-	
+
 	/** PLATFORM XML attributes */
 	private static final String TAG_TILE = "platform";
 	private static final String TAG_TILE_ATTR_TILE = "block";
@@ -39,10 +39,10 @@ public class LevelXMLBuilder {
 
 	/** ITEM XML attributes */
 	private static final String TAG_ITEM = "item";
-	
+
 	/** PIECE XML attributes */
 	private static final String TAG_PIECE = "piece";
-	
+
 	/** ACTOR XML attributes */
 	private static final String TAG_ACTOR = "actor";
 	private static final String TAG_ACTOR_ATTR_TILE = "actor";
@@ -129,7 +129,7 @@ public class LevelXMLBuilder {
 		} catch (IOException e) {
 
 		}
-		
+
 		/**
 		 * LOAD IN SHIP PIECES FROM XML
 		 */
@@ -145,14 +145,11 @@ public class LevelXMLBuilder {
 				Piece p = ResourceManager.getIntance().getGamePieceById(id);
 				level.addPiece(p.getInstance("Piece: " + Float.toString(x) + "-" + Float.toString(y) + "-" + Integer.toString(id), String.valueOf(id), x, y, animationSpeed, movementSpeed));
 				return null;
-			}			
+			}
 		});
 
 		try {
-			/** we only load in the pieces to collect if the level is "playable" status "1", else "2" or above for level status means it's already completed */
-			if (GameStatus.levelStatusByLevelNumber(levelNumber) < 2) {
-				levelLoader.loadLevelFromAsset(assetManager, "level" + Integer.toString(levelNumber) + "_pieces.xml");	
-			}
+			levelLoader.loadLevelFromAsset(assetManager, "level" + Integer.toString(levelNumber) + "_pieces.xml");
 		} catch (IOException e) {
 
 		}

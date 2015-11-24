@@ -50,7 +50,7 @@ public class GameConfiguration {
 	}
 
 	/** set how much energy the player has starting the level and how much each gun shot decreases that energy by default */
-	public static int playerStartingEnergy = 25;
+	public static int playerStartingEnergy = 15;
 	public static int playerEnergyShotAmount = 1;
 
 	/** set how much life the player has starting the level and how much each damage decreases that life by default */

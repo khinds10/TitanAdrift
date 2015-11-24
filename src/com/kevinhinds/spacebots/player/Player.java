@@ -38,6 +38,7 @@ public class Player {
 	public AnimatedSprite playerSprite;
 	public boolean isJumping;
 	public boolean isFalling;
+	public boolean isKneeling;
 	protected State moving;
 	public State facing;
 	protected int bulletNumber = 0;
@@ -65,8 +66,27 @@ public class Player {
 		moving = State.STOP;
 		facing = State.RIGHT;
 		isJumping = false;
+		isKneeling = false;
 		physicsWorld = playerPhysicsworld;
 		gameScene.attachChild(playerSprite);
+	}
+
+	/**
+	 * kneel left or right based on facing state, but if already kneeling then issue player stop to stand
+	 */
+	public void kneel() {
+
+		if (isKneeling) {
+			stop();
+			isKneeling = false;
+		} else {
+			if (facing == State.RIGHT) {
+				playerSprite.animate(new long[] { GameConfiguration.playerAnimationSpeed }, new int[] { GameConfiguration.playerKneelRightFrame });
+			} else {
+				playerSprite.animate(new long[] { GameConfiguration.playerAnimationSpeed }, new int[] { GameConfiguration.playerKneelLeftFrame });
+			}
+			isKneeling = true;
+		}
 	}
 
 	/**
@@ -226,6 +246,11 @@ public class Player {
 	 */
 	public void shoot(GameScene scene) {
 
+		/** if player is standing like he began the level but shot gun, then issue the stop command which makes him hold his gun up */
+		if (playerSprite.getCurrentTileIndex() == GameConfiguration.playerStartLevelFrame) {
+			stop();
+		}
+
 		/** decrease energy because the gun was shot and update the control */
 		energyAmount = energyAmount - GameConfiguration.playerEnergyShotAmount;
 		scene.controls.setEnergyLevelByPercent((energyAmount * 100) / GameConfiguration.playerStartingEnergy);
@@ -238,18 +263,16 @@ public class Player {
 		bulletNumber++;
 		String bulletName = "Bullet-" + Integer.toString(bulletNumber);
 
-		/** create a strength 1 2 or 3 bullet based on player's current energy */
-		Bullet bullet = ResourceManager.getIntance().getGameBulletById(playerWeapons.YELLOW_PHASER.ordinal());
-		ResourceManager.getIntance().laserSound.play();
-
-		bullet.strength = 1;
-		if (energyAmount > GameConfiguration.playerStartingEnergy) {
-			bullet = ResourceManager.getIntance().getGameBulletById(playerWeapons.YELLOW_DOUBLE_PHASER.ordinal());
-			bullet.strength = 2;
-		}
-		if (energyAmount > GameConfiguration.playerStartingEnergy * 2) {
-			bullet = ResourceManager.getIntance().getGameBulletById(playerWeapons.YELLOW_BULLET.ordinal());
-			bullet.strength = 3;
+		/** bullet based on if player is kneeling or not */
+		Bullet bullet = null;
+		
+		/** more powerful gun if kneeling */
+		if (isKneeling) {
+			bullet = ResourceManager.getIntance().getGameBulletById(playerWeapons.BLUE_BULLET.ordinal());
+			bullet.strength = 2;	
+		} else {
+			bullet = ResourceManager.getIntance().getGameBulletById(playerWeapons.YELLOW_PHASER.ordinal());
+			bullet.strength = 1;
 		}
 
 		/** the player X,Y is the top left corner, so if facing right the bullet should start about 50px over to the right */
@@ -259,8 +282,16 @@ public class Player {
 			moveBulletX = 25;
 			bullet.direction = State.RIGHT;
 		}
-		gameScene.level.addBullet(bullet.getInstance(bulletName, playerSprite.getX() + moveBulletX, playerSprite.getY() + 10));
+		
+		/** if they player is kneeling */
+		if (isKneeling) {
+			gameScene.level.addBullet(bullet.getInstance(bulletName, playerSprite.getX() + moveBulletX, playerSprite.getY() + 16));
+		} else {
+			gameScene.level.addBullet(bullet.getInstance(bulletName, playerSprite.getX() + moveBulletX, playerSprite.getY() + 10));
+		}
+		
 		gameScene.level.getBulletByName(bulletName).createBodyAndAttach(playerSprite, facing, scene, physicsWorld);
+		ResourceManager.getIntance().laserSound.play();
 	}
 
 	/**
@@ -322,7 +353,7 @@ public class Player {
 
 		/** player dies */
 		if (lifeAmount <= 0) {
-			SceneManager.getInstance().loadLevelStatusScene();
+			SceneManager.getInstance().loadLevelStatusScene("dead");
 		}
 		gameScene.controls.setLifeMeterLevelByPercent((lifeAmount * 100) / GameConfiguration.playerStartingLife);
 	}

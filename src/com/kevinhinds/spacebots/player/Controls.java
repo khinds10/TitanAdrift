@@ -276,6 +276,25 @@ public class Controls {
 		};
 		scene.gameHUD.registerTouchArea(left);
 		scene.gameHUD.attachChild(left);
+		
+		Sprite down = new Sprite(175, scene.camera.getHeight() - 80, ResourceManager.getIntance().controlDownRegion, scene.vbom) {
+
+			@Override
+			public boolean onAreaTouched(final TouchEvent event, final float x, final float y) {
+				if (event.isActionDown()) {
+					player.kneel();	
+				}
+				return true;
+			}
+
+			@Override
+			protected void preDraw(GLState glstate, Camera camera) {
+				super.preDraw(glstate, camera);
+				glstate.enableDither();
+			}
+		};
+		scene.gameHUD.registerTouchArea(down);
+		scene.gameHUD.attachChild(down);
 	}
 
 	/**

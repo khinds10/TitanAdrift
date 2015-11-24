@@ -6,6 +6,7 @@ import org.andengine.ui.IGameInterface.OnCreateSceneCallback;
 
 import com.kevinhinds.spacebots.GameConfiguration;
 import com.kevinhinds.spacebots.ResourceManager;
+import com.kevinhinds.spacebots.status.GameStatus;
 
 /**
  * set scenes currently being displayed in the game via singleton
@@ -77,10 +78,7 @@ public class SceneManager {
 		if (GameConfiguration.daydreamLevelsMapping.keySet().contains(levelNumber)) {
 			this.loadDayDreamScene(levelNumber);
 		} else {
-			gameScene = new GameScene();
-			gameScene.setGameLevel(levelNumber);
-			setScene(gameScene, null);
-			currentScene.createScene();
+			playGameScene(levelNumber);
 		}
 	}
 
@@ -90,6 +88,7 @@ public class SceneManager {
 	 * @param levelNumber
 	 */
 	public void playGameScene(int levelNumber) {
+		GameStatus.setMostRecentlLevel(levelNumber);
 		gameScene = new GameScene();
 		gameScene.setGameLevel(levelNumber);
 		setScene(gameScene, null);
@@ -110,10 +109,17 @@ public class SceneManager {
 
 	/**
 	 * show current level status
+	 * 
+	 * @param status
 	 */
-	public void loadLevelStatusScene() {
+	public void loadLevelStatusScene(String status) {
 		levelScene = new LevelStatusScene();
-		setScene(levelScene, ResourceManager.getIntance().deadMusic);
+		levelScene.setStatus(status);
+		if (status.equals("dead")) {
+			setScene(levelScene, ResourceManager.getIntance().deadMusic);
+		} else {
+			setScene(levelScene, ResourceManager.getIntance().finishedMusic);
+		}
 		currentScene.createScene();
 	}
 
@@ -157,5 +163,34 @@ public class SceneManager {
 	 */
 	public BaseScene getCurrentScene() {
 		return currentScene;
+	}
+
+	/**
+	 * play the same level again
+	 */
+	public void playLevelAgain() {
+		setGameScene(GameStatus.getMostRecentlLevel());
+	}
+
+	/**
+	 * if the next level after the one the player has most recently played then return true  
+	 * @return
+	 */
+	public boolean hasNextLevelAvailable() {
+		if (GameStatus.levelStatusByLevelNumber(GameStatus.getMostRecentlLevel() + 1) > 0) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * go to the highest level that the player has completed and play it
+	 */
+	public void playNextLevel() {
+		if (GameStatus.levelStatusByLevelNumber(GameStatus.getMostRecentlLevel() + 1) > 0) {
+			setGameScene(GameStatus.getMostRecentlLevel() + 1);
+		} else {
+			setGameScene(GameStatus.getMostRecentlLevel());
+		}
 	}
 }

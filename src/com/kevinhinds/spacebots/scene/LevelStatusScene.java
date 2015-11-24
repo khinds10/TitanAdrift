@@ -22,6 +22,10 @@ public class LevelStatusScene extends BaseScene implements IOnMenuItemClickListe
 
 	private MenuScene menu;
 	private final int MENU_BACK = 1;
+	private final int MENU_NEXT = 2;
+	private final int MENU_AGAIN = 4;
+	private final int MENU_REBUILD = 5;
+	private final int MENU_STATUS = 6;
 	public ArrayList<Piece> foundPieces = new ArrayList<Piece>();
 
 	@Override
@@ -58,7 +62,7 @@ public class LevelStatusScene extends BaseScene implements IOnMenuItemClickListe
 			if (StatusListManager.containsValue(shipStatus, pieceID.toString()) || !StatusListManager.containsValue(GameConfiguration.shipPiecesToCollect, pieceID.toString())) {
 				foundPiece.setPosition(x + (count * GameConfiguration.pieceMapTileSize), y);
 				try {
-					foundPiece.attach(this);	
+					foundPiece.attach(this);
 				} catch (Exception e) {
 					Log.e("Could not attached ship piece", e.getMessage());
 				}
@@ -78,24 +82,43 @@ public class LevelStatusScene extends BaseScene implements IOnMenuItemClickListe
 		menu = new MenuScene(camera);
 		menu.setPosition(0, 0);
 
-		/** create menu items */
-		final IMenuItem mainTitle = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameFont, "LEVEL INCOMPLETE", 0, false);
+		/** based on level status show success or fail title */
+		IMenuItem mainTitle = null;
+		if (levelStatus.equals("dead")) {
+			mainTitle = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameRedFont, "AREA INCOMPLETE", MENU_STATUS, false);
+		} else {
+			mainTitle = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameGreenFont, "AREA SUCCESS!", MENU_STATUS, false);
+		}
 		menu.addMenuItem(mainTitle);
 
 		/** create menu items */
-		final IMenuItem rebuildYourShip = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameFontTiny, "REBUILD YOUR SHIP", 0, false);
+		final IMenuItem rebuildYourShip = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameFontTiny, "REBUILD YOUR SHIP", MENU_REBUILD, false);
 		menu.addMenuItem(rebuildYourShip);
 
-		final IMenuItem backButtonItem = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameFontGray, "MAIN MENU", MENU_BACK, true);
-		menu.addMenuItem(backButtonItem);
+		final IMenuItem menuButtonItem = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameBlueFont, "BACK", MENU_BACK, true);
+		menu.addMenuItem(menuButtonItem);
 
+		final IMenuItem nextAreaItem = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameGreenFont, "NEXT", MENU_NEXT, true);
+		menu.addMenuItem(nextAreaItem);
+
+		final IMenuItem againAreaItem = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameRedFont, "AGAIN", MENU_AGAIN, true);
+		menu.addMenuItem(againAreaItem);
+
+		/** build menu with animations */
 		menu.buildAnimations();
 		menu.setBackgroundEnabled(false);
 
-		/** position the menu items */
 		mainTitle.setPosition(10, 20);
-		backButtonItem.setPosition(backButtonItem.getX(), backButtonItem.getY() + 160);
 		rebuildYourShip.setPosition(600, 100);
+		menuButtonItem.setPosition(menuButtonItem.getX() - 300, menuButtonItem.getY() + 150);
+		nextAreaItem.setPosition(menuButtonItem.getX() + 575, menuButtonItem.getY());
+		againAreaItem.setPosition(menuButtonItem.getX() + 400, menuButtonItem.getY());
+
+		/** only show the next level button if the level after the one most recently played is available to play */
+		if (!SceneManager.getInstance().hasNextLevelAvailable()) {
+			nextAreaItem.setVisible(false);
+		}
+
 		menu.setOnMenuItemClickListener(this);
 		setChildScene(menu);
 	}
@@ -103,8 +126,19 @@ public class LevelStatusScene extends BaseScene implements IOnMenuItemClickListe
 	@Override
 	public boolean onMenuItemClicked(MenuScene scene, IMenuItem item, float localX, float localY) {
 		switch (item.getID()) {
+
 		case MENU_BACK:
 			SceneManager.getInstance().returnToMenuScene();
+			return true;
+
+		case MENU_AGAIN:
+			SceneManager.getInstance().playLevelAgain();
+			return true;
+
+		case MENU_NEXT:
+			if (SceneManager.getInstance().hasNextLevelAvailable()) {
+				SceneManager.getInstance().playNextLevel();
+			}
 			return true;
 		}
 		return false;
