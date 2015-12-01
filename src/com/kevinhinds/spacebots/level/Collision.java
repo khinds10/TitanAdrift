@@ -165,7 +165,7 @@ public class Collision {
 			if (collidingBody.contains("Platform")) {
 				for (String waterTile : GameConfiguration.waterTiles) {
 					if (collidingBody.contains("-ID:" + waterTile)) {
-						gameScene.player.takeDamage(1);
+						gameScene.player.takeDamage(20);
 					}
 				}
 			}
@@ -210,7 +210,8 @@ public class Collision {
 
 		/** actor hits Bullet/Bomb/Flare */
 		if (collidingBody.contains("Bullet")) {
-			actor.takeDamage(2, gameScene, gameScene.player);
+			Bullet bullet = level.getBulletByName(collidingBody);
+			actor.takeDamage(bullet.strength, gameScene, gameScene.player);
 		}
 
 		if (collidingBody.contains("bomb")) {

@@ -103,7 +103,7 @@ public class GameStatus {
 	}
 
 	/** get the most recently level played */
-	public static int getMostRecentlLevel() {
+	public static int getMostRecentLevel() {
 		return ResourceManager.getIntance().activity.statusAndPreferences.getInt(GameStatus.MostRecentLevel, 1);
 	}
 

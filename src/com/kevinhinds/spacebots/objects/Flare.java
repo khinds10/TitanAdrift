@@ -151,7 +151,7 @@ public class Flare extends AnimatedSprite {
 	public void hitObject(BaseScene thisScene) {
 
 		new Explosion(thisScene, this, 5);
-		ResourceManager.getIntance().flare.stop();
+		ResourceManager.getIntance().flareSound.stop();
 		ResourceManager.getIntance().impactSound.play();
 
 		final PhysicsConnector physicsConnector = thisScene.physicsWorld.getPhysicsConnectorManager().findPhysicsConnectorByShape(Flare.this);

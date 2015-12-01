@@ -31,10 +31,10 @@ public class Bullet extends TiledSprite {
 	private final float density, elastic, friction;
 	public Body bulletBody;
 	public Scene scene;
-	public int strength = 1;
+	public int strength;
 	public State direction;
 
-	public Bullet(String name, int id, int tileIndex, float x, float y, float density, float elastic, float friction, ITiledTextureRegion texture, VertexBufferObjectManager vbom) {
+	public Bullet(String name, int id, int tileIndex, float x, float y, float density, float elastic, float friction, ITiledTextureRegion texture, VertexBufferObjectManager vbom, int strength) {
 		super(x, y, texture, vbom);
 		this.name = name;
 		this.id = id;
@@ -43,6 +43,7 @@ public class Bullet extends TiledSprite {
 		this.elastic = elastic;
 		this.friction = friction;
 		this.direction = State.LEFT;
+		this.strength = strength;
 	}
 
 	/**
@@ -101,8 +102,8 @@ public class Bullet extends TiledSprite {
 	 * @param movementSpeed
 	 * @return
 	 */
-	public Bullet getInstance(String name, float x, float y) {
-		return new Bullet(name, id, tileIndex, x, y, density, elastic, friction, getTiledTextureRegion(), getVertexBufferObjectManager());
+	public Bullet getInstance(String name, float x, float y, int strength) {
+		return new Bullet(name, id, tileIndex, x, y, density, elastic, friction, getTiledTextureRegion(), getVertexBufferObjectManager(), strength);
 	}
 
 	/**

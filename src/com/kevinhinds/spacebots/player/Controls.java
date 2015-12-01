@@ -147,20 +147,20 @@ public class Controls {
 						if (countAvailable > 0) {
 							switch (this.playerAbilityID) {
 							case 0: // RELOAD
-								ResourceManager.getIntance().powerUp.play();
+								ResourceManager.getIntance().powerUpSound.play();
 								player.reload();
 								use();
 								updateTokenButtonText(this.playerAbilityID);
 								break;
 							case 1: // BOMB
-								ResourceManager.getIntance().bomb.play();
+								ResourceManager.getIntance().bombSound.play();
 								player.tokenAbilityBomb();
 								use();
 								updateTokenButtonText(this.playerAbilityID);
 								break;
 							case 2: // JUMP
 								if (!player.isJumping) {
-									ResourceManager.getIntance().superJump.play();
+									ResourceManager.getIntance().superJumpSound.play();
 									player.tokenAbilityJump();
 									use();
 									updateTokenButtonText(this.playerAbilityID);
@@ -178,7 +178,7 @@ public class Controls {
 								updateTokenButtonText(this.playerAbilityID);
 								break;
 							case 5: // FLARE
-								ResourceManager.getIntance().flare.play();
+								ResourceManager.getIntance().flareSound.play();
 								player.tokenAbilityFlare(scene);
 								use();
 								updateTokenButtonText(this.playerAbilityID);
@@ -277,7 +277,7 @@ public class Controls {
 		scene.gameHUD.registerTouchArea(left);
 		scene.gameHUD.attachChild(left);
 		
-		Sprite down = new Sprite(175, scene.camera.getHeight() - 80, ResourceManager.getIntance().controlDownRegion, scene.vbom) {
+		Sprite down = new Sprite(scene.camera.getWidth() - 260, scene.camera.getHeight() - 80, ResourceManager.getIntance().controlDownRegion, scene.vbom) {
 
 			@Override
 			public boolean onAreaTouched(final TouchEvent event, final float x, final float y) {

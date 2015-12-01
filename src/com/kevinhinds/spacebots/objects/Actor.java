@@ -215,13 +215,13 @@ public class Actor extends AnimatedSprite {
 		Random random = new Random();
 		int explosion = random.nextInt(3) + 1;
 		if (explosion == 1) {
-			ResourceManager.getIntance().explosion1.play();
+			ResourceManager.getIntance().explosion1Sound.play();
 		}
 		if (explosion == 2) {
-			ResourceManager.getIntance().explosion2.play();
+			ResourceManager.getIntance().explosion2Sound.play();
 		}
 		if (explosion == 3) {
-			ResourceManager.getIntance().explosion3.play();
+			ResourceManager.getIntance().explosion3Sound.play();
 		}
 
 		final PhysicsConnector physicsConnector = thisScene.physicsWorld.getPhysicsConnectorManager().findPhysicsConnectorByShape(Actor.this);

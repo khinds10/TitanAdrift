@@ -113,8 +113,11 @@ public class ResourceManager {
 	public ITiledTextureRegion platformRegion;
 	public ITiledTextureRegion itemRegion;
 	public ITiledTextureRegion itemButtonRegion;
-	public ITiledTextureRegion pieceRegion;
 	public ITiledTextureRegion bridgeRegion;
+	
+	/** we have a piece region and a brighter high contrast piece region so the pieces to collect are easier to see on the level */
+	public ITiledTextureRegion pieceRegion;
+	public ITiledTextureRegion pieceLevelRegion;
 
 	/** complete set of the game's actors, tiles and items to render on levels via XML descriptions */
 	private ArrayList<Actor> gameActors = new ArrayList<Actor>();
@@ -131,6 +134,7 @@ public class ResourceManager {
 	public Music deadMusic;
 	public Music endingMusic;
 	public Music finishedMusic;
+	public Music levelMusic;
 
 	/** load all the sound effects */
 	public Sound laserSound;
@@ -141,14 +145,20 @@ public class ResourceManager {
 	public Sound hitSound;
 	public Sound aquireTokenSound;
 	public Sound aquirePieceSound;
-	public Sound powerUp;
-	public Sound superJump;
-	public Sound bomb;
-	public Sound flare;
+	public Sound powerUpSound;
+	public Sound superJumpSound;
+	public Sound bombSound;
+	public Sound flareSound;
 
-	public Sound explosion1;
-	public Sound explosion2;
-	public Sound explosion3;
+	/** 3 different random explosions */
+	public Sound explosion1Sound;
+	public Sound explosion2Sound;
+	public Sound explosion3Sound;
+	
+	/** special weapon while ducking */
+	public Sound loadSound;
+	public Sound unloadSound;
+	public Sound cannonSound;
 
 	/**
 	 * load resources to create the menu into memory
@@ -250,7 +260,8 @@ public class ResourceManager {
 		/** load ship pieces */
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/items/");
 		pieceTextureAtlas = new BuildableBitmapTextureAtlas(activity.getTextureManager(), 1024, 1024, TextureOptions.BILINEAR);
-		pieceRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(pieceTextureAtlas, activity, "ship.png", GameConfiguration.pieceMapColumns, GameConfiguration.pieceMapRows);
+		pieceRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(pieceTextureAtlas, activity, "ship.png", GameConfiguration.pieceMapColumns, GameConfiguration.pieceMapRows);		
+		pieceLevelRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(pieceTextureAtlas, activity, "shipcollect.png", GameConfiguration.pieceMapColumns, GameConfiguration.pieceMapRows);
 
 		/** have to run everything through black pawn to render it visibly */
 		try {
@@ -277,12 +288,12 @@ public class ResourceManager {
 
 		/** add all the gameBullets from the bullet sprite sheet to the list of available gameBullets */
 		for (int i = 0; i <= (GameConfiguration.bulletMapColumns * GameConfiguration.bulletMapRows); i++) {
-			gameBullets.add(new Bullet("Bullet Sprite " + Integer.toString(i), i, i, 0, 0, 0f, 0f, 0f, ResourceManager.getIntance().bulletRegion, vbom));
+			gameBullets.add(new Bullet("Bullet Sprite " + Integer.toString(i), i, i, 0, 0, 0f, 0f, 0f, ResourceManager.getIntance().bulletRegion, vbom, 1));
 		}
 
 		/** add all the shipPieces from the ship sprite sheet to the list of available shipPieces */
 		for (int i = 0; i <= (GameConfiguration.pieceMapColumns * GameConfiguration.pieceMapRows); i++) {
-			shipPieces.add(new Piece("Piece Sprite " + Integer.toString(i), String.valueOf(i), i, i, 0, 0, 0f, 0f, 0f, ResourceManager.getIntance().pieceRegion, vbom));
+			shipPieces.add(new Piece("Piece Sprite " + Integer.toString(i), String.valueOf(i), i, i, 0, 0, 0f, 0f, 0f, ResourceManager.getIntance().pieceLevelRegion, vbom));
 		}
 
 		/** add the single game flare which is fired from a token ability */
@@ -301,6 +312,7 @@ public class ResourceManager {
 			deadMusic = MusicFactory.createMusicFromAsset(this.engine.getMusicManager(), this.activity, "dead.ogg");
 			endingMusic = MusicFactory.createMusicFromAsset(this.engine.getMusicManager(), this.activity, "ending.ogg");
 			finishedMusic = MusicFactory.createMusicFromAsset(this.engine.getMusicManager(), this.activity, "finished.ogg");
+			levelMusic = MusicFactory.createMusicFromAsset(this.engine.getMusicManager(), this.activity, "level.ogg");
 		} catch (IllegalStateException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -320,14 +332,17 @@ public class ResourceManager {
 			hitSound = SoundFactory.createSoundFromAsset(this.engine.getSoundManager(), this.activity, "hit.ogg");
 			aquireTokenSound = SoundFactory.createSoundFromAsset(this.engine.getSoundManager(), this.activity, "aquireToken.ogg");
 			aquirePieceSound = SoundFactory.createSoundFromAsset(this.engine.getSoundManager(), this.activity, "piece.ogg");
-			powerUp = SoundFactory.createSoundFromAsset(this.engine.getSoundManager(), this.activity, "powerUp.ogg");
-			superJump = SoundFactory.createSoundFromAsset(this.engine.getSoundManager(), this.activity, "jump.ogg");
-			bomb = SoundFactory.createSoundFromAsset(this.engine.getSoundManager(), this.activity, "bomb.ogg");
-			flare = SoundFactory.createSoundFromAsset(this.engine.getSoundManager(), this.activity, "flare.ogg");
+			powerUpSound = SoundFactory.createSoundFromAsset(this.engine.getSoundManager(), this.activity, "powerUp.ogg");
+			superJumpSound = SoundFactory.createSoundFromAsset(this.engine.getSoundManager(), this.activity, "jump.ogg");
+			bombSound = SoundFactory.createSoundFromAsset(this.engine.getSoundManager(), this.activity, "bomb.ogg");
+			flareSound = SoundFactory.createSoundFromAsset(this.engine.getSoundManager(), this.activity, "flare.ogg");
 			tokenSound = SoundFactory.createSoundFromAsset(this.engine.getSoundManager(), this.activity, "token.ogg");
-			explosion1 = SoundFactory.createSoundFromAsset(this.engine.getSoundManager(), this.activity, "explosion1.ogg");
-			explosion2 = SoundFactory.createSoundFromAsset(this.engine.getSoundManager(), this.activity, "explosion2.ogg");
-			explosion3 = SoundFactory.createSoundFromAsset(this.engine.getSoundManager(), this.activity, "explosion3.ogg");
+			explosion1Sound = SoundFactory.createSoundFromAsset(this.engine.getSoundManager(), this.activity, "explosion1.ogg");
+			explosion2Sound = SoundFactory.createSoundFromAsset(this.engine.getSoundManager(), this.activity, "explosion2.ogg");
+			explosion3Sound = SoundFactory.createSoundFromAsset(this.engine.getSoundManager(), this.activity, "explosion3.ogg");
+			loadSound = SoundFactory.createSoundFromAsset(this.engine.getSoundManager(), this.activity, "load.ogg");
+			unloadSound = SoundFactory.createSoundFromAsset(this.engine.getSoundManager(), this.activity, "unload.ogg");
+			cannonSound = SoundFactory.createSoundFromAsset(this.engine.getSoundManager(), this.activity, "cannon.ogg");
 		} catch (final IOException e) {
 			Debug.e(e);
 		}

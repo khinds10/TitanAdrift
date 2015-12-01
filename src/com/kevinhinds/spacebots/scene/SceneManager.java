@@ -169,7 +169,7 @@ public class SceneManager {
 	 * play the same level again
 	 */
 	public void playLevelAgain() {
-		setGameScene(GameStatus.getMostRecentlLevel());
+		setGameScene(GameStatus.getMostRecentLevel());
 	}
 
 	/**
@@ -177,7 +177,7 @@ public class SceneManager {
 	 * @return
 	 */
 	public boolean hasNextLevelAvailable() {
-		if (GameStatus.levelStatusByLevelNumber(GameStatus.getMostRecentlLevel() + 1) > 0) {
+		if (GameStatus.levelStatusByLevelNumber(GameStatus.getMostRecentLevel() + 1) > 0) {
 			return true;
 		}
 		return false;
@@ -187,10 +187,10 @@ public class SceneManager {
 	 * go to the highest level that the player has completed and play it
 	 */
 	public void playNextLevel() {
-		if (GameStatus.levelStatusByLevelNumber(GameStatus.getMostRecentlLevel() + 1) > 0) {
-			setGameScene(GameStatus.getMostRecentlLevel() + 1);
+		if (GameStatus.levelStatusByLevelNumber(GameStatus.getMostRecentLevel() + 1) > 0) {
+			setGameScene(GameStatus.getMostRecentLevel() + 1);
 		} else {
-			setGameScene(GameStatus.getMostRecentlLevel());
+			setGameScene(GameStatus.getMostRecentLevel());
 		}
 	}
 }

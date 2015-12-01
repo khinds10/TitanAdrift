@@ -75,17 +75,20 @@ public class Player {
 	 * kneel left or right based on facing state, but if already kneeling then issue player stop to stand
 	 */
 	public void kneel() {
-
-		if (isKneeling) {
-			stop();
-			isKneeling = false;
-		} else {
-			if (facing == State.RIGHT) {
-				playerSprite.animate(new long[] { GameConfiguration.playerAnimationSpeed }, new int[] { GameConfiguration.playerKneelRightFrame });
+		if (!isJumping) {
+			if (isKneeling) {
+				stop();
+				isKneeling = false;
+				ResourceManager.getIntance().unloadSound.play();
 			} else {
-				playerSprite.animate(new long[] { GameConfiguration.playerAnimationSpeed }, new int[] { GameConfiguration.playerKneelLeftFrame });
+				if (facing == State.RIGHT) {
+					playerSprite.animate(new long[] { GameConfiguration.playerAnimationSpeed }, new int[] { GameConfiguration.playerKneelRightFrame });
+				} else {
+					playerSprite.animate(new long[] { GameConfiguration.playerAnimationSpeed }, new int[] { GameConfiguration.playerKneelLeftFrame });
+				}
+				isKneeling = true;
+				ResourceManager.getIntance().loadSound.play();
 			}
-			isKneeling = true;
 		}
 	}
 
@@ -95,6 +98,7 @@ public class Player {
 	public void moveRight() {
 		moving = State.RIGHT;
 		facing = State.RIGHT;
+		isKneeling = false;
 		if (!isJumping && !isFalling) {
 			playerSprite.animate(new long[] { GameConfiguration.playerAnimationSpeed, GameConfiguration.playerAnimationSpeed, GameConfiguration.playerAnimationSpeed, GameConfiguration.playerAnimationSpeed, GameConfiguration.playerAnimationSpeed, GameConfiguration.playerAnimationSpeed, GameConfiguration.playerAnimationSpeed, GameConfiguration.playerAnimationSpeed }, GameConfiguration.walkRightBeginFrame, GameConfiguration.walkRightEndFrame, true);
 			playerBody.setLinearVelocity(GameConfiguration.playerWalkingVelocity, 0.0f);
@@ -118,6 +122,7 @@ public class Player {
 	public void moveLeft() {
 		moving = State.LEFT;
 		facing = State.LEFT;
+		isKneeling = false;
 		if (!isJumping && !isFalling) {
 			playerSprite.animate(new long[] { GameConfiguration.playerAnimationSpeed, GameConfiguration.playerAnimationSpeed, GameConfiguration.playerAnimationSpeed, GameConfiguration.playerAnimationSpeed, GameConfiguration.playerAnimationSpeed, GameConfiguration.playerAnimationSpeed, GameConfiguration.playerAnimationSpeed, GameConfiguration.playerAnimationSpeed }, GameConfiguration.walkLeftBeginFrame, GameConfiguration.walkLeftEndFrame, true);
 			playerBody.setLinearVelocity(-GameConfiguration.playerWalkingVelocity, 0.0f);
@@ -183,6 +188,7 @@ public class Player {
 	 * player jumps
 	 */
 	public void jump(float jumpVelocity) {
+		isKneeling = false;
 		if (!isJumping) {
 			float jumpmotion = 0;
 			isJumping = true;
@@ -251,9 +257,7 @@ public class Player {
 			stop();
 		}
 
-		/** decrease energy because the gun was shot and update the control */
-		energyAmount = energyAmount - GameConfiguration.playerEnergyShotAmount;
-		scene.controls.setEnergyLevelByPercent((energyAmount * 100) / GameConfiguration.playerStartingEnergy);
+		/** if no ammo left then empty click sound and return */
 		if (energyAmount <= 0) {
 			energyAmount = 0;
 			ResourceManager.getIntance().gunClickSound.play();
@@ -265,15 +269,22 @@ public class Player {
 
 		/** bullet based on if player is kneeling or not */
 		Bullet bullet = null;
-		
-		/** more powerful gun if kneeling */
-		if (isKneeling) {
-			bullet = ResourceManager.getIntance().getGameBulletById(playerWeapons.BLUE_BULLET.ordinal());
-			bullet.strength = 2;	
-		} else {
+
+		/** more powerful and expensive gun if kneeling */
+		int gunShotEnergyAmount = 0;
+		if (!isKneeling) {
 			bullet = ResourceManager.getIntance().getGameBulletById(playerWeapons.YELLOW_PHASER.ordinal());
-			bullet.strength = 1;
+			gunShotEnergyAmount = GameConfiguration.playerEnergyShotAmount;
+			ResourceManager.getIntance().laserSound.play();
+		} else {
+			bullet = ResourceManager.getIntance().getGameBulletById(playerWeapons.BLUE_BULLET.ordinal());
+			gunShotEnergyAmount = GameConfiguration.playerKneelingShotAmount;
+			ResourceManager.getIntance().cannonSound.play();
 		}
+
+		/** decrease energy because the gun was shot and update the control */
+		energyAmount = energyAmount - gunShotEnergyAmount;
+		scene.controls.setEnergyLevelByPercent((energyAmount * 100) / GameConfiguration.playerStartingEnergy);
 
 		/** the player X,Y is the top left corner, so if facing right the bullet should start about 50px over to the right */
 		int moveBulletX = 0;
@@ -282,16 +293,15 @@ public class Player {
 			moveBulletX = 25;
 			bullet.direction = State.RIGHT;
 		}
-		
+
 		/** if they player is kneeling */
 		if (isKneeling) {
-			gameScene.level.addBullet(bullet.getInstance(bulletName, playerSprite.getX() + moveBulletX, playerSprite.getY() + 16));
+			gameScene.level.addBullet(bullet.getInstance(bulletName, playerSprite.getX() + moveBulletX, playerSprite.getY() + 16, gunShotEnergyAmount));
 		} else {
-			gameScene.level.addBullet(bullet.getInstance(bulletName, playerSprite.getX() + moveBulletX, playerSprite.getY() + 10));
+			gameScene.level.addBullet(bullet.getInstance(bulletName, playerSprite.getX() + moveBulletX, playerSprite.getY() + 10, gunShotEnergyAmount));
 		}
-		
+
 		gameScene.level.getBulletByName(bulletName).createBodyAndAttach(playerSprite, facing, scene, physicsWorld);
-		ResourceManager.getIntance().laserSound.play();
 	}
 
 	/**
