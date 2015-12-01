@@ -50,7 +50,7 @@ public class MainGameActivity extends BaseGameActivity {
 	public void onCreateResources(OnCreateResourcesCallback cb) throws Exception {
 		ResourceManager.prepareManager(getEngine(), this, camera, getVertexBufferObjectManager());
 
-		/** if first install then need some default game player status created */
+		// if first install then need some default game player status created
 		if (statusAndPreferences.getBoolean("FIRSTRUN", true)) {
 			GameStatus.setDefaultGameStatus();
 		}

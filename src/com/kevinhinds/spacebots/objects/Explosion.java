@@ -44,8 +44,10 @@ public class Explosion {
 		bullet.getSceneCenterCoordinates(objCenterPos);
 		if (bullet.direction == State.RIGHT) {
 			objCenterPos[1] = objCenterPos[1] - 10;
+			objCenterPos[0] = objCenterPos[0] - 25;
 		} else {
 			objCenterPos[1] = objCenterPos[1] + 10;
+			objCenterPos[0] = objCenterPos[0] - 25;
 		}
 		this.explode(scene, objCenterPos, type);
 	}

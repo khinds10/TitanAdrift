@@ -24,8 +24,8 @@ public class Controls {
 	public Text[] abilityButtonCounts;
 	public Text[] abilityButtonTitles;
 
-	int abilityButtonHorizontalStart = 250;
-	int abilityButtonHorizontalNext = 70;
+	int abilityButtonHorizontalStart = 315;
+	int abilityButtonHorizontalNext = 60;
 
 	public TiledSprite lifeMeter;
 	public Text lifeMeterLabel;
