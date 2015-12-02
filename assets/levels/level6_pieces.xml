@@ -5,5 +5,5 @@
     <piece x="48" y="84" type="159" animationSpeed="200" movementSpeed="0"/> <!-- ROW 7 COLUMN 4 -->
     <piece x="792" y="84" type="160" animationSpeed="200" movementSpeed="0"/> <!-- ROW 7 COLUMN 66 -->
     <piece x="156" y="204" type="161" animationSpeed="200" movementSpeed="0"/> <!-- ROW 17 COLUMN 13 -->
-    <piece x="120" y="372" type="439" animationSpeed="200" movementSpeed="0"/> <!-- ROW 31 COLUMN 10 -->
+    <piece x="132" y="372" type="439" animationSpeed="200" movementSpeed="0"/> <!-- ROW 31 COLUMN 10 -->
 </level>
