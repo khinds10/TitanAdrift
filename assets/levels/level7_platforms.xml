@@ -1,18 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <level width="804" height="480">
+    <platform x="756" y="96" block="218" type="background" /> <!-- ROW 8 COLUMN 63 BLOCK 218 -->
+    <platform x="756" y="108" block="240" type="background" /> <!-- ROW 9 COLUMN 63 BLOCK 240 -->
+    <platform x="768" y="108" block="241" type="background" /> <!-- ROW 9 COLUMN 64 BLOCK 241 -->
+    <platform x="564" y="120" block="133" type="background" /> <!-- ROW 10 COLUMN 47 BLOCK 133 -->
+    <platform x="576" y="120" block="134" type="background" /> <!-- ROW 10 COLUMN 48 BLOCK 134 -->
+    <platform x="588" y="120" block="135" type="background" /> <!-- ROW 10 COLUMN 49 BLOCK 135 -->
+    <platform x="600" y="120" block="136" type="background" /> <!-- ROW 10 COLUMN 50 BLOCK 136 -->
+    <platform x="612" y="120" block="137" type="background" /> <!-- ROW 10 COLUMN 51 BLOCK 137 -->
+    <platform x="624" y="120" block="138" type="background" /> <!-- ROW 10 COLUMN 52 BLOCK 138 -->
+    <platform x="756" y="120" block="262" type="background" /> <!-- ROW 10 COLUMN 63 BLOCK 262 -->
+    <platform x="768" y="120" block="263" type="background" /> <!-- ROW 10 COLUMN 64 BLOCK 263 -->
+    <platform x="564" y="132" block="155" type="background" /> <!-- ROW 11 COLUMN 47 BLOCK 155 -->
+    <platform x="576" y="132" block="156" type="background" /> <!-- ROW 11 COLUMN 48 BLOCK 156 -->
+    <platform x="588" y="132" block="157" type="background" /> <!-- ROW 11 COLUMN 49 BLOCK 157 -->
+    <platform x="600" y="132" block="158" type="background" /> <!-- ROW 11 COLUMN 50 BLOCK 158 -->
+    <platform x="612" y="132" block="159" type="background" /> <!-- ROW 11 COLUMN 51 BLOCK 159 -->
+    <platform x="624" y="132" block="160" type="background" /> <!-- ROW 11 COLUMN 52 BLOCK 160 -->
+    <platform x="684" y="132" block="11" type="background" /> <!-- ROW 11 COLUMN 57 BLOCK 11 -->
+    <platform x="696" y="132" block="12" type="background" /> <!-- ROW 11 COLUMN 58 BLOCK 12 -->
+    <platform x="756" y="132" block="284" type="background" /> <!-- ROW 11 COLUMN 63 BLOCK 284 -->
+    <platform x="768" y="132" block="285" type="background" /> <!-- ROW 11 COLUMN 64 BLOCK 285 -->
+    <platform x="792" y="132" block="13" type="background" /> <!-- ROW 11 COLUMN 66 BLOCK 13 -->
+    <platform x="564" y="144" block="155" type="background" /> <!-- ROW 12 COLUMN 47 BLOCK 155 -->
+    <platform x="576" y="144" block="156" type="background" /> <!-- ROW 12 COLUMN 48 BLOCK 156 -->
+    <platform x="588" y="144" block="157" type="background" /> <!-- ROW 12 COLUMN 49 BLOCK 157 -->
+    <platform x="600" y="144" block="158" type="background" /> <!-- ROW 12 COLUMN 50 BLOCK 158 -->
+    <platform x="612" y="144" block="159" type="background" /> <!-- ROW 12 COLUMN 51 BLOCK 159 -->
+    <platform x="624" y="144" block="160" type="background" /> <!-- ROW 12 COLUMN 52 BLOCK 160 -->
     <platform x="648" y="144" block="198" type="edge" /> <!-- ROW 12 COLUMN 54 BLOCK 198 -->
-    <platform x="660" y="144" block="198" type="physical" /> <!-- ROW 12 COLUMN 55 BLOCK 198 -->
-    <platform x="672" y="144" block="198" type="physical" /> <!-- ROW 12 COLUMN 56 BLOCK 198 -->
-    <platform x="684" y="144" block="198" type="physical" /> <!-- ROW 12 COLUMN 57 BLOCK 198 -->
+    <platform x="660" y="144" block="201" type="physical" /> <!-- ROW 12 COLUMN 55 BLOCK 201 -->
+    <platform x="672" y="144" block="202" type="physical" /> <!-- ROW 12 COLUMN 56 BLOCK 202 -->
+    <platform x="684" y="144" block="201" type="physical" /> <!-- ROW 12 COLUMN 57 BLOCK 201 -->
     <platform x="696" y="144" block="198" type="physical" /> <!-- ROW 12 COLUMN 58 BLOCK 198 -->
-    <platform x="708" y="144" block="198" type="physical" /> <!-- ROW 12 COLUMN 59 BLOCK 198 -->
+    <platform x="708" y="144" block="201" type="physical" /> <!-- ROW 12 COLUMN 59 BLOCK 201 -->
     <platform x="720" y="144" block="198" type="physical" /> <!-- ROW 12 COLUMN 60 BLOCK 198 -->
-    <platform x="732" y="144" block="198" type="physical" /> <!-- ROW 12 COLUMN 61 BLOCK 198 -->
-    <platform x="744" y="144" block="198" type="physical" /> <!-- ROW 12 COLUMN 62 BLOCK 198 -->
-    <platform x="756" y="144" block="198" type="physical" /> <!-- ROW 12 COLUMN 63 BLOCK 198 -->
+    <platform x="732" y="144" block="201" type="physical" /> <!-- ROW 12 COLUMN 61 BLOCK 201 -->
+    <platform x="744" y="144" block="201" type="physical" /> <!-- ROW 12 COLUMN 62 BLOCK 201 -->
+    <platform x="756" y="144" block="202" type="physical" /> <!-- ROW 12 COLUMN 63 BLOCK 202 -->
     <platform x="768" y="144" block="198" type="physical" /> <!-- ROW 12 COLUMN 64 BLOCK 198 -->
-    <platform x="780" y="144" block="198" type="physical" /> <!-- ROW 12 COLUMN 65 BLOCK 198 -->
+    <platform x="780" y="144" block="202" type="physical" /> <!-- ROW 12 COLUMN 65 BLOCK 202 -->
     <platform x="792" y="144" block="198" type="edge" /> <!-- ROW 12 COLUMN 66 BLOCK 198 -->
+    <platform x="264" y="156" block="11" type="background" /> <!-- ROW 13 COLUMN 22 BLOCK 11 -->
+    <platform x="276" y="156" block="12" type="background" /> <!-- ROW 13 COLUMN 23 BLOCK 12 -->
     <platform x="312" y="156" block="88" type="background" /> <!-- ROW 13 COLUMN 26 BLOCK 88 -->
     <platform x="324" y="156" block="89" type="background" /> <!-- ROW 13 COLUMN 27 BLOCK 89 -->
     <platform x="336" y="156" block="90" type="background" /> <!-- ROW 13 COLUMN 28 BLOCK 90 -->
@@ -21,6 +51,17 @@
     <platform x="372" y="156" block="93" type="background" /> <!-- ROW 13 COLUMN 31 BLOCK 93 -->
     <platform x="384" y="156" block="93" type="background" /> <!-- ROW 13 COLUMN 32 BLOCK 93 -->
     <platform x="396" y="156" block="94" type="background" /> <!-- ROW 13 COLUMN 33 BLOCK 94 -->
+    <platform x="408" y="156" block="13" type="background" /> <!-- ROW 13 COLUMN 34 BLOCK 13 -->
+    <platform x="456" y="156" block="11" type="background" /> <!-- ROW 13 COLUMN 38 BLOCK 11 -->
+    <platform x="468" y="156" block="12" type="background" /> <!-- ROW 13 COLUMN 39 BLOCK 12 -->
+    <platform x="528" y="156" block="13" type="background" /> <!-- ROW 13 COLUMN 44 BLOCK 13 -->
+    <platform x="564" y="156" block="177" type="background" /> <!-- ROW 13 COLUMN 47 BLOCK 177 -->
+    <platform x="576" y="156" block="178" type="background" /> <!-- ROW 13 COLUMN 48 BLOCK 178 -->
+    <platform x="588" y="156" block="179" type="background" /> <!-- ROW 13 COLUMN 49 BLOCK 179 -->
+    <platform x="600" y="156" block="180" type="background" /> <!-- ROW 13 COLUMN 50 BLOCK 180 -->
+    <platform x="612" y="156" block="181" type="background" /> <!-- ROW 13 COLUMN 51 BLOCK 181 -->
+    <platform x="624" y="156" block="182" type="background" /> <!-- ROW 13 COLUMN 52 BLOCK 182 -->
+    <platform x="636" y="156" block="13" type="background" /> <!-- ROW 13 COLUMN 53 BLOCK 13 -->
     <platform x="648" y="156" block="248" type="physical" /> <!-- ROW 13 COLUMN 54 BLOCK 248 -->
     <platform x="252" y="168" block="198" type="edge" /> <!-- ROW 14 COLUMN 21 BLOCK 198 -->
     <platform x="264" y="168" block="201" type="physical" /> <!-- ROW 14 COLUMN 22 BLOCK 201 -->
@@ -35,36 +76,66 @@
     <platform x="372" y="168" block="114" type="physical" /> <!-- ROW 14 COLUMN 31 BLOCK 114 -->
     <platform x="384" y="168" block="115" type="physical" /> <!-- ROW 14 COLUMN 32 BLOCK 115 -->
     <platform x="396" y="168" block="116" type="physical" /> <!-- ROW 14 COLUMN 33 BLOCK 116 -->
-    <platform x="408" y="168" block="236" type="physical" /> <!-- ROW 14 COLUMN 34 BLOCK 236 -->
-    <platform x="420" y="168" block="236" type="physical" /> <!-- ROW 14 COLUMN 35 BLOCK 236 -->
-    <platform x="432" y="168" block="236" type="physical" /> <!-- ROW 14 COLUMN 36 BLOCK 236 -->
-    <platform x="444" y="168" block="236" type="physical" /> <!-- ROW 14 COLUMN 37 BLOCK 236 -->
-    <platform x="456" y="168" block="236" type="physical" /> <!-- ROW 14 COLUMN 38 BLOCK 236 -->
-    <platform x="468" y="168" block="236" type="physical" /> <!-- ROW 14 COLUMN 39 BLOCK 236 -->
-    <platform x="480" y="168" block="236" type="physical" /> <!-- ROW 14 COLUMN 40 BLOCK 236 -->
-    <platform x="492" y="168" block="236" type="physical" /> <!-- ROW 14 COLUMN 41 BLOCK 236 -->
-    <platform x="504" y="168" block="236" type="physical" /> <!-- ROW 14 COLUMN 42 BLOCK 236 -->
-    <platform x="516" y="168" block="236" type="physical" /> <!-- ROW 14 COLUMN 43 BLOCK 236 -->
-    <platform x="528" y="168" block="236" type="physical" /> <!-- ROW 14 COLUMN 44 BLOCK 236 -->
-    <platform x="540" y="168" block="236" type="physical" /> <!-- ROW 14 COLUMN 45 BLOCK 236 -->
-    <platform x="552" y="168" block="236" type="physical" /> <!-- ROW 14 COLUMN 46 BLOCK 236 -->
-    <platform x="564" y="168" block="236" type="physical" /> <!-- ROW 14 COLUMN 47 BLOCK 236 -->
-    <platform x="576" y="168" block="117" type="physical" /> <!-- ROW 14 COLUMN 48 BLOCK 117 -->
-    <platform x="588" y="168" block="117" type="physical" /> <!-- ROW 14 COLUMN 49 BLOCK 117 -->
-    <platform x="600" y="168" block="117" type="physical" /> <!-- ROW 14 COLUMN 50 BLOCK 117 -->
-    <platform x="612" y="168" block="117" type="physical" /> <!-- ROW 14 COLUMN 51 BLOCK 117 -->
-    <platform x="624" y="168" block="117" type="physical" /> <!-- ROW 14 COLUMN 52 BLOCK 117 -->
-    <platform x="636" y="168" block="117" type="edge" /> <!-- ROW 14 COLUMN 53 BLOCK 117 -->
+    <platform x="408" y="168" block="6" type="physical" /> <!-- ROW 14 COLUMN 34 BLOCK 6 -->
+    <platform x="420" y="168" block="7" type="physical" /> <!-- ROW 14 COLUMN 35 BLOCK 7 -->
+    <platform x="432" y="168" block="8" type="physical" /> <!-- ROW 14 COLUMN 36 BLOCK 8 -->
+    <platform x="444" y="168" block="9" type="physical" /> <!-- ROW 14 COLUMN 37 BLOCK 9 -->
+    <platform x="456" y="168" block="10" type="physical" /> <!-- ROW 14 COLUMN 38 BLOCK 10 -->
+    <platform x="468" y="168" block="7" type="physical" /> <!-- ROW 14 COLUMN 39 BLOCK 7 -->
+    <platform x="480" y="168" block="9" type="physical" /> <!-- ROW 14 COLUMN 40 BLOCK 9 -->
+    <platform x="492" y="168" block="8" type="physical" /> <!-- ROW 14 COLUMN 41 BLOCK 8 -->
+    <platform x="504" y="168" block="7" type="physical" /> <!-- ROW 14 COLUMN 42 BLOCK 7 -->
+    <platform x="516" y="168" block="8" type="physical" /> <!-- ROW 14 COLUMN 43 BLOCK 8 -->
+    <platform x="528" y="168" block="9" type="physical" /> <!-- ROW 14 COLUMN 44 BLOCK 9 -->
+    <platform x="540" y="168" block="10" type="physical" /> <!-- ROW 14 COLUMN 45 BLOCK 10 -->
+    <platform x="552" y="168" block="198" type="background" /> <!-- ROW 14 COLUMN 46 BLOCK 198 -->
+    <platform x="564" y="168" block="199" type="physical" /> <!-- ROW 14 COLUMN 47 BLOCK 199 -->
+    <platform x="576" y="168" block="200" type="physical" /> <!-- ROW 14 COLUMN 48 BLOCK 200 -->
+    <platform x="588" y="168" block="201" type="physical" /> <!-- ROW 14 COLUMN 49 BLOCK 201 -->
+    <platform x="600" y="168" block="200" type="physical" /> <!-- ROW 14 COLUMN 50 BLOCK 200 -->
+    <platform x="612" y="168" block="201" type="physical" /> <!-- ROW 14 COLUMN 51 BLOCK 201 -->
+    <platform x="624" y="168" block="202" type="physical" /> <!-- ROW 14 COLUMN 52 BLOCK 202 -->
+    <platform x="636" y="168" block="203" type="edge" /> <!-- ROW 14 COLUMN 53 BLOCK 203 -->
     <platform x="648" y="168" block="248" type="physical" /> <!-- ROW 14 COLUMN 54 BLOCK 248 -->
+    <platform x="408" y="180" block="28" type="physical" /> <!-- ROW 15 COLUMN 34 BLOCK 28 -->
+    <platform x="420" y="180" block="29" type="physical" /> <!-- ROW 15 COLUMN 35 BLOCK 29 -->
+    <platform x="432" y="180" block="30" type="physical" /> <!-- ROW 15 COLUMN 36 BLOCK 30 -->
+    <platform x="444" y="180" block="29" type="physical" /> <!-- ROW 15 COLUMN 37 BLOCK 29 -->
+    <platform x="456" y="180" block="30" type="physical" /> <!-- ROW 15 COLUMN 38 BLOCK 30 -->
+    <platform x="468" y="180" block="29" type="physical" /> <!-- ROW 15 COLUMN 39 BLOCK 29 -->
+    <platform x="480" y="180" block="32" type="physical" /> <!-- ROW 15 COLUMN 40 BLOCK 32 -->
+    <platform x="492" y="180" block="30" type="physical" /> <!-- ROW 15 COLUMN 41 BLOCK 30 -->
+    <platform x="504" y="180" block="28" type="physical" /> <!-- ROW 15 COLUMN 42 BLOCK 28 -->
+    <platform x="516" y="180" block="30" type="physical" /> <!-- ROW 15 COLUMN 43 BLOCK 30 -->
+    <platform x="528" y="180" block="31" type="physical" /> <!-- ROW 15 COLUMN 44 BLOCK 31 -->
+    <platform x="540" y="180" block="32" type="physical" /> <!-- ROW 15 COLUMN 45 BLOCK 32 -->
     <platform x="564" y="180" block="248" type="physical" /> <!-- ROW 15 COLUMN 47 BLOCK 248 -->
     <platform x="648" y="180" block="248" type="physical" /> <!-- ROW 15 COLUMN 54 BLOCK 248 -->
     <platform x="120" y="192" block="257" type="edge" /> <!-- ROW 16 COLUMN 10 BLOCK 257 -->
     <platform x="132" y="192" block="257" type="physical" /> <!-- ROW 16 COLUMN 11 BLOCK 257 -->
     <platform x="144" y="192" block="257" type="physical" /> <!-- ROW 16 COLUMN 12 BLOCK 257 -->
-    <platform x="156" y="192" block="206" type="physical" /> <!-- ROW 16 COLUMN 13 BLOCK 206 -->
+    <platform x="156" y="192" block="206" type="edge" /> <!-- ROW 16 COLUMN 13 BLOCK 206 -->
+    <platform x="408" y="192" block="50" type="physical" /> <!-- ROW 16 COLUMN 34 BLOCK 50 -->
+    <platform x="420" y="192" block="51" type="physical" /> <!-- ROW 16 COLUMN 35 BLOCK 51 -->
+    <platform x="432" y="192" block="52" type="physical" /> <!-- ROW 16 COLUMN 36 BLOCK 52 -->
+    <platform x="444" y="192" block="52" type="physical" /> <!-- ROW 16 COLUMN 37 BLOCK 52 -->
+    <platform x="456" y="192" block="53" type="physical" /> <!-- ROW 16 COLUMN 38 BLOCK 53 -->
+    <platform x="468" y="192" block="53" type="physical" /> <!-- ROW 16 COLUMN 39 BLOCK 53 -->
+    <platform x="480" y="192" block="54" type="physical" /> <!-- ROW 16 COLUMN 40 BLOCK 54 -->
+    <platform x="492" y="192" block="52" type="physical" /> <!-- ROW 16 COLUMN 41 BLOCK 52 -->
+    <platform x="504" y="192" block="51" type="physical" /> <!-- ROW 16 COLUMN 42 BLOCK 51 -->
+    <platform x="516" y="192" block="50" type="physical" /> <!-- ROW 16 COLUMN 43 BLOCK 50 -->
+    <platform x="528" y="192" block="52" type="physical" /> <!-- ROW 16 COLUMN 44 BLOCK 52 -->
+    <platform x="540" y="192" block="54" type="physical" /> <!-- ROW 16 COLUMN 45 BLOCK 54 -->
     <platform x="564" y="192" block="248" type="physical" /> <!-- ROW 16 COLUMN 47 BLOCK 248 -->
     <platform x="648" y="192" block="248" type="physical" /> <!-- ROW 16 COLUMN 54 BLOCK 248 -->
     <platform x="156" y="204" block="248" type="physical" /> <!-- ROW 17 COLUMN 13 BLOCK 248 -->
+    <platform x="420" y="204" block="96" type="physical" /> <!-- ROW 17 COLUMN 35 BLOCK 96 -->
+    <platform x="468" y="204" block="74" type="physical" /> <!-- ROW 17 COLUMN 39 BLOCK 74 -->
+    <platform x="480" y="204" block="75" type="physical" /> <!-- ROW 17 COLUMN 40 BLOCK 75 -->
+    <platform x="516" y="204" block="96" type="physical" /> <!-- ROW 17 COLUMN 43 BLOCK 96 -->
+    <platform x="528" y="204" block="75" type="physical" /> <!-- ROW 17 COLUMN 44 BLOCK 75 -->
+    <platform x="540" y="204" block="76" type="physical" /> <!-- ROW 17 COLUMN 45 BLOCK 76 -->
     <platform x="564" y="204" block="248" type="physical" /> <!-- ROW 17 COLUMN 47 BLOCK 248 -->
     <platform x="648" y="204" block="248" type="physical" /> <!-- ROW 17 COLUMN 54 BLOCK 248 -->
     <platform x="156" y="216" block="248" type="physical" /> <!-- ROW 18 COLUMN 13 BLOCK 248 -->
@@ -72,46 +143,89 @@
     <platform x="648" y="216" block="248" type="physical" /> <!-- ROW 18 COLUMN 54 BLOCK 248 -->
     <platform x="156" y="228" block="248" type="physical" /> <!-- ROW 19 COLUMN 13 BLOCK 248 -->
     <platform x="564" y="228" block="248" type="physical" /> <!-- ROW 19 COLUMN 47 BLOCK 248 -->
+    <platform x="588" y="228" block="11" type="background" /> <!-- ROW 19 COLUMN 49 BLOCK 11 -->
+    <platform x="600" y="228" block="12" type="background" /> <!-- ROW 19 COLUMN 50 BLOCK 12 -->
     <platform x="648" y="228" block="248" type="physical" /> <!-- ROW 19 COLUMN 54 BLOCK 248 -->
+    <platform x="720" y="228" block="11" type="background" /> <!-- ROW 19 COLUMN 60 BLOCK 11 -->
+    <platform x="732" y="228" block="12" type="background" /> <!-- ROW 19 COLUMN 61 BLOCK 12 -->
+    <platform x="792" y="228" block="13" type="background" /> <!-- ROW 19 COLUMN 66 BLOCK 13 -->
     <platform x="156" y="240" block="248" type="physical" /> <!-- ROW 20 COLUMN 13 BLOCK 248 -->
-    <platform x="564" y="240" block="236" type="edge" /> <!-- ROW 20 COLUMN 47 BLOCK 236 -->
-    <platform x="576" y="240" block="236" type="physical" /> <!-- ROW 20 COLUMN 48 BLOCK 236 -->
-    <platform x="588" y="240" block="236" type="physical" /> <!-- ROW 20 COLUMN 49 BLOCK 236 -->
-    <platform x="600" y="240" block="236" type="physical" /> <!-- ROW 20 COLUMN 50 BLOCK 236 -->
-    <platform x="612" y="240" block="236" type="physical" /> <!-- ROW 20 COLUMN 51 BLOCK 236 -->
-    <platform x="624" y="240" block="236" type="physical" /> <!-- ROW 20 COLUMN 52 BLOCK 236 -->
-    <platform x="636" y="240" block="236" type="physical" /> <!-- ROW 20 COLUMN 53 BLOCK 236 -->
-    <platform x="648" y="240" block="236" type="edge" /> <!-- ROW 20 COLUMN 54 BLOCK 236 -->
-    <platform x="660" y="240" block="236" type="physical" /> <!-- ROW 20 COLUMN 55 BLOCK 236 -->
-    <platform x="672" y="240" block="236" type="physical" /> <!-- ROW 20 COLUMN 56 BLOCK 236 -->
-    <platform x="684" y="240" block="236" type="physical" /> <!-- ROW 20 COLUMN 57 BLOCK 236 -->
-    <platform x="696" y="240" block="236" type="physical" /> <!-- ROW 20 COLUMN 58 BLOCK 236 -->
-    <platform x="708" y="240" block="236" type="physical" /> <!-- ROW 20 COLUMN 59 BLOCK 236 -->
-    <platform x="720" y="240" block="236" type="physical" /> <!-- ROW 20 COLUMN 60 BLOCK 236 -->
-    <platform x="732" y="240" block="236" type="physical" /> <!-- ROW 20 COLUMN 61 BLOCK 236 -->
-    <platform x="744" y="240" block="236" type="physical" /> <!-- ROW 20 COLUMN 62 BLOCK 236 -->
-    <platform x="756" y="240" block="236" type="physical" /> <!-- ROW 20 COLUMN 63 BLOCK 236 -->
-    <platform x="768" y="240" block="236" type="physical" /> <!-- ROW 20 COLUMN 64 BLOCK 236 -->
-    <platform x="780" y="240" block="236" type="physical" /> <!-- ROW 20 COLUMN 65 BLOCK 236 -->
-    <platform x="792" y="240" block="236" type="edge" /> <!-- ROW 20 COLUMN 66 BLOCK 236 -->
+    <platform x="564" y="240" block="6" type="physical" /> <!-- ROW 20 COLUMN 47 BLOCK 6 -->
+    <platform x="576" y="240" block="7" type="physical" /> <!-- ROW 20 COLUMN 48 BLOCK 7 -->
+    <platform x="588" y="240" block="9" type="physical" /> <!-- ROW 20 COLUMN 49 BLOCK 9 -->
+    <platform x="600" y="240" block="7" type="physical" /> <!-- ROW 20 COLUMN 50 BLOCK 7 -->
+    <platform x="612" y="240" block="9" type="physical" /> <!-- ROW 20 COLUMN 51 BLOCK 9 -->
+    <platform x="624" y="240" block="7" type="physical" /> <!-- ROW 20 COLUMN 52 BLOCK 7 -->
+    <platform x="636" y="240" block="6" type="physical" /> <!-- ROW 20 COLUMN 53 BLOCK 6 -->
+    <platform x="648" y="240" block="7" type="physical" /> <!-- ROW 20 COLUMN 54 BLOCK 7 -->
+    <platform x="660" y="240" block="9" type="physical" /> <!-- ROW 20 COLUMN 55 BLOCK 9 -->
+    <platform x="672" y="240" block="7" type="physical" /> <!-- ROW 20 COLUMN 56 BLOCK 7 -->
+    <platform x="684" y="240" block="9" type="physical" /> <!-- ROW 20 COLUMN 57 BLOCK 9 -->
+    <platform x="696" y="240" block="7" type="physical" /> <!-- ROW 20 COLUMN 58 BLOCK 7 -->
+    <platform x="708" y="240" block="9" type="physical" /> <!-- ROW 20 COLUMN 59 BLOCK 9 -->
+    <platform x="720" y="240" block="6" type="physical" /> <!-- ROW 20 COLUMN 60 BLOCK 6 -->
+    <platform x="732" y="240" block="9" type="physical" /> <!-- ROW 20 COLUMN 61 BLOCK 9 -->
+    <platform x="744" y="240" block="6" type="physical" /> <!-- ROW 20 COLUMN 62 BLOCK 6 -->
+    <platform x="756" y="240" block="9" type="physical" /> <!-- ROW 20 COLUMN 63 BLOCK 9 -->
+    <platform x="768" y="240" block="6" type="physical" /> <!-- ROW 20 COLUMN 64 BLOCK 6 -->
+    <platform x="780" y="240" block="9" type="physical" /> <!-- ROW 20 COLUMN 65 BLOCK 9 -->
+    <platform x="792" y="240" block="10" type="edge" /> <!-- ROW 20 COLUMN 66 BLOCK 10 -->
+    <platform x="36" y="252" block="11" type="background" /> <!-- ROW 21 COLUMN 3 BLOCK 11 -->
+    <platform x="48" y="252" block="12" type="background" /> <!-- ROW 21 COLUMN 4 BLOCK 12 -->
     <platform x="156" y="252" block="248" type="physical" /> <!-- ROW 21 COLUMN 13 BLOCK 248 -->
+    <platform x="564" y="252" block="28" type="physical" /> <!-- ROW 21 COLUMN 47 BLOCK 28 -->
+    <platform x="576" y="252" block="29" type="physical" /> <!-- ROW 21 COLUMN 48 BLOCK 29 -->
+    <platform x="588" y="252" block="51" type="physical" /> <!-- ROW 21 COLUMN 49 BLOCK 51 -->
+    <platform x="600" y="252" block="28" type="physical" /> <!-- ROW 21 COLUMN 50 BLOCK 28 -->
+    <platform x="612" y="252" block="29" type="physical" /> <!-- ROW 21 COLUMN 51 BLOCK 29 -->
+    <platform x="624" y="252" block="28" type="physical" /> <!-- ROW 21 COLUMN 52 BLOCK 28 -->
+    <platform x="636" y="252" block="28" type="physical" /> <!-- ROW 21 COLUMN 53 BLOCK 28 -->
+    <platform x="648" y="252" block="51" type="physical" /> <!-- ROW 21 COLUMN 54 BLOCK 51 -->
+    <platform x="660" y="252" block="51" type="physical" /> <!-- ROW 21 COLUMN 55 BLOCK 51 -->
+    <platform x="672" y="252" block="28" type="physical" /> <!-- ROW 21 COLUMN 56 BLOCK 28 -->
+    <platform x="684" y="252" block="29" type="physical" /> <!-- ROW 21 COLUMN 57 BLOCK 29 -->
+    <platform x="696" y="252" block="51" type="physical" /> <!-- ROW 21 COLUMN 58 BLOCK 51 -->
+    <platform x="708" y="252" block="28" type="physical" /> <!-- ROW 21 COLUMN 59 BLOCK 28 -->
+    <platform x="720" y="252" block="51" type="physical" /> <!-- ROW 21 COLUMN 60 BLOCK 51 -->
+    <platform x="732" y="252" block="29" type="physical" /> <!-- ROW 21 COLUMN 61 BLOCK 29 -->
+    <platform x="744" y="252" block="51" type="physical" /> <!-- ROW 21 COLUMN 62 BLOCK 51 -->
+    <platform x="756" y="252" block="28" type="physical" /> <!-- ROW 21 COLUMN 63 BLOCK 28 -->
+    <platform x="768" y="252" block="51" type="physical" /> <!-- ROW 21 COLUMN 64 BLOCK 51 -->
+    <platform x="780" y="252" block="29" type="physical" /> <!-- ROW 21 COLUMN 65 BLOCK 29 -->
+    <platform x="792" y="252" block="51" type="physical" /> <!-- ROW 21 COLUMN 66 BLOCK 51 -->
     <platform x="24" y="264" block="235" type="edge" /> <!-- ROW 22 COLUMN 2 BLOCK 235 -->
     <platform x="36" y="264" block="236" type="physical" /> <!-- ROW 22 COLUMN 3 BLOCK 236 -->
     <platform x="48" y="264" block="236" type="physical" /> <!-- ROW 22 COLUMN 4 BLOCK 236 -->
     <platform x="60" y="264" block="237" type="edge" /> <!-- ROW 22 COLUMN 5 BLOCK 237 -->
     <platform x="156" y="264" block="248" type="physical" /> <!-- ROW 22 COLUMN 13 BLOCK 248 -->
+    <platform x="576" y="264" block="96" type="physical" /> <!-- ROW 22 COLUMN 48 BLOCK 96 -->
+    <platform x="612" y="264" block="73" type="physical" /> <!-- ROW 22 COLUMN 51 BLOCK 73 -->
+    <platform x="624" y="264" block="74" type="physical" /> <!-- ROW 22 COLUMN 52 BLOCK 74 -->
+    <platform x="696" y="264" block="96" type="physical" /> <!-- ROW 22 COLUMN 58 BLOCK 96 -->
+    <platform x="720" y="264" block="75" type="physical" /> <!-- ROW 22 COLUMN 60 BLOCK 75 -->
+    <platform x="732" y="264" block="75" type="physical" /> <!-- ROW 22 COLUMN 61 BLOCK 75 -->
+    <platform x="756" y="264" block="96" type="physical" /> <!-- ROW 22 COLUMN 63 BLOCK 96 -->
+    <platform x="780" y="264" block="75" type="physical" /> <!-- ROW 22 COLUMN 65 BLOCK 75 -->
+    <platform x="792" y="264" block="75" type="physical" /> <!-- ROW 22 COLUMN 66 BLOCK 75 -->
     <platform x="156" y="276" block="248" type="physical" /> <!-- ROW 23 COLUMN 13 BLOCK 248 -->
+    <platform x="120" y="288" block="11" type="background" /> <!-- ROW 24 COLUMN 10 BLOCK 11 -->
+    <platform x="132" y="288" block="12" type="background" /> <!-- ROW 24 COLUMN 11 BLOCK 12 -->
     <platform x="156" y="288" block="248" type="physical" /> <!-- ROW 24 COLUMN 13 BLOCK 248 -->
+    <platform x="168" y="288" block="13" type="background" /> <!-- ROW 24 COLUMN 14 BLOCK 13 -->
     <platform x="108" y="300" block="235" type="edge" /> <!-- ROW 25 COLUMN 9 BLOCK 235 -->
     <platform x="120" y="300" block="236" type="physical" /> <!-- ROW 25 COLUMN 10 BLOCK 236 -->
     <platform x="132" y="300" block="236" type="physical" /> <!-- ROW 25 COLUMN 11 BLOCK 236 -->
     <platform x="144" y="300" block="236" type="physical" /> <!-- ROW 25 COLUMN 12 BLOCK 236 -->
     <platform x="156" y="300" block="236" type="physical" /> <!-- ROW 25 COLUMN 13 BLOCK 236 -->
     <platform x="168" y="300" block="237" type="edge" /> <!-- ROW 25 COLUMN 14 BLOCK 237 -->
+    <platform x="312" y="324" block="11" type="background" /> <!-- ROW 27 COLUMN 26 BLOCK 11 -->
     <platform x="288" y="336" block="235" type="edge" /> <!-- ROW 28 COLUMN 24 BLOCK 235 -->
     <platform x="300" y="336" block="236" type="physical" /> <!-- ROW 28 COLUMN 25 BLOCK 236 -->
     <platform x="312" y="336" block="236" type="physical" /> <!-- ROW 28 COLUMN 26 BLOCK 236 -->
     <platform x="324" y="336" block="237" type="edge" /> <!-- ROW 28 COLUMN 27 BLOCK 237 -->
+    <platform x="600" y="336" block="13" type="background" /> <!-- ROW 28 COLUMN 50 BLOCK 13 -->
+    <platform x="768" y="336" block="11" type="background" /> <!-- ROW 28 COLUMN 64 BLOCK 11 -->
+    <platform x="780" y="336" block="12" type="background" /> <!-- ROW 28 COLUMN 65 BLOCK 12 -->
     <platform x="588" y="348" block="257" type="physical" /> <!-- ROW 29 COLUMN 49 BLOCK 257 -->
     <platform x="600" y="348" block="257" type="physical" /> <!-- ROW 29 COLUMN 50 BLOCK 257 -->
     <platform x="684" y="348" block="257" type="physical" /> <!-- ROW 29 COLUMN 57 BLOCK 257 -->
@@ -151,18 +265,18 @@
     <platform x="348" y="396" block="247" type="physical" /> <!-- ROW 33 COLUMN 29 BLOCK 247 -->
     <platform x="360" y="396" block="247" type="physical" /> <!-- ROW 33 COLUMN 30 BLOCK 247 -->
     <platform x="372" y="396" block="6" type="background" /> <!-- ROW 33 COLUMN 31 BLOCK 6 -->
-    <platform x="384" y="396" block="6" type="background" /> <!-- ROW 33 COLUMN 32 BLOCK 6 -->
-    <platform x="396" y="396" block="6" type="background" /> <!-- ROW 33 COLUMN 33 BLOCK 6 -->
-    <platform x="408" y="396" block="6" type="background" /> <!-- ROW 33 COLUMN 34 BLOCK 6 -->
+    <platform x="384" y="396" block="7" type="background" /> <!-- ROW 33 COLUMN 32 BLOCK 7 -->
+    <platform x="396" y="396" block="9" type="background" /> <!-- ROW 33 COLUMN 33 BLOCK 9 -->
+    <platform x="408" y="396" block="9" type="background" /> <!-- ROW 33 COLUMN 34 BLOCK 9 -->
     <platform x="420" y="396" block="6" type="background" /> <!-- ROW 33 COLUMN 35 BLOCK 6 -->
-    <platform x="432" y="396" block="6" type="background" /> <!-- ROW 33 COLUMN 36 BLOCK 6 -->
-    <platform x="444" y="396" block="6" type="background" /> <!-- ROW 33 COLUMN 37 BLOCK 6 -->
+    <platform x="432" y="396" block="7" type="background" /> <!-- ROW 33 COLUMN 36 BLOCK 7 -->
+    <platform x="444" y="396" block="8" type="background" /> <!-- ROW 33 COLUMN 37 BLOCK 8 -->
     <platform x="456" y="396" block="6" type="background" /> <!-- ROW 33 COLUMN 38 BLOCK 6 -->
-    <platform x="468" y="396" block="6" type="background" /> <!-- ROW 33 COLUMN 39 BLOCK 6 -->
-    <platform x="480" y="396" block="6" type="background" /> <!-- ROW 33 COLUMN 40 BLOCK 6 -->
-    <platform x="492" y="396" block="6" type="background" /> <!-- ROW 33 COLUMN 41 BLOCK 6 -->
-    <platform x="504" y="396" block="6" type="background" /> <!-- ROW 33 COLUMN 42 BLOCK 6 -->
-    <platform x="516" y="396" block="6" type="background" /> <!-- ROW 33 COLUMN 43 BLOCK 6 -->
+    <platform x="468" y="396" block="7" type="background" /> <!-- ROW 33 COLUMN 39 BLOCK 7 -->
+    <platform x="480" y="396" block="9" type="background" /> <!-- ROW 33 COLUMN 40 BLOCK 9 -->
+    <platform x="492" y="396" block="7" type="background" /> <!-- ROW 33 COLUMN 41 BLOCK 7 -->
+    <platform x="504" y="396" block="8" type="background" /> <!-- ROW 33 COLUMN 42 BLOCK 8 -->
+    <platform x="516" y="396" block="7" type="background" /> <!-- ROW 33 COLUMN 43 BLOCK 7 -->
     <platform x="528" y="396" block="6" type="background" /> <!-- ROW 33 COLUMN 44 BLOCK 6 -->
     <platform x="540" y="396" block="247" type="physical" /> <!-- ROW 33 COLUMN 45 BLOCK 247 -->
     <platform x="552" y="396" block="247" type="physical" /> <!-- ROW 33 COLUMN 46 BLOCK 247 -->
