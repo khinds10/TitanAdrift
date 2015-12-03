@@ -153,5 +153,6 @@ public class GameConfiguration {
 		daydreamLevelsMapping = new HashMap<Integer, String>();
 		daydreamLevelsMapping.put(1, "Must have been days, 3 days? - - The wreckage and the sound of twisted metal. - I have to rebuild my ship. - - I think I can see something up ahead. - - ");
 		daydreamLevelsMapping.put(4, "We broke off route around New Ceres. - Vade Envoy should be on the transponder by now, - but still just static. - This fog, the air could almost be breathable. - Where could they be!? - - ");
+		daydreamLevelsMapping.put(9, "The Nyri Colony set up base here. - I see the markings. - Apart from the poisonous water and fumes - it's no surprise everyone is gone!");
 	}
 }

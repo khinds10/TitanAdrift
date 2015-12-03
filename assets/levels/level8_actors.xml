@@ -3,8 +3,7 @@
     <actor x="180" y="36" actor="13" type="flying" shoots="false" weapon="none" facing="left" life="3" explosion="1" animationSpeed="200" movementSpeed="2"/> <!-- ROW 4 COLUMN 15 -->
     <actor x="408" y="48" actor="13" type="flying" shoots="false" weapon="none" facing="right" life="3" explosion="1" animationSpeed="200" movementSpeed="2"/> <!-- ROW 4 COLUMN 34 -->
     <actor x="624" y="48" actor="13" type="flying" shoots="false" weapon="none" facing="right" life="3" explosion="1" animationSpeed="200" movementSpeed="2"/> <!-- ROW 4 COLUMN 52 -->
-    <actor x="24" y="168" actor="15" type="standing" shoots="false" weapon="none" facing="left" life="3" explosion="1" animationSpeed="200" movementSpeed="0"/> <!-- ROW 15 COLUMN 2 -->
-    <actor x="348" y="240" actor="13" type="flying" shoots="false" weapon="none" facing="left" life="3" explosion="1" animationSpeed="200" movementSpeed="2"/> <!-- ROW 17 COLUMN 29 -->
+    <actor x="12" y="168" actor="15" type="standing" shoots="false" weapon="none" facing="left" life="3" explosion="1" animationSpeed="200" movementSpeed="0"/> <!-- ROW 15 COLUMN 2 -->
     <actor x="312" y="372" actor="1" type="walking" shoots="false" weapon="none" facing="left" life="3" explosion="1" animationSpeed="200" movementSpeed="1"/> <!-- ROW 31 COLUMN 25 -->
     <actor x="588" y="372" actor="7" type="walking" shoots="false" weapon="none" facing="right" life="3" explosion="1" animationSpeed="200" movementSpeed="1"/> <!-- ROW 31 COLUMN 49 -->
 </level>
