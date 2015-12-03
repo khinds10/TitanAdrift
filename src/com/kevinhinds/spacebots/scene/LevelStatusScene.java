@@ -53,12 +53,12 @@ public class LevelStatusScene extends BaseScene implements IOnMenuItemClickListe
 		int count = 0;
 		for (int i = 0; i < GameConfiguration.pieceMapColumns * GameConfiguration.pieceMapRows; i++) {
 
-			/** create a new found piece from the complete list of pieces you can find */
+			// create a new found piece from the complete list of pieces you can find
 			Piece thisPiece = shipPieces.get(i);
 			Integer pieceID = thisPiece.getId();
 			Piece foundPiece = new Piece("Found Piece " + Integer.toString(pieceID), String.valueOf(pieceID), i, i, 0, 0, 0f, 0f, 0f, ResourceManager.getIntance().pieceRegion, vbom);
 
-			/** if the current list of pieces the player aquired contains the piece then show that we have it on the screen, else if it's a piece they don't have to collect then just show it */
+			// if the current list of pieces the player aquired contains the piece then show that we have it on the screen, else if it's a piece they don't have to collect then just show it
 			if (StatusListManager.containsValue(shipStatus, pieceID.toString()) || !StatusListManager.containsValue(GameConfiguration.shipPiecesToCollect, pieceID.toString())) {
 				foundPiece.setPosition(x + (count * GameConfiguration.pieceMapTileSize), y);
 				try {
@@ -82,7 +82,7 @@ public class LevelStatusScene extends BaseScene implements IOnMenuItemClickListe
 		menu = new MenuScene(camera);
 		menu.setPosition(0, 0);
 
-		/** based on level status show success or fail title */
+		// based on level status show success or fail title
 		IMenuItem mainTitle = null;
 		if (levelStatus.equals("dead")) {
 			mainTitle = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameRedFont, "AREA INCOMPLETE", MENU_STATUS, false);
@@ -91,11 +91,36 @@ public class LevelStatusScene extends BaseScene implements IOnMenuItemClickListe
 		}
 		menu.addMenuItem(mainTitle);
 
-		/** create menu items */
+		// create statistics menu items
+		final IMenuItem timeToComplete = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameFontGray, "Time to finish", MENU_REBUILD, false);
+		menu.addMenuItem(timeToComplete);
+
+		final IMenuItem timeToCompleteTime = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameFontGray, "3:22", MENU_REBUILD, false);
+		menu.addMenuItem(timeToCompleteTime);
+		
+		final IMenuItem marksmanship = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameFontGray, "Marksmanship", MENU_REBUILD, false);
+		menu.addMenuItem(marksmanship);
+
+		final IMenuItem marksmanshipPercent = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameFontGray, "89 %", MENU_REBUILD, false);
+		menu.addMenuItem(marksmanshipPercent);
+		
+		final IMenuItem shotsFired = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameFontGray, "Shots Fired", MENU_REBUILD, false);
+		menu.addMenuItem(shotsFired);
+
+		final IMenuItem shotsFiredCount = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameFontGray, "5", MENU_REBUILD, false);
+		menu.addMenuItem(shotsFiredCount);
+				
+		final IMenuItem kills = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameFontGray, "Aliens Killed", MENU_REBUILD, false);
+		menu.addMenuItem(kills);
+		
+		final IMenuItem killsCount = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameFontGray, "3", MENU_REBUILD, false);
+		menu.addMenuItem(killsCount);
+		
+		// create control game menu items 
 		final IMenuItem rebuildYourShip = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameFontTiny, "REBUILD YOUR SHIP", MENU_REBUILD, false);
 		menu.addMenuItem(rebuildYourShip);
 
-		final IMenuItem menuButtonItem = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameBlueFont, "BACK", MENU_BACK, true);
+		final IMenuItem menuButtonItem = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameBlueFont, "MENU", MENU_BACK, true);
 		menu.addMenuItem(menuButtonItem);
 
 		final IMenuItem nextAreaItem = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameGreenFont, "NEXT", MENU_NEXT, true);
@@ -104,17 +129,28 @@ public class LevelStatusScene extends BaseScene implements IOnMenuItemClickListe
 		final IMenuItem againAreaItem = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameRedFont, "AGAIN", MENU_AGAIN, true);
 		menu.addMenuItem(againAreaItem);
 
-		/** build menu with animations */
+		// build menu with animations
 		menu.buildAnimations();
 		menu.setBackgroundEnabled(false);
-
 		mainTitle.setPosition(10, 20);
-		rebuildYourShip.setPosition(600, 100);
-		menuButtonItem.setPosition(menuButtonItem.getX() - 300, menuButtonItem.getY() + 150);
-		nextAreaItem.setPosition(menuButtonItem.getX() + 575, menuButtonItem.getY());
-		againAreaItem.setPosition(menuButtonItem.getX() + 400, menuButtonItem.getY());
+		
+		// control game menu positions
+		rebuildYourShip.setPosition(550, 50);
+		menuButtonItem.setPosition(650, 100);
+		againAreaItem.setPosition(650, 210);
+		nextAreaItem.setPosition(650, 320);
+		
+		// level stats menu positions
+		timeToComplete.setPosition(100, 70);
+		timeToCompleteTime.setPosition(250, 110);
+		marksmanship.setPosition(100, 160);
+		marksmanshipPercent.setPosition(250, 200);
+		shotsFired.setPosition(100, 260);
+		shotsFiredCount.setPosition(250, 300);
+		kills.setPosition(100, 360);
+		killsCount.setPosition(250, 400);
 
-		/** only show the next level button if the level after the one most recently played is available to play */
+		// only show the next level button if the level after the one most recently played is available to play
 		if (!SceneManager.getInstance().hasNextLevelAvailable()) {
 			nextAreaItem.setVisible(false);
 		}

@@ -16,8 +16,14 @@ public class GameStatus {
 	public static String MusicPlay = "MusicPlay";
 	public static String SoundFXPlay = "SoundFXPlay";
 	public static String LevelStatus = "LevelStatus";
-	public static String MostRecentLevel = "MostRecentLevel";
 	public static String ShipRepairedStatus = "ShipRepairedStatus";
+	
+	/** most recent level played temporary stats like shots fired / number of hits, resets for each new play */
+	public static String MostRecentLevel = "MostRecentLevel";
+	public static String MostRecentLevelShots = "MostRecentLevelShots";
+	public static String MostRecentLevelKills = "MostRecentLevelKills";
+	public static String MostRecentLevelHits = "MostRecentLevelHits";
+	public static String MostRecentLevelTime = "MostRecentLevelTime";
 
 	/**
 	 * code that will run if it's the first time we've installed the application
