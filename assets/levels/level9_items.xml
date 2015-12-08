@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<level width="804" height="480">
+    <item x="780" y="48" type="1" animationSpeed="200" movementSpeed="0"/> <!-- ROW 4 COLUMN 65 -->
+    <item x="780" y="168" type="2" animationSpeed="200" movementSpeed="0"/> <!-- ROW 14 COLUMN 65 -->
+    <item x="120" y="240" type="2" animationSpeed="200" movementSpeed="0"/> <!-- ROW 20 COLUMN 10 -->
+    <item x="12" y="372" type="2" animationSpeed="200" movementSpeed="0"/> <!-- ROW 31 COLUMN 1 -->
+</level>
