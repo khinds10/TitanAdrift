@@ -6,7 +6,6 @@ import org.andengine.entity.scene.menu.item.IMenuItem;
 import org.andengine.entity.sprite.Sprite;
 
 import com.kevinhinds.spacebots.ResourceManager;
-import com.kevinhinds.spacebots.status.GameStatus;
 
 /**
  * main menu scene for the game

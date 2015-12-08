@@ -21,6 +21,7 @@ import com.kevinhinds.spacebots.ResourceManager;
 import com.kevinhinds.spacebots.player.Player;
 import com.kevinhinds.spacebots.scene.BaseScene;
 import com.kevinhinds.spacebots.scene.GameScene;
+import com.kevinhinds.spacebots.status.GameStatus;
 
 /**
  * a tile sprite extends sprite to easily define and attach to any scene
@@ -29,10 +30,10 @@ import com.kevinhinds.spacebots.scene.GameScene;
  */
 public class Actor extends AnimatedSprite {
 
-	private String facing, name, type, weapon;
-	private int id, life, spriteRow, animationSpeed, explosionType;
-	private float density, elastic, friction, x, y, movementSpeed;
-	private boolean shoots;
+	protected String facing, name, type, weapon;
+	protected int id, life, spriteRow, animationSpeed, explosionType;
+	protected float density, elastic, friction, x, y, movementSpeed;
+	protected boolean shoots;
 	public Body actorBody;
 	public Scene scene;
 
@@ -91,10 +92,10 @@ public class Actor extends AnimatedSprite {
 		final FixtureDef tileFixtureDef = PhysicsFactory.createFixtureDef(density, elastic, friction);
 		tileFixtureDef.restitution = 0;
 
-		/** get the villian on the sprite row specified, if the sprite is facing left, then the tile is higher on the same tile row to face the other way */
+		// get the villian on the sprite row specified, if the sprite is facing left, then the tile is higher on the same tile row to face the other way
 		this.spriteRow = (GameConfiguration.actorMapColumns * this.spriteRow) - (GameConfiguration.actorMapColumns);
 
-		/** create the start animation frame based on which way the player is facing */
+		// create the start animation frame based on which way the player is facing
 		int animationFrameStart = this.spriteRow;
 		if (this.facing.equals("right")) {
 			animationFrameStart = animationFrameStart + 5;
@@ -102,7 +103,7 @@ public class Actor extends AnimatedSprite {
 		}
 		this.setCurrentTileIndex(animationFrameStart);
 
-		/** different behavior based on type */
+		// different behavior based on type
 		if (this.type.equals("standing")) {
 			actorBody = PhysicsFactory.createBoxBody(physicsWorld, this, BodyType.StaticBody, tileFixtureDef);
 		} else if (this.type.equals("flying")) {
@@ -114,11 +115,11 @@ public class Actor extends AnimatedSprite {
 			actorBody.setLinearVelocity(movementSpeed, 0.0f);
 		}
 
-		/** name the actor and hook it in to the physics world */
+		// name the actor and hook it in to the physics world
 		actorBody.setUserData(this.name);
 		physicsWorld.registerPhysicsConnector(new PhysicsConnector(this, actorBody, true, false));
 
-		/** the actor animates as it comes to life */
+		// the actor animates as it comes to life
 		scene.attachChild(this);
 		final Vector2 velocity = Vector2Pool.obtain(movementSpeed, 0);
 		actorBody.setLinearVelocity(velocity);
@@ -147,7 +148,7 @@ public class Actor extends AnimatedSprite {
 
 		if (!this.type.equals("standing")) {
 
-			/** change facing direction and animation tiles to animate through */
+			// change facing direction and animation tiles to animate through
 			int animationFrameStart = this.spriteRow;
 			if (this.facing.equals("right")) {
 				this.facing = "left";
@@ -190,6 +191,10 @@ public class Actor extends AnimatedSprite {
 	 * @param player
 	 */
 	public void takeDamage(int hitPoints, GameScene gameScene, final Player player) {
+
+		// increment that we hit an actor for level stats
+		GameStatus.incrementGameLevelStat(GameStatus.levelStatsType.HITS);
+
 		life = life - hitPoints;
 		Log.i(this.getName(), "Life: " + Integer.toString(this.life));
 		if (this.life <= 0) {
@@ -207,11 +212,14 @@ public class Actor extends AnimatedSprite {
 	 * @param gameScene
 	 */
 	public void die(BaseScene thisScene, final Player player) {
-		Log.i(this.getName(), "Has Died");
+		Log.i(this.getName(), "Has Died");		
+		
+		// increment that we hit an actor for level stats
+		GameStatus.incrementGameLevelStat(GameStatus.levelStatsType.KILLS);
 
 		new Explosion(thisScene, this, explosionType);
 
-		/** random explosion sound is played on actor death */
+		// random explosion sound is played on actor death
 		Random random = new Random();
 		int explosion = random.nextInt(3) + 1;
 		if (explosion == 1) {

@@ -41,7 +41,6 @@ import com.kevinhinds.spacebots.status.StatusListManager;
  * main game scene which contains multiple levels
  * 
  * @author khinds
- * 
  */
 public class GameScene extends BaseScene {
 
@@ -53,7 +52,7 @@ public class GameScene extends BaseScene {
 	public String currentPiecesObtained;
 
 	/**
-	 * construct the gamescene with the level XML builder
+	 * construct the game scene with the level XML builder
 	 */
 	public GameScene() {
 		levelXMLBuilder = new LevelXMLBuilder(activity.getAssets());
@@ -71,7 +70,7 @@ public class GameScene extends BaseScene {
 		level = levelXMLBuilder.level;
 		currentPiecesObtained = "";
 
-		/** every 1 seconds update scene timer */
+		// every 1 seconds update scene timer
 		this.registerUpdateHandler(new TimerHandler(1, true, new ITimerCallback() {
 			@Override
 			public void onTimePassed(TimerHandler pTimerHandler) {
@@ -169,7 +168,7 @@ public class GameScene extends BaseScene {
 		fixtureBody.setUserData("rightWall");
 		attachChild(right);
 
-		/** load all levels from XML */
+		// load all levels from XML
 		levelXMLBuilder.createLevelFromXML(levelNumber);
 		levelXMLBuilder.loadLevel(GameScene.this, physicsWorld);
 	}
@@ -182,19 +181,14 @@ public class GameScene extends BaseScene {
 	private ContactListener contactListener() {
 		ContactListener contactListener = new ContactListener() {
 
-			/**
-			 * track begin of contact between fixtures
-			 */
+			// track begin of contact between fixtures
 			public void beginContact(Contact contact) {
 				final Fixture x1 = contact.getFixtureA();
 				final Fixture x2 = contact.getFixtureB();
 				Log.i("beginContact", x1.getBody().getUserData() + " - " + x2.getBody().getUserData());
 
+				// process game scene collision
 				if (x1.getBody().getUserData() != null && x2.getBody().getUserData() != null) {
-
-					/**
-					 * PROCESS GAME SCENE COLLISION
-					 */
 					new Collision((String) x1.getBody().getUserData(), (String) x2.getBody().getUserData(), level, GameScene.this);
 				}
 			}
@@ -210,8 +204,8 @@ public class GameScene extends BaseScene {
 				String x1BodyName = (String) x1.getBody().getUserData();
 				String x2BodyName = (String) x2.getBody().getUserData();
 
+				// player begins to fall when loses contact with a bounce tile (edges of platforms)
 				if (x1BodyName != null && x2BodyName != null) {
-					/** player begins to fall when loses contact with a bounce tile (edges of platforms) */
 					if (x1BodyName.contains("player")) {
 						if (x2BodyName.contains("bounce")) {
 							player.fall();
@@ -235,8 +229,8 @@ public class GameScene extends BaseScene {
 	 * from the current list of pieces needed to complete a level, if the player has all the pieces then the level is complete!
 	 */
 	public void checkLevelComplete() {
-		
-		/**  if you've collected all the pieces locally in this level to complete, then it's finished */
+
+		// if you've collected all the pieces locally in this level to complete, then it's finished
 		int thisLevelID = SceneManager.getInstance().getCurrentScene().levelNumber;
 		String[] pieceslist = GameConfiguration.levelPieces[thisLevelID].split(",");
 		boolean levelCompleted = true;
@@ -246,11 +240,10 @@ public class GameScene extends BaseScene {
 			}
 		}
 
-		/** level is complete, set next level to status = 1 (playable) and the current level status as 2, 3 or 4 based on player performance */
+		// level is complete, set next level to status = 1 (playable) and the current level status as 2, 3 or 4 based on player performance
 		if (levelCompleted) {
-			/**
-			 * @TODO this should set 2, 3 or 4 based on overall level player performance
-			 */
+
+			// initially set the level to "completed" or 2 and the next one as 1 or "playable", the level status scene calculates if they've performed at a 3 or 4 status for the level
 			GameStatus.setLevelStatusByLevelNumber(thisLevelID, "2");
 			GameStatus.setLevelStatusByLevelNumber(++thisLevelID, "1");
 			SceneManager.getInstance().loadLevelStatusScene("success");

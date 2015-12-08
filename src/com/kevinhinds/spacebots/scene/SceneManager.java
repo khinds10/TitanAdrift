@@ -74,7 +74,7 @@ public class SceneManager {
 	 */
 	public void setGameScene(int levelNumber) {
 
-		/** if a daydream is mapped to this level, then show the daydream scene before the level begins */
+		// if a daydream is mapped to this level, then show the daydream scene before the level begins
 		if (GameConfiguration.daydreamLevelsMapping.keySet().contains(levelNumber)) {
 			this.loadDayDreamScene(levelNumber);
 		} else {
@@ -88,7 +88,13 @@ public class SceneManager {
 	 * @param levelNumber
 	 */
 	public void playGameScene(int levelNumber) {
+
+		// game stats become reset and most recent level is set
 		GameStatus.setMostRecentlLevel(levelNumber);
+		GameStatus.resetGameLevelStats();
+		GameStatus.flagCurrentLevelTime();
+
+		// load game scene in
 		gameScene = new GameScene();
 		gameScene.setGameLevel(levelNumber);
 		setScene(gameScene, null);
@@ -113,8 +119,11 @@ public class SceneManager {
 	 * @param status
 	 */
 	public void loadLevelStatusScene(String status) {
+		
+		GameStatus.flagCurrentLevelTime();
 		levelScene = new LevelStatusScene();
 		levelScene.setStatus(status);
+		
 		if (status.equals("dead")) {
 			setScene(levelScene, ResourceManager.getIntance().deadMusic);
 		} else {
@@ -131,7 +140,7 @@ public class SceneManager {
 	 */
 	public void setScene(BaseScene scene, Music music) {
 
-		/** stop any music and play new scene music if it's present */
+		// stop any music and play new scene music if it's present
 		ResourceManager.getIntance().stopAllMusic();
 		if (music != null) {
 			music.seekTo(0);
@@ -139,7 +148,7 @@ public class SceneManager {
 			music.resume();
 		}
 
-		/** dispose and load new scene */
+		// dispose and load new scene
 		if (currentScene != null) {
 			currentScene.disposeScene();
 		}
@@ -173,7 +182,8 @@ public class SceneManager {
 	}
 
 	/**
-	 * if the next level after the one the player has most recently played then return true  
+	 * if the next level after the one the player has most recently played then return true
+	 * 
 	 * @return
 	 */
 	public boolean hasNextLevelAvailable() {

@@ -21,6 +21,7 @@ import com.kevinhinds.spacebots.objects.Flare;
 import com.kevinhinds.spacebots.objects.Bomb;
 import com.kevinhinds.spacebots.scene.GameScene;
 import com.kevinhinds.spacebots.scene.SceneManager;
+import com.kevinhinds.spacebots.status.GameStatus;
 
 /**
  * main character for the game
@@ -29,11 +30,11 @@ import com.kevinhinds.spacebots.scene.SceneManager;
  */
 public class Player {
 
-	/** physics world and scene for the player */
+	// physics world and scene for the player
 	protected PhysicsWorld physicsWorld;
 	protected GameScene gameScene;
 
-	/** player sprite and current state values */
+	// player sprite and current state values
 	public Body playerBody;
 	public AnimatedSprite playerSprite;
 	public boolean isJumping;
@@ -45,7 +46,7 @@ public class Player {
 	protected int flareNumber = 0;
 	public int bulletStrength = 1;
 
-	/** player start level energy and life amounts */
+	// player start level energy and life amounts
 	public int lifeAmount = GameConfiguration.playerStartingLife;
 	public int energyAmount = GameConfiguration.playerStartingEnergy;
 
@@ -252,12 +253,12 @@ public class Player {
 	 */
 	public void shoot(GameScene scene) {
 
-		/** if player is standing like he began the level but shot gun, then issue the stop command which makes him hold his gun up */
+		// if player is standing like he began the level but shot gun, then issue the stop command which makes him hold his gun up
 		if (playerSprite.getCurrentTileIndex() == GameConfiguration.playerStartLevelFrame) {
 			stop();
 		}
 
-		/** if no ammo left then empty click sound and return */
+		// if no ammo left then empty click sound and return
 		if (energyAmount <= 0) {
 			energyAmount = 0;
 			ResourceManager.getIntance().gunClickSound.play();
@@ -267,10 +268,10 @@ public class Player {
 		bulletNumber++;
 		String bulletName = "Bullet-" + Integer.toString(bulletNumber);
 
-		/** bullet based on if player is kneeling or not */
+		// bullet based on if player is kneeling or not
 		Bullet bullet = null;
 
-		/** more powerful and expensive gun if kneeling */
+		// more powerful and expensive gun if kneeling
 		int gunShotEnergyAmount = 0;
 		if (!isKneeling) {
 			bullet = ResourceManager.getIntance().getGameBulletById(playerWeapons.YELLOW_PHASER.ordinal());
@@ -282,11 +283,11 @@ public class Player {
 			ResourceManager.getIntance().cannonSound.play();
 		}
 
-		/** decrease energy because the gun was shot and update the control */
+		// decrease energy because the gun was shot and update the control
 		energyAmount = energyAmount - gunShotEnergyAmount;
 		scene.controls.setEnergyLevelByPercent((energyAmount * 100) / GameConfiguration.playerStartingEnergy);
 
-		/** the player X,Y is the top left corner, so if facing right the bullet should start about 50px over to the right */
+		// the player X,Y is the top left corner, so if facing right the bullet should start about 50px over to the right
 		int moveBulletX = 0;
 		bullet.direction = State.LEFT;
 		if (this.facing == State.RIGHT) {
@@ -294,14 +295,16 @@ public class Player {
 			bullet.direction = State.RIGHT;
 		}
 
-		/** if they player is kneeling */
+		// if they player is kneeling
 		if (isKneeling) {
 			gameScene.level.addBullet(bullet.getInstance(bulletName, playerSprite.getX() + moveBulletX, playerSprite.getY() + 16, gunShotEnergyAmount));
 		} else {
 			gameScene.level.addBullet(bullet.getInstance(bulletName, playerSprite.getX() + moveBulletX, playerSprite.getY() + 10, gunShotEnergyAmount));
 		}
-
 		gameScene.level.getBulletByName(bulletName).createBodyAndAttach(playerSprite, facing, scene, physicsWorld);
+
+		// increment that we hit an actor for level stats
+		GameStatus.incrementGameLevelStat(GameStatus.levelStatsType.SHOTS);
 	}
 
 	/**
@@ -361,7 +364,7 @@ public class Player {
 		lifeAmount = lifeAmount - damageAmount;
 		ResourceManager.getIntance().hitSound.play();
 
-		/** player dies */
+		// player dies
 		if (lifeAmount <= 0) {
 			SceneManager.getInstance().loadLevelStatusScene("dead");
 		}

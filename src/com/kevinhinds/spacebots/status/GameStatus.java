@@ -11,19 +11,24 @@ import com.kevinhinds.spacebots.ResourceManager;
  */
 public class GameStatus {
 
-	/** list of keys used for the SharedPreferences references */
+	// list of keys used for the SharedPreferences references
 	public static String HighScore = "HighScore";
 	public static String MusicPlay = "MusicPlay";
 	public static String SoundFXPlay = "SoundFXPlay";
 	public static String LevelStatus = "LevelStatus";
 	public static String ShipRepairedStatus = "ShipRepairedStatus";
-	
-	/** most recent level played temporary stats like shots fired / number of hits, resets for each new play */
+
+	// most recent level played temporary stats like shots fired / number of hits, resets for each new play
 	public static String MostRecentLevel = "MostRecentLevel";
 	public static String MostRecentLevelShots = "MostRecentLevelShots";
 	public static String MostRecentLevelKills = "MostRecentLevelKills";
 	public static String MostRecentLevelHits = "MostRecentLevelHits";
 	public static String MostRecentLevelTime = "MostRecentLevelTime";
+
+	// enumerate the types of temporary level stats that exist
+	public static enum levelStatsType {
+		SHOTS, KILLS, HITS, TIME
+	}
 
 	/**
 	 * code that will run if it's the first time we've installed the application
@@ -33,15 +38,15 @@ public class GameStatus {
 		MainGameActivity activity = ResourceManager.getIntance().activity;
 		activity.statusAndPreferencesEditor.putInt(GameStatus.HighScore, 0);
 		activity.statusAndPreferencesEditor.putBoolean(GameStatus.MusicPlay, false);
-		activity.statusAndPreferencesEditor.putBoolean(GameStatus.SoundFXPlay, false);		
+		activity.statusAndPreferencesEditor.putBoolean(GameStatus.SoundFXPlay, false);
 		activity.statusAndPreferencesEditor.putInt(GameStatus.MostRecentLevel, 1);
 
-		/** create a list of all new level status numbers, marking level 1 as "1" or available to play */
+		// create a list of all new level status numbers, marking level 1 as "1" or available to play
 		String levelStats = StatusListManager.createDefaultCSVList(GameConfiguration.numberLevels, "0");
 		levelStats = StatusListManager.updateIndexByValue(levelStats, 1, "1");
 		activity.statusAndPreferencesEditor.putString(GameStatus.LevelStatus, levelStats);
 
-		/** update FirstRun to say we're no longer running game for the first time and commit default values */
+		// update FirstRun to say we're no longer running game for the first time and commit default values
 		activity.statusAndPreferencesEditor.putBoolean("FIRSTRUN", false);
 		activity.statusAndPreferencesEditor.commit();
 	}
@@ -108,6 +113,97 @@ public class GameStatus {
 		ResourceManager.getIntance().activity.statusAndPreferencesEditor.commit();
 	}
 
+	/**
+	 * set the current level starting to be played to zero stats
+	 */
+	public static void resetGameLevelStats() {
+		ResourceManager.getIntance().activity.statusAndPreferencesEditor.putInt(GameStatus.MostRecentLevelShots, 0);
+		ResourceManager.getIntance().activity.statusAndPreferencesEditor.putInt(GameStatus.MostRecentLevelKills, 0);
+		ResourceManager.getIntance().activity.statusAndPreferencesEditor.putInt(GameStatus.MostRecentLevelHits, 0);
+		ResourceManager.getIntance().activity.statusAndPreferencesEditor.putLong(GameStatus.MostRecentLevelTime, 0);
+		ResourceManager.getIntance().activity.statusAndPreferencesEditor.commit();
+	}
+
+	/**
+	 * flag that the level has began or ended to calculate how long you played
+	 */
+	public static void flagCurrentLevelTime() {
+
+		long timeStartedLevel = ResourceManager.getIntance().activity.statusAndPreferences.getLong(GameStatus.MostRecentLevelTime, 0);
+		long currentTimestamp = System.currentTimeMillis() / 1000;
+
+		// get the time the user started the level
+		if (timeStartedLevel == 0) {
+			ResourceManager.getIntance().activity.statusAndPreferencesEditor.putLong(GameStatus.MostRecentLevelTime, currentTimestamp);
+		} else {
+			long timePlayedLevelSeconds = currentTimestamp - timeStartedLevel;
+			ResourceManager.getIntance().activity.statusAndPreferencesEditor.putLong(GameStatus.MostRecentLevelTime, timePlayedLevelSeconds);
+		}
+		ResourceManager.getIntance().activity.statusAndPreferencesEditor.commit();
+	}
+
+	/**
+	 * get the current amount of seconds the level was played for
+	 * 
+	 * @return
+	 */
+	public static long getCurrentLevelPlayedTime() {
+		return ResourceManager.getIntance().activity.statusAndPreferences.getLong(GameStatus.MostRecentLevelTime, 0);
+	}
+
+	/**
+	 * update game level stats by type
+	 * 
+	 * @param type
+	 * @param value
+	 */
+	public static void updateGameLevelStats(levelStatsType type, int value) {
+		switch (type) {
+		case SHOTS:
+			ResourceManager.getIntance().activity.statusAndPreferencesEditor.putInt(GameStatus.MostRecentLevelShots, value);
+			break;
+		case KILLS:
+			ResourceManager.getIntance().activity.statusAndPreferencesEditor.putInt(GameStatus.MostRecentLevelKills, value);
+			break;
+		case HITS:
+			ResourceManager.getIntance().activity.statusAndPreferencesEditor.putInt(GameStatus.MostRecentLevelHits, value);
+			break;
+		default:
+			break;
+		}
+		ResourceManager.getIntance().activity.statusAndPreferencesEditor.commit();
+	}
+
+	/**
+	 * increment a current game statistic
+	 * 
+	 * @param type
+	 */
+	public static void incrementGameLevelStat(levelStatsType type) {
+		int currentValue = GameStatus.getGameLevelStats(type);
+		currentValue = currentValue + 1;
+		GameStatus.updateGameLevelStats(type, currentValue);
+	}
+
+	/**
+	 * get game level stats
+	 * 
+	 * @param type
+	 * @return
+	 */
+	public static int getGameLevelStats(levelStatsType type) {
+		switch (type) {
+		case SHOTS:
+			return ResourceManager.getIntance().activity.statusAndPreferences.getInt(GameStatus.MostRecentLevelShots, 0);
+		case KILLS:
+			return ResourceManager.getIntance().activity.statusAndPreferences.getInt(GameStatus.MostRecentLevelKills, 0);
+		case HITS:
+			return ResourceManager.getIntance().activity.statusAndPreferences.getInt(GameStatus.MostRecentLevelHits, 0);
+		default:
+			return 0;
+		}
+	}
+
 	/** get the most recently level played */
 	public static int getMostRecentLevel() {
 		return ResourceManager.getIntance().activity.statusAndPreferences.getInt(GameStatus.MostRecentLevel, 1);
@@ -118,7 +214,7 @@ public class GameStatus {
 		ResourceManager.getIntance().activity.statusAndPreferencesEditor.putInt(GameStatus.MostRecentLevel, levelNumber);
 		ResourceManager.getIntance().activity.statusAndPreferencesEditor.commit();
 	}
-	
+
 	/**
 	 * generate comma separated list of current status code for each level in the game, updating the one specified to a new value
 	 * 
