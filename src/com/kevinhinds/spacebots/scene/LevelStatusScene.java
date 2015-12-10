@@ -67,7 +67,7 @@ public class LevelStatusScene extends BaseScene implements IOnMenuItemClickListe
 			if (StatusListManager.containsValue(shipStatus, pieceID.toString()) || !StatusListManager.containsValue(GameConfiguration.shipPiecesToCollect, pieceID.toString())) {
 				foundPiece.setPosition(x + (count * GameConfiguration.pieceMapTileSize), y);
 				try {
-					foundPiece.attach(this);
+					// foundPiece.attach(this);
 				} catch (Exception e) {
 					Log.e("Could not attached ship piece", e.getMessage());
 				}
@@ -191,17 +191,17 @@ public class LevelStatusScene extends BaseScene implements IOnMenuItemClickListe
 			this.attachChild(playerMetal1);
 
 			// achive a 2 star rating
-			if (marksmanshipRating > 90 && levelPlayedSecondsCount < 60) {
+			if (marksmanshipRating >= 90 && levelPlayedSecondsCount < 60) {
 				GameStatus.setLevelStatusByLevelNumber(GameStatus.getMostRecentLevel(), "3");
 				this.attachChild(playerMetal2);
 			}
-			
+
 			// achieve a 3 star rating
-			if (marksmanshipRating > 85 && levelPlayedSecondsCount < 45) {
+			if (marksmanshipRating >= 85 && levelPlayedSecondsCount < 45) {
 				GameStatus.setLevelStatusByLevelNumber(GameStatus.getMostRecentLevel(), "4");
 				this.attachChild(playerMetal3);
 			}
-			
+
 		}
 
 		menu.setOnMenuItemClickListener(this);

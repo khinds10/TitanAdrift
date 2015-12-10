@@ -57,7 +57,7 @@ public class Collision {
 				actorCollision(body1);
 			}
 		}
-		
+
 		/** if 2 moving actors collide, then we must both change to opposite directions */
 		if (body1.contains("Actor") && body2.contains("Actor")) {
 			actor = level.getActorByName(body1);
@@ -148,10 +148,10 @@ public class Collision {
 
 				/** save player collected piece and collect it */
 				Piece itemCollected = level.getPieceByName(collidingBody);
-			
+
 				/** apply the piece collected to the immediate game status */
-				gameScene.currentPiecesObtained = gameScene.currentPiecesObtained + itemCollected.getType() + ","; 
-				
+				gameScene.currentPiecesObtained = gameScene.currentPiecesObtained + itemCollected.getType() + ",";
+
 				/** collect piece in the overall game status as well */
 				GameStatus.collectShipPiece(itemCollected.getType());
 				ResourceManager.getIntance().aquirePieceSound.play();

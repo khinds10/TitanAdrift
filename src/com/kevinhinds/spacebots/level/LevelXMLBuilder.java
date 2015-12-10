@@ -16,11 +16,11 @@ import com.kevinhinds.spacebots.objects.Item;
 import com.kevinhinds.spacebots.objects.Piece;
 import com.kevinhinds.spacebots.objects.Tile;
 import com.kevinhinds.spacebots.scene.GameScene;
-import com.kevinhinds.spacebots.status.GameStatus;
 
 import android.content.res.AssetManager;
 
 public class LevelXMLBuilder {
+	
 	private final LevelLoader levelLoader;
 	private final AssetManager assetManager;
 	public Level level;
