@@ -1,9 +1,14 @@
 package com.kevinhinds.spacebots.scene;
 
 import java.util.ArrayList;
+
+import org.andengine.engine.camera.Camera;
 import org.andengine.entity.scene.menu.MenuScene;
 import org.andengine.entity.scene.menu.MenuScene.IOnMenuItemClickListener;
 import org.andengine.entity.scene.menu.item.IMenuItem;
+import org.andengine.entity.sprite.Sprite;
+import org.andengine.input.touch.TouchEvent;
+import org.andengine.opengl.util.GLState;
 
 import com.kevinhinds.spacebots.GameConfiguration;
 import com.kevinhinds.spacebots.ResourceManager;
@@ -139,6 +144,9 @@ public class LevelStatusScene extends BaseScene implements IOnMenuItemClickListe
 		final IMenuItem againAreaItem = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameRedFont, "AGAIN", MENU_AGAIN, true);
 		menu.addMenuItem(againAreaItem);
 
+		final IMenuItem metalsAchivedItem = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameFontGray, "METALS", MENU_AGAIN, true);
+		menu.addMenuItem(metalsAchivedItem);
+
 		// build menu with animations
 		menu.buildAnimations();
 		menu.setBackgroundEnabled(false);
@@ -159,13 +167,15 @@ public class LevelStatusScene extends BaseScene implements IOnMenuItemClickListe
 		killsCount.setPosition(250, 300);
 		timeToComplete.setPosition(100, 360);
 		timeToCompleteTime.setPosition(250, 400);
-		
-		// only show the time to complete if they've finished the level 
+		metalsAchivedItem.setPosition(this.camera.getWidth() - 350, this.camera.getHeight() - 70);
+
+		// only show the time to complete if they've finished the level
 		if (levelStatus.equals("dead")) {
 			timeToComplete.setVisible(false);
 			timeToCompleteTime.setVisible(false);
+			metalsAchivedItem.setVisible(false);
 		}
-		
+
 		// only show the next level button if the level after the one most recently played is available to play
 		if (!SceneManager.getInstance().hasNextLevelAvailable()) {
 			nextAreaItem.setVisible(false);
@@ -173,18 +183,27 @@ public class LevelStatusScene extends BaseScene implements IOnMenuItemClickListe
 
 		// for the level just completed calculate a new status as far as number of stars based on marksmanship and time to complete
 		if (!levelStatus.equals("dead")) {
+
+			// show the number of metals achived in the level
+			Sprite playerMetal1 = new Sprite(this.camera.getWidth() - 175, this.camera.getHeight() - 80, ResourceManager.getIntance().playerLevelMetalRegion, this.vbom);
+			Sprite playerMetal2 = new Sprite(this.camera.getWidth() - 140, this.camera.getHeight() - 80, ResourceManager.getIntance().playerLevelMetalRegion, this.vbom);
+			Sprite playerMetal3 = new Sprite(this.camera.getWidth() - 105, this.camera.getHeight() - 80, ResourceManager.getIntance().playerLevelMetalRegion, this.vbom);
+			this.attachChild(playerMetal1);
+
+			// achive a 2 star rating
+			if (marksmanshipRating > 90 && levelPlayedSecondsCount < 60) {
+				GameStatus.setLevelStatusByLevelNumber(GameStatus.getMostRecentLevel(), "3");
+				this.attachChild(playerMetal2);
+			}
 			
 			// achieve a 3 star rating
-			if (marksmanshipRating > 90 && levelPlayedSecondsCount < 45) {
+			if (marksmanshipRating > 85 && levelPlayedSecondsCount < 45) {
 				GameStatus.setLevelStatusByLevelNumber(GameStatus.getMostRecentLevel(), "4");
+				this.attachChild(playerMetal3);
 			}
 			
-			// achive a 2 star rating
-			if (marksmanshipRating > 95 && levelPlayedSecondsCount < 60) {
-				GameStatus.setLevelStatusByLevelNumber(GameStatus.getMostRecentLevel(), "3");
-			}
 		}
-		
+
 		menu.setOnMenuItemClickListener(this);
 		setChildScene(menu);
 	}

@@ -82,6 +82,7 @@ public class ResourceManager {
 	public ITextureRegion voidBackgroundRegion;
 	public ITextureRegion colorgalaxyBackgroundRegion;
 	public ITextureRegion andengineRegion;
+	public ITextureRegion playerLevelMetalRegion;
 
 	// player region
 	public ITiledTextureRegion playerRegion;
@@ -114,7 +115,7 @@ public class ResourceManager {
 	public ITiledTextureRegion itemRegion;
 	public ITiledTextureRegion itemButtonRegion;
 	public ITiledTextureRegion bridgeRegion;
-	
+
 	// we have a piece region and a brighter high contrast piece region so the pieces to collect are easier to see on the level
 	public ITiledTextureRegion pieceRegion;
 	public ITiledTextureRegion pieceLevelRegion;
@@ -154,12 +155,12 @@ public class ResourceManager {
 	public Sound explosion1Sound;
 	public Sound explosion2Sound;
 	public Sound explosion3Sound;
-	
+
 	// special weapon while ducking
 	public Sound loadSound;
 	public Sound unloadSound;
 	public Sound cannonSound;
-	
+
 	// player extra sounds
 	public Sound runningSound;
 	public Sound landingSound;
@@ -174,6 +175,7 @@ public class ResourceManager {
 		planetBackgroundRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "menu/largeplanet.jpg");
 		voidBackgroundRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "menu/multicolor.jpg");
 		andengineRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "menu/andengine.png");
+		playerLevelMetalRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "items/metal.png");
 
 		// have to run everything through black pawn to render it visibly
 		try {
@@ -264,7 +266,7 @@ public class ResourceManager {
 		// load ship pieces
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/items/");
 		pieceTextureAtlas = new BuildableBitmapTextureAtlas(activity.getTextureManager(), 1024, 1024, TextureOptions.BILINEAR);
-		pieceRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(pieceTextureAtlas, activity, "ship.png", GameConfiguration.pieceMapColumns, GameConfiguration.pieceMapRows);		
+		pieceRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(pieceTextureAtlas, activity, "ship.png", GameConfiguration.pieceMapColumns, GameConfiguration.pieceMapRows);
 		pieceLevelRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(pieceTextureAtlas, activity, "shipcollect.png", GameConfiguration.pieceMapColumns, GameConfiguration.pieceMapRows);
 
 		// have to run everything through black pawn to render it visibly
