@@ -207,7 +207,7 @@ public class GameScene extends BaseScene {
 				// player begins to fall when loses contact with a bounce tile (edges of platforms)
 				if (x1BodyName != null && x2BodyName != null) {
 					if (x1BodyName.contains("player")) {
-						if (x2BodyName.contains("bounce")) {
+						if (x2BodyName.contains("bounce") || x2BodyName.contains("edge")) {
 							player.fall();
 						}
 					}

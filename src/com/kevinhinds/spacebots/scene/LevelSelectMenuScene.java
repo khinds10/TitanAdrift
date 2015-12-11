@@ -16,12 +16,12 @@ import com.kevinhinds.spacebots.status.GameStatus;
  * main menu scene for the game
  * 
  * @author khinds
- * 
  */
 public class LevelSelectMenuScene extends BaseScene implements IOnMenuItemClickListener {
 
 	private MenuScene menu;
 	private final int MENU_BACK = 0;
+	private final int MENU_METALS = 1;
 	private ArrayList<IMenuItem> levelMenuItems = new ArrayList<IMenuItem>();
 	private int levelMenuPadding = 60;
 	private int levelRowPadding = 60;
@@ -47,7 +47,7 @@ public class LevelSelectMenuScene extends BaseScene implements IOnMenuItemClickL
 		menu = new MenuScene(camera);
 		menu.setPosition(0, 0);
 
-		/** create menu items */
+		// create menu items
 		for (int levelId = 1; levelId <= GameConfiguration.numberLevels; levelId++) {
 			String levelName = Integer.toString(levelId);
 			if (levelId < 10) {
@@ -58,7 +58,7 @@ public class LevelSelectMenuScene extends BaseScene implements IOnMenuItemClickL
 			Font selectedFont = null;
 			int levelStatus = GameStatus.levelStatusByLevelNumber(levelId);
 			if (levelStatus == 0) {
-				selectedFont = ResourceManager.getIntance().levelSelectFontNone; 
+				selectedFont = ResourceManager.getIntance().levelSelectFontNone;
 			}
 			if (levelStatus == 1) {
 				selectedFont = ResourceManager.getIntance().levelSelectFontPlay;
@@ -77,22 +77,36 @@ public class LevelSelectMenuScene extends BaseScene implements IOnMenuItemClickL
 		for (int levelId = 0; levelId < GameConfiguration.numberLevels; levelId++) {
 			menu.addMenuItem(levelMenuItems.get(levelId));
 		}
-		final IMenuItem backButton = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().menuGrayFont, "BACK", MENU_BACK, true);
+
+		final IMenuItem backButton = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameFontGray, "MAIN MENU", MENU_BACK, true);
 		menu.addMenuItem(backButton);
 
-		final IMenuItem levelSelectTitle = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameFontGray, "SELECT LEVEL...", MENU_BACK, false);
+		final IMenuItem levelSelectTitle = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameFontGray, "SELECT AREA...", MENU_BACK, false);
 		menu.addMenuItem(levelSelectTitle);
+
+		final IMenuItem oneMetal = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().levelSelectFontOneInfo, "One Metal", MENU_METALS, false);
+		menu.addMenuItem(oneMetal);
+
+		final IMenuItem twoMetals = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().levelSelectFontTwoInfo, "Two Metals", MENU_METALS, false);
+		menu.addMenuItem(twoMetals);
+
+		final IMenuItem threeMetals = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().levelSelectFontThreeInfo, "Three Metals", MENU_METALS, false);
+		menu.addMenuItem(threeMetals);
 
 		menu.buildAnimations();
 		menu.setBackgroundEnabled(false);
 
-		/** position buttons */
-		backButton.setPosition(backButton.getX(), backButton.getY() + 135);
+		// position buttons
 		for (int levelId = 0; levelId < GameConfiguration.numberLevels; levelId++) {
 			positionLevelMenuItem(levelId);
 		}
 		backButton.setPosition(ResourceManager.getIntance().camera.getCenterX() - 75, ResourceManager.getIntance().camera.getHeight() - 60);
 		levelSelectTitle.setPosition(10, 10);
+
+		// position metal color code guide
+		oneMetal.setPosition(ResourceManager.getIntance().camera.getCenterX() - 150, ResourceManager.getIntance().camera.getHeight() - 150);
+		twoMetals.setPosition(ResourceManager.getIntance().camera.getCenterX() + 35, ResourceManager.getIntance().camera.getHeight() - 150);
+		threeMetals.setPosition(ResourceManager.getIntance().camera.getCenterX() + 225, ResourceManager.getIntance().camera.getHeight() - 150);
 
 		menu.setOnMenuItemClickListener(this);
 		setChildScene(menu);
@@ -115,11 +129,14 @@ public class LevelSelectMenuScene extends BaseScene implements IOnMenuItemClickL
 		case MENU_BACK:
 			SceneManager.getInstance().returnToMenuScene();
 			return true;
+		case MENU_METALS:
+			return true;
 		}
 
-		/** head over the scene selected if the status for the level is non-zero (can't play yet) */
+		
+		// head over the scene selected if the status for the level is non-zero (can't play yet)
 		if (GameStatus.levelStatusByLevelNumber(item.getID()) > 0) {
-			SceneManager.getInstance().setGameScene(item.getID());	
+			SceneManager.getInstance().setGameScene(item.getID());
 		}
 		return false;
 	}

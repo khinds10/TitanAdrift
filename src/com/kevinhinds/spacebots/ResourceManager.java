@@ -59,6 +59,7 @@ public class ResourceManager {
 	public Font gameFontLarge;
 	public Font gameFontGray;
 	public Font gameFontTiny;
+	public Font gameFontMedium;
 	public Font gameRedFont;
 	public Font gameBlueFont;
 	public Font gameGreenFont;
@@ -67,8 +68,11 @@ public class ResourceManager {
 	public Font levelSelectFontNone;
 	public Font levelSelectFontPlay;
 	public Font levelSelectFontOne;
+	public Font levelSelectFontOneInfo;
 	public Font levelSelectFontTwo;
+	public Font levelSelectFontTwoInfo;
 	public Font levelSelectFontThree;
+	public Font levelSelectFontThreeInfo;
 
 	public Font titleFont;
 	public Font menuRedFont;
@@ -486,6 +490,9 @@ public class ResourceManager {
 		gameFontTiny = buildFont("game.ttf", 10, android.graphics.Color.parseColor("#D8D8D8"));
 		gameFontTiny.load();
 
+		gameFontMedium = buildFont("game.ttf", 15, android.graphics.Color.parseColor("#D8D8D8"));
+		gameFontMedium.load();
+		
 		gameRedFont = buildFont("game.ttf", 20, android.graphics.Color.parseColor("#DB8E77"));
 		gameRedFont.load();
 
@@ -517,14 +524,21 @@ public class ResourceManager {
 		levelSelectFontPlay = buildFont("game.ttf", 30, android.graphics.Color.parseColor("#FFFCCD"));
 		levelSelectFontPlay.load();
 
+		// color codes for if you've gotten 1, 2 or 3 metals  for area select screen
 		levelSelectFontOne = buildFont("game.ttf", 30, android.graphics.Color.parseColor("#FFB273"));
 		levelSelectFontOne.load();
+		levelSelectFontOneInfo = buildFont("game.ttf", 15, android.graphics.Color.parseColor("#FFB273"));
+		levelSelectFontOneInfo.load();
 
 		levelSelectFontTwo = buildFont("game.ttf", 30, android.graphics.Color.parseColor("#F77F00"));
 		levelSelectFontTwo.load();
-
+		levelSelectFontTwoInfo = buildFont("game.ttf", 15, android.graphics.Color.parseColor("#F77F00"));
+		levelSelectFontTwoInfo.load();
+	
 		levelSelectFontThree = buildFont("game.ttf", 30, android.graphics.Color.parseColor("#D64027"));
 		levelSelectFontThree.load();
+		levelSelectFontThreeInfo = buildFont("game.ttf", 15, android.graphics.Color.parseColor("#D64027"));
+		levelSelectFontThreeInfo.load();
 	}
 
 	/**

@@ -48,7 +48,7 @@ public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener
 		final IMenuItem playItem = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().menuBlueFont, "PLAY", MENU_PLAY, true);
 		menu.addMenuItem(playItem);
 
-		final IMenuItem levelSelectItem = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().menuGreenFont, "LEVEL SELECT", MENU_LEVELS, true);
+		final IMenuItem levelSelectItem = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().menuGreenFont, "AREA SELECT", MENU_LEVELS, true);
 		menu.addMenuItem(levelSelectItem);
 
 		final IMenuItem exitItem = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().menuGrayFont, "EXIT", MENU_EXIT, true);

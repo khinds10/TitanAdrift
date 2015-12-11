@@ -190,7 +190,7 @@ public class Player {
 	 */
 	public void jump(float jumpVelocity) {
 		isKneeling = false;
-		if (!isJumping) {
+		if (!isJumping && !isFalling) {
 			float jumpmotion = 0;
 			isJumping = true;
 			if (moving == State.RIGHT) {

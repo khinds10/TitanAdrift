@@ -132,7 +132,7 @@ public class LevelStatusScene extends BaseScene implements IOnMenuItemClickListe
 		menu.addMenuItem(killsCount);
 
 		// create control game menu items
-		final IMenuItem rebuildYourShip = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameFontTiny, "REBUILD YOUR SHIP", MENU_REBUILD, false);
+		final IMenuItem rebuildYourShip = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameFontMedium, "REBUILD YOUR SHIP", MENU_REBUILD, false);
 		menu.addMenuItem(rebuildYourShip);
 
 		final IMenuItem menuButtonItem = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameBlueFont, "MENU", MENU_BACK, true);
@@ -153,7 +153,7 @@ public class LevelStatusScene extends BaseScene implements IOnMenuItemClickListe
 		mainTitle.setPosition(10, 20);
 
 		// control game menu positions
-		rebuildYourShip.setPosition(550, 50);
+		rebuildYourShip.setPosition(500, 50);
 		menuButtonItem.setPosition(650, 100);
 		againAreaItem.setPosition(650, 210);
 		nextAreaItem.setPosition(650, 320);
@@ -191,19 +191,17 @@ public class LevelStatusScene extends BaseScene implements IOnMenuItemClickListe
 			this.attachChild(playerMetal1);
 
 			// achive a 2 star rating
-			if (marksmanshipRating >= 90 && levelPlayedSecondsCount < 60) {
+			if ((marksmanshipRating >= 90 && levelPlayedSecondsCount < 60) || (levelPlayedSecondsCount <= 45)) {
 				GameStatus.setLevelStatusByLevelNumber(GameStatus.getMostRecentLevel(), "3");
 				this.attachChild(playerMetal2);
 			}
 
 			// achieve a 3 star rating
-			if (marksmanshipRating >= 85 && levelPlayedSecondsCount < 45) {
+			if (marksmanshipRating >= 85 && levelPlayedSecondsCount <= 45) {
 				GameStatus.setLevelStatusByLevelNumber(GameStatus.getMostRecentLevel(), "4");
 				this.attachChild(playerMetal3);
 			}
-
 		}
-
 		menu.setOnMenuItemClickListener(this);
 		setChildScene(menu);
 	}

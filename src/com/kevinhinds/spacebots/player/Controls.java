@@ -10,6 +10,7 @@ import org.andengine.opengl.util.GLState;
 import com.kevinhinds.spacebots.GameConfiguration;
 import com.kevinhinds.spacebots.ResourceManager;
 import com.kevinhinds.spacebots.scene.GameScene;
+import com.kevinhinds.spacebots.status.GameStatus;
 
 /**
  * create controls for the character in the game
@@ -32,6 +33,7 @@ public class Controls {
 
 	public TiledSprite energyMeter;
 	public Text energyMeterLabel;
+	public Text currentAreaPlayedLabel;
 
 	/**
 	 * create the controls for the scene
@@ -50,7 +52,7 @@ public class Controls {
 	}
 
 	/**
-	 * display player stats at the beginning of the level such as hit points and gun strength
+	 * display player stats at the beginning of the level such as hit points and gun strength and what area they're on
 	 */
 	public void displayInitialPlayerStats() {
 
@@ -67,6 +69,9 @@ public class Controls {
 
 		energyMeterLabel = new Text(scene.camera.getWidth() - 255, 10, ResourceManager.getIntance().gameFontTiny, "Energy", ResourceManager.getIntance().vbom);
 		scene.gameHUD.attachChild(energyMeterLabel);
+		
+		currentAreaPlayedLabel = new Text(10, 10, ResourceManager.getIntance().gameFontMedium, "Area : " + Integer.toString(GameStatus.getMostRecentLevel()) , ResourceManager.getIntance().vbom);
+		scene.gameHUD.attachChild(currentAreaPlayedLabel);
 	}
 
 	/**
