@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<level width="804" height="480">
+    <item x="792" y="36" type="1" animationSpeed="200" movementSpeed="0"/> <!-- ROW 3 COLUMN 66 -->
+     <item x="528" y="144" type="1" animationSpeed="200" movementSpeed="0"/> <!-- ROW 12 COLUMN 44 -->
+    <item x="600" y="144" type="0" animationSpeed="200" movementSpeed="0"/> <!-- ROW 12 COLUMN 50 -->
+    <item x="768" y="144" type="5" animationSpeed="200" movementSpeed="0"/> <!-- ROW 12 COLUMN 64 -->
+    <item x="180" y="228" type="2" animationSpeed="200" movementSpeed="0"/> <!-- ROW 19 COLUMN 15 -->
+    <item x="528" y="312" type="0" animationSpeed="200" movementSpeed="0"/> <!-- ROW 26 COLUMN 44 -->
+    <item x="588" y="312" type="5" animationSpeed="200" movementSpeed="0"/> <!-- ROW 26 COLUMN 49 -->
+    <item x="756" y="312" type="1" animationSpeed="200" movementSpeed="0"/> <!-- ROW 26 COLUMN 63 -->
+    <item x="12" y="360" type="3" animationSpeed="200" movementSpeed="0"/> <!-- ROW 30 COLUMN 1 -->
+    <item x="588" y="360" type="2" animationSpeed="200" movementSpeed="0"/> <!-- ROW 30 COLUMN 49 -->
+</level>
