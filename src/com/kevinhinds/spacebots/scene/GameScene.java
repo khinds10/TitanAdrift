@@ -74,6 +74,11 @@ public class GameScene extends BaseScene {
 		this.registerUpdateHandler(new TimerHandler(1, true, new ITimerCallback() {
 			@Override
 			public void onTimePassed(TimerHandler pTimerHandler) {
+				
+				// update current level time and accuracy stats
+				controls.updateLevelStats();
+				
+				// for all current actors apply move command if they're not dead
 				for (Actor a : level.actors) {
 					if (a.actorBody != null) {
 						if (!a.actorBody.getUserData().equals("deceased")) {
@@ -207,7 +212,7 @@ public class GameScene extends BaseScene {
 				// player begins to fall when loses contact with a bounce tile (edges of platforms)
 				if (x1BodyName != null && x2BodyName != null) {
 					if (x1BodyName.contains("player")) {
-						if (x2BodyName.contains("bounce") || x2BodyName.contains("edge")) {
+						if (x2BodyName.contains("bounce")) {
 							player.fall();
 						}
 					}

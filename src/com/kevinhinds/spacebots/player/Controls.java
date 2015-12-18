@@ -34,6 +34,9 @@ public class Controls {
 	public TiledSprite energyMeter;
 	public Text energyMeterLabel;
 	public Text currentAreaPlayedLabel;
+	public Text currentAreaTime;
+	public Text currentAreaMarksmanship;
+	protected int currentLeveltime = 0;
 
 	/**
 	 * create the controls for the scene
@@ -69,9 +72,34 @@ public class Controls {
 
 		energyMeterLabel = new Text(scene.camera.getWidth() - 255, 10, ResourceManager.getIntance().gameFontTiny, "Energy", ResourceManager.getIntance().vbom);
 		scene.gameHUD.attachChild(energyMeterLabel);
-		
-		currentAreaPlayedLabel = new Text(10, 10, ResourceManager.getIntance().gameFontMedium, "Area : " + Integer.toString(GameStatus.getMostRecentLevel()) , ResourceManager.getIntance().vbom);
+
+		currentAreaPlayedLabel = new Text(10, 10, ResourceManager.getIntance().gameFontMedium, "Area : " + Integer.toString(GameStatus.getMostRecentLevel()), ResourceManager.getIntance().vbom);
 		scene.gameHUD.attachChild(currentAreaPlayedLabel);
+
+		currentAreaTime = new Text(275, 10, ResourceManager.getIntance().gameFontTiny, "Time : 0", ResourceManager.getIntance().vbom);
+		scene.gameHUD.attachChild(currentAreaTime);
+
+		currentAreaMarksmanship = new Text(375, 10, ResourceManager.getIntance().gameFontTiny, "Accuracy: 100.0", ResourceManager.getIntance().vbom);
+		scene.gameHUD.attachChild(currentAreaMarksmanship);
+	}
+
+	/**
+	 * update onscreen level stats (each second from game scene TimerHandler)
+	 */
+	public void updateLevelStats() {
+
+		// update that one more second has passed
+		currentLeveltime = currentLeveltime + 1;
+		currentAreaTime.setText("Time : " + Integer.toString(currentLeveltime));
+
+		// calculate marksmanship
+		int levelHits = GameStatus.getGameLevelStats(GameStatus.levelStatsType.HITS);
+		int levelShots = GameStatus.getGameLevelStats(GameStatus.levelStatsType.SHOTS);
+		float marksmanshipRating = 100;
+		if (levelShots > 0) {
+			marksmanshipRating = (levelHits * 100 / levelShots);
+		}
+		currentAreaMarksmanship.setText("Accuracy: " + Float.toString(marksmanshipRating)); 
 	}
 
 	/**
@@ -138,12 +166,12 @@ public class Controls {
 			abilityButtonTitles[i] = new Text(scene.camera.getWidth() - horizontalTitlesPosition + 40, scene.camera.getHeight() - 68, ResourceManager.getIntance().gameFontTiny, GameConfiguration.playerAbilitiesTokensMapping.get(i), ResourceManager.getIntance().vbom);
 			abilityButtonTitles[i].setVisible(false);
 			scene.gameHUD.attachChild(abilityButtonTitles[i]);
-			
+
 			/** create special ability counts */
 			abilityButtonCounts[i] = new Text(scene.camera.getWidth() - horizontalPosition + 40, scene.camera.getHeight() - 18, ResourceManager.getIntance().gameFontTiny, "0", ResourceManager.getIntance().vbom);
 			abilityButtonCounts[i].setVisible(false);
-			scene.gameHUD.attachChild(abilityButtonCounts[i]);			
-			
+			scene.gameHUD.attachChild(abilityButtonCounts[i]);
+
 			/** create special ability buttons */
 			abilityButton[i] = new TokenButton(i, 0, i, scene.camera.getWidth() - horizontalPosition, scene.camera.getHeight() - 56, ResourceManager.getIntance().itemButtonRegion, scene.vbom) {
 				@Override
@@ -281,13 +309,13 @@ public class Controls {
 		};
 		scene.gameHUD.registerTouchArea(left);
 		scene.gameHUD.attachChild(left);
-		
+
 		Sprite down = new Sprite(scene.camera.getWidth() - 260, scene.camera.getHeight() - 80, ResourceManager.getIntance().controlDownRegion, scene.vbom) {
 
 			@Override
 			public boolean onAreaTouched(final TouchEvent event, final float x, final float y) {
 				if (event.isActionDown()) {
-					player.kneel();	
+					player.kneel();
 				}
 				return true;
 			}
