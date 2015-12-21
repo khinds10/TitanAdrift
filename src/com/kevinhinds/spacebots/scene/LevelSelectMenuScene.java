@@ -20,8 +20,8 @@ import com.kevinhinds.spacebots.status.GameStatus;
 public class LevelSelectMenuScene extends BaseScene implements IOnMenuItemClickListener {
 
 	private MenuScene menu;
-	private final int MENU_BACK = 0;
-	private final int MENU_METALS = 1;
+	private final int MENU_BACK = 100;
+	private final int MENU_METALS = 101;
 	private ArrayList<IMenuItem> levelMenuItems = new ArrayList<IMenuItem>();
 	private int levelMenuPadding = 60;
 	private int levelRowPadding = 60;
@@ -84,18 +84,32 @@ public class LevelSelectMenuScene extends BaseScene implements IOnMenuItemClickL
 		final IMenuItem levelSelectTitle = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameFontGray, "SELECT AREA...", MENU_BACK, false);
 		menu.addMenuItem(levelSelectTitle);
 
-		final IMenuItem oneMetal = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().levelSelectFontOneInfo, "One Metal", MENU_METALS, false);
+		final IMenuItem oneMetal = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().levelSelectFontOneInfo, "Metal", MENU_METALS, false);
 		menu.addMenuItem(oneMetal);
 
-		final IMenuItem twoMetals = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().levelSelectFontTwoInfo, "Two Metals", MENU_METALS, false);
+		final IMenuItem twoMetals = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().levelSelectFontTwoInfo, "Metals", MENU_METALS, false);
 		menu.addMenuItem(twoMetals);
 
-		final IMenuItem threeMetals = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().levelSelectFontThreeInfo, "Three Metals", MENU_METALS, false);
+		final IMenuItem threeMetals = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().levelSelectFontThreeInfo, "Metals", MENU_METALS, false);
 		menu.addMenuItem(threeMetals);
 
 		menu.buildAnimations();
 		menu.setBackgroundEnabled(false);
-
+		
+		// show the level metals by level color codes
+		Sprite playerMetal1 = new Sprite(this.camera.getWidth() - 580, this.camera.getHeight() - 155, ResourceManager.getIntance().playerLevelMetalSmallRegion, this.vbom);
+		Sprite playerMetal2 = new Sprite(this.camera.getWidth() - 410, this.camera.getHeight() - 155, ResourceManager.getIntance().playerLevelMetalSmallRegion, this.vbom);
+		Sprite playerMetal3 = new Sprite(this.camera.getWidth() - 390, this.camera.getHeight() - 155, ResourceManager.getIntance().playerLevelMetalSmallRegion, this.vbom);
+		Sprite playerMetal4 = new Sprite(this.camera.getWidth() - 200, this.camera.getHeight() - 155, ResourceManager.getIntance().playerLevelMetalSmallRegion, this.vbom);
+		Sprite playerMetal5 = new Sprite(this.camera.getWidth() - 220, this.camera.getHeight() - 155, ResourceManager.getIntance().playerLevelMetalSmallRegion, this.vbom);
+		Sprite playerMetal6 = new Sprite(this.camera.getWidth() - 240, this.camera.getHeight() - 155, ResourceManager.getIntance().playerLevelMetalSmallRegion, this.vbom);
+		this.attachChild(playerMetal1);
+		this.attachChild(playerMetal2);
+		this.attachChild(playerMetal3);
+		this.attachChild(playerMetal4);
+		this.attachChild(playerMetal5);
+		this.attachChild(playerMetal6);
+		 
 		// position buttons
 		for (int levelId = 0; levelId < GameConfiguration.numberLevels; levelId++) {
 			positionLevelMenuItem(levelId);
@@ -132,7 +146,6 @@ public class LevelSelectMenuScene extends BaseScene implements IOnMenuItemClickL
 		case MENU_METALS:
 			return true;
 		}
-
 		
 		// head over the scene selected if the status for the level is non-zero (can't play yet)
 		if (GameStatus.levelStatusByLevelNumber(item.getID()) > 0) {

@@ -178,7 +178,7 @@ public class SceneManager {
 	 * play the same level again
 	 */
 	public void playLevelAgain() {
-		setGameScene(GameStatus.getMostRecentLevel());
+		playGameScene(GameStatus.getMostRecentLevel());
 	}
 
 	/**

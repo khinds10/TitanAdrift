@@ -87,6 +87,7 @@ public class ResourceManager {
 	public ITextureRegion colorgalaxyBackgroundRegion;
 	public ITextureRegion andengineRegion;
 	public ITextureRegion playerLevelMetalRegion;
+	public ITextureRegion playerLevelMetalSmallRegion;
 
 	// player region
 	public ITiledTextureRegion playerRegion;
@@ -180,6 +181,7 @@ public class ResourceManager {
 		voidBackgroundRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "menu/multicolor.jpg");
 		andengineRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "menu/andengine.png");
 		playerLevelMetalRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "items/metal.png");
+		playerLevelMetalSmallRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "items/metal-small.png");
 
 		// have to run everything through black pawn to render it visibly
 		try {

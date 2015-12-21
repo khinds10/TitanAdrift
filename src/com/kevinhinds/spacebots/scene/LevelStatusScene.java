@@ -115,6 +115,11 @@ public class LevelStatusScene extends BaseScene implements IOnMenuItemClickListe
 		if (levelShots > 0) {
 			marksmanshipRating = (levelHits * 100 / levelShots);
 		}
+		
+		// you can kill actors by bombs / flares so this can cause marksmanship to go above 100
+		if (marksmanshipRating > 100) {
+			marksmanshipRating = 100;
+		}
 
 		final IMenuItem marksmanshipPercent = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameFontGray, Float.toString(marksmanshipRating) + " % (" + Integer.toString(GameStatus.getGameLevelStats(GameStatus.levelStatsType.HITS)) + " Hits)", MENU_REBUILD, false);
 		menu.addMenuItem(marksmanshipPercent);

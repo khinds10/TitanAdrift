@@ -155,5 +155,8 @@ public class GameConfiguration {
 		daydreamLevelsMapping.put(4, "We broke off route around New Ceres. - Vade Envoy should be on the transponder by now, - but still just static. - This fog, the air could almost be breathable. - Where could they be!? - - ");
 		daydreamLevelsMapping.put(9, "The Nyri Colony set up base here. - I see the markings. - Apart from the poisonous water and fumes - it's no surprise everyone is gone!");
 		daydreamLevelsMapping.put(14, "I got something on the radio, - I swear it could be Rice Typho's voice. - There could be anything out here though, - this sector hasn't been explored - since Vega VII was invaded. - - God that was a long time ago. - - ");
+		daydreamLevelsMapping.put(17, "Plasma Conduit and 4 converters - just found the last one - I swear I can get this thing to fly - - Vade always always warned me - When you're out there - you need to know your ship piece by piece! - ");		
+		
+		
 	}
 }
