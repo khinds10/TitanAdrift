@@ -107,11 +107,6 @@
     <platform x="72" y="252" block="13" type="background" /> <!-- ROW 21 COLUMN 6 BLOCK 13 -->
     <platform x="84" y="252" block="12" type="background" /> <!-- ROW 21 COLUMN 7 BLOCK 12 -->
     <platform x="684" y="252" block="169" type="background" /> <!-- ROW 21 COLUMN 57 BLOCK 169 -->
-    <platform x="744" y="252" block="219" type="bounce" /> <!-- ROW 21 COLUMN 62 BLOCK 219 -->
-    <platform x="756" y="252" block="219" type="bounce" /> <!-- ROW 21 COLUMN 63 BLOCK 219 -->
-    <platform x="768" y="252" block="219" type="bounce" /> <!-- ROW 21 COLUMN 64 BLOCK 219 -->
-    <platform x="780" y="252" block="219" type="bounce" /> <!-- ROW 21 COLUMN 65 BLOCK 219 -->
-    <platform x="792" y="252" block="219" type="bounce" /> <!-- ROW 21 COLUMN 66 BLOCK 219 -->
     <platform x="60" y="264" block="235" type="edge" /> <!-- ROW 22 COLUMN 5 BLOCK 235 -->
     <platform x="72" y="264" block="236" type="physical" /> <!-- ROW 22 COLUMN 6 BLOCK 236 -->
     <platform x="84" y="264" block="237" type="edge" /> <!-- ROW 22 COLUMN 7 BLOCK 237 -->
@@ -124,12 +119,6 @@
     <platform x="60" y="276" block="219" type="bounce" /> <!-- ROW 23 COLUMN 5 BLOCK 219 -->
     <platform x="72" y="276" block="219" type="bounce" /> <!-- ROW 23 COLUMN 6 BLOCK 219 -->
     <platform x="84" y="276" block="219" type="bounce" /> <!-- ROW 23 COLUMN 7 BLOCK 219 -->
-    <platform x="672" y="276" block="219" type="bounce" /> <!-- ROW 23 COLUMN 56 BLOCK 219 -->
-    <platform x="684" y="276" block="219" type="bounce" /> <!-- ROW 23 COLUMN 57 BLOCK 219 -->
-    <platform x="696" y="276" block="219" type="bounce" /> <!-- ROW 23 COLUMN 58 BLOCK 219 -->
-    <platform x="708" y="276" block="219" type="bounce" /> <!-- ROW 23 COLUMN 59 BLOCK 219 -->
-    <platform x="720" y="276" block="219" type="bounce" /> <!-- ROW 23 COLUMN 60 BLOCK 219 -->
-    <platform x="732" y="276" block="219" type="bounce" /> <!-- ROW 23 COLUMN 61 BLOCK 219 -->
     <platform x="228" y="300" block="13" type="background" /> <!-- ROW 25 COLUMN 19 BLOCK 13 -->
     <platform x="240" y="300" block="12" type="background" /> <!-- ROW 25 COLUMN 20 BLOCK 12 -->
     <platform x="228" y="312" block="235" type="edge" /> <!-- ROW 26 COLUMN 19 BLOCK 235 -->
