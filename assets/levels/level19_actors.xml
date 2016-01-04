@@ -1,3 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <level width="804" height="480">
+    <actor x="168" y="60" actor="22" type="walking" shoots="false" weapon="none" facing="left" life="3" explosion="1" animationSpeed="200" movementSpeed="2"/> <!-- ROW 5 COLUMN 14 -->
+    <actor x="540" y="72" actor="22" type="walking" shoots="false" weapon="none" facing="right" life="3" explosion="1" animationSpeed="200" movementSpeed="2"/> <!-- ROW 6 COLUMN 45 -->
+    <actor x="216" y="180" actor="22" type="walking" shoots="false" weapon="none" facing="left" life="3" explosion="1" animationSpeed="200" movementSpeed="2"/> <!-- ROW 15 COLUMN 18 -->
+    <actor x="492" y="204" actor="24" type="walking" shoots="false" weapon="none" facing="right" life="3" explosion="1" animationSpeed="200" movementSpeed="2"/> <!-- ROW 17 COLUMN 41 -->
+    <actor x="600" y="372" actor="24" type="walking" shoots="false" weapon="none" facing="right" life="3" explosion="1" animationSpeed="200" movementSpeed="2"/> <!-- ROW 31 COLUMN 50 -->
+    <actor x="756" y="372" actor="24" type="walking" shoots="false" weapon="none" facing="right" life="3" explosion="1" animationSpeed="200" movementSpeed="2"/> <!-- ROW 31 COLUMN 63 -->
 </level>

@@ -1,3 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <level width="804" height="480">
+    <item x="72" y="60" type="1" animationSpeed="200" movementSpeed="0"/> <!-- ROW 5 COLUMN 6 -->
+    <item x="372" y="120" type="0" animationSpeed="200" movementSpeed="0"/> <!-- ROW 10 COLUMN 31 -->
+    <item x="396" y="120" type="0" animationSpeed="200" movementSpeed="0"/> <!-- ROW 10 COLUMN 33 -->
+    <item x="132" y="192" type="5" animationSpeed="200" movementSpeed="0"/> <!-- ROW 16 COLUMN 11 -->
+    <item x="420" y="204" type="1" animationSpeed="200" movementSpeed="0"/> <!-- ROW 17 COLUMN 35 -->
+    <item x="624" y="204" type="3" animationSpeed="200" movementSpeed="0"/> <!-- ROW 17 COLUMN 52 -->
+    <item x="468" y="372" type="5" animationSpeed="200" movementSpeed="0"/> <!-- ROW 31 COLUMN 39 -->
+    <item x="504" y="372" type="2" animationSpeed="200" movementSpeed="0"/> <!-- ROW 31 COLUMN 42 -->
 </level>
