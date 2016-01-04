@@ -40,6 +40,7 @@ public class GameConfiguration {
 	public static int playerFallingVelocity = 4;
 	public static int playerFloatingVelocity = 8;
 	public static int playerFallingChangeDirectionVelocity = 1;
+	public static int playerHurtVelocity = 3;
 	public static int playerStopWhileFallingVelocity = 2;
 	public static int playerContinueMovingWhileFallingVelocity = 2;
 	public static int playerFallingContinueDirectionVelocity = 3;

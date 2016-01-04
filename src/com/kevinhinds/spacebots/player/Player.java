@@ -1,5 +1,7 @@
 package com.kevinhinds.spacebots.player;
 
+import org.andengine.engine.handler.timer.ITimerCallback;
+import org.andengine.engine.handler.timer.TimerHandler;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.sprite.AnimatedSprite;
 import org.andengine.extension.physics.box2d.PhysicsConnector;
@@ -49,6 +51,15 @@ public class Player {
 	// player start level energy and life amounts
 	public int lifeAmount = GameConfiguration.playerStartingLife;
 	public int energyAmount = GameConfiguration.playerStartingEnergy;
+
+	// set player visible again handler which unregisters this TimerHandler after one iteration
+	public TimerHandler setPlayerVisible = new TimerHandler(0.05f, true, new ITimerCallback() {
+		@Override
+		public void onTimePassed(TimerHandler pTimerHandler) {
+			playerSprite.setAlpha(1);
+			playerVisible();
+		}
+	});
 
 	/**
 	 * create player on the scene in question
@@ -350,11 +361,17 @@ public class Player {
 	public void tokenAbilityBomb() {
 		if (facing == State.RIGHT) {
 			playerSprite.animate(new long[] { GameConfiguration.playerAnimationSpeed }, new int[] { GameConfiguration.playerKneelRightFrame });
-
 		} else {
 			playerSprite.animate(new long[] { GameConfiguration.playerAnimationSpeed }, new int[] { GameConfiguration.playerKneelLeftFrame });
 		}
 		new Bomb(gameScene, playerSprite, facing);
+	}
+
+	/**
+	 * set player visible again by unregistering timer handler
+	 */
+	public void playerVisible () {
+		gameScene.unregisterUpdateHandler(setPlayerVisible);
 	}
 
 	/**
@@ -363,6 +380,10 @@ public class Player {
 	public void takeDamage(int damageAmount) {
 		lifeAmount = lifeAmount - damageAmount;
 		ResourceManager.getIntance().hitSound.play();
+
+		// player sprite blinks quickly when hit
+		playerSprite.setAlpha(0);
+		gameScene.registerUpdateHandler(setPlayerVisible);
 
 		// player dies
 		if (lifeAmount <= 0) {
