@@ -206,6 +206,7 @@ public class Controls {
 								updateTokenButtonText(this.playerAbilityID);
 								break;
 							case 4: // BRIDGE
+								ResourceManager.getIntance().thumpSound.play();
 								player.tokenAbilityCreateBridge();
 								use();
 								updateTokenButtonText(this.playerAbilityID);

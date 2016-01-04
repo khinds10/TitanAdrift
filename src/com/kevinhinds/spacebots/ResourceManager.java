@@ -161,6 +161,11 @@ public class ResourceManager {
 	public Sound explosion2Sound;
 	public Sound explosion3Sound;
 
+	// 3 different random tile breaking sounds
+	public Sound break1Sound;
+	public Sound break2Sound;
+	public Sound break3Sound;
+
 	// special weapon while ducking
 	public Sound loadSound;
 	public Sound unloadSound;
@@ -168,7 +173,7 @@ public class ResourceManager {
 
 	// player extra sounds
 	public Sound runningSound;
-	public Sound landingSound;
+	public Sound thumpSound;
 
 	/**
 	 * load resources to create the menu into memory
@@ -352,11 +357,14 @@ public class ResourceManager {
 			explosion1Sound = SoundFactory.createSoundFromAsset(this.engine.getSoundManager(), this.activity, "explosion1.ogg");
 			explosion2Sound = SoundFactory.createSoundFromAsset(this.engine.getSoundManager(), this.activity, "explosion2.ogg");
 			explosion3Sound = SoundFactory.createSoundFromAsset(this.engine.getSoundManager(), this.activity, "explosion3.ogg");
+			break1Sound = SoundFactory.createSoundFromAsset(this.engine.getSoundManager(), this.activity, "break1.ogg");
+			break2Sound = SoundFactory.createSoundFromAsset(this.engine.getSoundManager(), this.activity, "break2.ogg");
+			break3Sound = SoundFactory.createSoundFromAsset(this.engine.getSoundManager(), this.activity, "break3.ogg");
 			loadSound = SoundFactory.createSoundFromAsset(this.engine.getSoundManager(), this.activity, "load.ogg");
 			unloadSound = SoundFactory.createSoundFromAsset(this.engine.getSoundManager(), this.activity, "unload.ogg");
 			cannonSound = SoundFactory.createSoundFromAsset(this.engine.getSoundManager(), this.activity, "cannon.ogg");
 			runningSound = SoundFactory.createSoundFromAsset(this.engine.getSoundManager(), this.activity, "running.ogg");
-			landingSound = SoundFactory.createSoundFromAsset(this.engine.getSoundManager(), this.activity, "thump.ogg");
+			thumpSound = SoundFactory.createSoundFromAsset(this.engine.getSoundManager(), this.activity, "thump.ogg");
 		} catch (final IOException e) {
 			Debug.e(e);
 		}
@@ -494,7 +502,7 @@ public class ResourceManager {
 
 		gameFontMedium = buildFont("game.ttf", 15, android.graphics.Color.parseColor("#D8D8D8"));
 		gameFontMedium.load();
-		
+
 		gameRedFont = buildFont("game.ttf", 20, android.graphics.Color.parseColor("#DB8E77"));
 		gameRedFont.load();
 
@@ -526,7 +534,7 @@ public class ResourceManager {
 		levelSelectFontPlay = buildFont("game.ttf", 30, android.graphics.Color.parseColor("#FFFCCD"));
 		levelSelectFontPlay.load();
 
-		// color codes for if you've gotten 1, 2 or 3 metals  for area select screen
+		// color codes for if you've gotten 1, 2 or 3 metals for area select screen
 		levelSelectFontOne = buildFont("game.ttf", 30, android.graphics.Color.parseColor("#FFB273"));
 		levelSelectFontOne.load();
 		levelSelectFontOneInfo = buildFont("game.ttf", 15, android.graphics.Color.parseColor("#FFB273"));
@@ -536,7 +544,7 @@ public class ResourceManager {
 		levelSelectFontTwo.load();
 		levelSelectFontTwoInfo = buildFont("game.ttf", 15, android.graphics.Color.parseColor("#F77F00"));
 		levelSelectFontTwoInfo.load();
-	
+
 		levelSelectFontThree = buildFont("game.ttf", 30, android.graphics.Color.parseColor("#D64027"));
 		levelSelectFontThree.load();
 		levelSelectFontThreeInfo = buildFont("game.ttf", 15, android.graphics.Color.parseColor("#D64027"));

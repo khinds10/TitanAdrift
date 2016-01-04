@@ -74,10 +74,10 @@ public class GameScene extends BaseScene {
 		this.registerUpdateHandler(new TimerHandler(1, true, new ITimerCallback() {
 			@Override
 			public void onTimePassed(TimerHandler pTimerHandler) {
-				
+
 				// update current level time and accuracy stats
 				controls.updateLevelStats();
-				
+
 				// for all current actors apply move command if they're not dead
 				for (Actor a : level.actors) {
 					if (a.actorBody != null) {
@@ -269,6 +269,23 @@ public class GameScene extends BaseScene {
 		}
 		if (explosion == 3) {
 			ResourceManager.getIntance().explosion3Sound.play();
+		}
+	}
+
+	/**
+	 * random tile breaking sound from currently available sounds
+	 */
+	public void randomTileBreakingSound() {
+		Random random = new Random();
+		int explosion = random.nextInt(3) + 1;
+		if (explosion == 1) {
+			ResourceManager.getIntance().break1Sound.play();
+		}
+		if (explosion == 2) {
+			ResourceManager.getIntance().break2Sound.play();
+		}
+		if (explosion == 3) {
+			ResourceManager.getIntance().break3Sound.play();
 		}
 	}
 

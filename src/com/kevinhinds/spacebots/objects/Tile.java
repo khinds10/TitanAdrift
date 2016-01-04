@@ -130,7 +130,7 @@ public class Tile extends TiledSprite {
 					Tile.this.setVisible(false);	
 					Tile.this.tileBody.setActive(false);
 					Tile.this.scene.randomGameRoundExplosion(Tile.this);
-					Tile.this.scene.randomExplosionSound();
+					Tile.this.scene.randomTileBreakingSound();
 				}
 			}
 		});
