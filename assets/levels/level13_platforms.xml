@@ -311,18 +311,18 @@
     <platform x="768" y="384" block="124" type="background" /> <!-- ROW 32 COLUMN 64 BLOCK 124 -->
     <platform x="780" y="384" block="125" type="background" /> <!-- ROW 32 COLUMN 65 BLOCK 125 -->
     <platform x="0" y="396" block="245" type="physical" /> <!-- ROW 33 COLUMN 0 BLOCK 245 -->
-    <platform x="12" y="396" block="245" type="physical" /> <!-- ROW 33 COLUMN 1 BLOCK 245 -->
-    <platform x="24" y="396" block="245" type="physical" /> <!-- ROW 33 COLUMN 2 BLOCK 245 -->
+    <platform x="12" y="396" block="246" type="physical" /> <!-- ROW 33 COLUMN 1 BLOCK 246 -->
+    <platform x="24" y="396" block="246" type="physical" /> <!-- ROW 33 COLUMN 2 BLOCK 246 -->
     <platform x="36" y="396" block="245" type="physical" /> <!-- ROW 33 COLUMN 3 BLOCK 245 -->
-    <platform x="48" y="396" block="245" type="physical" /> <!-- ROW 33 COLUMN 4 BLOCK 245 -->
+    <platform x="48" y="396" block="246" type="physical" /> <!-- ROW 33 COLUMN 4 BLOCK 246 -->
     <platform x="60" y="396" block="245" type="physical" /> <!-- ROW 33 COLUMN 5 BLOCK 245 -->
-    <platform x="72" y="396" block="245" type="physical" /> <!-- ROW 33 COLUMN 6 BLOCK 245 -->
+    <platform x="72" y="396" block="246" type="physical" /> <!-- ROW 33 COLUMN 6 BLOCK 246 -->
     <platform x="84" y="396" block="245" type="physical" /> <!-- ROW 33 COLUMN 7 BLOCK 245 -->
-    <platform x="96" y="396" block="245" type="physical" /> <!-- ROW 33 COLUMN 8 BLOCK 245 -->
-    <platform x="108" y="396" block="245" type="physical" /> <!-- ROW 33 COLUMN 9 BLOCK 245 -->
-    <platform x="120" y="396" block="245" type="physical" /> <!-- ROW 33 COLUMN 10 BLOCK 245 -->
+    <platform x="96" y="396" block="246" type="physical" /> <!-- ROW 33 COLUMN 8 BLOCK 246 -->
+    <platform x="108" y="396" block="246" type="physical" /> <!-- ROW 33 COLUMN 9 BLOCK 246 -->
+    <platform x="120" y="396" block="246" type="physical" /> <!-- ROW 33 COLUMN 10 BLOCK 246 -->
     <platform x="132" y="396" block="245" type="physical" /> <!-- ROW 33 COLUMN 11 BLOCK 245 -->
-    <platform x="144" y="396" block="245" type="physical" /> <!-- ROW 33 COLUMN 12 BLOCK 245 -->
+    <platform x="144" y="396" block="246" type="physical" /> <!-- ROW 33 COLUMN 12 BLOCK 246 -->
     <platform x="156" y="396" block="245" type="physical" /> <!-- ROW 33 COLUMN 13 BLOCK 245 -->
     <platform x="168" y="396" block="6" type="background" /> <!-- ROW 33 COLUMN 14 BLOCK 6 -->
     <platform x="180" y="396" block="8" type="background" /> <!-- ROW 33 COLUMN 15 BLOCK 8 -->

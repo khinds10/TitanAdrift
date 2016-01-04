@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <level width="804" height="480">
     <piece x="24" y="60" type="231" animationSpeed="200" movementSpeed="0"/> <!-- ROW 5 COLUMN 2 -->
-    <piece x="24" y="96" type="232" animationSpeed="200" movementSpeed="0"/> <!-- ROW 8 COLUMN 2 -->
+    <piece x="48" y="60" type="232" animationSpeed="200" movementSpeed="0"/> <!-- ROW 8 COLUMN 2 -->
     <piece x="12" y="168" type="233" animationSpeed="200" movementSpeed="0"/> <!-- ROW 14 COLUMN 1 -->
-    <piece x="780" y="180" type="234" animationSpeed="200" movementSpeed="0"/> <!-- ROW 15 COLUMN 65 -->
+    <piece x="680" y="138" type="234" animationSpeed="200" movementSpeed="0"/> <!-- ROW 15 COLUMN 65 -->
     <piece x="348" y="276" type="235" animationSpeed="200" movementSpeed="0"/> <!-- ROW 23 COLUMN 29 -->
     <piece x="120" y="372" type="236" animationSpeed="200" movementSpeed="0"/> <!-- ROW 31 COLUMN 10 -->
 </level>

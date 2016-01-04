@@ -19,7 +19,7 @@
     <platform x="696" y="48" block="202" type="physical" /> <!-- ROW 4 COLUMN 58 BLOCK 202 -->
     <platform x="708" y="48" block="203" type="physical" /> <!-- ROW 4 COLUMN 59 BLOCK 203 -->
     <platform x="720" y="48" block="203" type="physical" /> <!-- ROW 4 COLUMN 60 BLOCK 203 -->
-    <platform x="732" y="48" block="204" type="edge" /> <!-- ROW 4 COLUMN 61 BLOCK 204 -->
+    <platform x="732" y="48" block="204" type="physical" /> <!-- ROW 4 COLUMN 61 BLOCK 204 -->
     <platform x="576" y="60" block="248" type="physical" /> <!-- ROW 5 COLUMN 48 BLOCK 248 -->
     <platform x="732" y="60" block="110" type="physical" /> <!-- ROW 5 COLUMN 61 BLOCK 110 -->
     <platform x="744" y="60" block="111" type="physical" /> <!-- ROW 5 COLUMN 62 BLOCK 111 -->
@@ -47,11 +47,11 @@
     <platform x="552" y="168" block="201" type="physical" /> <!-- ROW 14 COLUMN 46 BLOCK 201 -->
     <platform x="564" y="168" block="200" type="physical" /> <!-- ROW 14 COLUMN 47 BLOCK 200 -->
     <platform x="576" y="168" block="199" type="physical" /> <!-- ROW 14 COLUMN 48 BLOCK 199 -->
-    <platform x="588" y="168" block="203" type="physical" /> <!-- ROW 14 COLUMN 49 BLOCK 203 -->
+    <platform x="588" y="168" block="203" type="edge" /> <!-- ROW 14 COLUMN 49 BLOCK 203 -->
     <platform x="600" y="168" block="201" type="physical" /> <!-- ROW 14 COLUMN 50 BLOCK 201 -->
     <platform x="612" y="168" block="200" type="physical" /> <!-- ROW 14 COLUMN 51 BLOCK 200 -->
     <platform x="624" y="168" block="199" type="physical" /> <!-- ROW 14 COLUMN 52 BLOCK 199 -->
-    <platform x="636" y="168" block="200" type="edge" /> <!-- ROW 14 COLUMN 53 BLOCK 200 -->
+    <platform x="636" y="168" block="200" type="physical" /> <!-- ROW 14 COLUMN 53 BLOCK 200 -->
     <platform x="648" y="168" block="199" type="physical" /> <!-- ROW 14 COLUMN 54 BLOCK 199 -->
     <platform x="660" y="168" block="199" type="physical" /> <!-- ROW 14 COLUMN 55 BLOCK 199 -->
     <platform x="672" y="168" block="200" type="physical" /> <!-- ROW 14 COLUMN 56 BLOCK 200 -->

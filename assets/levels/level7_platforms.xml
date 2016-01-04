@@ -111,10 +111,6 @@
     <platform x="540" y="180" block="32" type="physical" /> <!-- ROW 15 COLUMN 45 BLOCK 32 -->
     <platform x="564" y="180" block="248" type="physical" /> <!-- ROW 15 COLUMN 47 BLOCK 248 -->
     <platform x="648" y="180" block="248" type="physical" /> <!-- ROW 15 COLUMN 54 BLOCK 248 -->
-    <platform x="120" y="192" block="257" type="edge" /> <!-- ROW 16 COLUMN 10 BLOCK 257 -->
-    <platform x="132" y="192" block="257" type="physical" /> <!-- ROW 16 COLUMN 11 BLOCK 257 -->
-    <platform x="144" y="192" block="257" type="physical" /> <!-- ROW 16 COLUMN 12 BLOCK 257 -->
-    <platform x="156" y="192" block="206" type="edge" /> <!-- ROW 16 COLUMN 13 BLOCK 206 -->
     <platform x="408" y="192" block="50" type="physical" /> <!-- ROW 16 COLUMN 34 BLOCK 50 -->
     <platform x="420" y="192" block="51" type="physical" /> <!-- ROW 16 COLUMN 35 BLOCK 51 -->
     <platform x="432" y="192" block="52" type="physical" /> <!-- ROW 16 COLUMN 36 BLOCK 52 -->
@@ -129,7 +125,10 @@
     <platform x="540" y="192" block="54" type="physical" /> <!-- ROW 16 COLUMN 45 BLOCK 54 -->
     <platform x="564" y="192" block="248" type="physical" /> <!-- ROW 16 COLUMN 47 BLOCK 248 -->
     <platform x="648" y="192" block="248" type="physical" /> <!-- ROW 16 COLUMN 54 BLOCK 248 -->
-    <platform x="156" y="204" block="248" type="physical" /> <!-- ROW 17 COLUMN 13 BLOCK 248 -->
+    <platform x="120" y="204" block="257" type="edge" /> <!-- ROW 17 COLUMN 10 BLOCK 257 -->
+    <platform x="132" y="204" block="257" type="physical" /> <!-- ROW 17 COLUMN 11 BLOCK 257 -->
+    <platform x="144" y="204" block="257" type="physical" /> <!-- ROW 17 COLUMN 12 BLOCK 257 -->
+    <platform x="156" y="204" block="206" type="edge" /> <!-- ROW 17 COLUMN 13 BLOCK 206 -->
     <platform x="420" y="204" block="96" type="physical" /> <!-- ROW 17 COLUMN 35 BLOCK 96 -->
     <platform x="468" y="204" block="74" type="physical" /> <!-- ROW 17 COLUMN 39 BLOCK 74 -->
     <platform x="480" y="204" block="75" type="physical" /> <!-- ROW 17 COLUMN 40 BLOCK 75 -->

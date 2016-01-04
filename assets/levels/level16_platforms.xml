@@ -14,6 +14,7 @@
     <platform x="60" y="84" block="160" type="background" /> <!-- ROW 7 COLUMN 5 BLOCK 160 -->
     <platform x="0" y="96" block="155" type="background" /> <!-- ROW 8 COLUMN 0 BLOCK 155 -->
     <platform x="12" y="96" block="156" type="background" /> <!-- ROW 8 COLUMN 1 BLOCK 156 -->
+    <platform x="24" y="96" block="157" type="background" /> <!-- ROW 8 COLUMN 2 BLOCK 157 -->
     <platform x="36" y="96" block="158" type="background" /> <!-- ROW 8 COLUMN 3 BLOCK 158 -->
     <platform x="48" y="96" block="159" type="background" /> <!-- ROW 8 COLUMN 4 BLOCK 159 -->
     <platform x="60" y="96" block="160" type="background" /> <!-- ROW 8 COLUMN 5 BLOCK 160 -->
@@ -141,6 +142,7 @@
     <platform x="744" y="180" block="45" type="background" /> <!-- ROW 15 COLUMN 62 BLOCK 45 -->
     <platform x="756" y="180" block="47" type="background" /> <!-- ROW 15 COLUMN 63 BLOCK 47 -->
     <platform x="768" y="180" block="47" type="background" /> <!-- ROW 15 COLUMN 64 BLOCK 47 -->
+    <platform x="780" y="180" block="48" type="background" /> <!-- ROW 15 COLUMN 65 BLOCK 48 -->
     <platform x="792" y="180" block="49" type="background" /> <!-- ROW 15 COLUMN 66 BLOCK 49 -->
     <platform x="168" y="192" block="248" type="physical" /> <!-- ROW 16 COLUMN 14 BLOCK 248 -->
     <platform x="612" y="192" block="248" type="physical" /> <!-- ROW 16 COLUMN 51 BLOCK 248 -->
