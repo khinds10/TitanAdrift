@@ -43,6 +43,7 @@ public class Player {
 	public boolean isJumping;
 	public boolean isFalling;
 	public boolean isKneeling;
+	public boolean isArcadeMode;
 	protected State moving;
 	public State facing;
 	protected int bulletNumber = 0;
@@ -68,7 +69,8 @@ public class Player {
 	 * @param scene
 	 * @param physicsWorld
 	 */
-	public Player(GameScene scene, PhysicsWorld playerPhysicsworld) {
+	public Player(GameScene scene, PhysicsWorld playerPhysicsworld, boolean isArcadeMode) {
+		this.isArcadeMode = isArcadeMode;
 		final FixtureDef playerFixtureDef = PhysicsFactory.createFixtureDef(1, 0.0f, 0.0f);
 		gameScene = scene;
 		playerSprite = scene.createAnimatedSprite(ResourceManager.getIntance().camera.getWidth() / 2, ResourceManager.getIntance().camera.getHeight() - 150, ResourceManager.getIntance().playerRegion, scene.vbom);
@@ -408,7 +410,13 @@ public class Player {
 
 		// player dies
 		if (lifeAmount <= 0) {
-			SceneManager.getInstance().loadLevelStatusScene("dead");
+
+			// load the arcade or regular level status scenes
+			if (isArcadeMode) {
+				SceneManager.getInstance().loadArcadeStatusScene("dead");
+			} else {
+				SceneManager.getInstance().loadLevelStatusScene("dead");
+			}
 		}
 		gameScene.controls.setLifeMeterLevelByPercent((lifeAmount * 100) / GameConfiguration.playerStartingLife);
 	}

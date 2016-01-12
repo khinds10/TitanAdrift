@@ -86,6 +86,7 @@ public class ResourceManager {
 	public ITextureRegion multicolorBackgroundRegion;
 	public ITextureRegion voidBackgroundRegion;
 	public ITextureRegion colorgalaxyBackgroundRegion;
+	public ITextureRegion illuminateBackgroundRegion;
 	public ITextureRegion andengineRegion;
 	public ITextureRegion playerLevelMetalRegion;
 	public ITextureRegion playerLevelMetalSmallRegion;
@@ -190,6 +191,7 @@ public class ResourceManager {
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/");
 		menuTextureAtlas = new BuildableBitmapTextureAtlas(activity.getTextureManager(), 4096, 4096, TextureOptions.BILINEAR);
 		colorgalaxyBackgroundRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "menu/colorgalaxy.jpg");
+		illuminateBackgroundRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "menu/galaxy.jpg");
 		planetBackgroundRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "menu/largeplanet.jpg");
 		multicolorBackgroundRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "menu/multicolor.jpg");
 		voidBackgroundRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "menu/void.jpg");

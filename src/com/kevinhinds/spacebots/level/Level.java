@@ -187,8 +187,8 @@ public class Level {
 		for (Tile t : tiles) {
 			t.createBodyAndAttach(scene, physicsWorld);
 		}
-		for (Actor v : actors) {
-			v.createBodyAndAttach(scene, physicsWorld);
+		for (Actor a : actors) {
+			a.createBodyAndAttach(scene, physicsWorld);
 		}
 		for (Item i : items) {
 			i.createBodyAndAttach(scene, physicsWorld);

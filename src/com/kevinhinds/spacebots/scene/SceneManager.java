@@ -31,7 +31,7 @@ public class SceneManager {
 	 */
 	public void startGame(OnCreateSceneCallback cb) {
 
-		/** load all the resources for the game to start */
+		// load all the resources for the game to start
 		ResourceManager.getIntance().loadMenuResources();
 		ResourceManager.getIntance().loadGameResources();
 		ResourceManager.getIntance().loadMusic();
@@ -93,26 +93,50 @@ public class SceneManager {
 	}
 
 	/**
+	 * play the arcade scene
+	 */
+	public void playArcadeScene() {
+
+		// game stats become reset and most recent level is set
+		GameStatus.setMostRecentlLevel(GameConfiguration.arcadeLevelNumber);
+		GameStatus.resetGameLevelStats();
+		GameStatus.flagCurrentLevelTime();
+
+		gameScene = new ArcadeScene();
+		gameScene.setGameLevel(GameConfiguration.arcadeLevelNumber);
+		setScene(gameScene, null);
+		currentScene.createScene();
+	}
+
+	/**
 	 * set the scene to play the game! (after possible daydream scene)
 	 * 
 	 * @param levelNumber
 	 */
 	public void playGameScene(int levelNumber) {
-
-		// game stats become reset and most recent level is set
-		GameStatus.setMostRecentlLevel(levelNumber);
-		GameStatus.resetGameLevelStats();
-		GameStatus.flagCurrentLevelTime();
-
-		if (levelNumber < GameConfiguration.numberLevels) {
-			gameScene = new GameScene();
-			gameScene.setGameLevel(levelNumber);
-			setScene(gameScene, null);
-			currentScene.createScene();	
-		} else {
+		
+		// if we're in the last level one level before what is the "arcade" level then we've finished the game
+		if (levelNumber == (GameConfiguration.numberLevels - 1)) {
+			GameStatus.setMostRecentlLevel(1);
 			gameScene = new EndScene();
 			gameScene.setGameLevel(levelNumber);
 			setScene(gameScene, ResourceManager.getIntance().endingMusic);
+			currentScene.createScene();
+		} else {
+
+			// if they most recently played the arcade level then it's back to the most recent highest completed level to play
+			if (levelNumber == GameConfiguration.arcadeLevelNumber) {
+				levelNumber = GameStatus.getHighestCompletedLevel();
+			}
+			
+			// game stats become reset and most recent level is set
+			GameStatus.setMostRecentlLevel(levelNumber);
+			GameStatus.resetGameLevelStats();
+			GameStatus.flagCurrentLevelTime();
+			
+			gameScene = new GameScene();
+			gameScene.setGameLevel(levelNumber);
+			setScene(gameScene, null);
 			currentScene.createScene();
 		}
 	}
@@ -138,6 +162,25 @@ public class SceneManager {
 
 		GameStatus.flagCurrentLevelTime();
 		levelScene = new LevelStatusScene();
+		levelScene.setStatus(status);
+
+		if (status.equals("dead")) {
+			setScene(levelScene, ResourceManager.getIntance().deadMusic);
+		} else {
+			setScene(levelScene, ResourceManager.getIntance().finishedMusic);
+		}
+		currentScene.createScene();
+	}
+
+	/**
+	 * show current level status for arcade mode
+	 * 
+	 * @param status
+	 */
+	public void loadArcadeStatusScene(String status) {
+
+		GameStatus.flagCurrentLevelTime();
+		levelScene = new ArcadeStatusScene();
 		levelScene.setStatus(status);
 
 		if (status.equals("dead")) {

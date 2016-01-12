@@ -109,6 +109,13 @@ public class TutorialScene extends BaseScene implements IOnMenuItemClickListener
 		final IMenuItem flareItem = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameFontMedium, "Burn through Walls", 0, false);
 		menu.addMenuItem(flareItem);
 
+		// down button displayed to show the special ability for it
+		Sprite downButton = new Sprite(20, 375, ResourceManager.getIntance().controlDownRegion, this.vbom);
+		this.attachChild(downButton);
+
+		final IMenuItem downButtonItem = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameFontMedium, "Press down to \nload more powerful shot", 0, false);
+		menu.addMenuItem(downButtonItem);
+
 		menu.buildAnimations();
 		menu.setBackgroundEnabled(false);
 
@@ -116,7 +123,7 @@ public class TutorialScene extends BaseScene implements IOnMenuItemClickListener
 		mainTitle.setPosition(50, 20);
 		objectiveItem.setPosition(180, 100);
 		goalsItem.setPosition(180, 160);
-		backItem.setPosition(backItem.getX(), backItem.getY() + 200);
+		backItem.setPosition(backItem.getX() + 200, backItem.getY() + 220);
 
 		// position ability text descriptions
 		reloadItem.setPosition(reloadAbility.getX() + 50, reloadAbility.getY() + 25);
@@ -125,6 +132,7 @@ public class TutorialScene extends BaseScene implements IOnMenuItemClickListener
 		bridgeItem.setPosition(bridgeAbility.getX() + 50, bridgeAbility.getY() + 25);
 		flareItem.setPosition(flareAbility.getX() + 50, flareAbility.getY() + 25);
 		lifeItem.setPosition(lifeAbility.getX() + 50, lifeAbility.getY() + 25);
+		downButtonItem.setPosition(120, 400);
 
 		menu.setOnMenuItemClickListener(this);
 		setChildScene(menu);

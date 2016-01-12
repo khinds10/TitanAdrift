@@ -44,20 +44,22 @@ public class Controls {
 	 * @param scene
 	 * @param player
 	 */
-	public Controls(GameScene scene, Player player) {
+	public Controls(GameScene scene, Player player, boolean isArcade) {
 		this.scene = scene;
 		this.player = player;
 		createPlayerJoystick();
 		createPlayerJump();
 		createPlayerShoot();
 		createPlayerAbilityButtons();
-		displayInitialPlayerStats();
+		displayInitialPlayerStats(isArcade);
 	}
 
 	/**
 	 * display player stats at the beginning of the level such as hit points and gun strength and what area they're on
+	 * 
+	 * @param isArcade
 	 */
-	public void displayInitialPlayerStats() {
+	public void displayInitialPlayerStats(boolean isArcade) {
 
 		lifeMeter = new TiledSprite(scene.camera.getWidth() - 100, 12, ResourceManager.getIntance().playerLifeRegion, scene.vbom);
 		lifeMeter.setCurrentTileIndex(3);
@@ -73,7 +75,12 @@ public class Controls {
 		energyMeterLabel = new Text(scene.camera.getWidth() - 255, 10, ResourceManager.getIntance().gameFontTiny, "Energy", ResourceManager.getIntance().vbom);
 		scene.gameHUD.attachChild(energyMeterLabel);
 
-		currentAreaPlayedLabel = new Text(10, 10, ResourceManager.getIntance().gameFontMedium, "Area : " + Integer.toString(GameStatus.getMostRecentLevel()), ResourceManager.getIntance().vbom);
+		// set the area label to the current level played, else to "arcade" for arcade mode
+		String areaLabel = "Area : " + Integer.toString(GameStatus.getMostRecentLevel());
+		if (isArcade) {
+			areaLabel = "Arcade";
+		}
+		currentAreaPlayedLabel = new Text(10, 10, ResourceManager.getIntance().gameFontMedium, areaLabel, ResourceManager.getIntance().vbom);
 		scene.gameHUD.attachChild(currentAreaPlayedLabel);
 
 		currentAreaTime = new Text(275, 10, ResourceManager.getIntance().gameFontTiny, "Time : 0", ResourceManager.getIntance().vbom);
@@ -99,7 +106,7 @@ public class Controls {
 		if (levelShots > 0) {
 			marksmanshipRating = (levelHits * 100 / levelShots);
 		}
-		currentAreaMarksmanship.setText("Accuracy: " + Float.toString(marksmanshipRating)); 
+		currentAreaMarksmanship.setText("Accuracy: " + Float.toString(marksmanshipRating));
 	}
 
 	/**

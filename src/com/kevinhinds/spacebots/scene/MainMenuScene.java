@@ -20,6 +20,7 @@ public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener
 	private final int MENU_LEVELS = 3;
 	private final int MENU_CREDITS = 4;
 	private final int MENU_TUTORIAL = 5;
+	private final int MENU_ARCADE = 6;
 
 	@Override
 	public void createScene() {
@@ -46,6 +47,9 @@ public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener
 
 		final IMenuItem playItem = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().menuBlueFont, "PLAY", MENU_PLAY, true);
 		menu.addMenuItem(playItem);
+		
+		final IMenuItem arcadeItem = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().menuRedFont, "ARCADE", MENU_ARCADE, true);
+		menu.addMenuItem(arcadeItem);
 
 		final IMenuItem levelSelectItem = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().menuGreenFont, "AREA SELECT", MENU_LEVELS, true);
 		menu.addMenuItem(levelSelectItem);
@@ -64,7 +68,9 @@ public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener
 
 		// position the menu items
 		mainTitle.setPosition(mainTitle.getX(), mainTitle.getY() - 60);
-		levelSelectItem.setPosition(levelSelectItem.getX(), levelSelectItem.getY() + 15);
+		playItem.setPosition(playItem.getX(), playItem.getY() - 15);
+		arcadeItem.setPosition(arcadeItem.getX(), arcadeItem.getY());
+		levelSelectItem.setPosition(levelSelectItem.getX(), levelSelectItem.getY() + 18);
 		exitItem.setPosition(exitItem.getX(), exitItem.getY() + 35);
 		creditsItem.setPosition(creditsItem.getX() + 250, creditsItem.getY() + 70);
 		tutorialItem.setPosition(creditsItem.getX() - 550, creditsItem.getY());
@@ -87,6 +93,9 @@ public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener
 			return true;
 		case MENU_TUTORIAL:
 			SceneManager.getInstance().loadTutorialScene();
+			return true;
+		case MENU_ARCADE:
+			SceneManager.getInstance().playArcadeScene();
 			return true;
 		case MENU_EXIT:
 			System.exit(0);

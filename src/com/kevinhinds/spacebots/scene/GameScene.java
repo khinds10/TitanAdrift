@@ -98,14 +98,14 @@ public class GameScene extends BaseScene {
 	/**
 	 * set the background for the gamescene
 	 */
-	private void setBackground() {
+	protected void setBackground() {
 		setBackground(new Background(Color.BLACK));
 	}
 
 	/**
 	 * create the heads up display (game controls) that move with the player through the level
 	 */
-	private void createHUD() {
+	protected void createHUD() {
 		gameHUD = new HUD();
 		camera.setHUD(gameHUD);
 	}
@@ -113,7 +113,7 @@ public class GameScene extends BaseScene {
 	/**
 	 * apply physics to the gamescene we'll use the new improved MaxStepPhysicsWorld which extends the regular PhysicsWorld
 	 */
-	private void createPhysics() {
+	protected void createPhysics() {
 		physicsWorld = new PhysicsWorld(new Vector2(0, SensorManager.GRAVITY_EARTH), false);
 		physicsWorld.setContactListener(contactListener());
 		registerUpdateHandler(physicsWorld);
@@ -122,15 +122,15 @@ public class GameScene extends BaseScene {
 	/**
 	 * add new player to this scene
 	 */
-	private void addPlayer() {
-		player = new Player(this, physicsWorld);
+	protected void addPlayer() {
+		player = new Player(this, physicsWorld, false);
 	}
 
 	/**
 	 * create controls for the game for the player's character
 	 */
-	private void createControls() {
-		controls = new Controls(this, player);
+	protected void createControls() {
+		controls = new Controls(this, player, false);
 	}
 
 	/**
@@ -138,7 +138,7 @@ public class GameScene extends BaseScene {
 	 * 
 	 * @param levelNumber
 	 */
-	private void createLevel(int levelNumber) {
+	protected void createLevel(int levelNumber) {
 
 		final FixtureDef wallFixtureDef = PhysicsFactory.createFixtureDef(0, 0.0f, 0.0f);
 		final Rectangle roof = new Rectangle(0, GameConfiguration.offscreenJumpHeight, camera.getWidth(), 2, vbom);
@@ -183,7 +183,7 @@ public class GameScene extends BaseScene {
 	 * 
 	 * @return
 	 */
-	private ContactListener contactListener() {
+	protected ContactListener contactListener() {
 		ContactListener contactListener = new ContactListener() {
 
 			// track begin of contact between fixtures

@@ -30,6 +30,8 @@ public class LevelStatusScene extends BaseScene implements IOnMenuItemClickListe
 
 	@Override
 	public void createScene() {
+		final Sprite spriteBG = new Sprite(0, 0, ResourceManager.getIntance().illuminateBackgroundRegion, ResourceManager.getIntance().vbom);
+		attachChild(spriteBG);
 		createMenu();
 		showShipStatus();
 	}
