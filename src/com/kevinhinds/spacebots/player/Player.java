@@ -21,6 +21,7 @@ import com.kevinhinds.spacebots.objects.Bridge;
 import com.kevinhinds.spacebots.objects.Bullet;
 import com.kevinhinds.spacebots.objects.Flare;
 import com.kevinhinds.spacebots.objects.Bomb;
+import com.kevinhinds.spacebots.scene.EndScene;
 import com.kevinhinds.spacebots.scene.GameScene;
 import com.kevinhinds.spacebots.scene.SceneManager;
 import com.kevinhinds.spacebots.status.GameStatus;
@@ -81,6 +82,26 @@ public class Player {
 		isKneeling = false;
 		physicsWorld = playerPhysicsworld;
 		gameScene.attachChild(playerSprite);
+	}
+
+	/**
+	 * create player on the end scene
+	 * 
+	 * @param endScene
+	 * @param physicsWorld
+	 */
+	public Player(EndScene endScene, PhysicsWorld physicsWorld) {
+		final FixtureDef playerFixtureDef = PhysicsFactory.createFixtureDef(1, 0.0f, 0.0f);
+		playerSprite = endScene.createAnimatedSprite(ResourceManager.getIntance().camera.getWidth() / 4, ResourceManager.getIntance().camera.getHeight() - 150, ResourceManager.getIntance().playerRegion, endScene.vbom);
+		playerBody = PhysicsFactory.createBoxBody(endScene.physicsWorld, playerSprite, BodyType.DynamicBody, playerFixtureDef);
+		playerBody.setUserData("player");
+		endScene.physicsWorld.registerPhysicsConnector(new PhysicsConnector(playerSprite, playerBody, true, false));
+		playerSprite.animate(new long[] { GameConfiguration.playerAnimationSpeed }, new int[] { GameConfiguration.playerStartLevelFrame });
+		moving = State.STOP;
+		facing = State.RIGHT;
+		isJumping = false;
+		isKneeling = false;
+		endScene.attachChild(playerSprite);
 	}
 
 	/**
@@ -370,7 +391,7 @@ public class Player {
 	/**
 	 * set player visible again by unregistering timer handler
 	 */
-	public void playerVisible () {
+	public void playerVisible() {
 		gameScene.unregisterUpdateHandler(setPlayerVisible);
 	}
 

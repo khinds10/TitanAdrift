@@ -47,7 +47,7 @@ public class DayDreamScene extends BaseScene implements IOnMenuItemClickListener
 		if (GameConfiguration.daydreamLevelsMapping.keySet().contains(levelToPlay)) {
 			String[] levelDaydreamSentances = GameConfiguration.daydreamLevelsMapping.get(levelToPlay).split("-");
 			for (String sentance : levelDaydreamSentances) {
-				IMenuItem dayDreamPhrase = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameFont, sentance, 0, true);
+				IMenuItem dayDreamPhrase = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameFont, sentance, 0, false);
 				menu.addMenuItem(dayDreamPhrase);
 			}
 		}

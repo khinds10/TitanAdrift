@@ -15,12 +15,11 @@ import com.kevinhinds.spacebots.ResourceManager;
 public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener {
 
 	private MenuScene menu;
-
-	private final int MENU_TITLE = 0;
 	private final int MENU_PLAY = 1;
 	private final int MENU_EXIT = 2;
 	private final int MENU_LEVELS = 3;
 	private final int MENU_CREDITS = 4;
+	private final int MENU_TUTORIAL = 5;
 
 	@Override
 	public void createScene() {
@@ -42,7 +41,7 @@ public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener
 		menu.setPosition(0, 0);
 
 		/** create menu items */
-		final IMenuItem mainTitle = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().titleFont, "TITAN ADRIFT", MENU_TITLE, false);
+		final IMenuItem mainTitle = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().titleFont, "TITAN ADRIFT", 0, false);
 		menu.addMenuItem(mainTitle);
 
 		final IMenuItem playItem = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().menuBlueFont, "PLAY", MENU_PLAY, true);
@@ -57,14 +56,18 @@ public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener
 		final IMenuItem creditsItem = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameFontGray, "CREDITS", MENU_CREDITS, true);
 		menu.addMenuItem(creditsItem);
 
+		final IMenuItem tutorialItem = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameRedFont, "HOW TO PLAY", MENU_TUTORIAL, true);
+		menu.addMenuItem(tutorialItem);
+
 		menu.buildAnimations();
 		menu.setBackgroundEnabled(false);
 
-		/** position the menu items */
+		// position the menu items
 		mainTitle.setPosition(mainTitle.getX(), mainTitle.getY() - 60);
 		levelSelectItem.setPosition(levelSelectItem.getX(), levelSelectItem.getY() + 15);
 		exitItem.setPosition(exitItem.getX(), exitItem.getY() + 35);
 		creditsItem.setPosition(creditsItem.getX() + 250, creditsItem.getY() + 70);
+		tutorialItem.setPosition(creditsItem.getX() - 550, creditsItem.getY());
 
 		menu.setOnMenuItemClickListener(this);
 		setChildScene(menu);
@@ -81,6 +84,9 @@ public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener
 			return true;
 		case MENU_CREDITS:
 			SceneManager.getInstance().loadCreditsScene();
+			return true;
+		case MENU_TUTORIAL:
+			SceneManager.getInstance().loadTutorialScene();
 			return true;
 		case MENU_EXIT:
 			System.exit(0);

@@ -83,6 +83,7 @@ public class ResourceManager {
 	// menu regions
 	private BuildableBitmapTextureAtlas menuTextureAtlas;
 	public ITextureRegion planetBackgroundRegion;
+	public ITextureRegion multicolorBackgroundRegion;
 	public ITextureRegion voidBackgroundRegion;
 	public ITextureRegion colorgalaxyBackgroundRegion;
 	public ITextureRegion andengineRegion;
@@ -102,6 +103,12 @@ public class ResourceManager {
 	// adversary region
 	public ITiledTextureRegion actorsRegion;
 	public ITiledTextureRegion explosionRegion;
+
+	// ship lift off flame and planet to fly away from
+	private BuildableBitmapTextureAtlas flameTextureAtlas;
+	private BuildableBitmapTextureAtlas planetTextureAtlas;
+	public ITiledTextureRegion flameRegion;
+	public ITextureRegion planetRegion;
 
 	// controls regions
 	private BuildableBitmapTextureAtlas gameTextureAtlas;
@@ -124,6 +131,7 @@ public class ResourceManager {
 	// we have a piece region and a brighter high contrast piece region so the pieces to collect are easier to see on the level
 	public ITiledTextureRegion pieceRegion;
 	public ITiledTextureRegion pieceLevelRegion;
+	public ITextureRegion completeShipRegion;
 
 	// complete set of the game's actors, tiles and items to render on levels via XML descriptions
 	private ArrayList<Actor> gameActors = new ArrayList<Actor>();
@@ -183,7 +191,8 @@ public class ResourceManager {
 		menuTextureAtlas = new BuildableBitmapTextureAtlas(activity.getTextureManager(), 4096, 4096, TextureOptions.BILINEAR);
 		colorgalaxyBackgroundRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "menu/colorgalaxy.jpg");
 		planetBackgroundRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "menu/largeplanet.jpg");
-		voidBackgroundRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "menu/multicolor.jpg");
+		multicolorBackgroundRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "menu/multicolor.jpg");
+		voidBackgroundRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "menu/void.jpg");
 		andengineRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "menu/andengine.png");
 		playerLevelMetalRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "items/metal.png");
 		playerLevelMetalSmallRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuTextureAtlas, activity, "items/metal-small.png");
@@ -276,9 +285,12 @@ public class ResourceManager {
 
 		// load ship pieces
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/items/");
-		pieceTextureAtlas = new BuildableBitmapTextureAtlas(activity.getTextureManager(), 1024, 1024, TextureOptions.BILINEAR);
+		pieceTextureAtlas = new BuildableBitmapTextureAtlas(activity.getTextureManager(), 2048, 2048, TextureOptions.BILINEAR);
 		pieceRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(pieceTextureAtlas, activity, "ship.png", GameConfiguration.pieceMapColumns, GameConfiguration.pieceMapRows);
 		pieceLevelRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(pieceTextureAtlas, activity, "shipcollect.png", GameConfiguration.pieceMapColumns, GameConfiguration.pieceMapRows);
+
+		// load complete ship for end sequence
+		completeShipRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(pieceTextureAtlas, activity, "ship.png");
 
 		// have to run everything through black pawn to render it visibly
 		try {
@@ -315,6 +327,33 @@ public class ResourceManager {
 
 		// add the single game flare which is fired from a token ability
 		gameFlares.add(new Flare("Flare Sprite " + Integer.toString(0), 0, 0, 0, 0, 0f, 0f, 0f, ResourceManager.getIntance().flareRegion, vbom, State.LEFT));
+
+		// load ship flames for end sequence
+		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/explosions/");
+		flameTextureAtlas = new BuildableBitmapTextureAtlas(activity.getTextureManager(), 4096, 4096, TextureOptions.BILINEAR);
+		flameRegion = BitmapTextureAtlasTextureRegionFactory.createTiledFromAsset(flameTextureAtlas, activity, "flame.png", GameConfiguration.flameMapColumns, GameConfiguration.flameMapRows);
+
+		// have to run everything through black pawn to render it visibly
+		try {
+			flameTextureAtlas.build(new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(0, 1, 0));
+			flameTextureAtlas.load();
+		} catch (Exception e) {
+			Debug.e(e);
+		}
+
+		// load the planet to show on the end screen
+		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("gfx/menu/");
+		planetTextureAtlas = new BuildableBitmapTextureAtlas(activity.getTextureManager(), 2048, 2048, TextureOptions.BILINEAR);
+		planetRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(planetTextureAtlas, activity, "endplanet.png");
+
+		// have to run everything through black pawn to render it visibly
+		try {
+			planetTextureAtlas.build(new BlackPawnTextureAtlasBuilder<IBitmapTextureAtlasSource, BitmapTextureAtlas>(0, 1, 0));
+			planetTextureAtlas.load();
+		} catch (Exception e) {
+			Debug.e(e);
+		}
+
 	}
 
 	/**

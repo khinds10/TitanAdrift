@@ -18,6 +18,7 @@ public class SceneManager {
 	private BaseScene menuScene;
 	private BaseScene gameScene;
 	private BaseScene levelScene;
+	private BaseScene tutorialScene;
 	private DayDreamScene dayDreamScene;
 	private static final SceneManager INSTANCE = new SceneManager();
 	private BaseScene currentScene;
@@ -38,6 +39,15 @@ public class SceneManager {
 		ResourceManager.getIntance().loadFonts();
 		returnToMenuScene();
 		cb.onCreateSceneFinished(menuScene);
+	}
+
+	/**
+	 * return to menu
+	 */
+	public void loadTutorialScene() {
+		tutorialScene = new TutorialScene();
+		setScene(tutorialScene, ResourceManager.getIntance().creditsMusic);
+		currentScene.createScene();
 	}
 
 	/**
@@ -94,11 +104,17 @@ public class SceneManager {
 		GameStatus.resetGameLevelStats();
 		GameStatus.flagCurrentLevelTime();
 
-		// load game scene in
-		gameScene = new GameScene();
-		gameScene.setGameLevel(levelNumber);
-		setScene(gameScene, null);
-		currentScene.createScene();
+		if (levelNumber < GameConfiguration.numberLevels) {
+			gameScene = new GameScene();
+			gameScene.setGameLevel(levelNumber);
+			setScene(gameScene, null);
+			currentScene.createScene();	
+		} else {
+			gameScene = new EndScene();
+			gameScene.setGameLevel(levelNumber);
+			setScene(gameScene, ResourceManager.getIntance().endingMusic);
+			currentScene.createScene();
+		}
 	}
 
 	/**
@@ -119,11 +135,11 @@ public class SceneManager {
 	 * @param status
 	 */
 	public void loadLevelStatusScene(String status) {
-		
+
 		GameStatus.flagCurrentLevelTime();
 		levelScene = new LevelStatusScene();
 		levelScene.setStatus(status);
-		
+
 		if (status.equals("dead")) {
 			setScene(levelScene, ResourceManager.getIntance().deadMusic);
 		} else {

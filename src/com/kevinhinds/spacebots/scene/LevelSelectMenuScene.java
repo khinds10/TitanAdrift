@@ -21,7 +21,7 @@ public class LevelSelectMenuScene extends BaseScene implements IOnMenuItemClickL
 
 	private MenuScene menu;
 	private final int MENU_BACK = 100;
-	private final int MENU_METALS = 101;
+	private final int MENU_NONE = 101;
 	private ArrayList<IMenuItem> levelMenuItems = new ArrayList<IMenuItem>();
 	private int levelMenuPadding = 60;
 	private int levelRowPadding = 60;
@@ -30,7 +30,7 @@ public class LevelSelectMenuScene extends BaseScene implements IOnMenuItemClickL
 
 	@Override
 	public void createScene() {
-		final Sprite spriteBG = new Sprite(0, 0, ResourceManager.getIntance().voidBackgroundRegion, ResourceManager.getIntance().vbom);
+		final Sprite spriteBG = new Sprite(0, 0, ResourceManager.getIntance().multicolorBackgroundRegion, ResourceManager.getIntance().vbom);
 		attachChild(spriteBG);
 		createMenu();
 	}
@@ -47,11 +47,18 @@ public class LevelSelectMenuScene extends BaseScene implements IOnMenuItemClickL
 		menu = new MenuScene(camera);
 		menu.setPosition(0, 0);
 
-		// create menu items
+		// create menu items, one for each level
 		for (int levelId = 1; levelId <= GameConfiguration.numberLevels; levelId++) {
 			String levelName = Integer.toString(levelId);
+
+			// zero pad low numbers
 			if (levelId < 10) {
 				levelName = "0" + Integer.toString(levelId);
+			}
+
+			// last level is END!
+			if (levelId == 20) {
+				levelName = "END";
 			}
 
 			/** switch the level select color coding based on level completion status */
@@ -81,21 +88,21 @@ public class LevelSelectMenuScene extends BaseScene implements IOnMenuItemClickL
 		final IMenuItem backButton = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameFontGray, "MAIN MENU", MENU_BACK, true);
 		menu.addMenuItem(backButton);
 
-		final IMenuItem levelSelectTitle = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameFontGray, "SELECT AREA...", MENU_BACK, false);
+		final IMenuItem levelSelectTitle = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameFontGray, "SELECT AREA...", MENU_NONE, false);
 		menu.addMenuItem(levelSelectTitle);
 
-		final IMenuItem oneMetal = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().levelSelectFontOneInfo, "Metal", MENU_METALS, false);
+		final IMenuItem oneMetal = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().levelSelectFontOneInfo, "Metal", MENU_NONE, false);
 		menu.addMenuItem(oneMetal);
 
-		final IMenuItem twoMetals = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().levelSelectFontTwoInfo, "Metals", MENU_METALS, false);
+		final IMenuItem twoMetals = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().levelSelectFontTwoInfo, "Metals", MENU_NONE, false);
 		menu.addMenuItem(twoMetals);
 
-		final IMenuItem threeMetals = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().levelSelectFontThreeInfo, "Metals", MENU_METALS, false);
+		final IMenuItem threeMetals = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().levelSelectFontThreeInfo, "Metals", MENU_NONE, false);
 		menu.addMenuItem(threeMetals);
 
 		menu.buildAnimations();
 		menu.setBackgroundEnabled(false);
-		
+
 		// show the level metals by level color codes
 		Sprite playerMetal1 = new Sprite(this.camera.getWidth() - 580, this.camera.getHeight() - 155, ResourceManager.getIntance().playerLevelMetalSmallRegion, this.vbom);
 		Sprite playerMetal2 = new Sprite(this.camera.getWidth() - 410, this.camera.getHeight() - 155, ResourceManager.getIntance().playerLevelMetalSmallRegion, this.vbom);
@@ -109,7 +116,7 @@ public class LevelSelectMenuScene extends BaseScene implements IOnMenuItemClickL
 		this.attachChild(playerMetal4);
 		this.attachChild(playerMetal5);
 		this.attachChild(playerMetal6);
-		 
+
 		// position buttons
 		for (int levelId = 0; levelId < GameConfiguration.numberLevels; levelId++) {
 			positionLevelMenuItem(levelId);
@@ -143,13 +150,12 @@ public class LevelSelectMenuScene extends BaseScene implements IOnMenuItemClickL
 		case MENU_BACK:
 			SceneManager.getInstance().returnToMenuScene();
 			return true;
-		case MENU_METALS:
-			return true;
 		}
-		
-		// head over the scene selected if the status for the level is non-zero (can't play yet)
-		if (GameStatus.levelStatusByLevelNumber(item.getID()) > 0) {
-			SceneManager.getInstance().setGameScene(item.getID());
+		if (item.getID() < 100) {
+			// head over the scene selected if the status for the level is non-zero (can't play yet)
+			if (GameStatus.levelStatusByLevelNumber(item.getID()) > 0) {
+				SceneManager.getInstance().setGameScene(item.getID());
+			}
 		}
 		return false;
 	}

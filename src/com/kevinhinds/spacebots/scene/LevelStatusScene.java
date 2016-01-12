@@ -2,13 +2,10 @@ package com.kevinhinds.spacebots.scene;
 
 import java.util.ArrayList;
 
-import org.andengine.engine.camera.Camera;
 import org.andengine.entity.scene.menu.MenuScene;
 import org.andengine.entity.scene.menu.MenuScene.IOnMenuItemClickListener;
 import org.andengine.entity.scene.menu.item.IMenuItem;
 import org.andengine.entity.sprite.Sprite;
-import org.andengine.input.touch.TouchEvent;
-import org.andengine.opengl.util.GLState;
 
 import com.kevinhinds.spacebots.GameConfiguration;
 import com.kevinhinds.spacebots.ResourceManager;
@@ -28,9 +25,7 @@ public class LevelStatusScene extends BaseScene implements IOnMenuItemClickListe
 	private MenuScene menu;
 	private final int MENU_BACK = 1;
 	private final int MENU_NEXT = 2;
-	private final int MENU_AGAIN = 4;
-	private final int MENU_REBUILD = 5;
-	private final int MENU_STATUS = 6;
+	private final int MENU_AGAIN = 3;
 	public ArrayList<Piece> foundPieces = new ArrayList<Piece>();
 
 	@Override
@@ -90,22 +85,22 @@ public class LevelStatusScene extends BaseScene implements IOnMenuItemClickListe
 		// based on level status show success or fail title
 		IMenuItem mainTitle = null;
 		if (levelStatus.equals("dead")) {
-			mainTitle = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameRedFont, "AREA INCOMPLETE", MENU_STATUS, false);
+			mainTitle = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameRedFont, "AREA INCOMPLETE", 0, false);
 		} else {
-			mainTitle = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameGreenFont, "AREA SUCCESS!", MENU_STATUS, false);
+			mainTitle = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameGreenFont, "AREA SUCCESS!", 0, false);
 		}
 		menu.addMenuItem(mainTitle);
 
 		// create statistics menu items
-		final IMenuItem timeToComplete = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameFontGray, "Time to finish", MENU_REBUILD, false);
+		final IMenuItem timeToComplete = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameFontGray, "Time to finish", 0, false);
 		menu.addMenuItem(timeToComplete);
 
 		// show how long the level was played for in seconds
 		long levelPlayedSecondsCount = GameStatus.getCurrentLevelPlayedTime();
-		final IMenuItem timeToCompleteTime = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameFontGray, Long.toString(levelPlayedSecondsCount) + " seconds", MENU_REBUILD, false);
+		final IMenuItem timeToCompleteTime = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameFontGray, Long.toString(levelPlayedSecondsCount) + " seconds", 0, false);
 		menu.addMenuItem(timeToCompleteTime);
 
-		final IMenuItem marksmanship = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameFontGray, "Marksmanship", MENU_REBUILD, false);
+		final IMenuItem marksmanship = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameFontGray, "Marksmanship", 0, false);
 		menu.addMenuItem(marksmanship);
 
 		// calculate marksmanship
@@ -115,29 +110,29 @@ public class LevelStatusScene extends BaseScene implements IOnMenuItemClickListe
 		if (levelShots > 0) {
 			marksmanshipRating = (levelHits * 100 / levelShots);
 		}
-		
+
 		// you can kill actors by bombs / flares so this can cause marksmanship to go above 100
 		if (marksmanshipRating > 100) {
 			marksmanshipRating = 100;
 		}
 
-		final IMenuItem marksmanshipPercent = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameFontGray, Float.toString(marksmanshipRating) + " % (" + Integer.toString(GameStatus.getGameLevelStats(GameStatus.levelStatsType.HITS)) + " Hits)", MENU_REBUILD, false);
+		final IMenuItem marksmanshipPercent = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameFontGray, Float.toString(marksmanshipRating) + " % (" + Integer.toString(GameStatus.getGameLevelStats(GameStatus.levelStatsType.HITS)) + " Hits)", 0, false);
 		menu.addMenuItem(marksmanshipPercent);
 
-		final IMenuItem shotsFired = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameFontGray, "Shots Fired", MENU_REBUILD, false);
+		final IMenuItem shotsFired = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameFontGray, "Shots Fired", 0, false);
 		menu.addMenuItem(shotsFired);
 
-		final IMenuItem shotsFiredCount = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameFontGray, Integer.toString(GameStatus.getGameLevelStats(GameStatus.levelStatsType.SHOTS)), MENU_REBUILD, false);
+		final IMenuItem shotsFiredCount = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameFontGray, Integer.toString(GameStatus.getGameLevelStats(GameStatus.levelStatsType.SHOTS)), 0, false);
 		menu.addMenuItem(shotsFiredCount);
 
-		final IMenuItem kills = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameFontGray, "Aliens Killed", MENU_REBUILD, false);
+		final IMenuItem kills = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameFontGray, "Aliens Killed", 0, false);
 		menu.addMenuItem(kills);
 
-		final IMenuItem killsCount = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameFontGray, Integer.toString(GameStatus.getGameLevelStats(GameStatus.levelStatsType.KILLS)), MENU_REBUILD, false);
+		final IMenuItem killsCount = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameFontGray, Integer.toString(GameStatus.getGameLevelStats(GameStatus.levelStatsType.KILLS)), 0, false);
 		menu.addMenuItem(killsCount);
 
 		// create control game menu items
-		final IMenuItem rebuildYourShip = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameFontMedium, "REBUILD YOUR SHIP", MENU_REBUILD, false);
+		final IMenuItem rebuildYourShip = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameFontMedium, "REBUILD YOUR SHIP", 0, false);
 		menu.addMenuItem(rebuildYourShip);
 
 		final IMenuItem menuButtonItem = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameBlueFont, "MENU", MENU_BACK, true);
@@ -149,7 +144,7 @@ public class LevelStatusScene extends BaseScene implements IOnMenuItemClickListe
 		final IMenuItem againAreaItem = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameRedFont, "AGAIN", MENU_AGAIN, true);
 		menu.addMenuItem(againAreaItem);
 
-		final IMenuItem metalsAchivedItem = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameFontGray, "METALS", MENU_AGAIN, true);
+		final IMenuItem metalsAchivedItem = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameFontGray, "METALS", 0, false);
 		menu.addMenuItem(metalsAchivedItem);
 
 		// build menu with animations

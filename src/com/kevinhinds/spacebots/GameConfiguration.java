@@ -126,6 +126,10 @@ public class GameConfiguration {
 	public static int explosionMapColumns = 14;
 	public static int explosionMapRows = 17;
 	public static int explosionDefault = 1;
+	public static int flameMapColumns = 6;
+	public static int flameMapRows = 5;
+	public static int flameAnimationSpeed = 100;
+	
 
 	/** sprite basic state identifiers */
 	public static enum State {

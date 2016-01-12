@@ -21,10 +21,10 @@ public class CreditsMenuScene extends BaseScene implements IOnMenuItemClickListe
 	public void createScene() {
 		final Sprite spriteBG = new Sprite(0, 0, ResourceManager.getIntance().colorgalaxyBackgroundRegion, ResourceManager.getIntance().vbom);
 		attachChild(spriteBG);
-
+		
 		final Sprite andLogoSprite = new Sprite(ResourceManager.getIntance().camera.getWidth() - 200, ResourceManager.getIntance().camera.getHeight() - 200, ResourceManager.getIntance().andengineRegion, ResourceManager.getIntance().vbom);
 		attachChild(andLogoSprite);
-
+		
 		createMenu();
 	}
 
