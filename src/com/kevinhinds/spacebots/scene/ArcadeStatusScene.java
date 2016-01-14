@@ -18,11 +18,13 @@ public class ArcadeStatusScene extends BaseScene implements IOnMenuItemClickList
 	private MenuScene menu;
 	private final int MENU_BACK = 1;
 	private final int MENU_AGAIN = 2;
+	private int mostRecentLevelPlayed = 0;
 
 	@Override
 	public void createScene() {
 		final Sprite spriteBG = new Sprite(0, 0, ResourceManager.getIntance().illuminateBackgroundRegion, ResourceManager.getIntance().vbom);
 		attachChild(spriteBG);
+		mostRecentLevelPlayed = GameStatus.getMostRecentLevel();
 		createMenu();
 	}
 
@@ -66,6 +68,22 @@ public class ArcadeStatusScene extends BaseScene implements IOnMenuItemClickList
 		final IMenuItem marksmanshipPercent = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameFontGray, Float.toString(marksmanshipRating) + " % (" + Integer.toString(GameStatus.getGameLevelStats(GameStatus.levelStatsType.HITS)) + " Hits)", 0, false);
 		menu.addMenuItem(marksmanshipPercent);
 
+		// show/persist personal best message for marksmanship
+		IMenuItem marksmanshipRecord = null;
+		boolean personalBestMarksmanship = false;
+		int previousRecordMarksmanship = GameStatus.levelRecordByLevelNumber(mostRecentLevelPlayed, "marksmanship");
+		if ((previousRecordMarksmanship <= marksmanshipRating) && (marksmanshipRating > 0)) {
+			personalBestMarksmanship = true;
+			GameStatus.setRecordForMetricByLevelNumber(mostRecentLevelPlayed, "marksmanship", Float.toString(marksmanshipRating));
+		}
+		if (personalBestMarksmanship) {
+			marksmanshipRecord = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameFontTinyBlue, "PERSONAL BEST!", 0, false);
+			menu.addMenuItem(marksmanshipRecord);
+		} else {
+			marksmanshipRecord = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameFontTinyGreen, "BEST: " + Integer.toString(previousRecordMarksmanship) + " % ", 0, false);
+			menu.addMenuItem(marksmanshipRecord);
+		}
+
 		final IMenuItem shotsFired = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameFontGray, "Shots Fired", 0, false);
 		menu.addMenuItem(shotsFired);
 
@@ -100,6 +118,7 @@ public class ArcadeStatusScene extends BaseScene implements IOnMenuItemClickList
 		shotsFiredCount.setPosition(250, 230);
 		kills.setPosition(100, 290);
 		killsCount.setPosition(250, 330);
+		marksmanshipRecord.setPosition(280, 170);
 
 		menu.setOnMenuItemClickListener(this);
 		setChildScene(menu);

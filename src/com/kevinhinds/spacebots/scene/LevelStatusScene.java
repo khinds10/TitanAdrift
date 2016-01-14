@@ -66,11 +66,10 @@ public class LevelStatusScene extends BaseScene implements IOnMenuItemClickListe
 			if (StatusListManager.containsValue(shipStatus, pieceID.toString()) || !StatusListManager.containsValue(GameConfiguration.shipPiecesToCollect, pieceID.toString())) {
 				foundPiece.setPosition(x + (count * GameConfiguration.pieceMapTileSize), y);
 				try {
-
-					// works ??
-					// foundPiece.detachSelf();
-					// foundPiece.attach(this);
-
+					if (foundPiece.getParent() != null) {
+						foundPiece.detachSelf();
+					}
+					foundPiece.attach(this);
 				} catch (Exception e) {
 					Log.e("Could not attached ship piece", e.getMessage());
 				}
@@ -196,7 +195,7 @@ public class LevelStatusScene extends BaseScene implements IOnMenuItemClickListe
 		mainTitle.setPosition(10, 20);
 
 		// control game menu positions
-		rebuildYourShip.setPosition(500, 50);
+		rebuildYourShip.setPosition(500, 20);
 		menuButtonItem.setPosition(650, 100);
 		againAreaItem.setPosition(650, 210);
 		nextAreaItem.setPosition(650, 320);

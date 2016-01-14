@@ -31,6 +31,11 @@ public class ArcadeScene extends GameScene {
 		createLevel(this.levelNumber);
 		level = levelXMLBuilder.level;
 		currentPiecesObtained = "";
+		
+		// create 5 initial actors with high IDs to not conflict with ones generated each second
+		for (int i = 1000; i <= 1005; i++) {
+			createNewArcadeActor(i);
+		}
 
 		// every 1 seconds update scene timer
 		this.registerUpdateHandler(new TimerHandler(1, true, new ITimerCallback() {
