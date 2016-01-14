@@ -16,6 +16,8 @@ public class GameStatus {
 	public static String MusicPlay = "MusicPlay";
 	public static String SoundFXPlay = "SoundFXPlay";
 	public static String LevelStatus = "LevelStatus";
+	public static String LevelTimeRecord = "LevelTimeRecord";
+	public static String LevelMarksmanShipRecord = "LevelMarksmanShipRecord";
 	public static String ShipRepairedStatus = "ShipRepairedStatus";
 
 	// most recent level played temporary stats like shots fired / number of hits, resets for each new play
@@ -45,6 +47,14 @@ public class GameStatus {
 		String levelStats = StatusListManager.createDefaultCSVList(GameConfiguration.numberLevels, "0");
 		levelStats = StatusListManager.updateIndexByValue(levelStats, 1, "1");
 		activity.statusAndPreferencesEditor.putString(GameStatus.LevelStatus, levelStats);
+
+		// create a list of all levels have a time record of "0" seconds for now, until they play a level and do better
+		String levelTimeRecords = StatusListManager.createDefaultCSVList(GameConfiguration.numberLevels, "1000");
+		activity.statusAndPreferencesEditor.putString(GameStatus.LevelTimeRecord, levelTimeRecords);
+
+		// create a list of all levels have a record of "0" marksmanship for now, until they play a level and do better
+		String levelMarksmanshipRecords = StatusListManager.createDefaultCSVList(GameConfiguration.numberLevels, "0");
+		activity.statusAndPreferencesEditor.putString(GameStatus.LevelMarksmanShipRecord, levelMarksmanshipRecords);
 
 		// update FirstRun to say we're no longer running game for the first time and commit default values
 		activity.statusAndPreferencesEditor.putBoolean("FIRSTRUN", false);
@@ -213,6 +223,45 @@ public class GameStatus {
 	public static void setMostRecentlLevel(int levelNumber) {
 		ResourceManager.getIntance().activity.statusAndPreferencesEditor.putInt(GameStatus.MostRecentLevel, levelNumber);
 		ResourceManager.getIntance().activity.statusAndPreferencesEditor.commit();
+	}
+
+	/**
+	 * set a record for a level recently played by user (personal record for "marksmanship" or "time completed")
+	 * 
+	 * @param levelNumber
+	 * @param recordType
+	 *            type of record set for level "marksmanship" | "time"
+	 * @param recordValue
+	 *            numeric value as a string
+	 */
+	public static void setRecordForMetricByLevelNumber(int levelNumber, String recordType, String recordValue) {
+		MainGameActivity activity = ResourceManager.getIntance().activity;
+		if (recordType.equals("time")) {
+			String newLevelRecordList = StatusListManager.updateIndexByValue(activity.statusAndPreferences.getString(GameStatus.LevelTimeRecord, ""), levelNumber, recordValue);
+			activity.statusAndPreferencesEditor.putString(GameStatus.LevelTimeRecord, newLevelRecordList);
+		} else {
+			String newLevelRecordList = StatusListManager.updateIndexByValue(activity.statusAndPreferences.getString(GameStatus.LevelMarksmanShipRecord, ""), levelNumber, recordValue);
+			activity.statusAndPreferencesEditor.putString(GameStatus.LevelMarksmanShipRecord, newLevelRecordList);
+		}
+		ResourceManager.getIntance().activity.statusAndPreferencesEditor.commit();
+	}
+
+	/**
+	 * get record for level by level number and type
+	 * 
+	 * @param levelNumber
+	 * @param recordType
+	 * @return
+	 */
+	public static int levelRecordByLevelNumber(int levelNumber, String recordType) {
+		MainGameActivity activity = ResourceManager.getIntance().activity;
+		String levelRecord = "";
+		if (recordType.equals("time")) {
+			levelRecord = StatusListManager.getValueByIndex(activity.statusAndPreferences.getString(GameStatus.LevelTimeRecord, ""), levelNumber);
+		} else {
+			levelRecord = StatusListManager.getValueByIndex(activity.statusAndPreferences.getString(GameStatus.LevelMarksmanShipRecord, ""), levelNumber);
+		}
+		return Integer.parseInt(String.valueOf(Math.round(Float.parseFloat(levelRecord))));
 	}
 
 	/**

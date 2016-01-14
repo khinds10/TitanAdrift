@@ -58,7 +58,9 @@ public class ResourceManager {
 	public Font gameFont;
 	public Font gameFontLarge;
 	public Font gameFontGray;
-	public Font gameFontTiny;
+	public Font gameFontTiny;	
+	public Font gameFontTinyBlue;
+	public Font gameFontTinyGreen;
 	public Font gameFontMedium;
 	public Font gameRedFont;
 	public Font gameBlueFont;
@@ -539,7 +541,13 @@ public class ResourceManager {
 		gameFontGray.load();
 
 		gameFontTiny = buildFont("game.ttf", 10, android.graphics.Color.parseColor("#D8D8D8"));
-		gameFontTiny.load();
+		gameFontTiny.load();		
+		
+		gameFontTinyBlue = buildFont("game.ttf", 12, android.graphics.Color.parseColor("#81C1D7"));
+		gameFontTinyBlue.load();
+		
+		gameFontTinyGreen = buildFont("game.ttf", 12, android.graphics.Color.parseColor("#AFDB6F"));
+		gameFontTinyGreen.load();		
 
 		gameFontMedium = buildFont("game.ttf", 15, android.graphics.Color.parseColor("#D8D8D8"));
 		gameFontMedium.load();

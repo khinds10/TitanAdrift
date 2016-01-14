@@ -27,11 +27,13 @@ public class LevelStatusScene extends BaseScene implements IOnMenuItemClickListe
 	private final int MENU_NEXT = 2;
 	private final int MENU_AGAIN = 3;
 	public ArrayList<Piece> foundPieces = new ArrayList<Piece>();
+	private int mostRecentLevelPlayed = 0;
 
 	@Override
 	public void createScene() {
 		final Sprite spriteBG = new Sprite(0, 0, ResourceManager.getIntance().illuminateBackgroundRegion, ResourceManager.getIntance().vbom);
 		attachChild(spriteBG);
+		mostRecentLevelPlayed = GameStatus.getMostRecentLevel();
 		createMenu();
 		showShipStatus();
 	}
@@ -64,7 +66,11 @@ public class LevelStatusScene extends BaseScene implements IOnMenuItemClickListe
 			if (StatusListManager.containsValue(shipStatus, pieceID.toString()) || !StatusListManager.containsValue(GameConfiguration.shipPiecesToCollect, pieceID.toString())) {
 				foundPiece.setPosition(x + (count * GameConfiguration.pieceMapTileSize), y);
 				try {
+
+					// works ??
+					// foundPiece.detachSelf();
 					// foundPiece.attach(this);
+
 				} catch (Exception e) {
 					Log.e("Could not attached ship piece", e.getMessage());
 				}
@@ -102,6 +108,23 @@ public class LevelStatusScene extends BaseScene implements IOnMenuItemClickListe
 		final IMenuItem timeToCompleteTime = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameFontGray, Long.toString(levelPlayedSecondsCount) + " seconds", 0, false);
 		menu.addMenuItem(timeToCompleteTime);
 
+		// show/persist personal best message for time
+		IMenuItem timeRecord = null;
+		if (!levelStatus.equals("dead")) {
+			boolean personalBestTime = false;
+			int previousRecordTime = GameStatus.levelRecordByLevelNumber(mostRecentLevelPlayed, "time");
+			if (levelPlayedSecondsCount <= previousRecordTime) {
+				personalBestTime = true;
+				GameStatus.setRecordForMetricByLevelNumber(mostRecentLevelPlayed, "time", Long.toString(levelPlayedSecondsCount));
+			}
+			if (personalBestTime) {
+				timeRecord = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameFontTinyBlue, "PERSONAL BEST!", 0, false);
+				menu.addMenuItem(timeRecord);
+			} else {
+				timeRecord = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameFontTinyGreen, "BEST: " + Integer.toString(previousRecordTime) + " seconds", 0, false);
+				menu.addMenuItem(timeRecord);
+			}
+		}
 		final IMenuItem marksmanship = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameFontGray, "Marksmanship", 0, false);
 		menu.addMenuItem(marksmanship);
 
@@ -120,6 +143,24 @@ public class LevelStatusScene extends BaseScene implements IOnMenuItemClickListe
 
 		final IMenuItem marksmanshipPercent = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameFontGray, Float.toString(marksmanshipRating) + " % (" + Integer.toString(GameStatus.getGameLevelStats(GameStatus.levelStatsType.HITS)) + " Hits)", 0, false);
 		menu.addMenuItem(marksmanshipPercent);
+
+		// show/persist personal best message for marksmanship
+		IMenuItem marksmanshipRecord = null;
+		if (!levelStatus.equals("dead")) {
+			boolean personalBestMarksmanship = false;
+			int previousRecordMarksmanship = GameStatus.levelRecordByLevelNumber(mostRecentLevelPlayed, "marksmanship");
+			if (previousRecordMarksmanship <= marksmanshipRating) {
+				personalBestMarksmanship = true;
+				GameStatus.setRecordForMetricByLevelNumber(mostRecentLevelPlayed, "marksmanship", Float.toString(marksmanshipRating));
+			}
+			if (personalBestMarksmanship) {
+				marksmanshipRecord = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameFontTinyBlue, "PERSONAL BEST!", 0, false);
+				menu.addMenuItem(marksmanshipRecord);
+			} else {
+				marksmanshipRecord = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameFontTinyGreen, "BEST: " + Integer.toString(previousRecordMarksmanship) + " % ", 0, false);
+				menu.addMenuItem(marksmanshipRecord);
+			}
+		}
 
 		final IMenuItem shotsFired = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameFontGray, "Shots Fired", 0, false);
 		menu.addMenuItem(shotsFired);
@@ -169,7 +210,7 @@ public class LevelStatusScene extends BaseScene implements IOnMenuItemClickListe
 		killsCount.setPosition(250, 300);
 		timeToComplete.setPosition(100, 360);
 		timeToCompleteTime.setPosition(250, 400);
-		metalsAchivedItem.setPosition(this.camera.getWidth() - 350, this.camera.getHeight() - 70);
+		metalsAchivedItem.setPosition(this.camera.getWidth() - 330, this.camera.getHeight() - 70);
 
 		// only show the time to complete if they've finished the level
 		if (levelStatus.equals("dead")) {
@@ -186,7 +227,7 @@ public class LevelStatusScene extends BaseScene implements IOnMenuItemClickListe
 		// for the level just completed calculate a new status as far as number of stars based on marksmanship and time to complete
 		if (!levelStatus.equals("dead")) {
 
-			// show the number of metals achived in the level
+			// show the number of metals achieved in the level
 			Sprite playerMetal1 = new Sprite(this.camera.getWidth() - 175, this.camera.getHeight() - 80, ResourceManager.getIntance().playerLevelMetalRegion, this.vbom);
 			Sprite playerMetal2 = new Sprite(this.camera.getWidth() - 140, this.camera.getHeight() - 80, ResourceManager.getIntance().playerLevelMetalRegion, this.vbom);
 			Sprite playerMetal3 = new Sprite(this.camera.getWidth() - 105, this.camera.getHeight() - 80, ResourceManager.getIntance().playerLevelMetalRegion, this.vbom);
@@ -194,15 +235,19 @@ public class LevelStatusScene extends BaseScene implements IOnMenuItemClickListe
 
 			// achive a 2 star rating
 			if ((marksmanshipRating >= 90 && levelPlayedSecondsCount < 60) || (levelPlayedSecondsCount <= 45)) {
-				GameStatus.setLevelStatusByLevelNumber(GameStatus.getMostRecentLevel(), "3");
+				GameStatus.setLevelStatusByLevelNumber(mostRecentLevelPlayed, "3");
 				this.attachChild(playerMetal2);
 			}
 
 			// achieve a 3 star rating
 			if (marksmanshipRating >= 85 && levelPlayedSecondsCount <= 45) {
-				GameStatus.setLevelStatusByLevelNumber(GameStatus.getMostRecentLevel(), "4");
+				GameStatus.setLevelStatusByLevelNumber(mostRecentLevelPlayed, "4");
 				this.attachChild(playerMetal3);
 			}
+
+			// show marksmanship / time records status we beat the level
+			marksmanshipRecord.setPosition(280, 130);
+			timeRecord.setPosition(275, 435);
 		}
 		menu.setOnMenuItemClickListener(this);
 		setChildScene(menu);
