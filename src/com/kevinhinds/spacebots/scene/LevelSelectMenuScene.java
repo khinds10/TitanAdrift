@@ -60,6 +60,11 @@ public class LevelSelectMenuScene extends BaseScene implements IOnMenuItemClickL
 			if (levelId == 20) {
 				levelName = "END";
 			}
+			
+			// very very last level is assigned to "arcade"
+			if (levelId == 21) {
+				levelName = "";
+			}
 
 			/** switch the level select color coding based on level completion status */
 			Font selectedFont = null;
