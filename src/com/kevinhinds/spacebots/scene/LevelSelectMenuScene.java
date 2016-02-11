@@ -66,7 +66,7 @@ public class LevelSelectMenuScene extends BaseScene implements IOnMenuItemClickL
 				levelName = "";
 			}
 
-			/** switch the level select color coding based on level completion status */
+			// switch the level select color coding based on level completion status
 			Font selectedFont = null;
 			int levelStatus = GameStatus.levelStatusByLevelNumber(levelId);
 			if (levelStatus == 0) {

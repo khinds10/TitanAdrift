@@ -68,7 +68,7 @@ public class Bomb {
 		animationSpeed = new long[] { GameConfiguration.bombAnimationSpeed, GameConfiguration.bombAnimationSpeed, GameConfiguration.bombAnimationSpeed, GameConfiguration.bombAnimationSpeed, GameConfiguration.bombAnimationSpeed, GameConfiguration.bombAnimationSpeed, GameConfiguration.bombAnimationSpeed, GameConfiguration.bombAnimationSpeed, GameConfiguration.bombAnimationSpeed, GameConfiguration.bombAnimationSpeed, GameConfiguration.bombAnimationSpeed, GameConfiguration.bombAnimationSpeed, GameConfiguration.bombAnimationSpeed, GameConfiguration.bombAnimationSpeed, GameConfiguration.bombAnimationSpeed, GameConfiguration.bombAnimationSpeed, GameConfiguration.bombAnimationSpeed, GameConfiguration.bombAnimationSpeed, GameConfiguration.bombAnimationSpeed, GameConfiguration.bombAnimationSpeed, GameConfiguration.bombAnimationSpeed, GameConfiguration.bombAnimationSpeed,
 				GameConfiguration.bombAnimationSpeed, GameConfiguration.bombAnimationSpeed, GameConfiguration.bombAnimationSpeed, GameConfiguration.bombAnimationSpeed, GameConfiguration.bombAnimationSpeed, GameConfiguration.bombAnimationSpeed, GameConfiguration.bombAnimationSpeed, GameConfiguration.bombAnimationSpeed, GameConfiguration.bombAnimationSpeed, GameConfiguration.bombAnimationSpeed, GameConfiguration.bombAnimationSpeed, GameConfiguration.bombAnimationSpeed, GameConfiguration.bombAnimationSpeed };
 
-		/** create a new bomb sprite and detonate it! */
+		// create a new bomb sprite and detonate it!
 		bombSprite = scene.createAnimatedSprite(objCenterPos[0], objCenterPos[1], ResourceManager.getIntance().bombRegion, scene.vbom);
 		final FixtureDef tileFixtureDef = PhysicsFactory.createFixtureDef(0, 0, 0);
 		tileFixtureDef.restitution = 0;
@@ -76,17 +76,17 @@ public class Bomb {
 		scene.physicsWorld.registerPhysicsConnector(new PhysicsConnector(this.bombSprite, bombBody, true, true));
 		bombBody.setUserData("bomb");
 
-		/** we'll start counting from 1 but the sprite sheet counts from zero */
+		// we'll start counting from 1 but the sprite sheet counts from zero
 		int startTile = 0;
 		int endTile = startTile + 34;
 
-		/** explosion animates through and then disappears */
+		// explosion animates through and then disappears
 		bombSprite.animate(animationSpeed, startTile, endTile, false, new IAnimationListener() {
 
 			@Override
 			public void onAnimationFinished(AnimatedSprite pAnimatedSprite) {
 
-				/** remove current bomb from game physics */
+				// remove current bomb from game physics
 				bombBody.setActive(false);
 			}
 

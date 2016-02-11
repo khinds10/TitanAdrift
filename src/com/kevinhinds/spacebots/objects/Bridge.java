@@ -59,11 +59,11 @@ public class Bridge extends TiledSprite {
 	 */
 	public void createBodyAndAttach(AnimatedSprite playerSprite, State facing, Scene scene, PhysicsWorld physicsWorld) {
 
-		/** get the direction of the player facing */
+		// get the direction of the player facing
 		final FixtureDef tileFixtureDef = PhysicsFactory.createFixtureDef(density, elastic, friction);
 		this.scene = scene;
 
-		/** apply left or right facing x and acceleration values */
+		// apply left or right facing x and acceleration values
 		float[] objCenterPos = new float[2];
 		playerSprite.getSceneCenterCoordinates(objCenterPos);
 		objCenterPos[1] = objCenterPos[1] + 10;

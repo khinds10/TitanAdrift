@@ -40,7 +40,7 @@ public class CreditsMenuScene extends BaseScene implements IOnMenuItemClickListe
 		menu = new MenuScene(camera);
 		menu.setPosition(0, 0);
 
-		/** create menu items */
+		// create menu items
 		final IMenuItem mainTitle = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameFontLarge, "TITAN ADRIFT", 0, false);
 		menu.addMenuItem(mainTitle);
 
@@ -59,7 +59,7 @@ public class CreditsMenuScene extends BaseScene implements IOnMenuItemClickListe
 		menu.buildAnimations();
 		menu.setBackgroundEnabled(false);
 
-		/** position the menu items */
+		// position the menu items
 		mainTitle.setPosition(10, 20);
 		developTitle.setPosition(10, 100);
 		artTitle.setPosition(10, 180);

@@ -76,11 +76,11 @@ public class Flare extends AnimatedSprite {
 		animationSpeed = new long[] { GameConfiguration.flareAnimationSpeed, GameConfiguration.flareAnimationSpeed, GameConfiguration.flareAnimationSpeed, GameConfiguration.flareAnimationSpeed, GameConfiguration.flareAnimationSpeed, GameConfiguration.flareAnimationSpeed, GameConfiguration.flareAnimationSpeed, GameConfiguration.flareAnimationSpeed, GameConfiguration.flareAnimationSpeed, GameConfiguration.flareAnimationSpeed, GameConfiguration.flareAnimationSpeed, GameConfiguration.flareAnimationSpeed, GameConfiguration.flareAnimationSpeed, GameConfiguration.flareAnimationSpeed, GameConfiguration.flareAnimationSpeed, GameConfiguration.flareAnimationSpeed, GameConfiguration.flareAnimationSpeed, GameConfiguration.flareAnimationSpeed, GameConfiguration.flareAnimationSpeed, GameConfiguration.flareAnimationSpeed, GameConfiguration.flareAnimationSpeed, GameConfiguration.flareAnimationSpeed, GameConfiguration.flareAnimationSpeed, GameConfiguration.flareAnimationSpeed,
 				GameConfiguration.flareAnimationSpeed, GameConfiguration.flareAnimationSpeed, GameConfiguration.flareAnimationSpeed, GameConfiguration.flareAnimationSpeed, GameConfiguration.flareAnimationSpeed, GameConfiguration.flareAnimationSpeed };
 
-		/** depending on the player facing direction we offset the animation indexg */
+		// depending on the player facing direction we offset the animation indexg
 		final FixtureDef tileFixtureDef = PhysicsFactory.createFixtureDef(density, elastic, friction);
 		this.scene = scene;
 
-		/** apply left or right facing x and acceleration values */
+		// apply left or right facing x and acceleration values
 		int direction = 1;
 		int startTileOffset = 0;
 
@@ -94,13 +94,13 @@ public class Flare extends AnimatedSprite {
 		this.setX(this.x);
 		this.setY(this.y - 10);
 
-		/** we'll start counting from 1 but the sprite sheet counts from zero */
+		// we'll start counting from 1 but the sprite sheet counts from zero
 		startTile = 9 + startTileOffset;
 		endTile = startTile + 29;
 
 		tileFixtureDef.restitution = 0;
 
-		/** explosion animates through and then disappears */
+		// explosion animates through and then disappears
 		this.animate(animationSpeed, startTile, endTile, true);
 
 		flareBody = PhysicsFactory.createBoxBody(physicsWorld, this, BodyType.DynamicBody, tileFixtureDef);

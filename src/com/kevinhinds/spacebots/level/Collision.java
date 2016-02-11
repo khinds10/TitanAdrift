@@ -58,7 +58,7 @@ public class Collision {
 			}
 		}
 
-		/** if 2 moving actors collide, then we must both change to opposite directions */
+		// if 2 moving actors collide, then we must both change to opposite directions
 		if (body1.contains("Actor") && body2.contains("Actor")) {
 			actor = level.getActorByName(body1);
 			actor.changeDirection();
@@ -124,16 +124,16 @@ public class Collision {
 				collidingBody = body2;
 			}
 
-			/** player begins to fall when loses contact with a bounce tile (edges of platforms) */
+			// player begins to fall when loses contact with a bounce tile (edges of platforms)
 			if (collidingBody.contains("tile") || collidingBody.contains("ground") || collidingBody.contains("edge")) {
 				gameScene.player.stopFalling();
 				gameScene.player.stopJumping();
 			}
 
-			/** player contacts an item */
+			// player contacts an item
 			if (collidingBody.contains("Item")) {
 
-				/** update player controls showing the new item has been collected */
+				// update player controls showing the new item has been collected
 				Item itemCollected = level.getItemByName(collidingBody);
 				String itemName = itemCollected.getName();
 				Log.i("Collected Item: ", itemName);
@@ -143,25 +143,25 @@ public class Collision {
 				itemCollected.collect(gameScene);
 			}
 
-			/** player contacts an piece */
+			// player contacts an piece
 			if (collidingBody.contains("Piece")) {
 
-				/** save player collected piece and collect it */
+				// save player collected piece and collect it
 				Piece itemCollected = level.getPieceByName(collidingBody);
 
-				/** apply the piece collected to the immediate game status */
+				// apply the piece collected to the immediate game status
 				gameScene.currentPiecesObtained = gameScene.currentPiecesObtained + itemCollected.getType() + ",";
 
-				/** collect piece in the overall game status as well */
+				// collect piece in the overall game status as well
 				GameStatus.collectShipPiece(itemCollected.getType());
 				ResourceManager.getIntance().aquirePieceSound.play();
 				itemCollected.collect(gameScene);
 
-				/** now that we've collected a new piece, see if we've completed the level yet */
+				// now that we've collected a new piece, see if we've completed the level yet
 				gameScene.checkLevelComplete();
 			}
 
-			/** player contacts any water tiles which are fatal */
+			// player contacts any water tiles which are fatal
 			if (collidingBody.contains("Platform")) {
 				for (String waterTile : GameConfiguration.waterTiles) {
 					if (collidingBody.contains("-ID:" + waterTile)) {
@@ -179,7 +179,7 @@ public class Collision {
 	 */
 	public void tileCollision(String collidingBody) {
 
-		/** bombs and flares break tiles in contact */
+		// bombs and flares break tiles in contact
 		if (collidingBody.contains("bomb")) {
 			tile.breakTile(gameScene);
 		}
@@ -195,7 +195,7 @@ public class Collision {
 	 */
 	public void actorCollision(String collidingBody) {
 
-		/** actor touches something and changes direction */
+		// actor touches something and changes direction
 		if (collidingBody.contains("ground") 
 				|| collidingBody.contains("physical") 
 				|| collidingBody.contains("edge") 
@@ -208,7 +208,7 @@ public class Collision {
 			actor.changeDirection();
 		}
 
-		/** actor hits Bullet/Bomb/Flare */
+		// actor hits Bullet/Bomb/Flare
 		if (collidingBody.contains("Bullet")) {
 			Bullet bullet = level.getBulletByName(collidingBody);
 			actor.takeDamage(bullet.strength, gameScene, gameScene.player);
@@ -222,7 +222,7 @@ public class Collision {
 			actor.takeDamage(20, gameScene, gameScene.player);
 		}
 
-		/** player contacts any water tiles which are fatal */
+		// player contacts any water tiles which are fatal
 		if (collidingBody.contains("Platform")) {
 			for (String waterTile : GameConfiguration.waterTiles) {
 				if (collidingBody.contains("-ID:" + waterTile)) {
@@ -231,7 +231,7 @@ public class Collision {
 			}
 		}
 
-		/** player hits an actor */
+		// player hits an actor
 		if (collidingBody.contains("player")) {
 			gameScene.player.takeDamage(1);
 		}

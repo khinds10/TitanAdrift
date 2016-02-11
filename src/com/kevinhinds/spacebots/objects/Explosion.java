@@ -62,14 +62,14 @@ public class Explosion {
 	protected void explode(final BaseScene scene, float[] objCenterPos, int type) {
 		animationSpeed = new long[] { GameConfiguration.explosionAnimationSpeed, GameConfiguration.explosionAnimationSpeed, GameConfiguration.explosionAnimationSpeed, GameConfiguration.explosionAnimationSpeed, GameConfiguration.explosionAnimationSpeed, GameConfiguration.explosionAnimationSpeed, GameConfiguration.explosionAnimationSpeed, GameConfiguration.explosionAnimationSpeed, GameConfiguration.explosionAnimationSpeed, GameConfiguration.explosionAnimationSpeed, GameConfiguration.explosionAnimationSpeed, GameConfiguration.explosionAnimationSpeed, GameConfiguration.explosionAnimationSpeed, GameConfiguration.explosionAnimationSpeed, GameConfiguration.explosionAnimationSpeed, GameConfiguration.explosionAnimationSpeed, GameConfiguration.explosionAnimationSpeed };
 
-		/** create a new explosion sprite and detonate it! */
+		// create a new explosion sprite and detonate it!
 		explosionSprite = scene.createAnimatedSprite(objCenterPos[0], objCenterPos[1] - 12, ResourceManager.getIntance().explosionRegion, scene.vbom);
 
-		/** we'll start counting from 1 but the sprite sheet counts from zero */
+		// we'll start counting from 1 but the sprite sheet counts from zero
 		int startTile = (type * GameConfiguration.explosionMapColumns);
 		int endTile = startTile + 16;
 
-		/** explosion animates through and then disappears */
+		// explosion animates through and then disappears
 		explosionSprite.animate(animationSpeed, startTile, endTile, false, new IAnimationListener() {
 
 			@Override

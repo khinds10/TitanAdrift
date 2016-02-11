@@ -70,7 +70,7 @@ public class Tile extends TiledSprite {
 		tileFixtureDef.restitution = 0;
 		this.setCurrentTileIndex(tileIndex);
 
-		/** only apply physics to the tiles marked as such */
+		// only apply physics to the tiles marked as such
 		if (type.equals("physical") || type.equals("bounce") || type.equals("edge")) {
 			String tileData = "tile";
 			if (type.equals("bounce")) {

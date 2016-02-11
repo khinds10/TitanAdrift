@@ -101,23 +101,23 @@ public class GameStatus {
 		return 1;
 	}
 
-	/** determine if we're supposed to play music in the game */
+	// determine if we're supposed to play music in the game
 	public static boolean playMusic() {
 		return ResourceManager.getIntance().activity.statusAndPreferences.getBoolean(GameStatus.MusicPlay, true);
 	}
 
-	/** set play music or not in game */
+	// set play music or not in game
 	public static void setPlayMusicPreference(boolean playMusic) {
 		ResourceManager.getIntance().activity.statusAndPreferencesEditor.putBoolean(GameStatus.MusicPlay, playMusic);
 		ResourceManager.getIntance().activity.statusAndPreferencesEditor.commit();
 	}
 
-	/** determine if we're supposed to play sound effects in the game */
+	// determine if we're supposed to play sound effects in the game
 	public static boolean playSoundFX() {
 		return ResourceManager.getIntance().activity.statusAndPreferences.getBoolean(GameStatus.SoundFXPlay, true);
 	}
 
-	/** set play sound effects or not in game */
+	// set play sound effects or not in game
 	public static void setPlaySoundEffectsPreference(boolean playSoundFX) {
 		ResourceManager.getIntance().activity.statusAndPreferencesEditor.putBoolean(GameStatus.SoundFXPlay, playSoundFX);
 		ResourceManager.getIntance().activity.statusAndPreferencesEditor.commit();
@@ -214,12 +214,12 @@ public class GameStatus {
 		}
 	}
 
-	/** get the most recently level played */
+	// get the most recently level played
 	public static int getMostRecentLevel() {
 		return ResourceManager.getIntance().activity.statusAndPreferences.getInt(GameStatus.MostRecentLevel, 1);
 	}
 
-	/** set the most recently level played */
+	// set the most recently level played
 	public static void setMostRecentlLevel(int levelNumber) {
 		ResourceManager.getIntance().activity.statusAndPreferencesEditor.putInt(GameStatus.MostRecentLevel, levelNumber);
 		ResourceManager.getIntance().activity.statusAndPreferencesEditor.commit();

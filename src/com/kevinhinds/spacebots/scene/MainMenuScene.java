@@ -41,7 +41,7 @@ public class MainMenuScene extends BaseScene implements IOnMenuItemClickListener
 		menu = new MenuScene(camera);
 		menu.setPosition(0, 0);
 
-		/** create menu items */
+		// create menu items
 		final IMenuItem mainTitle = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().titleFont, "TITAN ADRIFT", 0, false);
 		menu.addMenuItem(mainTitle);
 

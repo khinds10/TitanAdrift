@@ -43,7 +43,7 @@ public class DayDreamScene extends BaseScene implements IOnMenuItemClickListener
 		menu = new MenuScene(camera);
 		menu.setPosition(0, 0);
 
-		/** for all daydreams in the mapping, set menu items to read */
+		// for all daydreams in the mapping, set menu items to read
 		if (GameConfiguration.daydreamLevelsMapping.keySet().contains(levelToPlay)) {
 			String[] levelDaydreamSentances = GameConfiguration.daydreamLevelsMapping.get(levelToPlay).split("-");
 			for (String sentance : levelDaydreamSentances) {
@@ -52,11 +52,11 @@ public class DayDreamScene extends BaseScene implements IOnMenuItemClickListener
 			}
 		}
 		
-		/** add play button */
+		// add play button
 		final IMenuItem playButtonItem = ResourceManager.getIntance().createTextMenuItem(ResourceManager.getIntance().gameFontLarge, "PLAY", MENU_CONTINUE, true);
 		menu.addMenuItem(playButtonItem);
 		
-		/** build animations for the menu and click listener */
+		// build animations for the menu and click listener
 		menu.buildAnimations();
 		menu.setBackgroundEnabled(false);	
 		menu.setOnMenuItemClickListener(this);

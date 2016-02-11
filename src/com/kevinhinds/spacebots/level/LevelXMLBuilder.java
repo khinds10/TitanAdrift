@@ -25,25 +25,25 @@ public class LevelXMLBuilder {
 	private final AssetManager assetManager;
 	public Level level;
 
-	/** XML attributes */
+	// XML attributes
 	private static final String TAG_ATTR_X = "x";
 	private static final String TAG_ATTR_Y = "y";
 	private static final String TAG_ANIMATION_SPEED = "animationSpeed";
 	private static final String TAG_MOTION_SPEED = "movementSpeed";
 	private static final String TAG_TYPE = "type";
 
-	/** PLATFORM XML attributes */
+	// PLATFORM XML attributes
 	private static final String TAG_TILE = "platform";
 	private static final String TAG_TILE_ATTR_TILE = "block";
 	private static final String TAG_TILE_TYPE_TILE = "type";
 
-	/** ITEM XML attributes */
+	// ITEM XML attributes
 	private static final String TAG_ITEM = "item";
 
-	/** PIECE XML attributes */
+	// PIECE XML attributes
 	private static final String TAG_PIECE = "piece";
 
-	/** ACTOR XML attributes */
+	// ACTOR XML attributes
 	private static final String TAG_ACTOR = "actor";
 	private static final String TAG_ACTOR_ATTR_TILE = "actor";
 	private static final String TAG_ACTOR_STRING_WEAPON = "weapon";
@@ -185,7 +185,7 @@ public class LevelXMLBuilder {
 				final int explosionType = SAXUtils.getIntAttributeOrThrow(attr, TAG_ACTOR_ATTR_EXPLOSION_TYPE);
 				Actor v = ResourceManager.getIntance().getGameActorById(id);
 
-				/** add new villain with a unique name based on current XML options set */
+				// add new villain with a unique name based on current XML options set
 				level.addActor(v.getInstance(x, y, type, life, weapon, facing, shoots, "Actor: " + Float.toString(x) + "-" + Float.toString(y) + "-" + Integer.toString(id), animationSpeed, movementSpeed, explosionType));
 				return null;
 			}
